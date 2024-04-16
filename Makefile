@@ -1,10 +1,10 @@
-PROJECT_NAME := Pulumi Xyz Resource Provider
+PROJECT_NAME := Pulumi Fly.io Resource Provider
 
-PACK             := xyz
+PACK             := flyio
 PACKDIR          := sdk
-PROJECT          := github.com/pulumi/pulumi-xyz
-NODE_MODULE_NAME := @pulumi/xyz
-NUGET_PKG_NAME   := Pulumi.Xyz
+PROJECT          := github.com/lukeshay/pulumi-flyio
+NODE_MODULE_NAME := pulumi-flyio
+NUGET_PKG_NAME   := Pulumi.Flyio
 
 PROVIDER        := pulumi-resource-${PACK}
 VERSION         ?= $(shell pulumictl get version)
@@ -23,7 +23,13 @@ ensure::
 	cd tests && go mod tidy
 
 provider::
-	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
+	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.json --create-dirs
+	go install github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
+	mkdir -p provider/pkg/flyio
+	rm -f $(WORKING_DIR)/bin/$(PROVIDER)
+	oapi-codegen -config oapi.yaml tmp/fly-openapi3.json
+	cd provider && go generate -ldflags "-X $(PROJECT)/$(VERSION_PATH)=$(VERSION)" $(PROJECT)/$(PROVIDER_PATH)/cmd/$(PROVIDER)
+	cd provider && go build -o $(WORKING_DIR)/bin/$(PROVIDER) -ldflags "-X $(PROJECT)/$(VERSION_PATH)=$(VERSION)" $(PROJECT)/$(PROVIDER_PATH)/cmd/$(PROVIDER)
 
 provider_debug::
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -gcflags="all=-N -l" -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
@@ -48,10 +54,11 @@ nodejs_sdk::
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
 	cd ${PACKDIR}/nodejs/ && \
-		yarn install && \
-		yarn run tsc && \
-		cp ../../README.md ../../LICENSE package.json yarn.lock bin/ && \
+		bun install && \
+		bun run build && \
+		cp ../../README.md ../../LICENSE package.json bun.lockb bin/ && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
+		sed -i.bak 's/@pulumi\/flyio/$(NODE_MODULE_NAME)/g' bin/package.json && \
 		rm ./bin/package.json.bak
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
@@ -141,5 +148,7 @@ install_go_sdk::
 	#target intentionally blank
 
 install_nodejs_sdk::
-	-yarn unlink --cwd $(WORKING_DIR)/sdk/nodejs/bin
-	yarn link --cwd $(WORKING_DIR)/sdk/nodejs/bin
+	cd $(WORKING_DIR)/$(PACKDIR)/nodejs/bin && \
+		npm unlink $(NODE_MODULE_NAME) && \
+		npm link
+

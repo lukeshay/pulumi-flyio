@@ -1,0 +1,5 @@
+package: flyio
+output: provider/pkg/flyio/flyio.gen.go
+generate:
+  models: true
+  client: true
