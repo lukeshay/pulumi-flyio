@@ -12,10 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image: docker://ghcr.io/pulumi/devcontainer:latest
-      options: --user root
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
       packages: read
