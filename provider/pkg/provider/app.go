@@ -30,7 +30,7 @@ var (
 )
 
 type AppArgs struct {
-	flyio.AppsCreateJSONRequestBody
+	flyio.CreateAppRequest
 }
 
 type AppState struct {

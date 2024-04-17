@@ -72,10 +72,10 @@ python_sdk::
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
-gen_examples: gen_go_example \
-		gen_nodejs_example \
-		gen_python_example \
-		gen_dotnet_example
+gen_examples: gen_go_example gen_nodejs_example gen_python_example gen_dotnet_example
+	cd ${WORKING_DIR}/examples/nodejs && \
+	sed -i.bak 's/@pulumi\/flyio/$(NODE_MODULE_NAME)/g' package.json && \
+	rm ./package.json.bak
 
 gen_%_example:
 	rm -rf ${WORKING_DIR}/examples/$*
@@ -95,7 +95,7 @@ endef
 up::
 	$(call pulumi_login) \
 	cd ${EXAMPLES_DIR} && \
-	pulumi stack init dev && \
+	(pulumi stack init dev || true) && \
 	pulumi stack select dev && \
 	pulumi config set name dev && \
 	pulumi up -y

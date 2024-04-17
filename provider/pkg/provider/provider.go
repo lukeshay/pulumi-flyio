@@ -6,6 +6,7 @@ import (
 
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
+	"github.com/pulumi/pulumi-go-provider/middleware/schema"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 )
 
@@ -25,6 +26,28 @@ func Provider() p.Provider {
 		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "index",
+		},
+		Metadata: schema.Metadata{
+			DisplayName: "Flyio",
+			Description: "A native Pulumi provider for Fly.io.",
+			Keywords: []string{
+				"pulumi",
+				"flyio",
+				"category/cloud",
+				"kind/native",
+			},
+			License:    "Apache-2.0",
+			Repository: "https://github.com/lukeshay/pulumi-flyio",
+			Publisher:  "Luke Shay",
+			LanguageMap: map[string]any{
+				"nodejs": map[string]any{
+					"name": "pulumi-flyio",
+				},
+				"go": map[string]any{
+					"generateResourceContainerTypes": true,
+					"importBasePath":                 "github.com/lukeshay/pulumi-flyio/sdk/go/flyio",
+				},
+			},
 		},
 	})
 }

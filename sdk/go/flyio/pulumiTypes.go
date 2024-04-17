@@ -7,9 +7,9 @@ import (
 	"context"
 	"reflect"
 
-	"flyio"
+	"github.com/lukeshay/pulumi-flyio/sdk/go/flyio/flyio"
+	"github.com/lukeshay/pulumi-flyio/sdk/go/flyio/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
 )
 
 var _ = internal.GetEnvOrDefault

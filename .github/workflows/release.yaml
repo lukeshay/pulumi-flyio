@@ -118,16 +118,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        dotnetversion:
-          - 3.1.301
-        goversion:
-          - 1.18.x
         language:
           - nodejs
-          - python
-          - dotnet
+          #- python
+          #- dotnet
           - go
-        nodeversion:
-          - 14.x
-        pythonversion:
-          - "3.9"

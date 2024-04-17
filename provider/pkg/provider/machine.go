@@ -28,7 +28,7 @@ var (
 	_ infer.CustomResource[MachineArgs, MachineState] = (*Machine)(nil)
 	_ infer.CustomDelete[MachineState]                = (*Machine)(nil)
 	_ infer.CustomRead[MachineArgs, MachineState]     = (*Machine)(nil)
-	_ infer.CustomRead[MachineArgs, MachineState]     = (*Machine)(nil)
+	_ infer.CustomUpdate[MachineArgs, MachineState]   = (*Machine)(nil)
 )
 
 type MachineArgs struct {

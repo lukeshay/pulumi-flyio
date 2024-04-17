@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Pulumi Corp.</Authors>
-    <Company>Pulumi Corp.</Company>
-    <Description></Description>
-    <PackageLicenseExpression></PackageLicenseExpression>
+    <Authors>Luke Shay</Authors>
+    <Company>Luke Shay</Company>
+    <Description>A native Pulumi provider for Fly.io.</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/lukeshay/pulumi-flyio</RepositoryUrl>
     <PackageIcon>logo.png</PackageIcon>
 
     <TargetFramework>net6.0</TargetFramework>

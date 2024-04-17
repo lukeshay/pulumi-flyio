@@ -6,11 +6,168 @@ plugins:
       path: ../../bin
 
 resources:
-  myRandomResource:
+  appName:
     type: flyio:Random
     properties:
       length: 24
+  app:
+    type: flyio:App
+    properties:
+      appName: pulumi-${appName.result}
+      orgSlug: luke-shay
+  machine-sea-1:
+    type: flyio:Machine
+    properties:
+      name: machine-sea-1
+      region: sea
+      appName: ${app.name}
+      waitForChecks: 60000
+      config:
+        image: nginx:latest
+        guest:
+          cpus: 1
+          cpuKind: shared
+          memoryMb: 256
+        services:
+          - internalPort: 80
+            ports:
+              - port: 80
+                handlers:
+                  - http
+                forceHttps: true
+              - port: 443
+                handlers:
+                  - tls
+                  - http
+            protocol: tcp
+            checks:
+              - interval: 10s
+                gracePeriod: 5s
+                method: get
+                path: "/"
+                protocol: http
+                timeout: 2s
+                tlsSkipVerify: true
+            autostop: true
+            autostart: true
+            concurrency:
+              softLimit: 2000
+              hardLimit: 2500
+  machine-sea-2:
+    type: flyio:Machine
+    properties:
+      name: machine-sea-2
+      region: sea
+      appName: ${app.name}
+      waitForChecks: 60000
+      config:
+        image: nginx:latest
+        guest:
+          cpus: 1
+          cpuKind: shared
+          memoryMb: 256
+        services:
+          - internalPort: 80
+            ports:
+              - port: 80
+                handlers:
+                  - http
+                forceHttps: true
+              - port: 443
+                handlers:
+                  - tls
+                  - http
+            protocol: tcp
+            checks:
+              - interval: 10s
+                gracePeriod: 5s
+                method: get
+                path: "/"
+                protocol: http
+                timeout: 2s
+                tlsSkipVerify: true
+            autostop: true
+            autostart: true
+            concurrency:
+              softLimit: 2000
+              hardLimit: 2500
+  machine-iad-1:
+    type: flyio:Machine
+    properties:
+      name: machine-iad-1
+      region: iad
+      appName: ${app.name}
+      waitForChecks: 60000
+      config:
+        image: nginx:latest
+        guest:
+          cpus: 1
+          cpuKind: shared
+          memoryMb: 256
+        services:
+          - internalPort: 80
+            ports:
+              - port: 80
+                handlers:
+                  - http
+                forceHttps: true
+              - port: 443
+                handlers:
+                  - tls
+                  - http
+            protocol: tcp
+            checks:
+              - interval: 10s
+                gracePeriod: 5s
+                method: get
+                path: "/"
+                protocol: http
+                timeout: 2s
+                tlsSkipVerify: true
+            autostop: true
+            autostart: true
+            concurrency:
+              softLimit: 2000
+              hardLimit: 2500
+  machine-iad-2:
+    type: flyio:Machine
+    properties:
+      name: machine-iad-2
+      region: iad
+      appName: ${app.name}
+      waitForChecks: 60000
+      config:
+        image: nginx:latest
+        guest:
+          cpus: 1
+          cpuKind: shared
+          memoryMb: 256
+        services:
+          - internalPort: 80
+            ports:
+              - port: 80
+                handlers:
+                  - http
+                forceHttps: true
+              - port: 443
+                handlers:
+                  - tls
+                  - http
+            protocol: tcp
+            checks:
+              - interval: 10s
+                gracePeriod: 5s
+                method: get
+                path: "/"
+                protocol: http
+                timeout: 2s
+                tlsSkipVerify: true
+            autostop: true
+            autostart: true
+            concurrency:
+              softLimit: 2000
+              hardLimit: 2500
 
 outputs:
-  output:
-    value: ${myRandomResource.result}
+  appName:
+    value: ${app.name}
