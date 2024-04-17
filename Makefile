@@ -24,7 +24,6 @@ ensure::
 
 provider::
 	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.json --create-dirs
-	go install github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
 	mkdir -p provider/pkg/flyio
 	rm -f $(WORKING_DIR)/bin/$(PROVIDER)
 	oapi-codegen -config oapi.yaml tmp/fly-openapi3.json
