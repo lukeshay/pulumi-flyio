@@ -116,7 +116,11 @@ func (m Machine) Delete(ctx p.Context, reqID string, state MachineState) error {
 		return err
 	}
 
-	res, err = client.MachinesDelete(ctx, state.AppName, *state.Id, &flyio.MachinesDeleteParams{})
+	force := true
+
+	res, err = client.MachinesDelete(ctx, state.AppName, *state.Id, &flyio.MachinesDeleteParams{
+		Force: &force,
+	})
 	if err != nil {
 		return err
 	}
