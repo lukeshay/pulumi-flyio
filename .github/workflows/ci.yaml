@@ -32,6 +32,12 @@ jobs:
           sudo chown -R $(whoami) /__w/pulumi-flyio/pulumi-flyio
           git config --global --add safe.directory /__w/pulumi-flyio/pulumi-flyio
           git fetch --prune --unshallow --tags
+      - name: Cache Mise
+        id: cache-mise
+        uses: actions/cache@v4
+        with:
+          path: /github/home/.local/share/mise/installs
+          key: ${{ runner.os }}-mise
       - uses: jdx/mise-action@v2
         with:
           experimental: true
@@ -39,6 +45,8 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.5.0
         with:
           repo: pulumi/pulumictl
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         id: build
         run: |

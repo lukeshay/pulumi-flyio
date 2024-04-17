@@ -42,6 +42,8 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.5.0
         with:
           repo: pulumi/pulumictl
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
@@ -63,6 +65,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
+      - name: Cache Mise
+        id: cache-mise
+        uses: actions/cache@v4
+        with:
+          path: /github/home/.local/share/mise/installs
       - uses: jdx/mise-action@v2
         with:
           experimental: true
@@ -70,6 +77,8 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.5.0
         with:
           repo: pulumi/pulumictl
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate SDK
         run: make ${{ matrix.language }}_sdk
       - name: Check worktree clean
