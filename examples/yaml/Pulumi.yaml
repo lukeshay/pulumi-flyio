@@ -1,13 +1,13 @@
-name: provider-xyz-native
+name: provider-flyio-native
 runtime: yaml
 plugins:
   providers:
-    - name: xyz
+    - name: flyio
       path: ../../bin
 
 resources:
   myRandomResource:
-    type: xyz:Random
+    type: flyio:Random
     properties:
       length: 24
 

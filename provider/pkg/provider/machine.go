@@ -74,7 +74,10 @@ func (m Machine) Create(ctx p.Context, name string, input MachineArgs, preview b
 	machine := result.JSON200
 
 	if input.SkipLaunch != nil && !*input.SkipLaunch {
-		machine, err = m.waitForState(ctx, input.AppName, *result.JSON200.Id, flyio.Started)
+		machine, err = m.waitForState(ctx, input.AppName, *result.JSON200.Id, *result.JSON200.InstanceId, flyio.Started)
+		if err == nil {
+			_, err = m.waitForChecks(ctx, *result.JSON200.Id, input, state, input.WaitForChecks)
+		}
 	}
 
 	state.Machine = *machine
@@ -108,7 +111,7 @@ func (m Machine) Delete(ctx p.Context, reqID string, state MachineState) error {
 		return fmt.Errorf("error stopping machine: %s", result2.Body)
 	}
 
-	_, err = m.waitForState(ctx, state.AppName, *state.Id, flyio.Stopped)
+	_, err = m.waitForState(ctx, state.AppName, *state.Id, *state.InstanceId, flyio.Stopped)
 	if err != nil {
 		return err
 	}
@@ -127,7 +130,7 @@ func (m Machine) Delete(ctx p.Context, reqID string, state MachineState) error {
 		return fmt.Errorf("error deleting machine: %s", result.Body)
 	}
 
-	_, err = m.waitForState(ctx, state.AppName, *state.Id, flyio.Destroyed)
+	_, err = m.waitForState(ctx, state.AppName, *state.Id, *state.InstanceId, flyio.Destroyed)
 	if err != nil {
 		return err
 	}
@@ -163,6 +166,8 @@ func (Machine) Read(ctx p.Context, id string, inputs MachineArgs, state MachineS
 }
 
 func (m Machine) Update(ctx p.Context, id string, state MachineState, input MachineArgs, preview bool) (MachineState, error) {
+	state.Input = input
+
 	if preview {
 		return state, nil
 	}
@@ -207,9 +212,11 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 
 	if input.SkipLaunch != nil && !*input.SkipLaunch {
 		var machine *flyio.Machine
-		machine, err = m.waitForState(ctx, input.AppName, *result.JSON200.Id, flyio.Started)
+		machine, err = m.waitForState(ctx, input.AppName, *result.JSON200.Id, *result.JSON200.InstanceId, flyio.Started)
 		if err == nil {
 			state.Machine = *machine
+
+			_, err = m.waitForChecks(ctx, *result.JSON200.Id, input, state, input.WaitForChecks)
 		}
 	}
 
@@ -286,15 +293,21 @@ var (
 	destroyed  machineState = "destroyed"
 )
 
-func (m Machine) waitForState(ctx context.Context, appName, machineId string, state flyio.MachinesWaitParamsState) (*flyio.Machine, error) {
+func (m Machine) waitForState(ctx context.Context, appName, machineId, instanceId string, state flyio.MachinesWaitParamsState) (*flyio.Machine, error) {
 	client, err := getFlyClient()
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := client.MachinesWait(ctx, appName, machineId, &flyio.MachinesWaitParams{
+	params := &flyio.MachinesWaitParams{
 		State: &state,
-	})
+	}
+
+	if instanceId != "" {
+		params.InstanceId = &instanceId
+	}
+
+	res, err := client.MachinesWait(ctx, appName, machineId, params)
 	if err != nil {
 		return nil, err
 	}
