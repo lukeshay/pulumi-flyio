@@ -52,9 +52,13 @@ jobs:
       - name: PulumiUp
         id: up
         run: make up
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: PulumiDown
         id: down
         run: make down
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Generate multi-language examples from yaml IaC program
         id: examples
         run: |
