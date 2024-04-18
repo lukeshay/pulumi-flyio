@@ -7,21 +7,12 @@ import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
+	diff "github.com/r3labs/diff/v3"
 )
 
-// Each resource has a controlling struct.
-// Resource behavior is determined by implementing methods on the controlling struct.
-// The `Create` method is mandatory, but other methods are optional.
-// - Check: Remap inputs before they are typed.
-// - Diff: Change how instances of a resource are compared.
-// - Update: Mutate a resource in place.
-// - Read: Get the state of a resource from the backing provider.
-// - Delete: Custom logic when the resource is deleted.
-// - Annotate: Describe fields and set defaults for a resource.
-// - WireDependencies: Control how outputs and secrets flows through values.
+// TODO: Add annotations
 type App struct{}
 
-// verify App complies with resource.CustomCreate interface
 var (
 	_ infer.CustomResource[AppArgs, AppState] = (*App)(nil)
 	_ infer.CustomDelete[AppState]            = (*App)(nil)
@@ -145,4 +136,21 @@ func (a App) Update(ctx p.Context, id string, state AppState, input AppArgs, pre
 	ctx.LogStatusf(diag.Warning, "Fly Apps cannot be updated. The app you are attempting to update is %s", *state.Name)
 	_, _, newState, err := a.Read(ctx, id, input, state)
 	return newState, err
+}
+
+func (App) Diff(ctx p.Context, id string, state AppState, input AppArgs) (p.DiffResponse, error) {
+	previousInput := state.Input
+
+	changelog, err := diff.Diff(previousInput, input)
+	if err != nil {
+		return p.DiffResponse{}, err
+	}
+
+	if len(changelog) > 0 {
+		return p.DiffResponse{}, fmt.Errorf("apps cannot be updated")
+	}
+
+	return p.DiffResponse{
+		HasChanges: false,
+	}, nil
 }

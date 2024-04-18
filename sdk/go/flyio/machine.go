@@ -16,21 +16,22 @@ import (
 type Machine struct {
 	pulumi.CustomResourceState
 
-	AppName    pulumi.StringOutput           `pulumi:"appName"`
-	Checks     flyio.CheckStatusArrayOutput  `pulumi:"checks"`
-	Config     flyio.FlyMachineConfigOutput  `pulumi:"config"`
-	CreatedAt  pulumi.StringPtrOutput        `pulumi:"createdAt"`
-	Events     flyio.MachineEventArrayOutput `pulumi:"events"`
-	FlyId      pulumi.StringOutput           `pulumi:"flyId"`
-	ImageRef   flyio.ImageRefPtrOutput       `pulumi:"imageRef"`
-	Input      MachineArgsTypeOutput         `pulumi:"input"`
-	InstanceId pulumi.StringPtrOutput        `pulumi:"instanceId"`
-	Name       pulumi.StringOutput           `pulumi:"name"`
-	Nonce      pulumi.StringPtrOutput        `pulumi:"nonce"`
-	PrivateIp  pulumi.StringPtrOutput        `pulumi:"privateIp"`
-	Region     pulumi.StringPtrOutput        `pulumi:"region"`
-	State      pulumi.StringOutput           `pulumi:"state"`
-	UpdatedAt  pulumi.StringPtrOutput        `pulumi:"updatedAt"`
+	AppName     pulumi.StringOutput           `pulumi:"appName"`
+	Checks      flyio.CheckStatusArrayOutput  `pulumi:"checks"`
+	Config      flyio.FlyMachineConfigOutput  `pulumi:"config"`
+	CreatedAt   pulumi.StringPtrOutput        `pulumi:"createdAt"`
+	Events      flyio.MachineEventArrayOutput `pulumi:"events"`
+	FlyId       pulumi.StringOutput           `pulumi:"flyId"`
+	ImageRef    flyio.ImageRefPtrOutput       `pulumi:"imageRef"`
+	Input       MachineArgsTypeOutput         `pulumi:"input"`
+	InstanceId  pulumi.StringPtrOutput        `pulumi:"instanceId"`
+	MachineName pulumi.StringOutput           `pulumi:"machineName"`
+	Name        pulumi.StringOutput           `pulumi:"name"`
+	Nonce       pulumi.StringPtrOutput        `pulumi:"nonce"`
+	PrivateIp   pulumi.StringPtrOutput        `pulumi:"privateIp"`
+	Region      pulumi.StringPtrOutput        `pulumi:"region"`
+	State       pulumi.StringOutput           `pulumi:"state"`
+	UpdatedAt   pulumi.StringPtrOutput        `pulumi:"updatedAt"`
 }
 
 // NewMachine registers a new resource with the given unique name, arguments, and options.
@@ -89,6 +90,7 @@ type machineArgs struct {
 	SkipServiceRegistration *bool                  `pulumi:"skipServiceRegistration"`
 	UpdateStrategy          *string                `pulumi:"updateStrategy"`
 	WaitForChecks           *int                   `pulumi:"waitForChecks"`
+	WaitForUpdate           *int                   `pulumi:"waitForUpdate"`
 }
 
 // The set of arguments for constructing a Machine resource.
@@ -103,6 +105,7 @@ type MachineArgs struct {
 	SkipServiceRegistration pulumi.BoolPtrInput
 	UpdateStrategy          pulumi.StringPtrInput
 	WaitForChecks           pulumi.IntPtrInput
+	WaitForUpdate           pulumi.IntPtrInput
 }
 
 func (MachineArgs) ElementType() reflect.Type {
@@ -226,6 +229,10 @@ func (o MachineOutput) Input() MachineArgsTypeOutput {
 
 func (o MachineOutput) InstanceId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringPtrOutput { return v.InstanceId }).(pulumi.StringPtrOutput)
+}
+
+func (o MachineOutput) MachineName() pulumi.StringOutput {
+	return o.ApplyT(func(v *Machine) pulumi.StringOutput { return v.MachineName }).(pulumi.StringOutput)
 }
 
 func (o MachineOutput) Name() pulumi.StringOutput {

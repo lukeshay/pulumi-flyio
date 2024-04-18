@@ -4,46 +4,39 @@ import (
 	"context"
 	"fmt"
 	"slices"
+	"strings"
 	"time"
 
 	"github.com/lukeshay/pulumi-flyio/provider/pkg/flyio"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
+	diff "github.com/r3labs/diff/v3"
 )
 
-// Each resource has a controlling struct.
-// Resource behavior is determined by implementing methods on the controlling struct.
-// The `Create` method is mandatory, but other methods are optional.
-// - Check: Remap inputs before they are typed.
-// - Diff: Change how instances of a resource are compared.
-// - Update: Mutate a resource in place.
-// - Read: Get the state of a resource from the backing provider.
-// - Delete: Custom logic when the resource is deleted.
-// - Annotate: Describe fields and set defaults for a resource.
-// - WireDependencies: Control how outputs and secrets flows through values.
+// TODO: Add annotations
 type Machine struct{}
 
-// verify Machine complies with resource.CustomCreate interface
 var (
 	_ infer.CustomResource[MachineArgs, MachineState] = (*Machine)(nil)
 	_ infer.CustomDelete[MachineState]                = (*Machine)(nil)
 	_ infer.CustomRead[MachineArgs, MachineState]     = (*Machine)(nil)
 	_ infer.CustomUpdate[MachineArgs, MachineState]   = (*Machine)(nil)
+	_ infer.CustomDiff[MachineArgs, MachineState]     = (*Machine)(nil)
 )
 
 type MachineArgs struct {
-	flyio.MachinesCreateJSONRequestBody
-	// WaitForChecks specifies how long to wait in milliseconds for all checks to pass before returning.
-	WaitForChecks *int   `pulumi:"waitForChecks,optional"`
-	AppName       string `pulumi:"appName"`
-	// UpdateStrategy specifies what happens when a machine is updated. Options: "replace", "bluegreen". Default: "replace"
+	flyio.CreateMachineRequest
+	WaitForChecks  *int   `pulumi:"waitForChecks,optional"`
+	WaitForUpdate  *int   `pulumi:"waitForUpdate,optional"`
+	AppName        string `pulumi:"appName"`
 	UpdateStrategy string `pulumi:"updateStrategy,optional"`
 }
 
 type MachineState struct {
 	flyio.Machine
-	AppName string      `pulumi:"appName"`
-	Input   MachineArgs `pulumi:"input"`
+	AppName     string      `pulumi:"appName"`
+	Input       MachineArgs `pulumi:"input"`
+	MachineName string      `pulumi:"machineName"`
 }
 
 func (m Machine) Create(ctx p.Context, name string, input MachineArgs, preview bool) (string, MachineState, error) {
@@ -52,94 +45,27 @@ func (m Machine) Create(ctx p.Context, name string, input MachineArgs, preview b
 		return name, state, nil
 	}
 
-	client, err := getFlyClient()
+	machine, err := createMachine(ctx, input.AppName, input.CreateMachineRequest)
 	if err != nil {
 		return "", MachineState{}, err
 	}
 
-	res, err := client.MachinesCreate(ctx, input.AppName, input.MachinesCreateJSONRequestBody)
-	if err != nil {
-		return "", MachineState{}, err
-	}
-
-	result, err := flyio.ParseMachinesCreateResponse(res)
-	if err != nil {
-		return "", MachineState{}, err
-	}
-
-	if result.JSON200 == nil {
-		return "", MachineState{}, fmt.Errorf("error creating machine: %s", result.Body)
-	}
-
-	machine := result.JSON200
-
-	if input.SkipLaunch != nil && !*input.SkipLaunch {
-		machine, err = m.waitForState(ctx, input.AppName, *result.JSON200.Id, *result.JSON200.InstanceId, flyio.Started)
+	if input.SkipLaunch == nil || !*input.SkipLaunch {
+		machine, err = waitForState(ctx, state.AppName, *machine.Id, *machine.InstanceId, flyio.Started)
 		if err == nil {
-			_, err = m.waitForChecks(ctx, *result.JSON200.Id, input, state, input.WaitForChecks)
+			state.Machine = *machine
+			_, err = m.waitForChecks(ctx, *machine.Id, input, state, input.WaitForChecks)
 		}
 	}
 
 	state.Machine = *machine
+	state.MachineName = *machine.Name
 
-	return *result.JSON200.Id, state, err
+	return *state.Id, state, err
 }
 
 func (m Machine) Delete(ctx p.Context, reqID string, state MachineState) error {
-	client, err := getFlyClient()
-	if err != nil {
-		return err
-	}
-
-	signal := "SIGKILL"
-	timeout := "30s"
-
-	res, err := client.MachinesStop(ctx, state.AppName, *state.Id, flyio.StopRequest{
-		Signal:  &signal,
-		Timeout: &timeout,
-	})
-	if err != nil {
-		return err
-	}
-
-	result2, err := flyio.ParseMachinesStopResponse(res)
-	if err != nil {
-		return err
-	}
-
-	if result2.JSON400 != nil {
-		return fmt.Errorf("error stopping machine: %s", result2.Body)
-	}
-
-	_, err = m.waitForState(ctx, state.AppName, *state.Id, *state.InstanceId, flyio.Stopped)
-	if err != nil {
-		return err
-	}
-
-	force := true
-
-	res, err = client.MachinesDelete(ctx, state.AppName, *state.Id, &flyio.MachinesDeleteParams{
-		Force: &force,
-	})
-	if err != nil {
-		return err
-	}
-
-	result, err := flyio.ParseMachinesDeleteResponse(res)
-	if err != nil {
-		return err
-	}
-
-	if result.StatusCode() != 200 {
-		return fmt.Errorf("error deleting machine: %s", result.Body)
-	}
-
-	_, err = m.waitForState(ctx, state.AppName, *state.Id, *state.InstanceId, flyio.Destroyed)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return destroyMachine(ctx, state.AppName, *state.Id, *state.InstanceId)
 }
 
 func (Machine) Read(ctx p.Context, id string, inputs MachineArgs, state MachineState) (
@@ -170,9 +96,8 @@ func (Machine) Read(ctx p.Context, id string, inputs MachineArgs, state MachineS
 }
 
 func (m Machine) Update(ctx p.Context, id string, state MachineState, input MachineArgs, preview bool) (MachineState, error) {
-	state.Input = input
-
 	if preview {
+		state.Input = input
 		return state, nil
 	}
 
@@ -182,6 +107,90 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 	}
 
 	ttl := 30
+
+	if input.UpdateStrategy == "bluegreen" {
+		// 1. Create a new machine with SkipServiceRegistration: true
+		skipServiceRegistration := true
+		request := input.CreateMachineRequest
+		request.SkipServiceRegistration = &skipServiceRegistration
+
+		if *input.Name == *state.Input.Name {
+			name := fmt.Sprintf("%s-%s", *state.Input.Name, time.Now().Format("20060102150405"))
+			request.Name = &name
+		}
+
+		newMachine, err := createMachine(ctx, state.AppName, request)
+		if err != nil {
+			return state, err
+		}
+
+		if input.SkipLaunch == nil || !*input.SkipLaunch {
+			// 2. Wait for checks on new machine
+			newMachine, err = waitForState(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId, flyio.Started)
+			if err != nil {
+				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
+
+				return state, err
+			}
+
+			_, err := m.waitForChecks(ctx, *newMachine.Id, input, state, input.WaitForChecks)
+			if err != nil {
+				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
+
+				return state, err
+			}
+
+			// 3. Uncordon new machine
+			err = uncordonMachine(ctx, state.AppName, *newMachine.Id)
+			if err != nil {
+				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
+
+				return state, err
+			}
+
+			// 4. Cordorn old machine
+			err = cordonMachine(ctx, state.AppName, *state.Id)
+			if err != nil {
+				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
+
+				return state, err
+			}
+			// 5. Pause for WaitForUpdate
+			time.Sleep(time.Duration(*input.WaitForUpdate) * time.Millisecond)
+
+			// 6. Wait for checks on new machine
+			//    - If checks fail, uncordon old machine, destroy new machine, and return error
+			newState, err := m.waitForChecks(ctx, *newMachine.Id, input, state, input.WaitForChecks)
+			if err != nil {
+				err2 := uncordonMachine(ctx, state.AppName, *state.Id)
+				if err2 != nil {
+					return state, err2
+				}
+
+				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
+
+				return state, err
+			}
+
+			destroyMachine(ctx, state.AppName, *state.Id, *state.InstanceId)
+
+			newState.MachineName = *request.Name
+			newState.Input = input
+
+			return newState, nil
+		}
+
+		// 7. Destroy old machine
+		err = destroyMachine(ctx, state.AppName, *state.Id, *state.InstanceId)
+		if err != nil {
+			return MachineState{}, err
+		}
+
+		state.Machine = *newMachine
+		state.Input = input
+
+		return state, nil
+	}
 
 	if input.WaitForChecks != nil {
 		ttl += *input.WaitForChecks / 1000
@@ -214,9 +223,9 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 
 	state.Machine = *result.JSON200
 
-	if input.SkipLaunch != nil && !*input.SkipLaunch {
+	if input.SkipLaunch == nil || !*input.SkipLaunch {
 		var machine *flyio.Machine
-		machine, err = m.waitForState(ctx, input.AppName, *result.JSON200.Id, *result.JSON200.InstanceId, flyio.Started)
+		machine, err = waitForState(ctx, state.AppName, *result.JSON200.Id, *result.JSON200.InstanceId, flyio.Started)
 		if err == nil {
 			state.Machine = *machine
 
@@ -225,6 +234,49 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 	}
 
 	return state, err
+}
+
+// TODO: Change this to replace
+var machineReadOnly = []string{"Region", "Name", "AppName"}
+
+func (Machine) Diff(ctx p.Context, id string, state MachineState, input MachineArgs) (p.DiffResponse, error) {
+	previousInput := state.Input
+
+	changelog, err := diff.Diff(previousInput, input)
+	if err != nil {
+		return p.DiffResponse{}, err
+	}
+
+	diffRes := p.DiffResponse{
+		DeleteBeforeReplace: false,
+		HasChanges:          false,
+	}
+
+	detailedDiff := map[string]p.PropertyDiff{}
+
+	for _, change := range changelog {
+		if len(change.Path) == 0 || slices.Contains(machineReadOnly, change.Path[0]) {
+			continue
+		}
+
+		propertyDiff := p.PropertyDiff{
+			Kind:      p.Update,
+			InputDiff: true,
+		}
+
+		if change.Type == diff.CREATE {
+			propertyDiff.Kind = p.Add
+		}
+
+		detailedDiff[strings.Join(change.Path, ".")] = propertyDiff
+	}
+
+	if len(detailedDiff) > 0 {
+		diffRes.HasChanges = true
+		diffRes.DetailedDiff = detailedDiff
+	}
+
+	return diffRes, nil
 }
 
 func (m Machine) waitForChecks(ctx p.Context, id string, input MachineArgs, state MachineState, waitTime *int) (
@@ -297,7 +349,7 @@ var (
 	destroyed  machineState = "destroyed"
 )
 
-func (m Machine) waitForState(ctx context.Context, appName, machineId, instanceId string, state flyio.MachinesWaitParamsState) (*flyio.Machine, error) {
+func waitForState(ctx context.Context, appName, machineId, instanceId string, state flyio.MachinesWaitParamsState) (*flyio.Machine, error) {
 	client, err := getFlyClient()
 	if err != nil {
 		return nil, err
@@ -340,4 +392,130 @@ func (m Machine) waitForState(ctx context.Context, appName, machineId, instanceI
 	}
 
 	return result2.JSON200, nil
+}
+
+func createMachine(ctx context.Context, appName string, input flyio.CreateMachineRequest) (*flyio.Machine, error) {
+	client, err := getFlyClient()
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := client.MachinesCreate(ctx, appName, input)
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := flyio.ParseMachinesCreateResponse(res)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.JSON200 == nil {
+		return nil, fmt.Errorf("error creating machine: %s", result.Body)
+	}
+
+	return result.JSON200, err
+}
+
+func destroyMachine(ctx context.Context, appName, id, instanceId string) error {
+	client, err := getFlyClient()
+	if err != nil {
+		return err
+	}
+
+	signal := "SIGKILL"
+	timeout := "30s"
+
+	res, err := client.MachinesStop(ctx, appName, id, flyio.StopRequest{
+		Signal:  &signal,
+		Timeout: &timeout,
+	})
+	if err != nil {
+		return err
+	}
+
+	result2, err := flyio.ParseMachinesStopResponse(res)
+	if err != nil {
+		return err
+	}
+
+	if result2.JSON400 != nil {
+		return fmt.Errorf("error stopping machine: %s", result2.Body)
+	}
+
+	_, err = waitForState(ctx, appName, id, instanceId, flyio.Stopped)
+	if err != nil {
+		return err
+	}
+
+	force := true
+
+	res, err = client.MachinesDelete(ctx, appName, id, &flyio.MachinesDeleteParams{
+		Force: &force,
+	})
+	if err != nil {
+		return err
+	}
+
+	result, err := flyio.ParseMachinesDeleteResponse(res)
+	if err != nil {
+		return err
+	}
+
+	if result.StatusCode() != 200 {
+		return fmt.Errorf("error deleting machine: %s", result.Body)
+	}
+
+	_, err = waitForState(ctx, appName, id, instanceId, flyio.Destroyed)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func cordonMachine(ctx context.Context, appName, id string) error {
+	client, err := getFlyClient()
+	if err != nil {
+		return err
+	}
+
+	res, err := client.MachinesCordon(ctx, appName, id)
+	if err != nil {
+		return err
+	}
+
+	result, err := flyio.ParseMachinesCordonResponse(res)
+	if err != nil {
+		return err
+	}
+
+	if result.StatusCode() != 200 {
+		return fmt.Errorf("error cordoning machine: %s", result.Body)
+	}
+
+	return nil
+}
+
+func uncordonMachine(ctx context.Context, appName, id string) error {
+	client, err := getFlyClient()
+	if err != nil {
+		return err
+	}
+
+	res, err := client.MachinesUncordon(ctx, appName, id)
+	if err != nil {
+		return err
+	}
+
+	result, err := flyio.ParseMachinesUncordonResponse(res)
+	if err != nil {
+		return err
+	}
+
+	if result.StatusCode() != 200 {
+		return fmt.Errorf("error uncordoning machine: %s", result.Body)
+	}
+
+	return nil
 }

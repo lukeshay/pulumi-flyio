@@ -62,6 +62,7 @@ type MachineArgsType struct {
 	SkipServiceRegistration *bool                  `pulumi:"skipServiceRegistration"`
 	UpdateStrategy          *string                `pulumi:"updateStrategy"`
 	WaitForChecks           *int                   `pulumi:"waitForChecks"`
+	WaitForUpdate           *int                   `pulumi:"waitForUpdate"`
 }
 
 type MachineArgsTypeOutput struct{ *pulumi.OutputState }
@@ -116,6 +117,10 @@ func (o MachineArgsTypeOutput) UpdateStrategy() pulumi.StringPtrOutput {
 
 func (o MachineArgsTypeOutput) WaitForChecks() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v MachineArgsType) *int { return v.WaitForChecks }).(pulumi.IntPtrOutput)
+}
+
+func (o MachineArgsTypeOutput) WaitForUpdate() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v MachineArgsType) *int { return v.WaitForUpdate }).(pulumi.IntPtrOutput)
 }
 
 func init() {

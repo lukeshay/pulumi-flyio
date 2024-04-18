@@ -39,6 +39,9 @@ namespace Pulumi.Flyio
         [Output("instanceId")]
         public Output<string?> InstanceId { get; private set; } = null!;
 
+        [Output("machineName")]
+        public Output<string> MachineName { get; private set; } = null!;
+
         [Output("name")]
         public Output<string> Name { get; private set; } = null!;
 
@@ -131,6 +134,9 @@ namespace Pulumi.Flyio
 
         [Input("waitForChecks")]
         public Input<int>? WaitForChecks { get; set; }
+
+        [Input("waitForUpdate")]
+        public Input<int>? WaitForUpdate { get; set; }
 
         public MachineArgs()
         {

@@ -19,9 +19,11 @@ return await Deployment.RunAsync(() =>
     var machineSea1 = new Flyio.Machine("machine-sea-1", new()
     {
         Name = "machine-sea-1",
+        UpdateStrategy = "bluegreen",
         Region = "sea",
         AppName = app.Name,
         WaitForChecks = 60000,
+        WaitForUpdate = 1000,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
             Image = "nginx:latest",
@@ -148,13 +150,21 @@ return await Deployment.RunAsync(() =>
                 },
             },
         },
+    }, new CustomResourceOptions
+    {
+        DependsOn =
+        {
+            machineSea1, 
+        },
     });
 
     var machineIad1 = new Flyio.Machine("machine-iad-1", new()
     {
         Name = "machine-iad-1",
+        UpdateStrategy = "bluegreen",
         Region = "iad",
         AppName = app.Name,
+        WaitForUpdate = 1000,
         WaitForChecks = 60000,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
@@ -281,6 +291,12 @@ return await Deployment.RunAsync(() =>
                     },
                 },
             },
+        },
+    }, new CustomResourceOptions
+    {
+        DependsOn =
+        {
+            machineIad1, 
         },
     });
 

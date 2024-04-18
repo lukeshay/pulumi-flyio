@@ -7,9 +7,11 @@ app = flyio.App("app",
     org_slug="luke-shay")
 machine_sea1 = flyio.Machine("machine-sea-1",
     name="machine-sea-1",
+    update_strategy="bluegreen",
     region="sea",
     app_name=app.name,
     wait_for_checks=60000,
+    wait_for_update=1000,
     config=flyio.flyio.FlyMachineConfigArgs(
         image="nginx:latest",
         guest=flyio.flyio.FlyMachineGuestArgs(
@@ -96,11 +98,14 @@ machine_sea2 = flyio.Machine("machine-sea-2",
                 hard_limit=2500,
             ),
         )],
-    ))
+    ),
+    opts=pulumi.ResourceOptions(depends_on=[machine_sea1]))
 machine_iad1 = flyio.Machine("machine-iad-1",
     name="machine-iad-1",
+    update_strategy="bluegreen",
     region="iad",
     app_name=app.name,
+    wait_for_update=1000,
     wait_for_checks=60000,
     config=flyio.flyio.FlyMachineConfigArgs(
         image="nginx:latest",
@@ -188,7 +193,8 @@ machine_iad2 = flyio.Machine("machine-iad-2",
                 hard_limit=2500,
             ),
         )],
-    ))
+    ),
+    opts=pulumi.ResourceOptions(depends_on=[machine_iad1]))
 pulumi.export("appName", {
     "value": app.name,
 })

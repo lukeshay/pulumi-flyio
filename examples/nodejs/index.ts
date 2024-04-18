@@ -8,9 +8,11 @@ const app = new flyio.App("app", {
 });
 const machineSea1 = new flyio.Machine("machine-sea-1", {
     name: "machine-sea-1",
+    updateStrategy: "bluegreen",
     region: "sea",
     appName: app.name,
     waitForChecks: 60000,
+    waitForUpdate: 1000,
     config: {
         image: "nginx:latest",
         guest: {
@@ -99,11 +101,15 @@ const machineSea2 = new flyio.Machine("machine-sea-2", {
             },
         }],
     },
+}, {
+    dependsOn: [machineSea1],
 });
 const machineIad1 = new flyio.Machine("machine-iad-1", {
     name: "machine-iad-1",
+    updateStrategy: "bluegreen",
     region: "iad",
     appName: app.name,
+    waitForUpdate: 1000,
     waitForChecks: 60000,
     config: {
         image: "nginx:latest",
@@ -193,6 +199,8 @@ const machineIad2 = new flyio.Machine("machine-iad-2", {
             },
         }],
     },
+}, {
+    dependsOn: [machineIad1],
 });
 export const appName = {
     value: app.name,

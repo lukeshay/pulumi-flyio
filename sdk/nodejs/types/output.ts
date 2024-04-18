@@ -23,6 +23,7 @@ export interface MachineArgs {
     skipServiceRegistration?: boolean;
     updateStrategy?: string;
     waitForChecks?: number;
+    waitForUpdate?: number;
 }
 
 export namespace flyio {

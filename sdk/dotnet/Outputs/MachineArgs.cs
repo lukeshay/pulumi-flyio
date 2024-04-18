@@ -23,6 +23,7 @@ namespace Pulumi.Flyio.Outputs
         public readonly bool? SkipServiceRegistration;
         public readonly string? UpdateStrategy;
         public readonly int? WaitForChecks;
+        public readonly int? WaitForUpdate;
 
         [OutputConstructor]
         private MachineArgs(
@@ -44,7 +45,9 @@ namespace Pulumi.Flyio.Outputs
 
             string? updateStrategy,
 
-            int? waitForChecks)
+            int? waitForChecks,
+
+            int? waitForUpdate)
         {
             AppName = appName;
             Config = config;
@@ -56,6 +59,7 @@ namespace Pulumi.Flyio.Outputs
             SkipServiceRegistration = skipServiceRegistration;
             UpdateStrategy = updateStrategy;
             WaitForChecks = waitForChecks;
+            WaitForUpdate = waitForUpdate;
         }
     }
 }

@@ -19,9 +19,11 @@ resources:
     type: flyio:Machine
     properties:
       name: machine-sea-1
+      updateStrategy: bluegreen
       region: sea
       appName: ${app.name}
       waitForChecks: 60000
+      waitForUpdate: 1000
       config:
         image: nginx:latest
         guest:
@@ -55,6 +57,9 @@ resources:
               hardLimit: 2500
   machine-sea-2:
     type: flyio:Machine
+    options:
+      dependsOn:
+        - ${machine-sea-1}
     properties:
       name: machine-sea-2
       region: sea
@@ -95,8 +100,10 @@ resources:
     type: flyio:Machine
     properties:
       name: machine-iad-1
+      updateStrategy: bluegreen
       region: iad
       appName: ${app.name}
+      waitForUpdate: 1000
       waitForChecks: 60000
       config:
         image: nginx:latest
@@ -131,6 +138,9 @@ resources:
               hardLimit: 2500
   machine-iad-2:
     type: flyio:Machine
+    options:
+      dependsOn:
+        - ${machine-iad-1}
     properties:
       name: machine-iad-2
       region: iad

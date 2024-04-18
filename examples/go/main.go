@@ -25,11 +25,13 @@ func main() {
 		if err != nil {
 			return err
 		}
-		_, err = flyio.NewMachine(ctx, "machine-sea-1", &flyio.MachineArgs{
-			Name:          pulumi.String("machine-sea-1"),
-			Region:        pulumi.String("sea"),
-			AppName:       app.Name,
-			WaitForChecks: pulumi.Int(60000),
+		machineSea1, err := flyio.NewMachine(ctx, "machine-sea-1", &flyio.MachineArgs{
+			Name:           pulumi.String("machine-sea-1"),
+			UpdateStrategy: pulumi.String("bluegreen"),
+			Region:         pulumi.String("sea"),
+			AppName:        app.Name,
+			WaitForChecks:  pulumi.Int(60000),
+			WaitForUpdate:  pulumi.Int(1000),
 			Config: &flyio.FlyMachineConfigArgs{
 				Image: pulumi.String("nginx:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
@@ -133,15 +135,19 @@ func main() {
 					},
 				},
 			},
-		})
+		}, pulumi.DependsOn([]pulumi.Resource{
+			machineSea1,
+		}))
 		if err != nil {
 			return err
 		}
-		_, err = flyio.NewMachine(ctx, "machine-iad-1", &flyio.MachineArgs{
-			Name:          pulumi.String("machine-iad-1"),
-			Region:        pulumi.String("iad"),
-			AppName:       app.Name,
-			WaitForChecks: pulumi.Int(60000),
+		machineIad1, err := flyio.NewMachine(ctx, "machine-iad-1", &flyio.MachineArgs{
+			Name:           pulumi.String("machine-iad-1"),
+			UpdateStrategy: pulumi.String("bluegreen"),
+			Region:         pulumi.String("iad"),
+			AppName:        app.Name,
+			WaitForUpdate:  pulumi.Int(1000),
+			WaitForChecks:  pulumi.Int(60000),
 			Config: &flyio.FlyMachineConfigArgs{
 				Image: pulumi.String("nginx:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
@@ -245,7 +251,9 @@ func main() {
 					},
 				},
 			},
-		})
+		}, pulumi.DependsOn([]pulumi.Resource{
+			machineIad1,
+		}))
 		if err != nil {
 			return err
 		}

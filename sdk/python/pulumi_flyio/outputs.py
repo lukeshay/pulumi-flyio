@@ -88,6 +88,8 @@ class MachineArgs(dict):
             suggest = "update_strategy"
         elif key == "waitForChecks":
             suggest = "wait_for_checks"
+        elif key == "waitForUpdate":
+            suggest = "wait_for_update"
 
         if suggest:
             pulumi.log.warn(f"Key '{key}' not found in MachineArgs. Access the value via the '{suggest}' property getter instead.")
@@ -110,7 +112,8 @@ class MachineArgs(dict):
                  skip_launch: Optional[bool] = None,
                  skip_service_registration: Optional[bool] = None,
                  update_strategy: Optional[str] = None,
-                 wait_for_checks: Optional[int] = None):
+                 wait_for_checks: Optional[int] = None,
+                 wait_for_update: Optional[int] = None):
         pulumi.set(__self__, "app_name", app_name)
         pulumi.set(__self__, "config", config)
         if lease_ttl is not None:
@@ -129,6 +132,8 @@ class MachineArgs(dict):
             pulumi.set(__self__, "update_strategy", update_strategy)
         if wait_for_checks is not None:
             pulumi.set(__self__, "wait_for_checks", wait_for_checks)
+        if wait_for_update is not None:
+            pulumi.set(__self__, "wait_for_update", wait_for_update)
 
     @property
     @pulumi.getter(name="appName")
@@ -179,5 +184,10 @@ class MachineArgs(dict):
     @pulumi.getter(name="waitForChecks")
     def wait_for_checks(self) -> Optional[int]:
         return pulumi.get(self, "wait_for_checks")
+
+    @property
+    @pulumi.getter(name="waitForUpdate")
+    def wait_for_update(self) -> Optional[int]:
+        return pulumi.get(self, "wait_for_update")
 
 

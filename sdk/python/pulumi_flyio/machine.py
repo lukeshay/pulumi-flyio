@@ -25,7 +25,8 @@ class MachineArgs:
                  skip_launch: Optional[pulumi.Input[bool]] = None,
                  skip_service_registration: Optional[pulumi.Input[bool]] = None,
                  update_strategy: Optional[pulumi.Input[str]] = None,
-                 wait_for_checks: Optional[pulumi.Input[int]] = None):
+                 wait_for_checks: Optional[pulumi.Input[int]] = None,
+                 wait_for_update: Optional[pulumi.Input[int]] = None):
         """
         The set of arguments for constructing a Machine resource.
         """
@@ -47,6 +48,8 @@ class MachineArgs:
             pulumi.set(__self__, "update_strategy", update_strategy)
         if wait_for_checks is not None:
             pulumi.set(__self__, "wait_for_checks", wait_for_checks)
+        if wait_for_update is not None:
+            pulumi.set(__self__, "wait_for_update", wait_for_update)
 
     @property
     @pulumi.getter(name="appName")
@@ -138,6 +141,15 @@ class MachineArgs:
     def wait_for_checks(self, value: Optional[pulumi.Input[int]]):
         pulumi.set(self, "wait_for_checks", value)
 
+    @property
+    @pulumi.getter(name="waitForUpdate")
+    def wait_for_update(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "wait_for_update")
+
+    @wait_for_update.setter
+    def wait_for_update(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "wait_for_update", value)
+
 
 class Machine(pulumi.CustomResource):
     @overload
@@ -154,6 +166,7 @@ class Machine(pulumi.CustomResource):
                  skip_service_registration: Optional[pulumi.Input[bool]] = None,
                  update_strategy: Optional[pulumi.Input[str]] = None,
                  wait_for_checks: Optional[pulumi.Input[int]] = None,
+                 wait_for_update: Optional[pulumi.Input[int]] = None,
                  __props__=None):
         """
         Create a Machine resource with the given unique name, props, and options.
@@ -193,6 +206,7 @@ class Machine(pulumi.CustomResource):
                  skip_service_registration: Optional[pulumi.Input[bool]] = None,
                  update_strategy: Optional[pulumi.Input[str]] = None,
                  wait_for_checks: Optional[pulumi.Input[int]] = None,
+                 wait_for_update: Optional[pulumi.Input[int]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -216,6 +230,7 @@ class Machine(pulumi.CustomResource):
             __props__.__dict__["skip_service_registration"] = skip_service_registration
             __props__.__dict__["update_strategy"] = update_strategy
             __props__.__dict__["wait_for_checks"] = wait_for_checks
+            __props__.__dict__["wait_for_update"] = wait_for_update
             __props__.__dict__["checks"] = None
             __props__.__dict__["created_at"] = None
             __props__.__dict__["events"] = None
@@ -223,6 +238,7 @@ class Machine(pulumi.CustomResource):
             __props__.__dict__["image_ref"] = None
             __props__.__dict__["input"] = None
             __props__.__dict__["instance_id"] = None
+            __props__.__dict__["machine_name"] = None
             __props__.__dict__["nonce"] = None
             __props__.__dict__["private_ip"] = None
             __props__.__dict__["state"] = None
@@ -258,6 +274,7 @@ class Machine(pulumi.CustomResource):
         __props__.__dict__["image_ref"] = None
         __props__.__dict__["input"] = None
         __props__.__dict__["instance_id"] = None
+        __props__.__dict__["machine_name"] = None
         __props__.__dict__["name"] = None
         __props__.__dict__["nonce"] = None
         __props__.__dict__["private_ip"] = None
@@ -310,6 +327,11 @@ class Machine(pulumi.CustomResource):
     @pulumi.getter(name="instanceId")
     def instance_id(self) -> pulumi.Output[Optional[str]]:
         return pulumi.get(self, "instance_id")
+
+    @property
+    @pulumi.getter(name="machineName")
+    def machine_name(self) -> pulumi.Output[str]:
+        return pulumi.get(self, "machine_name")
 
     @property
     @pulumi.getter
