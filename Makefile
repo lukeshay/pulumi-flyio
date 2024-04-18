@@ -17,6 +17,10 @@ WORKING_DIR     := $(shell pwd)
 EXAMPLES_DIR    := ${WORKING_DIR}/examples/yaml
 TESTPARALLELISM := 4
 
+define log_and_run
+	(set -x; $(1)) >>tmp/$@.log 2>&1
+endef
+
 ensure::
 	cd provider && go mod tidy
 	cd sdk && go mod tidy
@@ -41,7 +45,7 @@ dotnet_sdk::
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
 	cd ${PACKDIR}/dotnet/&& \
-		echo "${DOTNET_VERSION}" >version.txt && \
+		echo "${DOTNET_VERSION}" > version.txt && \
 		dotnet build /p:Version=${DOTNET_VERSION}
 
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
@@ -114,7 +118,8 @@ devcontainer::
 
 .PHONY: build
 
-build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
+build:: provider
+	@$(MAKE) -j4 dotnet_sdk go_sdk nodejs_sdk python_sdk
 
 # Required for the codegen action that runs in pulumi/pulumi
 only_build:: build

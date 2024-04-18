@@ -18,11 +18,9 @@ jobs:
       packages: read
       actions: read
     steps:
-      - name: Checkout repository
+      - name: Checkout Repo
         uses: actions/checkout@v4
         id: git
-        with:
-          submodules: "recursive"
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
       - name: Cache Mise

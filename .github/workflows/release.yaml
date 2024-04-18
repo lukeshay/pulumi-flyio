@@ -32,7 +32,8 @@ jobs:
       PYPI_USERNAME: "YOUR PYPI USERNAME HERE"
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        id: git
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
       - uses: jdx/mise-action@v2
@@ -62,7 +63,8 @@ jobs:
       PYPI_USERNAME: "YOUR PYPI USERNAME HERE"
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        id: git
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
       - name: Cache Mise
