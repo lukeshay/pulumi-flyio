@@ -10,10 +10,8 @@ machine_sea1 = flyio.Machine("machine-sea-1",
     update_strategy="bluegreen",
     region="sea",
     app_name=app.name,
-    wait_for_checks=60000,
-    wait_for_update=1000,
     config=flyio.flyio.FlyMachineConfigArgs(
-        image="nginx:latest",
+        image="nginxdemos/hello:latest",
         guest=flyio.flyio.FlyMachineGuestArgs(
             cpus=1,
             cpu_kind="shared",
@@ -57,9 +55,8 @@ machine_sea2 = flyio.Machine("machine-sea-2",
     name="machine-sea-2",
     region="sea",
     app_name=app.name,
-    wait_for_checks=60000,
     config=flyio.flyio.FlyMachineConfigArgs(
-        image="nginx:latest",
+        image="nginxdemos/hello:latest",
         guest=flyio.flyio.FlyMachineGuestArgs(
             cpus=1,
             cpu_kind="shared",
@@ -105,14 +102,12 @@ machine_iad1 = flyio.Machine("machine-iad-1",
     update_strategy="bluegreen",
     region="iad",
     app_name=app.name,
-    wait_for_update=1000,
-    wait_for_checks=60000,
     config=flyio.flyio.FlyMachineConfigArgs(
-        image="nginx:latest",
+        image="nginxdemos/hello:latest",
         guest=flyio.flyio.FlyMachineGuestArgs(
             cpus=1,
             cpu_kind="shared",
-            memory_mb=256,
+            memory_mb=512,
         ),
         services=[flyio.flyio.FlyMachineServiceArgs(
             internal_port=80,
@@ -152,9 +147,8 @@ machine_iad2 = flyio.Machine("machine-iad-2",
     name="machine-iad-2",
     region="iad",
     app_name=app.name,
-    wait_for_checks=60000,
     config=flyio.flyio.FlyMachineConfigArgs(
-        image="nginx:latest",
+        image="nginxdemos/hello:latest",
         guest=flyio.flyio.FlyMachineGuestArgs(
             cpus=1,
             cpu_kind="shared",
@@ -195,6 +189,16 @@ machine_iad2 = flyio.Machine("machine-iad-2",
         )],
     ),
     opts=pulumi.ResourceOptions(depends_on=[machine_iad1]))
+volume_sea = flyio.Volume("volume-sea",
+    name="volume_sea",
+    region="sea",
+    app_name=app.name,
+    size_gb=5)
+volume_iad = flyio.Volume("volume-iad",
+    name="volume_iad",
+    region="iad",
+    app_name=app.name,
+    size_gb=5)
 pulumi.export("appName", {
     "value": app.name,
 })

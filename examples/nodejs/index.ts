@@ -11,10 +11,8 @@ const machineSea1 = new flyio.Machine("machine-sea-1", {
     updateStrategy: "bluegreen",
     region: "sea",
     appName: app.name,
-    waitForChecks: 60000,
-    waitForUpdate: 1000,
     config: {
-        image: "nginx:latest",
+        image: "nginxdemos/hello:latest",
         guest: {
             cpus: 1,
             cpuKind: "shared",
@@ -59,9 +57,8 @@ const machineSea2 = new flyio.Machine("machine-sea-2", {
     name: "machine-sea-2",
     region: "sea",
     appName: app.name,
-    waitForChecks: 60000,
     config: {
-        image: "nginx:latest",
+        image: "nginxdemos/hello:latest",
         guest: {
             cpus: 1,
             cpuKind: "shared",
@@ -109,14 +106,12 @@ const machineIad1 = new flyio.Machine("machine-iad-1", {
     updateStrategy: "bluegreen",
     region: "iad",
     appName: app.name,
-    waitForUpdate: 1000,
-    waitForChecks: 60000,
     config: {
-        image: "nginx:latest",
+        image: "nginxdemos/hello:latest",
         guest: {
             cpus: 1,
             cpuKind: "shared",
-            memoryMb: 256,
+            memoryMb: 512,
         },
         services: [{
             internalPort: 80,
@@ -157,9 +152,8 @@ const machineIad2 = new flyio.Machine("machine-iad-2", {
     name: "machine-iad-2",
     region: "iad",
     appName: app.name,
-    waitForChecks: 60000,
     config: {
-        image: "nginx:latest",
+        image: "nginxdemos/hello:latest",
         guest: {
             cpus: 1,
             cpuKind: "shared",
@@ -201,6 +195,18 @@ const machineIad2 = new flyio.Machine("machine-iad-2", {
     },
 }, {
     dependsOn: [machineIad1],
+});
+const volumeSea = new flyio.Volume("volume-sea", {
+    name: "volume_sea",
+    region: "sea",
+    appName: app.name,
+    sizeGb: 5,
+});
+const volumeIad = new flyio.Volume("volume-iad", {
+    name: "volume_iad",
+    region: "iad",
+    appName: app.name,
+    sizeGb: 5,
 });
 export const appName = {
     value: app.name,

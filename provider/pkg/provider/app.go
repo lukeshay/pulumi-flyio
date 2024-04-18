@@ -6,8 +6,6 @@ import (
 	"github.com/lukeshay/pulumi-flyio/provider/pkg/flyio"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
-	diff "github.com/r3labs/diff/v3"
 )
 
 // TODO: Add annotations
@@ -17,7 +15,6 @@ var (
 	_ infer.CustomResource[AppArgs, AppState] = (*App)(nil)
 	_ infer.CustomDelete[AppState]            = (*App)(nil)
 	_ infer.CustomRead[AppArgs, AppState]     = (*App)(nil)
-	_ infer.CustomUpdate[AppArgs, AppState]   = (*App)(nil)
 )
 
 type AppArgs struct {
@@ -40,12 +37,7 @@ func (App) Create(ctx p.Context, name string, input AppArgs, preview bool) (stri
 		return "", AppState{}, err
 	}
 
-	res, err := client.AppsCreate(ctx, flyio.AppsCreateJSONRequestBody{
-		AppName:          input.AppName,
-		Network:          input.Network,
-		EnableSubdomains: input.EnableSubdomains,
-		OrgSlug:          input.OrgSlug,
-	})
+	res, err := client.AppsCreate(ctx, input.CreateAppRequest)
 	if err != nil {
 		return "", AppState{}, err
 	}
@@ -93,7 +85,7 @@ func (App) Delete(ctx p.Context, reqID string, state AppState) error {
 		return err
 	}
 
-	result, err := flyio.ParseAppsShowResponse(res)
+	result, err := flyio.ParseAppsDeleteResponse(res)
 	if err != nil {
 		return err
 	}
@@ -132,25 +124,11 @@ func (App) Read(ctx p.Context, id string, inputs AppArgs, state AppState) (
 	return id, inputs, state, nil
 }
 
-func (a App) Update(ctx p.Context, id string, state AppState, input AppArgs, preview bool) (AppState, error) {
-	ctx.LogStatusf(diag.Warning, "Fly Apps cannot be updated. The app you are attempting to update is %s", *state.Name)
-	_, _, newState, err := a.Read(ctx, id, input, state)
-	return newState, err
+var appDiffOpts = generateDiffResponseOpts{
+	ReplaceProps:             []string{},
+	DeleteBeforeReplaceProps: []string{"AppName", "OrgSlug", "EnableSubdomains", "Network"},
 }
 
 func (App) Diff(ctx p.Context, id string, state AppState, input AppArgs) (p.DiffResponse, error) {
-	previousInput := state.Input
-
-	changelog, err := diff.Diff(previousInput, input)
-	if err != nil {
-		return p.DiffResponse{}, err
-	}
-
-	if len(changelog) > 0 {
-		return p.DiffResponse{}, fmt.Errorf("apps cannot be updated")
-	}
-
-	return p.DiffResponse{
-		HasChanges: false,
-	}, nil
+	return generateDiffResponse(state.Input, input, appDiffOpts)
 }

@@ -4,13 +4,12 @@ import (
 	"context"
 	"fmt"
 	"slices"
-	"strings"
 	"time"
 
 	"github.com/lukeshay/pulumi-flyio/provider/pkg/flyio"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
-	diff "github.com/r3labs/diff/v3"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 )
 
 // TODO: Add annotations
@@ -108,7 +107,11 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 
 	ttl := 30
 
-	if input.UpdateStrategy == "bluegreen" {
+	diff, _ := m.Diff(ctx, id, state, input)
+
+	if input.UpdateStrategy == "bluegreen" || diff.DeleteBeforeReplace {
+		ctx.Log(diag.Info, "Redeploying machine using the bluegreen strategy")
+
 		// 1. Create a new machine with SkipServiceRegistration: true
 		skipServiceRegistration := true
 		request := input.CreateMachineRequest
@@ -126,6 +129,7 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 
 		if input.SkipLaunch == nil || !*input.SkipLaunch {
 			// 2. Wait for checks on new machine
+			ctx.Log(diag.Info, "Waiting for new machine to start")
 			newMachine, err = waitForState(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId, flyio.Started)
 			if err != nil {
 				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
@@ -133,6 +137,7 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 				return state, err
 			}
 
+			ctx.Log(diag.Info, "Waiting for checks on new machine")
 			_, err := m.waitForChecks(ctx, *newMachine.Id, input, state, input.WaitForChecks)
 			if err != nil {
 				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
@@ -141,6 +146,7 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 			}
 
 			// 3. Uncordon new machine
+			ctx.Log(diag.Info, "Uncordoning new machine")
 			err = uncordonMachine(ctx, state.AppName, *newMachine.Id)
 			if err != nil {
 				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
@@ -149,19 +155,26 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 			}
 
 			// 4. Cordorn old machine
+			ctx.Log(diag.Info, "Cordoning old machine")
 			err = cordonMachine(ctx, state.AppName, *state.Id)
 			if err != nil {
 				destroyMachine(ctx, state.AppName, *newMachine.Id, *newMachine.InstanceId)
 
 				return state, err
 			}
-			// 5. Pause for WaitForUpdate
-			time.Sleep(time.Duration(*input.WaitForUpdate) * time.Millisecond)
+
+			if input.WaitForUpdate != nil {
+				// 5. Pause for WaitForUpdate
+				ctx.Log(diag.Info, "Waiting for update")
+				time.Sleep(time.Duration(*input.WaitForUpdate) * time.Millisecond)
+			}
 
 			// 6. Wait for checks on new machine
 			//    - If checks fail, uncordon old machine, destroy new machine, and return error
+			ctx.Log(diag.Info, "Waiting for checks on new machine")
 			newState, err := m.waitForChecks(ctx, *newMachine.Id, input, state, input.WaitForChecks)
 			if err != nil {
+				ctx.Log(diag.Info, "Checks failed on new machine, uncordoning old machine and destroying new machine")
 				err2 := uncordonMachine(ctx, state.AppName, *state.Id)
 				if err2 != nil {
 					return state, err2
@@ -172,6 +185,7 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 				return state, err
 			}
 
+			ctx.Log(diag.Info, "Checks passed on new machine, destroying old machine")
 			destroyMachine(ctx, state.AppName, *state.Id, *state.InstanceId)
 
 			newState.MachineName = *request.Name
@@ -191,6 +205,8 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 
 		return state, nil
 	}
+
+	ctx.Log(diag.Info, "Redeploying machine using the replacement strategy")
 
 	if input.WaitForChecks != nil {
 		ttl += *input.WaitForChecks / 1000
@@ -222,6 +238,7 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 	}
 
 	state.Machine = *result.JSON200
+	state.Input = input
 
 	if input.SkipLaunch == nil || !*input.SkipLaunch {
 		var machine *flyio.Machine
@@ -236,47 +253,13 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 	return state, err
 }
 
-// TODO: Change this to replace
-var machineReadOnly = []string{"Region", "Name", "AppName"}
+var machineDiffOpts = generateDiffResponseOpts{
+	ReplaceProps:             []string{},
+	DeleteBeforeReplaceProps: []string{"Region", "Name", "AppName"},
+}
 
 func (Machine) Diff(ctx p.Context, id string, state MachineState, input MachineArgs) (p.DiffResponse, error) {
-	previousInput := state.Input
-
-	changelog, err := diff.Diff(previousInput, input)
-	if err != nil {
-		return p.DiffResponse{}, err
-	}
-
-	diffRes := p.DiffResponse{
-		DeleteBeforeReplace: false,
-		HasChanges:          false,
-	}
-
-	detailedDiff := map[string]p.PropertyDiff{}
-
-	for _, change := range changelog {
-		if len(change.Path) == 0 || slices.Contains(machineReadOnly, change.Path[0]) {
-			continue
-		}
-
-		propertyDiff := p.PropertyDiff{
-			Kind:      p.Update,
-			InputDiff: true,
-		}
-
-		if change.Type == diff.CREATE {
-			propertyDiff.Kind = p.Add
-		}
-
-		detailedDiff[strings.Join(change.Path, ".")] = propertyDiff
-	}
-
-	if len(detailedDiff) > 0 {
-		diffRes.HasChanges = true
-		diffRes.DetailedDiff = detailedDiff
-	}
-
-	return diffRes, nil
+	return generateDiffResponse(state.Input, input, machineDiffOpts)
 }
 
 func (m Machine) waitForChecks(ctx p.Context, id string, input MachineArgs, state MachineState, waitTime *int) (

@@ -22,11 +22,9 @@ return await Deployment.RunAsync(() =>
         UpdateStrategy = "bluegreen",
         Region = "sea",
         AppName = app.Name,
-        WaitForChecks = 60000,
-        WaitForUpdate = 1000,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
-            Image = "nginx:latest",
+            Image = "nginxdemos/hello:latest",
             Guest = new Flyio.Flyio.Inputs.FlyMachineGuestArgs
             {
                 Cpus = 1,
@@ -90,10 +88,9 @@ return await Deployment.RunAsync(() =>
         Name = "machine-sea-2",
         Region = "sea",
         AppName = app.Name,
-        WaitForChecks = 60000,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
-            Image = "nginx:latest",
+            Image = "nginxdemos/hello:latest",
             Guest = new Flyio.Flyio.Inputs.FlyMachineGuestArgs
             {
                 Cpus = 1,
@@ -164,16 +161,14 @@ return await Deployment.RunAsync(() =>
         UpdateStrategy = "bluegreen",
         Region = "iad",
         AppName = app.Name,
-        WaitForUpdate = 1000,
-        WaitForChecks = 60000,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
-            Image = "nginx:latest",
+            Image = "nginxdemos/hello:latest",
             Guest = new Flyio.Flyio.Inputs.FlyMachineGuestArgs
             {
                 Cpus = 1,
                 CpuKind = "shared",
-                MemoryMb = 256,
+                MemoryMb = 512,
             },
             Services = new[]
             {
@@ -232,10 +227,9 @@ return await Deployment.RunAsync(() =>
         Name = "machine-iad-2",
         Region = "iad",
         AppName = app.Name,
-        WaitForChecks = 60000,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
-            Image = "nginx:latest",
+            Image = "nginxdemos/hello:latest",
             Guest = new Flyio.Flyio.Inputs.FlyMachineGuestArgs
             {
                 Cpus = 1,
@@ -298,6 +292,22 @@ return await Deployment.RunAsync(() =>
         {
             machineIad1, 
         },
+    });
+
+    var volumeSea = new Flyio.Volume("volume-sea", new()
+    {
+        Name = "volume_sea",
+        Region = "sea",
+        AppName = app.Name,
+        SizeGb = 5,
+    });
+
+    var volumeIad = new Flyio.Volume("volume-iad", new()
+    {
+        Name = "volume_iad",
+        Region = "iad",
+        AppName = app.Name,
+        SizeGb = 5,
     });
 
     return new Dictionary<string, object?>

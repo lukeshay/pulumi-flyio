@@ -13,6 +13,7 @@ from . import flyio as _flyio
 __all__ = [
     'AppArgs',
     'MachineArgs',
+    'VolumeArgs',
 ]
 
 @pulumi.output_type
@@ -189,5 +190,154 @@ class MachineArgs(dict):
     @pulumi.getter(name="waitForUpdate")
     def wait_for_update(self) -> Optional[int]:
         return pulumi.get(self, "wait_for_update")
+
+
+@pulumi.output_type
+class VolumeArgs(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "appName":
+            suggest = "app_name"
+        elif key == "autoBackupEnabled":
+            suggest = "auto_backup_enabled"
+        elif key == "computeImage":
+            suggest = "compute_image"
+        elif key == "machinesOnly":
+            suggest = "machines_only"
+        elif key == "requireUniqueZone":
+            suggest = "require_unique_zone"
+        elif key == "sizeGb":
+            suggest = "size_gb"
+        elif key == "snapshotId":
+            suggest = "snapshot_id"
+        elif key == "snapshotRetention":
+            suggest = "snapshot_retention"
+        elif key == "sourceVolumeId":
+            suggest = "source_volume_id"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in VolumeArgs. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        VolumeArgs.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        VolumeArgs.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 app_name: str,
+                 auto_backup_enabled: Optional[bool] = None,
+                 compute: Optional['_flyio.outputs.FlyMachineGuest'] = None,
+                 compute_image: Optional[str] = None,
+                 encrypted: Optional[bool] = None,
+                 fstype: Optional[str] = None,
+                 machines_only: Optional[bool] = None,
+                 name: Optional[str] = None,
+                 region: Optional[str] = None,
+                 require_unique_zone: Optional[bool] = None,
+                 size_gb: Optional[int] = None,
+                 snapshot_id: Optional[str] = None,
+                 snapshot_retention: Optional[int] = None,
+                 source_volume_id: Optional[str] = None):
+        pulumi.set(__self__, "app_name", app_name)
+        if auto_backup_enabled is not None:
+            pulumi.set(__self__, "auto_backup_enabled", auto_backup_enabled)
+        if compute is not None:
+            pulumi.set(__self__, "compute", compute)
+        if compute_image is not None:
+            pulumi.set(__self__, "compute_image", compute_image)
+        if encrypted is not None:
+            pulumi.set(__self__, "encrypted", encrypted)
+        if fstype is not None:
+            pulumi.set(__self__, "fstype", fstype)
+        if machines_only is not None:
+            pulumi.set(__self__, "machines_only", machines_only)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if region is not None:
+            pulumi.set(__self__, "region", region)
+        if require_unique_zone is not None:
+            pulumi.set(__self__, "require_unique_zone", require_unique_zone)
+        if size_gb is not None:
+            pulumi.set(__self__, "size_gb", size_gb)
+        if snapshot_id is not None:
+            pulumi.set(__self__, "snapshot_id", snapshot_id)
+        if snapshot_retention is not None:
+            pulumi.set(__self__, "snapshot_retention", snapshot_retention)
+        if source_volume_id is not None:
+            pulumi.set(__self__, "source_volume_id", source_volume_id)
+
+    @property
+    @pulumi.getter(name="appName")
+    def app_name(self) -> str:
+        return pulumi.get(self, "app_name")
+
+    @property
+    @pulumi.getter(name="autoBackupEnabled")
+    def auto_backup_enabled(self) -> Optional[bool]:
+        return pulumi.get(self, "auto_backup_enabled")
+
+    @property
+    @pulumi.getter
+    def compute(self) -> Optional['_flyio.outputs.FlyMachineGuest']:
+        return pulumi.get(self, "compute")
+
+    @property
+    @pulumi.getter(name="computeImage")
+    def compute_image(self) -> Optional[str]:
+        return pulumi.get(self, "compute_image")
+
+    @property
+    @pulumi.getter
+    def encrypted(self) -> Optional[bool]:
+        return pulumi.get(self, "encrypted")
+
+    @property
+    @pulumi.getter
+    def fstype(self) -> Optional[str]:
+        return pulumi.get(self, "fstype")
+
+    @property
+    @pulumi.getter(name="machinesOnly")
+    def machines_only(self) -> Optional[bool]:
+        return pulumi.get(self, "machines_only")
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[str]:
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def region(self) -> Optional[str]:
+        return pulumi.get(self, "region")
+
+    @property
+    @pulumi.getter(name="requireUniqueZone")
+    def require_unique_zone(self) -> Optional[bool]:
+        return pulumi.get(self, "require_unique_zone")
+
+    @property
+    @pulumi.getter(name="sizeGb")
+    def size_gb(self) -> Optional[int]:
+        return pulumi.get(self, "size_gb")
+
+    @property
+    @pulumi.getter(name="snapshotId")
+    def snapshot_id(self) -> Optional[str]:
+        return pulumi.get(self, "snapshot_id")
+
+    @property
+    @pulumi.getter(name="snapshotRetention")
+    def snapshot_retention(self) -> Optional[int]:
+        return pulumi.get(self, "snapshot_retention")
+
+    @property
+    @pulumi.getter(name="sourceVolumeId")
+    def source_volume_id(self) -> Optional[str]:
+        return pulumi.get(self, "source_volume_id")
 
 

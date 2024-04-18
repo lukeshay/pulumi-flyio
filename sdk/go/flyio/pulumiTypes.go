@@ -123,7 +123,95 @@ func (o MachineArgsTypeOutput) WaitForUpdate() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v MachineArgsType) *int { return v.WaitForUpdate }).(pulumi.IntPtrOutput)
 }
 
+type VolumeArgsType struct {
+	AppName           string                 `pulumi:"appName"`
+	AutoBackupEnabled *bool                  `pulumi:"autoBackupEnabled"`
+	Compute           *flyio.FlyMachineGuest `pulumi:"compute"`
+	ComputeImage      *string                `pulumi:"computeImage"`
+	Encrypted         *bool                  `pulumi:"encrypted"`
+	Fstype            *string                `pulumi:"fstype"`
+	MachinesOnly      *bool                  `pulumi:"machinesOnly"`
+	Name              *string                `pulumi:"name"`
+	Region            *string                `pulumi:"region"`
+	RequireUniqueZone *bool                  `pulumi:"requireUniqueZone"`
+	SizeGb            *int                   `pulumi:"sizeGb"`
+	SnapshotId        *string                `pulumi:"snapshotId"`
+	SnapshotRetention *int                   `pulumi:"snapshotRetention"`
+	SourceVolumeId    *string                `pulumi:"sourceVolumeId"`
+}
+
+type VolumeArgsTypeOutput struct{ *pulumi.OutputState }
+
+func (VolumeArgsTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VolumeArgsType)(nil)).Elem()
+}
+
+func (o VolumeArgsTypeOutput) ToVolumeArgsTypeOutput() VolumeArgsTypeOutput {
+	return o
+}
+
+func (o VolumeArgsTypeOutput) ToVolumeArgsTypeOutputWithContext(ctx context.Context) VolumeArgsTypeOutput {
+	return o
+}
+
+func (o VolumeArgsTypeOutput) AppName() pulumi.StringOutput {
+	return o.ApplyT(func(v VolumeArgsType) string { return v.AppName }).(pulumi.StringOutput)
+}
+
+func (o VolumeArgsTypeOutput) AutoBackupEnabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *bool { return v.AutoBackupEnabled }).(pulumi.BoolPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) Compute() flyio.FlyMachineGuestPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *flyio.FlyMachineGuest { return v.Compute }).(flyio.FlyMachineGuestPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) ComputeImage() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *string { return v.ComputeImage }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) Encrypted() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *bool { return v.Encrypted }).(pulumi.BoolPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) Fstype() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *string { return v.Fstype }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) MachinesOnly() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *bool { return v.MachinesOnly }).(pulumi.BoolPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) Region() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *string { return v.Region }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) RequireUniqueZone() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *bool { return v.RequireUniqueZone }).(pulumi.BoolPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) SizeGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *int { return v.SizeGb }).(pulumi.IntPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) SnapshotId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *string { return v.SnapshotId }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) SnapshotRetention() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *int { return v.SnapshotRetention }).(pulumi.IntPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) SourceVolumeId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *string { return v.SourceVolumeId }).(pulumi.StringPtrOutput)
+}
+
 func init() {
 	pulumi.RegisterOutputType(AppArgsTypeOutput{})
 	pulumi.RegisterOutputType(MachineArgsTypeOutput{})
+	pulumi.RegisterOutputType(VolumeArgsTypeOutput{})
 }

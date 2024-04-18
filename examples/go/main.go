@@ -30,10 +30,8 @@ func main() {
 			UpdateStrategy: pulumi.String("bluegreen"),
 			Region:         pulumi.String("sea"),
 			AppName:        app.Name,
-			WaitForChecks:  pulumi.Int(60000),
-			WaitForUpdate:  pulumi.Int(1000),
 			Config: &flyio.FlyMachineConfigArgs{
-				Image: pulumi.String("nginx:latest"),
+				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
 					Cpus:     pulumi.Int(1),
 					CpuKind:  pulumi.String("shared"),
@@ -84,12 +82,11 @@ func main() {
 			return err
 		}
 		_, err = flyio.NewMachine(ctx, "machine-sea-2", &flyio.MachineArgs{
-			Name:          pulumi.String("machine-sea-2"),
-			Region:        pulumi.String("sea"),
-			AppName:       app.Name,
-			WaitForChecks: pulumi.Int(60000),
+			Name:    pulumi.String("machine-sea-2"),
+			Region:  pulumi.String("sea"),
+			AppName: app.Name,
 			Config: &flyio.FlyMachineConfigArgs{
-				Image: pulumi.String("nginx:latest"),
+				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
 					Cpus:     pulumi.Int(1),
 					CpuKind:  pulumi.String("shared"),
@@ -146,14 +143,12 @@ func main() {
 			UpdateStrategy: pulumi.String("bluegreen"),
 			Region:         pulumi.String("iad"),
 			AppName:        app.Name,
-			WaitForUpdate:  pulumi.Int(1000),
-			WaitForChecks:  pulumi.Int(60000),
 			Config: &flyio.FlyMachineConfigArgs{
-				Image: pulumi.String("nginx:latest"),
+				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
 					Cpus:     pulumi.Int(1),
 					CpuKind:  pulumi.String("shared"),
-					MemoryMb: pulumi.Int(256),
+					MemoryMb: pulumi.Int(512),
 				},
 				Services: flyio.FlyMachineServiceArray{
 					&flyio.FlyMachineServiceArgs{
@@ -200,12 +195,11 @@ func main() {
 			return err
 		}
 		_, err = flyio.NewMachine(ctx, "machine-iad-2", &flyio.MachineArgs{
-			Name:          pulumi.String("machine-iad-2"),
-			Region:        pulumi.String("iad"),
-			AppName:       app.Name,
-			WaitForChecks: pulumi.Int(60000),
+			Name:    pulumi.String("machine-iad-2"),
+			Region:  pulumi.String("iad"),
+			AppName: app.Name,
 			Config: &flyio.FlyMachineConfigArgs{
-				Image: pulumi.String("nginx:latest"),
+				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
 					Cpus:     pulumi.Int(1),
 					CpuKind:  pulumi.String("shared"),
@@ -254,6 +248,24 @@ func main() {
 		}, pulumi.DependsOn([]pulumi.Resource{
 			machineIad1,
 		}))
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewVolume(ctx, "volume-sea", &flyio.VolumeArgs{
+			Name:    pulumi.String("volume_sea"),
+			Region:  pulumi.String("sea"),
+			AppName: app.Name,
+			SizeGb:  pulumi.Int(5),
+		})
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewVolume(ctx, "volume-iad", &flyio.VolumeArgs{
+			Name:    pulumi.String("volume_iad"),
+			Region:  pulumi.String("iad"),
+			AppName: app.Name,
+			SizeGb:  pulumi.Int(5),
+		})
 		if err != nil {
 			return err
 		}

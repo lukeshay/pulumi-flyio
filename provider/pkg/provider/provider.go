@@ -18,6 +18,7 @@ func Provider() p.Provider {
 			infer.Resource[Random, RandomArgs, RandomState](),
 			infer.Resource[App, AppArgs, AppState](),
 			infer.Resource[Machine, MachineArgs, MachineState](),
+			infer.Resource[Volume, VolumeArgs, VolumeState](),
 		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "index",
