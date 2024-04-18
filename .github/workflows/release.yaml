@@ -58,9 +58,9 @@ jobs:
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      NUGET_PUBLISH_KEY: ${{ YOUR NUGET PUBLISH KEY HERE }}
-      PYPI_PASSWORD: ${{ YOUR PYPI PASSWORD HERE }}
-      PYPI_USERNAME: "YOUR PYPI USERNAME HERE"
+      NUGET_PUBLISH_KEY: ""
+      PYPI_PASSWORD: ""
+      PYPI_USERNAME: ""
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
