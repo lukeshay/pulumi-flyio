@@ -20,8 +20,14 @@ def readme():
 setup(name='pulumi_flyio',
       python_requires='>=3.8',
       version=VERSION,
+      description="A native Pulumi provider for Fly.io.",
       long_description=readme(),
       long_description_content_type='text/markdown',
+      keywords='pulumi flyio category/cloud kind/native',
+      project_urls={
+          'Repository': 'https://github.com/lukeshay/pulumi-flyio'
+      },
+      license='Apache-2.0',
       packages=find_packages(),
       package_data={
           'pulumi_flyio': [

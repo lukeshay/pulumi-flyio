@@ -8,29 +8,30 @@ import (
 	"reflect"
 
 	"errors"
-	"flyio"
+	"github.com/lukeshay/pulumi-flyio/sdk/go/flyio/flyio"
+	"github.com/lukeshay/pulumi-flyio/sdk/go/flyio/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
 )
 
 type Machine struct {
 	pulumi.CustomResourceState
 
-	AppName    pulumi.StringOutput           `pulumi:"appName"`
-	Checks     flyio.CheckStatusArrayOutput  `pulumi:"checks"`
-	Config     flyio.FlyMachineConfigOutput  `pulumi:"config"`
-	CreatedAt  pulumi.StringPtrOutput        `pulumi:"createdAt"`
-	Events     flyio.MachineEventArrayOutput `pulumi:"events"`
-	FlyId      pulumi.StringOutput           `pulumi:"flyId"`
-	ImageRef   flyio.ImageRefPtrOutput       `pulumi:"imageRef"`
-	Input      MachineArgsTypeOutput         `pulumi:"input"`
-	InstanceId pulumi.StringPtrOutput        `pulumi:"instanceId"`
-	Name       pulumi.StringOutput           `pulumi:"name"`
-	Nonce      pulumi.StringPtrOutput        `pulumi:"nonce"`
-	PrivateIp  pulumi.StringPtrOutput        `pulumi:"privateIp"`
-	Region     pulumi.StringPtrOutput        `pulumi:"region"`
-	State      pulumi.StringOutput           `pulumi:"state"`
-	UpdatedAt  pulumi.StringPtrOutput        `pulumi:"updatedAt"`
+	AppName     pulumi.StringOutput           `pulumi:"appName"`
+	Checks      flyio.CheckStatusArrayOutput  `pulumi:"checks"`
+	Config      flyio.FlyMachineConfigOutput  `pulumi:"config"`
+	CreatedAt   pulumi.StringPtrOutput        `pulumi:"createdAt"`
+	Events      flyio.MachineEventArrayOutput `pulumi:"events"`
+	FlyId       pulumi.StringOutput           `pulumi:"flyId"`
+	ImageRef    flyio.ImageRefPtrOutput       `pulumi:"imageRef"`
+	Input       MachineArgsTypeOutput         `pulumi:"input"`
+	InstanceId  pulumi.StringPtrOutput        `pulumi:"instanceId"`
+	MachineName pulumi.StringOutput           `pulumi:"machineName"`
+	Name        pulumi.StringOutput           `pulumi:"name"`
+	Nonce       pulumi.StringPtrOutput        `pulumi:"nonce"`
+	PrivateIp   pulumi.StringPtrOutput        `pulumi:"privateIp"`
+	Region      pulumi.StringPtrOutput        `pulumi:"region"`
+	State       pulumi.StringOutput           `pulumi:"state"`
+	UpdatedAt   pulumi.StringPtrOutput        `pulumi:"updatedAt"`
 }
 
 // NewMachine registers a new resource with the given unique name, arguments, and options.
@@ -89,6 +90,7 @@ type machineArgs struct {
 	SkipServiceRegistration *bool                  `pulumi:"skipServiceRegistration"`
 	UpdateStrategy          *string                `pulumi:"updateStrategy"`
 	WaitForChecks           *int                   `pulumi:"waitForChecks"`
+	WaitForUpdate           *int                   `pulumi:"waitForUpdate"`
 }
 
 // The set of arguments for constructing a Machine resource.
@@ -103,6 +105,7 @@ type MachineArgs struct {
 	SkipServiceRegistration pulumi.BoolPtrInput
 	UpdateStrategy          pulumi.StringPtrInput
 	WaitForChecks           pulumi.IntPtrInput
+	WaitForUpdate           pulumi.IntPtrInput
 }
 
 func (MachineArgs) ElementType() reflect.Type {
@@ -126,6 +129,56 @@ func (i *Machine) ToMachineOutput() MachineOutput {
 
 func (i *Machine) ToMachineOutputWithContext(ctx context.Context) MachineOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(MachineOutput)
+}
+
+// MachineArrayInput is an input type that accepts MachineArray and MachineArrayOutput values.
+// You can construct a concrete instance of `MachineArrayInput` via:
+//
+//	MachineArray{ MachineArgs{...} }
+type MachineArrayInput interface {
+	pulumi.Input
+
+	ToMachineArrayOutput() MachineArrayOutput
+	ToMachineArrayOutputWithContext(context.Context) MachineArrayOutput
+}
+
+type MachineArray []MachineInput
+
+func (MachineArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*Machine)(nil)).Elem()
+}
+
+func (i MachineArray) ToMachineArrayOutput() MachineArrayOutput {
+	return i.ToMachineArrayOutputWithContext(context.Background())
+}
+
+func (i MachineArray) ToMachineArrayOutputWithContext(ctx context.Context) MachineArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MachineArrayOutput)
+}
+
+// MachineMapInput is an input type that accepts MachineMap and MachineMapOutput values.
+// You can construct a concrete instance of `MachineMapInput` via:
+//
+//	MachineMap{ "key": MachineArgs{...} }
+type MachineMapInput interface {
+	pulumi.Input
+
+	ToMachineMapOutput() MachineMapOutput
+	ToMachineMapOutputWithContext(context.Context) MachineMapOutput
+}
+
+type MachineMap map[string]MachineInput
+
+func (MachineMap) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*Machine)(nil)).Elem()
+}
+
+func (i MachineMap) ToMachineMapOutput() MachineMapOutput {
+	return i.ToMachineMapOutputWithContext(context.Background())
+}
+
+func (i MachineMap) ToMachineMapOutputWithContext(ctx context.Context) MachineMapOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MachineMapOutput)
 }
 
 type MachineOutput struct{ *pulumi.OutputState }
@@ -178,6 +231,10 @@ func (o MachineOutput) InstanceId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringPtrOutput { return v.InstanceId }).(pulumi.StringPtrOutput)
 }
 
+func (o MachineOutput) MachineName() pulumi.StringOutput {
+	return o.ApplyT(func(v *Machine) pulumi.StringOutput { return v.MachineName }).(pulumi.StringOutput)
+}
+
 func (o MachineOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -202,7 +259,51 @@ func (o MachineOutput) UpdatedAt() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringPtrOutput { return v.UpdatedAt }).(pulumi.StringPtrOutput)
 }
 
+type MachineArrayOutput struct{ *pulumi.OutputState }
+
+func (MachineArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*Machine)(nil)).Elem()
+}
+
+func (o MachineArrayOutput) ToMachineArrayOutput() MachineArrayOutput {
+	return o
+}
+
+func (o MachineArrayOutput) ToMachineArrayOutputWithContext(ctx context.Context) MachineArrayOutput {
+	return o
+}
+
+func (o MachineArrayOutput) Index(i pulumi.IntInput) MachineOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Machine {
+		return vs[0].([]*Machine)[vs[1].(int)]
+	}).(MachineOutput)
+}
+
+type MachineMapOutput struct{ *pulumi.OutputState }
+
+func (MachineMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*Machine)(nil)).Elem()
+}
+
+func (o MachineMapOutput) ToMachineMapOutput() MachineMapOutput {
+	return o
+}
+
+func (o MachineMapOutput) ToMachineMapOutputWithContext(ctx context.Context) MachineMapOutput {
+	return o
+}
+
+func (o MachineMapOutput) MapIndex(k pulumi.StringInput) MachineOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) *Machine {
+		return vs[0].(map[string]*Machine)[vs[1].(string)]
+	}).(MachineOutput)
+}
+
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*MachineInput)(nil)).Elem(), &Machine{})
+	pulumi.RegisterInputType(reflect.TypeOf((*MachineArrayInput)(nil)).Elem(), MachineArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*MachineMapInput)(nil)).Elem(), MachineMap{})
 	pulumi.RegisterOutputType(MachineOutput{})
+	pulumi.RegisterOutputType(MachineArrayOutput{})
+	pulumi.RegisterOutputType(MachineMapOutput{})
 }

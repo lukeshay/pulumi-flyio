@@ -1,6 +1,14 @@
 {
     "name": "@pulumi/flyio",
     "version": "${VERSION}",
+    "keywords": [
+        "pulumi",
+        "flyio",
+        "category/cloud",
+        "kind/native"
+    ],
+    "repository": "https://github.com/lukeshay/pulumi-flyio",
+    "license": "Apache-2.0",
     "scripts": {
         "build": "tsc"
     },

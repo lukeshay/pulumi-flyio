@@ -1,2 +1,2 @@
-// Package flyio exports types, functions, subpackages for provisioning flyio resources.
+// A native Pulumi provider for Fly.io.
 package flyio

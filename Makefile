@@ -17,6 +17,10 @@ WORKING_DIR     := $(shell pwd)
 EXAMPLES_DIR    := ${WORKING_DIR}/examples/yaml
 TESTPARALLELISM := 4
 
+define log_and_run
+	(set -x; $(1)) >>tmp/$@.log 2>&1
+endef
+
 ensure::
 	cd provider && go mod tidy
 	cd sdk && go mod tidy
@@ -24,7 +28,6 @@ ensure::
 
 provider::
 	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.json --create-dirs
-	go install github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
 	mkdir -p provider/pkg/flyio
 	rm -f $(WORKING_DIR)/bin/$(PROVIDER)
 	oapi-codegen -config oapi.yaml tmp/fly-openapi3.json
@@ -42,7 +45,7 @@ dotnet_sdk::
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
 	cd ${PACKDIR}/dotnet/&& \
-		echo "${DOTNET_VERSION}" >version.txt && \
+		echo "${DOTNET_VERSION}" > version.txt && \
 		dotnet build /p:Version=${DOTNET_VERSION}
 
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
@@ -73,10 +76,10 @@ python_sdk::
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
-gen_examples: gen_go_example \
-		gen_nodejs_example \
-		gen_python_example \
-		gen_dotnet_example
+gen_examples: gen_go_example gen_nodejs_example gen_python_example gen_dotnet_example
+	cd ${WORKING_DIR}/examples/nodejs && \
+	sed -i.bak 's/@pulumi\/flyio/$(NODE_MODULE_NAME)/g' package.json && \
+	rm ./package.json.bak
 
 gen_%_example:
 	rm -rf ${WORKING_DIR}/examples/$*
@@ -96,10 +99,10 @@ endef
 up::
 	$(call pulumi_login) \
 	cd ${EXAMPLES_DIR} && \
-	pulumi stack init dev && \
+	(pulumi stack init dev || true) && \
 	pulumi stack select dev && \
 	pulumi config set name dev && \
-	pulumi up -y
+	pulumi up -y -v 2
 
 down::
 	$(call pulumi_login) \

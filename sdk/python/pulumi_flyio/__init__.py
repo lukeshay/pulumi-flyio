@@ -9,6 +9,7 @@ from .app import *
 from .machine import *
 from .provider import *
 from .random import *
+from .volume import *
 from . import outputs
 
 # Make subpackages available:
@@ -28,7 +29,8 @@ _utilities.register(
   "classes": {
    "flyio:index:App": "App",
    "flyio:index:Machine": "Machine",
-   "flyio:index:Random": "Random"
+   "flyio:index:Random": "Random",
+   "flyio:index:Volume": "Volume"
   }
  }
 ]

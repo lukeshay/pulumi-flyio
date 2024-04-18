@@ -42,6 +42,7 @@ export class Machine extends pulumi.CustomResource {
     public /*out*/ readonly imageRef!: pulumi.Output<outputs.flyio.ImageRef | undefined>;
     public /*out*/ readonly input!: pulumi.Output<outputs.MachineArgs>;
     public /*out*/ readonly instanceId!: pulumi.Output<string | undefined>;
+    public /*out*/ readonly machineName!: pulumi.Output<string>;
     public readonly name!: pulumi.Output<string>;
     public /*out*/ readonly nonce!: pulumi.Output<string | undefined>;
     public /*out*/ readonly privateIp!: pulumi.Output<string | undefined>;
@@ -76,6 +77,7 @@ export class Machine extends pulumi.CustomResource {
             resourceInputs["skipServiceRegistration"] = args ? args.skipServiceRegistration : undefined;
             resourceInputs["updateStrategy"] = args ? args.updateStrategy : undefined;
             resourceInputs["waitForChecks"] = args ? args.waitForChecks : undefined;
+            resourceInputs["waitForUpdate"] = args ? args.waitForUpdate : undefined;
             resourceInputs["checks"] = undefined /*out*/;
             resourceInputs["createdAt"] = undefined /*out*/;
             resourceInputs["events"] = undefined /*out*/;
@@ -83,6 +85,7 @@ export class Machine extends pulumi.CustomResource {
             resourceInputs["imageRef"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
             resourceInputs["instanceId"] = undefined /*out*/;
+            resourceInputs["machineName"] = undefined /*out*/;
             resourceInputs["nonce"] = undefined /*out*/;
             resourceInputs["privateIp"] = undefined /*out*/;
             resourceInputs["state"] = undefined /*out*/;
@@ -97,6 +100,7 @@ export class Machine extends pulumi.CustomResource {
             resourceInputs["imageRef"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
             resourceInputs["instanceId"] = undefined /*out*/;
+            resourceInputs["machineName"] = undefined /*out*/;
             resourceInputs["name"] = undefined /*out*/;
             resourceInputs["nonce"] = undefined /*out*/;
             resourceInputs["privateIp"] = undefined /*out*/;
@@ -123,4 +127,5 @@ export interface MachineArgs {
     skipServiceRegistration?: pulumi.Input<boolean>;
     updateStrategy?: pulumi.Input<string>;
     waitForChecks?: pulumi.Input<number>;
+    waitForUpdate?: pulumi.Input<number>;
 }

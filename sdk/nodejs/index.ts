@@ -25,6 +25,11 @@ export type Random = import("./random").Random;
 export const Random: typeof import("./random").Random = null as any;
 utilities.lazyLoad(exports, ["Random"], () => require("./random"));
 
+export { VolumeArgs } from "./volume";
+export type Volume = import("./volume").Volume;
+export const Volume: typeof import("./volume").Volume = null as any;
+utilities.lazyLoad(exports, ["Volume"], () => require("./volume"));
+
 
 // Export sub-modules:
 import * as types from "./types";
@@ -43,6 +48,8 @@ const _module = {
                 return new Machine(name, <any>undefined, { urn })
             case "flyio:index:Random":
                 return new Random(name, <any>undefined, { urn })
+            case "flyio:index:Volume":
+                return new Volume(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

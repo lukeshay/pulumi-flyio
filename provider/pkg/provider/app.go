@@ -6,31 +6,19 @@ import (
 	"github.com/lukeshay/pulumi-flyio/provider/pkg/flyio"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 )
 
-// Each resource has a controlling struct.
-// Resource behavior is determined by implementing methods on the controlling struct.
-// The `Create` method is mandatory, but other methods are optional.
-// - Check: Remap inputs before they are typed.
-// - Diff: Change how instances of a resource are compared.
-// - Update: Mutate a resource in place.
-// - Read: Get the state of a resource from the backing provider.
-// - Delete: Custom logic when the resource is deleted.
-// - Annotate: Describe fields and set defaults for a resource.
-// - WireDependencies: Control how outputs and secrets flows through values.
+// TODO: Add annotations
 type App struct{}
 
-// verify App complies with resource.CustomCreate interface
 var (
 	_ infer.CustomResource[AppArgs, AppState] = (*App)(nil)
 	_ infer.CustomDelete[AppState]            = (*App)(nil)
 	_ infer.CustomRead[AppArgs, AppState]     = (*App)(nil)
-	_ infer.CustomUpdate[AppArgs, AppState]   = (*App)(nil)
 )
 
 type AppArgs struct {
-	flyio.AppsCreateJSONRequestBody
+	flyio.CreateAppRequest
 }
 
 type AppState struct {
@@ -49,12 +37,7 @@ func (App) Create(ctx p.Context, name string, input AppArgs, preview bool) (stri
 		return "", AppState{}, err
 	}
 
-	res, err := client.AppsCreate(ctx, flyio.AppsCreateJSONRequestBody{
-		AppName:          input.AppName,
-		Network:          input.Network,
-		EnableSubdomains: input.EnableSubdomains,
-		OrgSlug:          input.OrgSlug,
-	})
+	res, err := client.AppsCreate(ctx, input.CreateAppRequest)
 	if err != nil {
 		return "", AppState{}, err
 	}
@@ -102,7 +85,7 @@ func (App) Delete(ctx p.Context, reqID string, state AppState) error {
 		return err
 	}
 
-	result, err := flyio.ParseAppsShowResponse(res)
+	result, err := flyio.ParseAppsDeleteResponse(res)
 	if err != nil {
 		return err
 	}
@@ -141,8 +124,11 @@ func (App) Read(ctx p.Context, id string, inputs AppArgs, state AppState) (
 	return id, inputs, state, nil
 }
 
-func (a App) Update(ctx p.Context, id string, state AppState, input AppArgs, preview bool) (AppState, error) {
-	ctx.LogStatusf(diag.Warning, "Fly Apps cannot be updated. The app you are attempting to update is %s", *state.Name)
-	_, _, newState, err := a.Read(ctx, id, input, state)
-	return newState, err
+var appDiffOpts = generateDiffResponseOpts{
+	ReplaceProps:             []string{},
+	DeleteBeforeReplaceProps: []string{"AppName", "OrgSlug", "EnableSubdomains", "Network"},
+}
+
+func (App) Diff(ctx p.Context, id string, state AppState, input AppArgs) (p.DiffResponse, error) {
+	return generateDiffResponse(state.Input, input, appDiffOpts)
 }

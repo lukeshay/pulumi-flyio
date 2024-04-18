@@ -1,18 +1,11 @@
 {
-  "name": "provider-flyio-native",
-  "scripts": {
-    "up": "PULUMI_CONFIG_PASSPHRASE=secret pulumi up -y -s flyio"
-  },
-  "devDependencies": {
-    "@lshay/prettier-config": "^0.7.0",
-    "@types/node": "^14",
-    "prettier": "^3.2.5"
-  },
-  "dependencies": {
-    "@pulumi/docker": "^4.5.3",
-    "@pulumi/pulumi": "^3.0.0",
-    "pulumi-flyio": "file:../../sdk/nodejs/bin",
-    "typescript": "^4.0.0"
-  },
-  "prettier": "@lshay/prettier-config"
+	"name": "provider-flyio-native",
+	"devDependencies": {
+		"@types/node": "^14"
+	},
+	"dependencies": {
+		"typescript": "^4.0.0",
+		"@pulumi/pulumi": "^3.0.0",
+		"pulumi-flyio": "*"
+	}
 }

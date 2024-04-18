@@ -8,9 +8,9 @@ import (
 	"reflect"
 
 	"errors"
-	"flyio"
+	"github.com/lukeshay/pulumi-flyio/sdk/go/flyio/flyio"
+	"github.com/lukeshay/pulumi-flyio/sdk/go/flyio/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
 )
 
 type App struct {
@@ -106,6 +106,56 @@ func (i *App) ToAppOutputWithContext(ctx context.Context) AppOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(AppOutput)
 }
 
+// AppArrayInput is an input type that accepts AppArray and AppArrayOutput values.
+// You can construct a concrete instance of `AppArrayInput` via:
+//
+//	AppArray{ AppArgs{...} }
+type AppArrayInput interface {
+	pulumi.Input
+
+	ToAppArrayOutput() AppArrayOutput
+	ToAppArrayOutputWithContext(context.Context) AppArrayOutput
+}
+
+type AppArray []AppInput
+
+func (AppArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*App)(nil)).Elem()
+}
+
+func (i AppArray) ToAppArrayOutput() AppArrayOutput {
+	return i.ToAppArrayOutputWithContext(context.Background())
+}
+
+func (i AppArray) ToAppArrayOutputWithContext(ctx context.Context) AppArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AppArrayOutput)
+}
+
+// AppMapInput is an input type that accepts AppMap and AppMapOutput values.
+// You can construct a concrete instance of `AppMapInput` via:
+//
+//	AppMap{ "key": AppArgs{...} }
+type AppMapInput interface {
+	pulumi.Input
+
+	ToAppMapOutput() AppMapOutput
+	ToAppMapOutputWithContext(context.Context) AppMapOutput
+}
+
+type AppMap map[string]AppInput
+
+func (AppMap) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*App)(nil)).Elem()
+}
+
+func (i AppMap) ToAppMapOutput() AppMapOutput {
+	return i.ToAppMapOutputWithContext(context.Background())
+}
+
+func (i AppMap) ToAppMapOutputWithContext(ctx context.Context) AppMapOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AppMapOutput)
+}
+
 type AppOutput struct{ *pulumi.OutputState }
 
 func (AppOutput) ElementType() reflect.Type {
@@ -140,7 +190,51 @@ func (o AppOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Status }).(pulumi.StringOutput)
 }
 
+type AppArrayOutput struct{ *pulumi.OutputState }
+
+func (AppArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*App)(nil)).Elem()
+}
+
+func (o AppArrayOutput) ToAppArrayOutput() AppArrayOutput {
+	return o
+}
+
+func (o AppArrayOutput) ToAppArrayOutputWithContext(ctx context.Context) AppArrayOutput {
+	return o
+}
+
+func (o AppArrayOutput) Index(i pulumi.IntInput) AppOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *App {
+		return vs[0].([]*App)[vs[1].(int)]
+	}).(AppOutput)
+}
+
+type AppMapOutput struct{ *pulumi.OutputState }
+
+func (AppMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*App)(nil)).Elem()
+}
+
+func (o AppMapOutput) ToAppMapOutput() AppMapOutput {
+	return o
+}
+
+func (o AppMapOutput) ToAppMapOutputWithContext(ctx context.Context) AppMapOutput {
+	return o
+}
+
+func (o AppMapOutput) MapIndex(k pulumi.StringInput) AppOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) *App {
+		return vs[0].(map[string]*App)[vs[1].(string)]
+	}).(AppOutput)
+}
+
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*AppInput)(nil)).Elem(), &App{})
+	pulumi.RegisterInputType(reflect.TypeOf((*AppArrayInput)(nil)).Elem(), AppArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*AppMapInput)(nil)).Elem(), AppMap{})
 	pulumi.RegisterOutputType(AppOutput{})
+	pulumi.RegisterOutputType(AppArrayOutput{})
+	pulumi.RegisterOutputType(AppMapOutput{})
 }

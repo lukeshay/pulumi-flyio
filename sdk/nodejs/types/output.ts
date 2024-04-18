@@ -23,6 +23,24 @@ export interface MachineArgs {
     skipServiceRegistration?: boolean;
     updateStrategy?: string;
     waitForChecks?: number;
+    waitForUpdate?: number;
+}
+
+export interface VolumeArgs {
+    appName: string;
+    autoBackupEnabled?: boolean;
+    compute?: outputs.flyio.FlyMachineGuest;
+    computeImage?: string;
+    encrypted?: boolean;
+    fstype?: string;
+    machinesOnly?: boolean;
+    name?: string;
+    region?: string;
+    requireUniqueZone?: boolean;
+    sizeGb?: number;
+    snapshotId?: string;
+    snapshotRetention?: number;
+    sourceVolumeId?: string;
 }
 
 export namespace flyio {

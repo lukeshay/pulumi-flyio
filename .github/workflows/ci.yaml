@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: read
+      actions: read
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        id: git
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
+      - name: Cache Mise
+        id: cache-mise
+        uses: actions/cache@v4
+        with:
+          path: /github/home/.local/share/mise/installs
+          key: ${{ runner.os }}-mise
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true
+      - name: Install pulumictl
+        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        with:
+          repo: pulumi/pulumictl
+          cache: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        id: build
+        run: |
+          make build
+      - name: Install
+        id: install
+        run: |
+          set -ex
+          make install
+      - name: PulumiUp
+        id: up
+        run: make up
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - if: always()
+        name: PulumiDown
+        id: down
+        run: make down
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Generate multi-language examples from yaml IaC program
+        id: examples
+        run: |
+          set -ex
+          make gen_examples
