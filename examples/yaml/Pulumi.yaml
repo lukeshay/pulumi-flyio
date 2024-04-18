@@ -171,18 +171,24 @@ resources:
             concurrency:
               softLimit: 2000
               hardLimit: 2500
-  volume-sea:
-    type: flyio:Volume
-    properties:
-      name: volume_sea
-      region: sea
-      appName: ${app.name}
-      sizeGb: 5
   volume-iad:
     type: flyio:Volume
+    options:
+      dependsOn:
+        - ${machine-iad-1}
     properties:
       name: volume_iad
       region: iad
+      appName: ${app.name}
+      sizeGb: 5
+  volume-sea:
+    type: flyio:Volume
+    options:
+      dependsOn:
+        - ${machine-sea-1}
+    properties:
+      name: volume_sea
+      region: sea
       appName: ${app.name}
       sizeGb: 5
 

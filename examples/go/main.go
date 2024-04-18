@@ -251,21 +251,25 @@ func main() {
 		if err != nil {
 			return err
 		}
-		_, err = flyio.NewVolume(ctx, "volume-sea", &flyio.VolumeArgs{
-			Name:    pulumi.String("volume_sea"),
-			Region:  pulumi.String("sea"),
-			AppName: app.Name,
-			SizeGb:  pulumi.Int(5),
-		})
-		if err != nil {
-			return err
-		}
 		_, err = flyio.NewVolume(ctx, "volume-iad", &flyio.VolumeArgs{
 			Name:    pulumi.String("volume_iad"),
 			Region:  pulumi.String("iad"),
 			AppName: app.Name,
 			SizeGb:  pulumi.Int(5),
-		})
+		}, pulumi.DependsOn([]pulumi.Resource{
+			machineIad1,
+		}))
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewVolume(ctx, "volume-sea", &flyio.VolumeArgs{
+			Name:    pulumi.String("volume_sea"),
+			Region:  pulumi.String("sea"),
+			AppName: app.Name,
+			SizeGb:  pulumi.Int(5),
+		}, pulumi.DependsOn([]pulumi.Resource{
+			machineSea1,
+		}))
 		if err != nil {
 			return err
 		}

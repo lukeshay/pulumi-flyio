@@ -294,20 +294,32 @@ return await Deployment.RunAsync(() =>
         },
     });
 
-    var volumeSea = new Flyio.Volume("volume-sea", new()
-    {
-        Name = "volume_sea",
-        Region = "sea",
-        AppName = app.Name,
-        SizeGb = 5,
-    });
-
     var volumeIad = new Flyio.Volume("volume-iad", new()
     {
         Name = "volume_iad",
         Region = "iad",
         AppName = app.Name,
         SizeGb = 5,
+    }, new CustomResourceOptions
+    {
+        DependsOn =
+        {
+            machineIad1, 
+        },
+    });
+
+    var volumeSea = new Flyio.Volume("volume-sea", new()
+    {
+        Name = "volume_sea",
+        Region = "sea",
+        AppName = app.Name,
+        SizeGb = 5,
+    }, new CustomResourceOptions
+    {
+        DependsOn =
+        {
+            machineSea1, 
+        },
     });
 
     return new Dictionary<string, object?>

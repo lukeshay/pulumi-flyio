@@ -196,17 +196,21 @@ const machineIad2 = new flyio.Machine("machine-iad-2", {
 }, {
     dependsOn: [machineIad1],
 });
-const volumeSea = new flyio.Volume("volume-sea", {
-    name: "volume_sea",
-    region: "sea",
-    appName: app.name,
-    sizeGb: 5,
-});
 const volumeIad = new flyio.Volume("volume-iad", {
     name: "volume_iad",
     region: "iad",
     appName: app.name,
     sizeGb: 5,
+}, {
+    dependsOn: [machineIad1],
+});
+const volumeSea = new flyio.Volume("volume-sea", {
+    name: "volume_sea",
+    region: "sea",
+    appName: app.name,
+    sizeGb: 5,
+}, {
+    dependsOn: [machineSea1],
 });
 export const appName = {
     value: app.name,

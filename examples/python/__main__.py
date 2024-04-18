@@ -189,16 +189,18 @@ machine_iad2 = flyio.Machine("machine-iad-2",
         )],
     ),
     opts=pulumi.ResourceOptions(depends_on=[machine_iad1]))
-volume_sea = flyio.Volume("volume-sea",
-    name="volume_sea",
-    region="sea",
-    app_name=app.name,
-    size_gb=5)
 volume_iad = flyio.Volume("volume-iad",
     name="volume_iad",
     region="iad",
     app_name=app.name,
-    size_gb=5)
+    size_gb=5,
+    opts=pulumi.ResourceOptions(depends_on=[machine_iad1]))
+volume_sea = flyio.Volume("volume-sea",
+    name="volume_sea",
+    region="sea",
+    app_name=app.name,
+    size_gb=5,
+    opts=pulumi.ResourceOptions(depends_on=[machine_sea1]))
 pulumi.export("appName", {
     "value": app.name,
 })
