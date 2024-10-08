@@ -229,7 +229,26 @@ func (m Machine) Update(ctx p.Context, id string, state MachineState, input Mach
 		ttl += *input.WaitForChecks / 1000
 	}
 
-	res, err := client.MachinesUpdate(ctx, state.AppName, *state.Id, flyio.UpdateMachineRequest{
+	res, err := client.MachinesList(ctx, state.AppName, &flyio.MachinesListParams{
+		Region: state.Region,
+	})
+	if err != nil {
+		return state, err
+	}
+
+	machinesList, err := flyio.ParseMachinesListResponse(res)
+	if err != nil {
+		return state, err
+	}
+
+	var machine flyio.Machine
+	for _, m := range *machinesList.JSON200 {
+		if *m.Name == state.MachineName {
+			machine = m
+		}
+	}
+
+	res, err = client.MachinesUpdate(ctx, state.AppName, *machine.Id, flyio.UpdateMachineRequest{
 		Config:                  input.Config,
 		LeaseTtl:                input.LeaseTtl,
 		Lsvd:                    input.Lsvd,
