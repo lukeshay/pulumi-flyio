@@ -20,6 +20,7 @@ func Provider() p.Provider {
 			infer.Resource[Machine, MachineArgs, MachineState](),
 			infer.Resource[Volume, VolumeArgs, VolumeState](),
 		},
+		Functions: []infer.InferredFunction{},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "index",
 		},

@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   discussions: write
+  id-token: write
 
 env:
   PROVIDER: "flyio"
@@ -16,8 +17,7 @@ env:
   NPM_REGISTRY_URL: https://registry.npmjs.org
   NUGET_FEED_URL: https://api.nuget.org/v3/index.json
   PUBLISH_NUGET: false
-  PYPI_REPOSITORY_URL: ""
-  PUBLISH_PYPI: false
+  PUBLISH_PYPI: true
 
 jobs:
   publish_binary:
@@ -28,8 +28,6 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       NUGET_PUBLISH_KEY: ""
-      PYPI_PASSWORD: ""
-      PYPI_USERNAME: ""
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -61,8 +59,6 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       NUGET_PUBLISH_KEY: ""
-      PYPI_PASSWORD: ""
-      PYPI_USERNAME: ""
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -78,10 +74,17 @@ jobs:
           repo: pulumi/pulumictl
           cache: true
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Provider
-        run: make build
       - name: Generate SDK
         run: make ${{ matrix.language }}_sdk
+      - name: Check worktree clean
+        run: |
+          git update-index -q --refresh
+          if ! git diff-files --quiet; then
+              >&2 echo "error: working tree is not clean, aborting!"
+              git status
+              git diff
+              exit 1
+          fi
       - name: Compress SDK folder
         run: tar -zcf sdk/${{ matrix.language }}.tar.gz -C sdk/${{ matrix.language }} .
       - name: Upload artifacts
@@ -93,8 +96,6 @@ jobs:
         name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: ${{ env.PYPI_USERNAME }}
-          password: ${{ env.PYPI_PASSWORD }}
           packages-dir: ${{github.workspace}}/sdk/python/bin/dist
       - if: ${{ matrix.language == 'nodejs' && env.PUBLISH_NPM == 'true' }}
         uses: JS-DevTools/npm-publish@v1
