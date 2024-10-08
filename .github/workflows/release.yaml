@@ -50,6 +50,11 @@ jobs:
           version: latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bin
+          path: ${{ github.workspace}}/bin
   publish_sdk:
     name: Publish SDKs
     runs-on: ubuntu-latest
@@ -74,6 +79,10 @@ jobs:
           repo: pulumi/pulumictl
           cache: true
           token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: bin
+          path: ${{ github.workspace}}/bin
       - name: Generate SDK
         run: make ${{ matrix.language }}_sdk
       - name: Check worktree clean
