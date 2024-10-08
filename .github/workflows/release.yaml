@@ -69,11 +69,6 @@ jobs:
         id: git
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
-      - name: Cache Mise
-        id: cache-mise
-        uses: actions/cache@v4
-        with:
-          path: /github/home/.local/share/mise/installs
       - uses: jdx/mise-action@v2
         with:
           experimental: true
