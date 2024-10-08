@@ -3,7 +3,7 @@ PROJECT_NAME := Pulumi Fly.io Resource Provider
 PACK             := flyio
 PACKDIR          := sdk
 PROJECT          := github.com/lukeshay/pulumi-flyio
-NODE_MODULE_NAME := pulumi-flyio
+NODE_MODULE_NAME := @lukeshay/pulumi-flyio
 NUGET_PKG_NAME   := Pulumi.Flyio
 
 PROVIDER        := pulumi-resource-${PACK}
