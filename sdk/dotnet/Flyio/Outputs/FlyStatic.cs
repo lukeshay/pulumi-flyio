@@ -14,6 +14,7 @@ namespace Pulumi.Flyio.Flyio.Outputs
     public sealed class FlyStatic
     {
         public readonly string GuestPath;
+        public readonly string? IndexDocument;
         public readonly string? TigrisBucket;
         public readonly string UrlPrefix;
 
@@ -21,11 +22,14 @@ namespace Pulumi.Flyio.Flyio.Outputs
         private FlyStatic(
             string guestPath,
 
+            string? indexDocument,
+
             string? tigrisBucket,
 
             string urlPrefix)
         {
             GuestPath = guestPath;
+            IndexDocument = indexDocument;
             TigrisBucket = tigrisBucket;
             UrlPrefix = urlPrefix;
         }

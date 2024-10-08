@@ -20,6 +20,12 @@ namespace Pulumi.Flyio.Flyio.Inputs
             set => _dnsForwardRules = value;
         }
 
+        [Input("hostname")]
+        public Input<string>? Hostname { get; set; }
+
+        [Input("hostnameFqdn")]
+        public Input<string>? HostnameFqdn { get; set; }
+
         [Input("nameservers")]
         private InputList<string>? _nameservers;
         public InputList<string> Nameservers

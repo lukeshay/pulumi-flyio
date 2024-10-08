@@ -72,6 +72,8 @@ func (o CheckStatusArrayOutput) Index(i pulumi.IntInput) CheckStatusOutput {
 
 type FlyDNSConfig struct {
 	DnsForwardRules  []FlyDnsForwardRule `pulumi:"dnsForwardRules"`
+	Hostname         *string             `pulumi:"hostname"`
+	HostnameFqdn     *string             `pulumi:"hostnameFqdn"`
 	Nameservers      []string            `pulumi:"nameservers"`
 	Options          []FlyDnsOption      `pulumi:"options"`
 	Searches         []string            `pulumi:"searches"`
@@ -91,6 +93,8 @@ type FlyDNSConfigInput interface {
 
 type FlyDNSConfigArgs struct {
 	DnsForwardRules  FlyDnsForwardRuleArrayInput `pulumi:"dnsForwardRules"`
+	Hostname         pulumi.StringPtrInput       `pulumi:"hostname"`
+	HostnameFqdn     pulumi.StringPtrInput       `pulumi:"hostnameFqdn"`
 	Nameservers      pulumi.StringArrayInput     `pulumi:"nameservers"`
 	Options          FlyDnsOptionArrayInput      `pulumi:"options"`
 	Searches         pulumi.StringArrayInput     `pulumi:"searches"`
@@ -178,6 +182,14 @@ func (o FlyDNSConfigOutput) DnsForwardRules() FlyDnsForwardRuleArrayOutput {
 	return o.ApplyT(func(v FlyDNSConfig) []FlyDnsForwardRule { return v.DnsForwardRules }).(FlyDnsForwardRuleArrayOutput)
 }
 
+func (o FlyDNSConfigOutput) Hostname() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyDNSConfig) *string { return v.Hostname }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyDNSConfigOutput) HostnameFqdn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyDNSConfig) *string { return v.HostnameFqdn }).(pulumi.StringPtrOutput)
+}
+
 func (o FlyDNSConfigOutput) Nameservers() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v FlyDNSConfig) []string { return v.Nameservers }).(pulumi.StringArrayOutput)
 }
@@ -225,6 +237,24 @@ func (o FlyDNSConfigPtrOutput) DnsForwardRules() FlyDnsForwardRuleArrayOutput {
 		}
 		return v.DnsForwardRules
 	}).(FlyDnsForwardRuleArrayOutput)
+}
+
+func (o FlyDNSConfigPtrOutput) Hostname() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyDNSConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Hostname
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyDNSConfigPtrOutput) HostnameFqdn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyDNSConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.HostnameFqdn
+	}).(pulumi.StringPtrOutput)
 }
 
 func (o FlyDNSConfigPtrOutput) Nameservers() pulumi.StringArrayOutput {
@@ -565,6 +595,7 @@ func (o FlyEnvFromArrayOutput) Index(i pulumi.IntInput) FlyEnvFromOutput {
 
 type FlyFile struct {
 	GuestPath  *string `pulumi:"guestPath"`
+	Mode       *int    `pulumi:"mode"`
 	RawValue   *string `pulumi:"rawValue"`
 	SecretName *string `pulumi:"secretName"`
 }
@@ -582,6 +613,7 @@ type FlyFileInput interface {
 
 type FlyFileArgs struct {
 	GuestPath  pulumi.StringPtrInput `pulumi:"guestPath"`
+	Mode       pulumi.IntPtrInput    `pulumi:"mode"`
 	RawValue   pulumi.StringPtrInput `pulumi:"rawValue"`
 	SecretName pulumi.StringPtrInput `pulumi:"secretName"`
 }
@@ -641,6 +673,10 @@ func (o FlyFileOutput) GuestPath() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FlyFile) *string { return v.GuestPath }).(pulumi.StringPtrOutput)
 }
 
+func (o FlyFileOutput) Mode() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyFile) *int { return v.Mode }).(pulumi.IntPtrOutput)
+}
+
 func (o FlyFileOutput) RawValue() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FlyFile) *string { return v.RawValue }).(pulumi.StringPtrOutput)
 }
@@ -670,9 +706,11 @@ func (o FlyFileArrayOutput) Index(i pulumi.IntInput) FlyFileOutput {
 }
 
 type FlyHTTPOptions struct {
-	Compress  *bool                   `pulumi:"compress"`
-	H2Backend *bool                   `pulumi:"h2Backend"`
-	Response  *FlyHTTPResponseOptions `pulumi:"response"`
+	Compress           *bool                   `pulumi:"compress"`
+	H2Backend          *bool                   `pulumi:"h2Backend"`
+	HeadersReadTimeout *int                    `pulumi:"headersReadTimeout"`
+	IdleTimeout        *int                    `pulumi:"idleTimeout"`
+	Response           *FlyHTTPResponseOptions `pulumi:"response"`
 }
 
 // FlyHTTPOptionsInput is an input type that accepts FlyHTTPOptionsArgs and FlyHTTPOptionsOutput values.
@@ -687,9 +725,11 @@ type FlyHTTPOptionsInput interface {
 }
 
 type FlyHTTPOptionsArgs struct {
-	Compress  pulumi.BoolPtrInput            `pulumi:"compress"`
-	H2Backend pulumi.BoolPtrInput            `pulumi:"h2Backend"`
-	Response  FlyHTTPResponseOptionsPtrInput `pulumi:"response"`
+	Compress           pulumi.BoolPtrInput            `pulumi:"compress"`
+	H2Backend          pulumi.BoolPtrInput            `pulumi:"h2Backend"`
+	HeadersReadTimeout pulumi.IntPtrInput             `pulumi:"headersReadTimeout"`
+	IdleTimeout        pulumi.IntPtrInput             `pulumi:"idleTimeout"`
+	Response           FlyHTTPResponseOptionsPtrInput `pulumi:"response"`
 }
 
 func (FlyHTTPOptionsArgs) ElementType() reflect.Type {
@@ -777,6 +817,14 @@ func (o FlyHTTPOptionsOutput) H2Backend() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v FlyHTTPOptions) *bool { return v.H2Backend }).(pulumi.BoolPtrOutput)
 }
 
+func (o FlyHTTPOptionsOutput) HeadersReadTimeout() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyHTTPOptions) *int { return v.HeadersReadTimeout }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyHTTPOptionsOutput) IdleTimeout() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyHTTPOptions) *int { return v.IdleTimeout }).(pulumi.IntPtrOutput)
+}
+
 func (o FlyHTTPOptionsOutput) Response() FlyHTTPResponseOptionsPtrOutput {
 	return o.ApplyT(func(v FlyHTTPOptions) *FlyHTTPResponseOptions { return v.Response }).(FlyHTTPResponseOptionsPtrOutput)
 }
@@ -821,6 +869,24 @@ func (o FlyHTTPOptionsPtrOutput) H2Backend() pulumi.BoolPtrOutput {
 		}
 		return v.H2Backend
 	}).(pulumi.BoolPtrOutput)
+}
+
+func (o FlyHTTPOptionsPtrOutput) HeadersReadTimeout() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPOptions) *int {
+		if v == nil {
+			return nil
+		}
+		return v.HeadersReadTimeout
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o FlyHTTPOptionsPtrOutput) IdleTimeout() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPOptions) *int {
+		if v == nil {
+			return nil
+		}
+		return v.IdleTimeout
+	}).(pulumi.IntPtrOutput)
 }
 
 func (o FlyHTTPOptionsPtrOutput) Response() FlyHTTPResponseOptionsPtrOutput {
@@ -984,6 +1050,7 @@ type FlyMachineCheck struct {
 	GracePeriod   *string                `pulumi:"gracePeriod"`
 	Headers       []FlyMachineHTTPHeader `pulumi:"headers"`
 	Interval      *string                `pulumi:"interval"`
+	Kind          *string                `pulumi:"kind"`
 	Method        *string                `pulumi:"method"`
 	Path          *string                `pulumi:"path"`
 	Port          *int                   `pulumi:"port"`
@@ -1009,6 +1076,7 @@ type FlyMachineCheckArgs struct {
 	GracePeriod   pulumi.StringPtrInput          `pulumi:"gracePeriod"`
 	Headers       FlyMachineHTTPHeaderArrayInput `pulumi:"headers"`
 	Interval      pulumi.StringPtrInput          `pulumi:"interval"`
+	Kind          pulumi.StringPtrInput          `pulumi:"kind"`
 	Method        pulumi.StringPtrInput          `pulumi:"method"`
 	Path          pulumi.StringPtrInput          `pulumi:"path"`
 	Port          pulumi.IntPtrInput             `pulumi:"port"`
@@ -1105,6 +1173,10 @@ func (o FlyMachineCheckOutput) Headers() FlyMachineHTTPHeaderArrayOutput {
 
 func (o FlyMachineCheckOutput) Interval() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FlyMachineCheck) *string { return v.Interval }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyMachineCheckOutput) Kind() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyMachineCheck) *string { return v.Kind }).(pulumi.StringPtrOutput)
 }
 
 func (o FlyMachineCheckOutput) Method() pulumi.StringPtrOutput {
@@ -1328,6 +1400,192 @@ func (o FlyMachineConfigOutput) Statics() FlyStaticArrayOutput {
 
 func (o FlyMachineConfigOutput) StopConfig() FlyStopConfigPtrOutput {
 	return o.ApplyT(func(v FlyMachineConfig) *FlyStopConfig { return v.StopConfig }).(FlyStopConfigPtrOutput)
+}
+
+type FlyMachineConfigPtrOutput struct{ *pulumi.OutputState }
+
+func (FlyMachineConfigPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyMachineConfig)(nil)).Elem()
+}
+
+func (o FlyMachineConfigPtrOutput) ToFlyMachineConfigPtrOutput() FlyMachineConfigPtrOutput {
+	return o
+}
+
+func (o FlyMachineConfigPtrOutput) ToFlyMachineConfigPtrOutputWithContext(ctx context.Context) FlyMachineConfigPtrOutput {
+	return o
+}
+
+func (o FlyMachineConfigPtrOutput) Elem() FlyMachineConfigOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) FlyMachineConfig {
+		if v != nil {
+			return *v
+		}
+		var ret FlyMachineConfig
+		return ret
+	}).(FlyMachineConfigOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) AutoDestroy() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoDestroy
+	}).(pulumi.BoolPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Checks() FlyMachineCheckMapOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) map[string]FlyMachineCheck {
+		if v == nil {
+			return nil
+		}
+		return v.Checks
+	}).(FlyMachineCheckMapOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Dns() FlyDNSConfigPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *FlyDNSConfig {
+		if v == nil {
+			return nil
+		}
+		return v.Dns
+	}).(FlyDNSConfigPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Env() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Env
+	}).(pulumi.StringMapOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Files() FlyFileArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyFile {
+		if v == nil {
+			return nil
+		}
+		return v.Files
+	}).(FlyFileArrayOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Guest() FlyMachineGuestPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *FlyMachineGuest {
+		if v == nil {
+			return nil
+		}
+		return v.Guest
+	}).(FlyMachineGuestPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Image() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Image
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Init() FlyMachineInitPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *FlyMachineInit {
+		if v == nil {
+			return nil
+		}
+		return v.Init
+	}).(FlyMachineInitPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Metadata() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Metadata
+	}).(pulumi.StringMapOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Metrics() FlyMachineMetricsPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *FlyMachineMetrics {
+		if v == nil {
+			return nil
+		}
+		return v.Metrics
+	}).(FlyMachineMetricsPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Mounts() FlyMachineMountArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyMachineMount {
+		if v == nil {
+			return nil
+		}
+		return v.Mounts
+	}).(FlyMachineMountArrayOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Processes() FlyMachineProcessArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyMachineProcess {
+		if v == nil {
+			return nil
+		}
+		return v.Processes
+	}).(FlyMachineProcessArrayOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Restart() FlyMachineRestartPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *FlyMachineRestart {
+		if v == nil {
+			return nil
+		}
+		return v.Restart
+	}).(FlyMachineRestartPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Schedule() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Schedule
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Services() FlyMachineServiceArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyMachineService {
+		if v == nil {
+			return nil
+		}
+		return v.Services
+	}).(FlyMachineServiceArrayOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Standbys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Standbys
+	}).(pulumi.StringArrayOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Statics() FlyStaticArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyStatic {
+		if v == nil {
+			return nil
+		}
+		return v.Statics
+	}).(FlyStaticArrayOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) StopConfig() FlyStopConfigPtrOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) *FlyStopConfig {
+		if v == nil {
+			return nil
+		}
+		return v.StopConfig
+	}).(FlyStopConfigPtrOutput)
 }
 
 type FlyMachineGuest struct {
@@ -2418,8 +2676,9 @@ func (o FlyMachineProcessArrayOutput) Index(i pulumi.IntInput) FlyMachineProcess
 }
 
 type FlyMachineRestart struct {
-	MaxRetries *int    `pulumi:"maxRetries"`
-	Policy     *string `pulumi:"policy"`
+	GpuBidPrice *float64 `pulumi:"gpuBidPrice"`
+	MaxRetries  *int     `pulumi:"maxRetries"`
+	Policy      *string  `pulumi:"policy"`
 }
 
 // FlyMachineRestartInput is an input type that accepts FlyMachineRestartArgs and FlyMachineRestartOutput values.
@@ -2434,8 +2693,9 @@ type FlyMachineRestartInput interface {
 }
 
 type FlyMachineRestartArgs struct {
-	MaxRetries pulumi.IntPtrInput    `pulumi:"maxRetries"`
-	Policy     pulumi.StringPtrInput `pulumi:"policy"`
+	GpuBidPrice pulumi.Float64PtrInput `pulumi:"gpuBidPrice"`
+	MaxRetries  pulumi.IntPtrInput     `pulumi:"maxRetries"`
+	Policy      pulumi.StringPtrInput  `pulumi:"policy"`
 }
 
 func (FlyMachineRestartArgs) ElementType() reflect.Type {
@@ -2515,6 +2775,10 @@ func (o FlyMachineRestartOutput) ToFlyMachineRestartPtrOutputWithContext(ctx con
 	}).(FlyMachineRestartPtrOutput)
 }
 
+func (o FlyMachineRestartOutput) GpuBidPrice() pulumi.Float64PtrOutput {
+	return o.ApplyT(func(v FlyMachineRestart) *float64 { return v.GpuBidPrice }).(pulumi.Float64PtrOutput)
+}
+
 func (o FlyMachineRestartOutput) MaxRetries() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FlyMachineRestart) *int { return v.MaxRetries }).(pulumi.IntPtrOutput)
 }
@@ -2545,6 +2809,15 @@ func (o FlyMachineRestartPtrOutput) Elem() FlyMachineRestartOutput {
 		var ret FlyMachineRestart
 		return ret
 	}).(FlyMachineRestartOutput)
+}
+
+func (o FlyMachineRestartPtrOutput) GpuBidPrice() pulumi.Float64PtrOutput {
+	return o.ApplyT(func(v *FlyMachineRestart) *float64 {
+		if v == nil {
+			return nil
+		}
+		return v.GpuBidPrice
+	}).(pulumi.Float64PtrOutput)
 }
 
 func (o FlyMachineRestartPtrOutput) MaxRetries() pulumi.IntPtrOutput {
@@ -2667,7 +2940,7 @@ func (o FlyMachineSecretArrayOutput) Index(i pulumi.IntInput) FlyMachineSecretOu
 
 type FlyMachineService struct {
 	Autostart                *bool                         `pulumi:"autostart"`
-	Autostop                 *bool                         `pulumi:"autostop"`
+	Autostop                 *string                       `pulumi:"autostop"`
 	Checks                   []FlyMachineCheck             `pulumi:"checks"`
 	Concurrency              *FlyMachineServiceConcurrency `pulumi:"concurrency"`
 	ForceInstanceDescription *string                       `pulumi:"forceInstanceDescription"`
@@ -2691,7 +2964,7 @@ type FlyMachineServiceInput interface {
 
 type FlyMachineServiceArgs struct {
 	Autostart                pulumi.BoolPtrInput                  `pulumi:"autostart"`
-	Autostop                 pulumi.BoolPtrInput                  `pulumi:"autostop"`
+	Autostop                 pulumi.StringPtrInput                `pulumi:"autostop"`
 	Checks                   FlyMachineCheckArrayInput            `pulumi:"checks"`
 	Concurrency              FlyMachineServiceConcurrencyPtrInput `pulumi:"concurrency"`
 	ForceInstanceDescription pulumi.StringPtrInput                `pulumi:"forceInstanceDescription"`
@@ -2757,8 +3030,8 @@ func (o FlyMachineServiceOutput) Autostart() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v FlyMachineService) *bool { return v.Autostart }).(pulumi.BoolPtrOutput)
 }
 
-func (o FlyMachineServiceOutput) Autostop() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v FlyMachineService) *bool { return v.Autostop }).(pulumi.BoolPtrOutput)
+func (o FlyMachineServiceOutput) Autostop() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyMachineService) *string { return v.Autostop }).(pulumi.StringPtrOutput)
 }
 
 func (o FlyMachineServiceOutput) Checks() FlyMachineCheckArrayOutput {
@@ -3110,9 +3383,10 @@ func (o FlyProxyProtoOptionsPtrOutput) Version() pulumi.StringPtrOutput {
 }
 
 type FlyStatic struct {
-	GuestPath    string  `pulumi:"guestPath"`
-	TigrisBucket *string `pulumi:"tigrisBucket"`
-	UrlPrefix    string  `pulumi:"urlPrefix"`
+	GuestPath     string  `pulumi:"guestPath"`
+	IndexDocument *string `pulumi:"indexDocument"`
+	TigrisBucket  *string `pulumi:"tigrisBucket"`
+	UrlPrefix     string  `pulumi:"urlPrefix"`
 }
 
 // FlyStaticInput is an input type that accepts FlyStaticArgs and FlyStaticOutput values.
@@ -3127,9 +3401,10 @@ type FlyStaticInput interface {
 }
 
 type FlyStaticArgs struct {
-	GuestPath    pulumi.StringInput    `pulumi:"guestPath"`
-	TigrisBucket pulumi.StringPtrInput `pulumi:"tigrisBucket"`
-	UrlPrefix    pulumi.StringInput    `pulumi:"urlPrefix"`
+	GuestPath     pulumi.StringInput    `pulumi:"guestPath"`
+	IndexDocument pulumi.StringPtrInput `pulumi:"indexDocument"`
+	TigrisBucket  pulumi.StringPtrInput `pulumi:"tigrisBucket"`
+	UrlPrefix     pulumi.StringInput    `pulumi:"urlPrefix"`
 }
 
 func (FlyStaticArgs) ElementType() reflect.Type {
@@ -3185,6 +3460,10 @@ func (o FlyStaticOutput) ToFlyStaticOutputWithContext(ctx context.Context) FlySt
 
 func (o FlyStaticOutput) GuestPath() pulumi.StringOutput {
 	return o.ApplyT(func(v FlyStatic) string { return v.GuestPath }).(pulumi.StringOutput)
+}
+
+func (o FlyStaticOutput) IndexDocument() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyStatic) *string { return v.IndexDocument }).(pulumi.StringPtrOutput)
 }
 
 func (o FlyStaticOutput) TigrisBucket() pulumi.StringPtrOutput {
@@ -3800,6 +4079,7 @@ func init() {
 	pulumi.RegisterOutputType(FlyMachineCheckArrayOutput{})
 	pulumi.RegisterOutputType(FlyMachineCheckMapOutput{})
 	pulumi.RegisterOutputType(FlyMachineConfigOutput{})
+	pulumi.RegisterOutputType(FlyMachineConfigPtrOutput{})
 	pulumi.RegisterOutputType(FlyMachineGuestOutput{})
 	pulumi.RegisterOutputType(FlyMachineGuestPtrOutput{})
 	pulumi.RegisterOutputType(FlyMachineHTTPHeaderOutput{})

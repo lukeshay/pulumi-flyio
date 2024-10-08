@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 	"reflect"
@@ -124,4 +125,14 @@ type FlyRes interface {
 
 func resErr(msg string, res FlyRes, body []byte) error {
 	return fmt.Errorf("[%s] %s: %s", res.Status(), msg, body)
+}
+
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }

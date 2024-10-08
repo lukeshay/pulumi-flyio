@@ -14,6 +14,8 @@ namespace Pulumi.Flyio.Flyio.Outputs
     public sealed class FlyDNSConfig
     {
         public readonly ImmutableArray<Outputs.FlyDnsForwardRule> DnsForwardRules;
+        public readonly string? Hostname;
+        public readonly string? HostnameFqdn;
         public readonly ImmutableArray<string> Nameservers;
         public readonly ImmutableArray<Outputs.FlyDnsOption> Options;
         public readonly ImmutableArray<string> Searches;
@@ -22,6 +24,10 @@ namespace Pulumi.Flyio.Flyio.Outputs
         [OutputConstructor]
         private FlyDNSConfig(
             ImmutableArray<Outputs.FlyDnsForwardRule> dnsForwardRules,
+
+            string? hostname,
+
+            string? hostnameFqdn,
 
             ImmutableArray<string> nameservers,
 
@@ -32,6 +38,8 @@ namespace Pulumi.Flyio.Flyio.Outputs
             bool? skipRegistration)
         {
             DnsForwardRules = dnsForwardRules;
+            Hostname = hostname;
+            HostnameFqdn = hostnameFqdn;
             Nameservers = nameservers;
             Options = options;
             Searches = searches;

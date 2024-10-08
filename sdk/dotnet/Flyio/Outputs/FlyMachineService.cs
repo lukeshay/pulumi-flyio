@@ -14,7 +14,7 @@ namespace Pulumi.Flyio.Flyio.Outputs
     public sealed class FlyMachineService
     {
         public readonly bool? Autostart;
-        public readonly bool? Autostop;
+        public readonly string? Autostop;
         public readonly ImmutableArray<Outputs.FlyMachineCheck> Checks;
         public readonly Outputs.FlyMachineServiceConcurrency? Concurrency;
         public readonly string? ForceInstanceDescription;
@@ -28,7 +28,7 @@ namespace Pulumi.Flyio.Flyio.Outputs
         private FlyMachineService(
             bool? autostart,
 
-            bool? autostop,
+            string? autostop,
 
             ImmutableArray<Outputs.FlyMachineCheck> checks,
 

@@ -45,6 +45,7 @@ export class Volume extends pulumi.CustomResource {
     public readonly encrypted!: pulumi.Output<boolean | undefined>;
     public /*out*/ readonly flyId!: pulumi.Output<string>;
     public readonly fstype!: pulumi.Output<string | undefined>;
+    public /*out*/ readonly hostStatus!: pulumi.Output<string | undefined>;
     public /*out*/ readonly input!: pulumi.Output<outputs.VolumeArgs>;
     public readonly name!: pulumi.Output<string | undefined>;
     public readonly region!: pulumi.Output<string | undefined>;
@@ -73,7 +74,6 @@ export class Volume extends pulumi.CustomResource {
             resourceInputs["computeImage"] = args ? args.computeImage : undefined;
             resourceInputs["encrypted"] = args ? args.encrypted : undefined;
             resourceInputs["fstype"] = args ? args.fstype : undefined;
-            resourceInputs["machinesOnly"] = args ? args.machinesOnly : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
             resourceInputs["region"] = args ? args.region : undefined;
             resourceInputs["requireUniqueZone"] = args ? args.requireUniqueZone : undefined;
@@ -89,6 +89,7 @@ export class Volume extends pulumi.CustomResource {
             resourceInputs["blocksFree"] = undefined /*out*/;
             resourceInputs["createdAt"] = undefined /*out*/;
             resourceInputs["flyId"] = undefined /*out*/;
+            resourceInputs["hostStatus"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
             resourceInputs["state"] = undefined /*out*/;
             resourceInputs["zone"] = undefined /*out*/;
@@ -105,6 +106,7 @@ export class Volume extends pulumi.CustomResource {
             resourceInputs["encrypted"] = undefined /*out*/;
             resourceInputs["flyId"] = undefined /*out*/;
             resourceInputs["fstype"] = undefined /*out*/;
+            resourceInputs["hostStatus"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
             resourceInputs["name"] = undefined /*out*/;
             resourceInputs["region"] = undefined /*out*/;
@@ -128,7 +130,6 @@ export interface VolumeArgs {
     computeImage?: pulumi.Input<string>;
     encrypted?: pulumi.Input<boolean>;
     fstype?: pulumi.Input<string>;
-    machinesOnly?: pulumi.Input<boolean>;
     name?: pulumi.Input<string>;
     region?: pulumi.Input<string>;
     requireUniqueZone?: pulumi.Input<boolean>;

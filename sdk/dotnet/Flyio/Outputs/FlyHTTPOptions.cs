@@ -15,6 +15,8 @@ namespace Pulumi.Flyio.Flyio.Outputs
     {
         public readonly bool? Compress;
         public readonly bool? H2Backend;
+        public readonly int? HeadersReadTimeout;
+        public readonly int? IdleTimeout;
         public readonly Outputs.FlyHTTPResponseOptions? Response;
 
         [OutputConstructor]
@@ -23,10 +25,16 @@ namespace Pulumi.Flyio.Flyio.Outputs
 
             bool? h2Backend,
 
+            int? headersReadTimeout,
+
+            int? idleTimeout,
+
             Outputs.FlyHTTPResponseOptions? response)
         {
             Compress = compress;
             H2Backend = h2Backend;
+            HeadersReadTimeout = headersReadTimeout;
+            IdleTimeout = idleTimeout;
             Response = response;
         }
     }

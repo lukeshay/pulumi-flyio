@@ -16,22 +16,24 @@ import (
 type Machine struct {
 	pulumi.CustomResourceState
 
-	AppName     pulumi.StringOutput           `pulumi:"appName"`
-	Checks      flyio.CheckStatusArrayOutput  `pulumi:"checks"`
-	Config      flyio.FlyMachineConfigOutput  `pulumi:"config"`
-	CreatedAt   pulumi.StringPtrOutput        `pulumi:"createdAt"`
-	Events      flyio.MachineEventArrayOutput `pulumi:"events"`
-	FlyId       pulumi.StringOutput           `pulumi:"flyId"`
-	ImageRef    flyio.ImageRefPtrOutput       `pulumi:"imageRef"`
-	Input       MachineArgsTypeOutput         `pulumi:"input"`
-	InstanceId  pulumi.StringPtrOutput        `pulumi:"instanceId"`
-	MachineName pulumi.StringOutput           `pulumi:"machineName"`
-	Name        pulumi.StringOutput           `pulumi:"name"`
-	Nonce       pulumi.StringPtrOutput        `pulumi:"nonce"`
-	PrivateIp   pulumi.StringPtrOutput        `pulumi:"privateIp"`
-	Region      pulumi.StringPtrOutput        `pulumi:"region"`
-	State       pulumi.StringOutput           `pulumi:"state"`
-	UpdatedAt   pulumi.StringPtrOutput        `pulumi:"updatedAt"`
+	AppName          pulumi.StringOutput             `pulumi:"appName"`
+	Checks           flyio.CheckStatusArrayOutput    `pulumi:"checks"`
+	Config           flyio.FlyMachineConfigOutput    `pulumi:"config"`
+	CreatedAt        pulumi.StringPtrOutput          `pulumi:"createdAt"`
+	Events           flyio.MachineEventArrayOutput   `pulumi:"events"`
+	FlyId            pulumi.StringOutput             `pulumi:"flyId"`
+	HostStatus       pulumi.StringPtrOutput          `pulumi:"hostStatus"`
+	ImageRef         flyio.ImageRefPtrOutput         `pulumi:"imageRef"`
+	IncompleteConfig flyio.FlyMachineConfigPtrOutput `pulumi:"incompleteConfig"`
+	Input            MachineArgsTypeOutput           `pulumi:"input"`
+	InstanceId       pulumi.StringPtrOutput          `pulumi:"instanceId"`
+	MachineName      pulumi.StringOutput             `pulumi:"machineName"`
+	Name             pulumi.StringOutput             `pulumi:"name"`
+	Nonce            pulumi.StringPtrOutput          `pulumi:"nonce"`
+	PrivateIp        pulumi.StringPtrOutput          `pulumi:"privateIp"`
+	Region           pulumi.StringPtrOutput          `pulumi:"region"`
+	State            pulumi.StringOutput             `pulumi:"state"`
+	UpdatedAt        pulumi.StringPtrOutput          `pulumi:"updatedAt"`
 }
 
 // NewMachine registers a new resource with the given unique name, arguments, and options.
@@ -219,8 +221,16 @@ func (o MachineOutput) FlyId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringOutput { return v.FlyId }).(pulumi.StringOutput)
 }
 
+func (o MachineOutput) HostStatus() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Machine) pulumi.StringPtrOutput { return v.HostStatus }).(pulumi.StringPtrOutput)
+}
+
 func (o MachineOutput) ImageRef() flyio.ImageRefPtrOutput {
 	return o.ApplyT(func(v *Machine) flyio.ImageRefPtrOutput { return v.ImageRef }).(flyio.ImageRefPtrOutput)
+}
+
+func (o MachineOutput) IncompleteConfig() flyio.FlyMachineConfigPtrOutput {
+	return o.ApplyT(func(v *Machine) flyio.FlyMachineConfigPtrOutput { return v.IncompleteConfig }).(flyio.FlyMachineConfigPtrOutput)
 }
 
 func (o MachineOutput) Input() MachineArgsTypeOutput {

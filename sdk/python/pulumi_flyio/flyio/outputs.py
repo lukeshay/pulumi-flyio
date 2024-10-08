@@ -102,6 +102,8 @@ class FlyDNSConfig(dict):
         suggest = None
         if key == "dnsForwardRules":
             suggest = "dns_forward_rules"
+        elif key == "hostnameFqdn":
+            suggest = "hostname_fqdn"
         elif key == "skipRegistration":
             suggest = "skip_registration"
 
@@ -118,12 +120,18 @@ class FlyDNSConfig(dict):
 
     def __init__(__self__, *,
                  dns_forward_rules: Optional[Sequence['outputs.FlyDnsForwardRule']] = None,
+                 hostname: Optional[str] = None,
+                 hostname_fqdn: Optional[str] = None,
                  nameservers: Optional[Sequence[str]] = None,
                  options: Optional[Sequence['outputs.FlyDnsOption']] = None,
                  searches: Optional[Sequence[str]] = None,
                  skip_registration: Optional[bool] = None):
         if dns_forward_rules is not None:
             pulumi.set(__self__, "dns_forward_rules", dns_forward_rules)
+        if hostname is not None:
+            pulumi.set(__self__, "hostname", hostname)
+        if hostname_fqdn is not None:
+            pulumi.set(__self__, "hostname_fqdn", hostname_fqdn)
         if nameservers is not None:
             pulumi.set(__self__, "nameservers", nameservers)
         if options is not None:
@@ -137,6 +145,16 @@ class FlyDNSConfig(dict):
     @pulumi.getter(name="dnsForwardRules")
     def dns_forward_rules(self) -> Optional[Sequence['outputs.FlyDnsForwardRule']]:
         return pulumi.get(self, "dns_forward_rules")
+
+    @property
+    @pulumi.getter
+    def hostname(self) -> Optional[str]:
+        return pulumi.get(self, "hostname")
+
+    @property
+    @pulumi.getter(name="hostnameFqdn")
+    def hostname_fqdn(self) -> Optional[str]:
+        return pulumi.get(self, "hostname_fqdn")
 
     @property
     @pulumi.getter
@@ -266,10 +284,13 @@ class FlyFile(dict):
 
     def __init__(__self__, *,
                  guest_path: Optional[str] = None,
+                 mode: Optional[int] = None,
                  raw_value: Optional[str] = None,
                  secret_name: Optional[str] = None):
         if guest_path is not None:
             pulumi.set(__self__, "guest_path", guest_path)
+        if mode is not None:
+            pulumi.set(__self__, "mode", mode)
         if raw_value is not None:
             pulumi.set(__self__, "raw_value", raw_value)
         if secret_name is not None:
@@ -279,6 +300,11 @@ class FlyFile(dict):
     @pulumi.getter(name="guestPath")
     def guest_path(self) -> Optional[str]:
         return pulumi.get(self, "guest_path")
+
+    @property
+    @pulumi.getter
+    def mode(self) -> Optional[int]:
+        return pulumi.get(self, "mode")
 
     @property
     @pulumi.getter(name="rawValue")
@@ -298,6 +324,10 @@ class FlyHTTPOptions(dict):
         suggest = None
         if key == "h2Backend":
             suggest = "h2_backend"
+        elif key == "headersReadTimeout":
+            suggest = "headers_read_timeout"
+        elif key == "idleTimeout":
+            suggest = "idle_timeout"
 
         if suggest:
             pulumi.log.warn(f"Key '{key}' not found in FlyHTTPOptions. Access the value via the '{suggest}' property getter instead.")
@@ -313,11 +343,17 @@ class FlyHTTPOptions(dict):
     def __init__(__self__, *,
                  compress: Optional[bool] = None,
                  h2_backend: Optional[bool] = None,
+                 headers_read_timeout: Optional[int] = None,
+                 idle_timeout: Optional[int] = None,
                  response: Optional['outputs.FlyHTTPResponseOptions'] = None):
         if compress is not None:
             pulumi.set(__self__, "compress", compress)
         if h2_backend is not None:
             pulumi.set(__self__, "h2_backend", h2_backend)
+        if headers_read_timeout is not None:
+            pulumi.set(__self__, "headers_read_timeout", headers_read_timeout)
+        if idle_timeout is not None:
+            pulumi.set(__self__, "idle_timeout", idle_timeout)
         if response is not None:
             pulumi.set(__self__, "response", response)
 
@@ -330,6 +366,16 @@ class FlyHTTPOptions(dict):
     @pulumi.getter(name="h2Backend")
     def h2_backend(self) -> Optional[bool]:
         return pulumi.get(self, "h2_backend")
+
+    @property
+    @pulumi.getter(name="headersReadTimeout")
+    def headers_read_timeout(self) -> Optional[int]:
+        return pulumi.get(self, "headers_read_timeout")
+
+    @property
+    @pulumi.getter(name="idleTimeout")
+    def idle_timeout(self) -> Optional[int]:
+        return pulumi.get(self, "idle_timeout")
 
     @property
     @pulumi.getter
@@ -385,6 +431,7 @@ class FlyMachineCheck(dict):
                  grace_period: Optional[str] = None,
                  headers: Optional[Sequence['outputs.FlyMachineHTTPHeader']] = None,
                  interval: Optional[str] = None,
+                 kind: Optional[str] = None,
                  method: Optional[str] = None,
                  path: Optional[str] = None,
                  port: Optional[int] = None,
@@ -399,6 +446,8 @@ class FlyMachineCheck(dict):
             pulumi.set(__self__, "headers", headers)
         if interval is not None:
             pulumi.set(__self__, "interval", interval)
+        if kind is not None:
+            pulumi.set(__self__, "kind", kind)
         if method is not None:
             pulumi.set(__self__, "method", method)
         if path is not None:
@@ -430,6 +479,11 @@ class FlyMachineCheck(dict):
     @pulumi.getter
     def interval(self) -> Optional[str]:
         return pulumi.get(self, "interval")
+
+    @property
+    @pulumi.getter
+    def kind(self) -> Optional[str]:
+        return pulumi.get(self, "kind")
 
     @property
     @pulumi.getter
@@ -1121,7 +1175,9 @@ class FlyMachineRestart(dict):
     @staticmethod
     def __key_warning(key: str):
         suggest = None
-        if key == "maxRetries":
+        if key == "gpuBidPrice":
+            suggest = "gpu_bid_price"
+        elif key == "maxRetries":
             suggest = "max_retries"
 
         if suggest:
@@ -1136,12 +1192,20 @@ class FlyMachineRestart(dict):
         return super().get(key, default)
 
     def __init__(__self__, *,
+                 gpu_bid_price: Optional[float] = None,
                  max_retries: Optional[int] = None,
                  policy: Optional[str] = None):
+        if gpu_bid_price is not None:
+            pulumi.set(__self__, "gpu_bid_price", gpu_bid_price)
         if max_retries is not None:
             pulumi.set(__self__, "max_retries", max_retries)
         if policy is not None:
             pulumi.set(__self__, "policy", policy)
+
+    @property
+    @pulumi.getter(name="gpuBidPrice")
+    def gpu_bid_price(self) -> Optional[float]:
+        return pulumi.get(self, "gpu_bid_price")
 
     @property
     @pulumi.getter(name="maxRetries")
@@ -1219,7 +1283,7 @@ class FlyMachineService(dict):
 
     def __init__(__self__, *,
                  autostart: Optional[bool] = None,
-                 autostop: Optional[bool] = None,
+                 autostop: Optional[str] = None,
                  checks: Optional[Sequence['outputs.FlyMachineCheck']] = None,
                  concurrency: Optional['outputs.FlyMachineServiceConcurrency'] = None,
                  force_instance_description: Optional[str] = None,
@@ -1256,7 +1320,7 @@ class FlyMachineService(dict):
 
     @property
     @pulumi.getter
-    def autostop(self) -> Optional[bool]:
+    def autostop(self) -> Optional[str]:
         return pulumi.get(self, "autostop")
 
     @property
@@ -1370,6 +1434,8 @@ class FlyStatic(dict):
             suggest = "guest_path"
         elif key == "urlPrefix":
             suggest = "url_prefix"
+        elif key == "indexDocument":
+            suggest = "index_document"
         elif key == "tigrisBucket":
             suggest = "tigris_bucket"
 
@@ -1387,9 +1453,12 @@ class FlyStatic(dict):
     def __init__(__self__, *,
                  guest_path: str,
                  url_prefix: str,
+                 index_document: Optional[str] = None,
                  tigris_bucket: Optional[str] = None):
         pulumi.set(__self__, "guest_path", guest_path)
         pulumi.set(__self__, "url_prefix", url_prefix)
+        if index_document is not None:
+            pulumi.set(__self__, "index_document", index_document)
         if tigris_bucket is not None:
             pulumi.set(__self__, "tigris_bucket", tigris_bucket)
 
@@ -1402,6 +1471,11 @@ class FlyStatic(dict):
     @pulumi.getter(name="urlPrefix")
     def url_prefix(self) -> str:
         return pulumi.get(self, "url_prefix")
+
+    @property
+    @pulumi.getter(name="indexDocument")
+    def index_document(self) -> Optional[str]:
+        return pulumi.get(self, "index_document")
 
     @property
     @pulumi.getter(name="tigrisBucket")

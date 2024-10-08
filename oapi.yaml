@@ -3,3 +3,9 @@ output: provider/pkg/flyio/flyio.gen.go
 generate:
   models: true
   client: true
+output-options:
+  exclude-operation-ids:
+    - Secrets_list
+    - Secret_create
+    - Secret_generate
+    - Secret_delete

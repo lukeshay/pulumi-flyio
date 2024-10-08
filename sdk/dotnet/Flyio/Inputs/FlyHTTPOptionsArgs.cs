@@ -18,6 +18,12 @@ namespace Pulumi.Flyio.Flyio.Inputs
         [Input("h2Backend")]
         public Input<bool>? H2Backend { get; set; }
 
+        [Input("headersReadTimeout")]
+        public Input<int>? HeadersReadTimeout { get; set; }
+
+        [Input("idleTimeout")]
+        public Input<int>? IdleTimeout { get; set; }
+
         [Input("response")]
         public Input<Inputs.FlyHTTPResponseOptionsArgs>? Response { get; set; }
 

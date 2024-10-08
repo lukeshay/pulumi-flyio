@@ -28,6 +28,7 @@ type Volume struct {
 	Encrypted         pulumi.BoolPtrOutput   `pulumi:"encrypted"`
 	FlyId             pulumi.StringOutput    `pulumi:"flyId"`
 	Fstype            pulumi.StringPtrOutput `pulumi:"fstype"`
+	HostStatus        pulumi.StringPtrOutput `pulumi:"hostStatus"`
 	Input             VolumeArgsTypeOutput   `pulumi:"input"`
 	Name              pulumi.StringPtrOutput `pulumi:"name"`
 	Region            pulumi.StringPtrOutput `pulumi:"region"`
@@ -86,7 +87,6 @@ type volumeArgs struct {
 	ComputeImage      *string                `pulumi:"computeImage"`
 	Encrypted         *bool                  `pulumi:"encrypted"`
 	Fstype            *string                `pulumi:"fstype"`
-	MachinesOnly      *bool                  `pulumi:"machinesOnly"`
 	Name              *string                `pulumi:"name"`
 	Region            *string                `pulumi:"region"`
 	RequireUniqueZone *bool                  `pulumi:"requireUniqueZone"`
@@ -104,7 +104,6 @@ type VolumeArgs struct {
 	ComputeImage      pulumi.StringPtrInput
 	Encrypted         pulumi.BoolPtrInput
 	Fstype            pulumi.StringPtrInput
-	MachinesOnly      pulumi.BoolPtrInput
 	Name              pulumi.StringPtrInput
 	Region            pulumi.StringPtrInput
 	RequireUniqueZone pulumi.BoolPtrInput
@@ -247,6 +246,10 @@ func (o VolumeOutput) FlyId() pulumi.StringOutput {
 
 func (o VolumeOutput) Fstype() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Volume) pulumi.StringPtrOutput { return v.Fstype }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeOutput) HostStatus() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Volume) pulumi.StringPtrOutput { return v.HostStatus }).(pulumi.StringPtrOutput)
 }
 
 func (o VolumeOutput) Input() VolumeArgsTypeOutput {

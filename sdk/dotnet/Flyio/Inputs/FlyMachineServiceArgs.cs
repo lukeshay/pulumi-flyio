@@ -16,7 +16,7 @@ namespace Pulumi.Flyio.Flyio.Inputs
         public Input<bool>? Autostart { get; set; }
 
         [Input("autostop")]
-        public Input<bool>? Autostop { get; set; }
+        public Input<string>? Autostop { get; set; }
 
         [Input("checks")]
         private InputList<Inputs.FlyMachineCheckArgs>? _checks;

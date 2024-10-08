@@ -8,6 +8,8 @@ import * as outputs from "../types/output";
 export namespace flyio {
     export interface FlyDNSConfigArgs {
         dnsForwardRules?: pulumi.Input<pulumi.Input<inputs.flyio.FlyDnsForwardRuleArgs>[]>;
+        hostname?: pulumi.Input<string>;
+        hostnameFqdn?: pulumi.Input<string>;
         nameservers?: pulumi.Input<pulumi.Input<string>[]>;
         options?: pulumi.Input<pulumi.Input<inputs.flyio.FlyDnsOptionArgs>[]>;
         searches?: pulumi.Input<pulumi.Input<string>[]>;
@@ -31,6 +33,7 @@ export namespace flyio {
 
     export interface FlyFileArgs {
         guestPath?: pulumi.Input<string>;
+        mode?: pulumi.Input<number>;
         rawValue?: pulumi.Input<string>;
         secretName?: pulumi.Input<string>;
     }
@@ -38,6 +41,8 @@ export namespace flyio {
     export interface FlyHTTPOptionsArgs {
         compress?: pulumi.Input<boolean>;
         h2Backend?: pulumi.Input<boolean>;
+        headersReadTimeout?: pulumi.Input<number>;
+        idleTimeout?: pulumi.Input<number>;
         response?: pulumi.Input<inputs.flyio.FlyHTTPResponseOptionsArgs>;
     }
 
@@ -50,6 +55,7 @@ export namespace flyio {
         gracePeriod?: pulumi.Input<string>;
         headers?: pulumi.Input<pulumi.Input<inputs.flyio.FlyMachineHTTPHeaderArgs>[]>;
         interval?: pulumi.Input<string>;
+        kind?: pulumi.Input<string>;
         method?: pulumi.Input<string>;
         path?: pulumi.Input<string>;
         port?: pulumi.Input<number>;
@@ -144,6 +150,7 @@ export namespace flyio {
     }
 
     export interface FlyMachineRestartArgs {
+        gpuBidPrice?: pulumi.Input<number>;
         maxRetries?: pulumi.Input<number>;
         policy?: pulumi.Input<string>;
     }
@@ -155,7 +162,7 @@ export namespace flyio {
 
     export interface FlyMachineServiceArgs {
         autostart?: pulumi.Input<boolean>;
-        autostop?: pulumi.Input<boolean>;
+        autostop?: pulumi.Input<string>;
         checks?: pulumi.Input<pulumi.Input<inputs.flyio.FlyMachineCheckArgs>[]>;
         concurrency?: pulumi.Input<inputs.flyio.FlyMachineServiceConcurrencyArgs>;
         forceInstanceDescription?: pulumi.Input<string>;
@@ -178,6 +185,7 @@ export namespace flyio {
 
     export interface FlyStaticArgs {
         guestPath: pulumi.Input<string>;
+        indexDocument?: pulumi.Input<string>;
         tigrisBucket?: pulumi.Input<string>;
         urlPrefix: pulumi.Input<string>;
     }

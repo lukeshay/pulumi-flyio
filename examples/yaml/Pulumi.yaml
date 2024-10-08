@@ -23,7 +23,7 @@ resources:
       region: sea
       appName: ${app.name}
       config:
-        image: nginxdemos/hello:latest
+        image: nginxdemos/hello:0.4
         guest:
           cpus: 1
           cpuKind: shared
@@ -48,7 +48,7 @@ resources:
                 protocol: http
                 timeout: 2s
                 tlsSkipVerify: true
-            autostop: true
+            autostop: "suspend"
             autostart: true
             concurrency:
               softLimit: 2000
@@ -88,7 +88,7 @@ resources:
                 protocol: http
                 timeout: 2s
                 tlsSkipVerify: true
-            autostop: true
+            autostop: "suspend"
             autostart: true
             concurrency:
               softLimit: 2000
@@ -126,7 +126,7 @@ resources:
                 protocol: http
                 timeout: 2s
                 tlsSkipVerify: true
-            autostop: true
+            autostop: "suspend"
             autostart: true
             concurrency:
               softLimit: 2000
@@ -166,7 +166,7 @@ resources:
                 protocol: http
                 timeout: 2s
                 tlsSkipVerify: true
-            autostop: true
+            autostop: "suspend"
             autostart: true
             concurrency:
               softLimit: 2000

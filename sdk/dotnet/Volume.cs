@@ -48,6 +48,9 @@ namespace Pulumi.Flyio
         [Output("fstype")]
         public Output<string?> Fstype { get; private set; } = null!;
 
+        [Output("hostStatus")]
+        public Output<string?> HostStatus { get; private set; } = null!;
+
         [Output("input")]
         public Output<Outputs.VolumeArgs> Input { get; private set; } = null!;
 
@@ -131,9 +134,6 @@ namespace Pulumi.Flyio
 
         [Input("fstype")]
         public Input<string>? Fstype { get; set; }
-
-        [Input("machinesOnly")]
-        public Input<bool>? MachinesOnly { get; set; }
 
         [Input("name")]
         public Input<string>? Name { get; set; }

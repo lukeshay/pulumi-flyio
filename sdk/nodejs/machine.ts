@@ -39,7 +39,9 @@ export class Machine extends pulumi.CustomResource {
     public /*out*/ readonly createdAt!: pulumi.Output<string | undefined>;
     public /*out*/ readonly events!: pulumi.Output<outputs.flyio.MachineEvent[] | undefined>;
     public /*out*/ readonly flyId!: pulumi.Output<string>;
+    public /*out*/ readonly hostStatus!: pulumi.Output<string | undefined>;
     public /*out*/ readonly imageRef!: pulumi.Output<outputs.flyio.ImageRef | undefined>;
+    public /*out*/ readonly incompleteConfig!: pulumi.Output<outputs.flyio.FlyMachineConfig | undefined>;
     public /*out*/ readonly input!: pulumi.Output<outputs.MachineArgs>;
     public /*out*/ readonly instanceId!: pulumi.Output<string | undefined>;
     public /*out*/ readonly machineName!: pulumi.Output<string>;
@@ -82,7 +84,9 @@ export class Machine extends pulumi.CustomResource {
             resourceInputs["createdAt"] = undefined /*out*/;
             resourceInputs["events"] = undefined /*out*/;
             resourceInputs["flyId"] = undefined /*out*/;
+            resourceInputs["hostStatus"] = undefined /*out*/;
             resourceInputs["imageRef"] = undefined /*out*/;
+            resourceInputs["incompleteConfig"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
             resourceInputs["instanceId"] = undefined /*out*/;
             resourceInputs["machineName"] = undefined /*out*/;
@@ -97,7 +101,9 @@ export class Machine extends pulumi.CustomResource {
             resourceInputs["createdAt"] = undefined /*out*/;
             resourceInputs["events"] = undefined /*out*/;
             resourceInputs["flyId"] = undefined /*out*/;
+            resourceInputs["hostStatus"] = undefined /*out*/;
             resourceInputs["imageRef"] = undefined /*out*/;
+            resourceInputs["incompleteConfig"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
             resourceInputs["instanceId"] = undefined /*out*/;
             resourceInputs["machineName"] = undefined /*out*/;

@@ -14,6 +14,7 @@ namespace Pulumi.Flyio.Flyio.Outputs
     public sealed class FlyFile
     {
         public readonly string? GuestPath;
+        public readonly int? Mode;
         public readonly string? RawValue;
         public readonly string? SecretName;
 
@@ -21,11 +22,14 @@ namespace Pulumi.Flyio.Flyio.Outputs
         private FlyFile(
             string? guestPath,
 
+            int? mode,
+
             string? rawValue,
 
             string? secretName)
         {
             GuestPath = guestPath;
+            Mode = mode;
             RawValue = rawValue;
             SecretName = secretName;
         }

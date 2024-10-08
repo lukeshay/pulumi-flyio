@@ -16,6 +16,7 @@ namespace Pulumi.Flyio.Flyio.Outputs
         public readonly string? GracePeriod;
         public readonly ImmutableArray<Outputs.FlyMachineHTTPHeader> Headers;
         public readonly string? Interval;
+        public readonly string? Kind;
         public readonly string? Method;
         public readonly string? Path;
         public readonly int? Port;
@@ -32,6 +33,8 @@ namespace Pulumi.Flyio.Flyio.Outputs
             ImmutableArray<Outputs.FlyMachineHTTPHeader> headers,
 
             string? interval,
+
+            string? kind,
 
             string? method,
 
@@ -52,6 +55,7 @@ namespace Pulumi.Flyio.Flyio.Outputs
             GracePeriod = gracePeriod;
             Headers = headers;
             Interval = interval;
+            Kind = kind;
             Method = method;
             Path = path;
             Port = port;

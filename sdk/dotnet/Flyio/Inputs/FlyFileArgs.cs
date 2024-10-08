@@ -15,6 +15,9 @@ namespace Pulumi.Flyio.Flyio.Inputs
         [Input("guestPath")]
         public Input<string>? GuestPath { get; set; }
 
+        [Input("mode")]
+        public Input<int>? Mode { get; set; }
+
         [Input("rawValue")]
         public Input<string>? RawValue { get; set; }
 

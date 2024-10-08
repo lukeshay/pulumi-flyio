@@ -15,6 +15,9 @@ namespace Pulumi.Flyio.Flyio.Inputs
         [Input("guestPath", required: true)]
         public Input<string> GuestPath { get; set; } = null!;
 
+        [Input("indexDocument")]
+        public Input<string>? IndexDocument { get; set; }
+
         [Input("tigrisBucket")]
         public Input<string>? TigrisBucket { get; set; }
 

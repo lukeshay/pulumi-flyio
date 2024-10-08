@@ -22,7 +22,6 @@ class VolumeArgs:
                  compute_image: Optional[pulumi.Input[str]] = None,
                  encrypted: Optional[pulumi.Input[bool]] = None,
                  fstype: Optional[pulumi.Input[str]] = None,
-                 machines_only: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  require_unique_zone: Optional[pulumi.Input[bool]] = None,
@@ -44,8 +43,6 @@ class VolumeArgs:
             pulumi.set(__self__, "encrypted", encrypted)
         if fstype is not None:
             pulumi.set(__self__, "fstype", fstype)
-        if machines_only is not None:
-            pulumi.set(__self__, "machines_only", machines_only)
         if name is not None:
             pulumi.set(__self__, "name", name)
         if region is not None:
@@ -114,15 +111,6 @@ class VolumeArgs:
     @fstype.setter
     def fstype(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "fstype", value)
-
-    @property
-    @pulumi.getter(name="machinesOnly")
-    def machines_only(self) -> Optional[pulumi.Input[bool]]:
-        return pulumi.get(self, "machines_only")
-
-    @machines_only.setter
-    def machines_only(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "machines_only", value)
 
     @property
     @pulumi.getter
@@ -199,7 +187,6 @@ class Volume(pulumi.CustomResource):
                  compute_image: Optional[pulumi.Input[str]] = None,
                  encrypted: Optional[pulumi.Input[bool]] = None,
                  fstype: Optional[pulumi.Input[str]] = None,
-                 machines_only: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  require_unique_zone: Optional[pulumi.Input[bool]] = None,
@@ -242,7 +229,6 @@ class Volume(pulumi.CustomResource):
                  compute_image: Optional[pulumi.Input[str]] = None,
                  encrypted: Optional[pulumi.Input[bool]] = None,
                  fstype: Optional[pulumi.Input[str]] = None,
-                 machines_only: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  require_unique_zone: Optional[pulumi.Input[bool]] = None,
@@ -267,7 +253,6 @@ class Volume(pulumi.CustomResource):
             __props__.__dict__["compute_image"] = compute_image
             __props__.__dict__["encrypted"] = encrypted
             __props__.__dict__["fstype"] = fstype
-            __props__.__dict__["machines_only"] = machines_only
             __props__.__dict__["name"] = name
             __props__.__dict__["region"] = region
             __props__.__dict__["require_unique_zone"] = require_unique_zone
@@ -283,6 +268,7 @@ class Volume(pulumi.CustomResource):
             __props__.__dict__["blocks_free"] = None
             __props__.__dict__["created_at"] = None
             __props__.__dict__["fly_id"] = None
+            __props__.__dict__["host_status"] = None
             __props__.__dict__["input"] = None
             __props__.__dict__["state"] = None
             __props__.__dict__["zone"] = None
@@ -320,6 +306,7 @@ class Volume(pulumi.CustomResource):
         __props__.__dict__["encrypted"] = None
         __props__.__dict__["fly_id"] = None
         __props__.__dict__["fstype"] = None
+        __props__.__dict__["host_status"] = None
         __props__.__dict__["input"] = None
         __props__.__dict__["name"] = None
         __props__.__dict__["region"] = None
@@ -388,6 +375,11 @@ class Volume(pulumi.CustomResource):
     @pulumi.getter
     def fstype(self) -> pulumi.Output[Optional[str]]:
         return pulumi.get(self, "fstype")
+
+    @property
+    @pulumi.getter(name="hostStatus")
+    def host_status(self) -> pulumi.Output[Optional[str]]:
+        return pulumi.get(self, "host_status")
 
     @property
     @pulumi.getter

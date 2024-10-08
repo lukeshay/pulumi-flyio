@@ -130,7 +130,6 @@ type VolumeArgsType struct {
 	ComputeImage      *string                `pulumi:"computeImage"`
 	Encrypted         *bool                  `pulumi:"encrypted"`
 	Fstype            *string                `pulumi:"fstype"`
-	MachinesOnly      *bool                  `pulumi:"machinesOnly"`
 	Name              *string                `pulumi:"name"`
 	Region            *string                `pulumi:"region"`
 	RequireUniqueZone *bool                  `pulumi:"requireUniqueZone"`
@@ -176,10 +175,6 @@ func (o VolumeArgsTypeOutput) Encrypted() pulumi.BoolPtrOutput {
 
 func (o VolumeArgsTypeOutput) Fstype() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VolumeArgsType) *string { return v.Fstype }).(pulumi.StringPtrOutput)
-}
-
-func (o VolumeArgsTypeOutput) MachinesOnly() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v VolumeArgsType) *bool { return v.MachinesOnly }).(pulumi.BoolPtrOutput)
 }
 
 func (o VolumeArgsTypeOutput) Name() pulumi.StringPtrOutput {

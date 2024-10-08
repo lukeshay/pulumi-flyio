@@ -19,7 +19,6 @@ namespace Pulumi.Flyio.Outputs
         public readonly string? ComputeImage;
         public readonly bool? Encrypted;
         public readonly string? Fstype;
-        public readonly bool? MachinesOnly;
         public readonly string? Name;
         public readonly string? Region;
         public readonly bool? RequireUniqueZone;
@@ -42,8 +41,6 @@ namespace Pulumi.Flyio.Outputs
 
             string? fstype,
 
-            bool? machinesOnly,
-
             string? name,
 
             string? region,
@@ -64,7 +61,6 @@ namespace Pulumi.Flyio.Outputs
             ComputeImage = computeImage;
             Encrypted = encrypted;
             Fstype = fstype;
-            MachinesOnly = machinesOnly;
             Name = name;
             Region = region;
             RequireUniqueZone = requireUniqueZone;

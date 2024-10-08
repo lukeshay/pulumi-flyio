@@ -40,12 +40,18 @@ __all__ = [
 class FlyDNSConfigArgs:
     def __init__(__self__, *,
                  dns_forward_rules: Optional[pulumi.Input[Sequence[pulumi.Input['FlyDnsForwardRuleArgs']]]] = None,
+                 hostname: Optional[pulumi.Input[str]] = None,
+                 hostname_fqdn: Optional[pulumi.Input[str]] = None,
                  nameservers: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  options: Optional[pulumi.Input[Sequence[pulumi.Input['FlyDnsOptionArgs']]]] = None,
                  searches: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  skip_registration: Optional[pulumi.Input[bool]] = None):
         if dns_forward_rules is not None:
             pulumi.set(__self__, "dns_forward_rules", dns_forward_rules)
+        if hostname is not None:
+            pulumi.set(__self__, "hostname", hostname)
+        if hostname_fqdn is not None:
+            pulumi.set(__self__, "hostname_fqdn", hostname_fqdn)
         if nameservers is not None:
             pulumi.set(__self__, "nameservers", nameservers)
         if options is not None:
@@ -63,6 +69,24 @@ class FlyDNSConfigArgs:
     @dns_forward_rules.setter
     def dns_forward_rules(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyDnsForwardRuleArgs']]]]):
         pulumi.set(self, "dns_forward_rules", value)
+
+    @property
+    @pulumi.getter
+    def hostname(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "hostname")
+
+    @hostname.setter
+    def hostname(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "hostname", value)
+
+    @property
+    @pulumi.getter(name="hostnameFqdn")
+    def hostname_fqdn(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "hostname_fqdn")
+
+    @hostname_fqdn.setter
+    def hostname_fqdn(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "hostname_fqdn", value)
 
     @property
     @pulumi.getter
@@ -192,10 +216,13 @@ class FlyEnvFromArgs:
 class FlyFileArgs:
     def __init__(__self__, *,
                  guest_path: Optional[pulumi.Input[str]] = None,
+                 mode: Optional[pulumi.Input[int]] = None,
                  raw_value: Optional[pulumi.Input[str]] = None,
                  secret_name: Optional[pulumi.Input[str]] = None):
         if guest_path is not None:
             pulumi.set(__self__, "guest_path", guest_path)
+        if mode is not None:
+            pulumi.set(__self__, "mode", mode)
         if raw_value is not None:
             pulumi.set(__self__, "raw_value", raw_value)
         if secret_name is not None:
@@ -209,6 +236,15 @@ class FlyFileArgs:
     @guest_path.setter
     def guest_path(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "guest_path", value)
+
+    @property
+    @pulumi.getter
+    def mode(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "mode")
+
+    @mode.setter
+    def mode(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "mode", value)
 
     @property
     @pulumi.getter(name="rawValue")
@@ -234,11 +270,17 @@ class FlyHTTPOptionsArgs:
     def __init__(__self__, *,
                  compress: Optional[pulumi.Input[bool]] = None,
                  h2_backend: Optional[pulumi.Input[bool]] = None,
+                 headers_read_timeout: Optional[pulumi.Input[int]] = None,
+                 idle_timeout: Optional[pulumi.Input[int]] = None,
                  response: Optional[pulumi.Input['FlyHTTPResponseOptionsArgs']] = None):
         if compress is not None:
             pulumi.set(__self__, "compress", compress)
         if h2_backend is not None:
             pulumi.set(__self__, "h2_backend", h2_backend)
+        if headers_read_timeout is not None:
+            pulumi.set(__self__, "headers_read_timeout", headers_read_timeout)
+        if idle_timeout is not None:
+            pulumi.set(__self__, "idle_timeout", idle_timeout)
         if response is not None:
             pulumi.set(__self__, "response", response)
 
@@ -259,6 +301,24 @@ class FlyHTTPOptionsArgs:
     @h2_backend.setter
     def h2_backend(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "h2_backend", value)
+
+    @property
+    @pulumi.getter(name="headersReadTimeout")
+    def headers_read_timeout(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "headers_read_timeout")
+
+    @headers_read_timeout.setter
+    def headers_read_timeout(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "headers_read_timeout", value)
+
+    @property
+    @pulumi.getter(name="idleTimeout")
+    def idle_timeout(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "idle_timeout")
+
+    @idle_timeout.setter
+    def idle_timeout(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "idle_timeout", value)
 
     @property
     @pulumi.getter
@@ -305,6 +365,7 @@ class FlyMachineCheckArgs:
                  grace_period: Optional[pulumi.Input[str]] = None,
                  headers: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineHTTPHeaderArgs']]]] = None,
                  interval: Optional[pulumi.Input[str]] = None,
+                 kind: Optional[pulumi.Input[str]] = None,
                  method: Optional[pulumi.Input[str]] = None,
                  path: Optional[pulumi.Input[str]] = None,
                  port: Optional[pulumi.Input[int]] = None,
@@ -319,6 +380,8 @@ class FlyMachineCheckArgs:
             pulumi.set(__self__, "headers", headers)
         if interval is not None:
             pulumi.set(__self__, "interval", interval)
+        if kind is not None:
+            pulumi.set(__self__, "kind", kind)
         if method is not None:
             pulumi.set(__self__, "method", method)
         if path is not None:
@@ -362,6 +425,15 @@ class FlyMachineCheckArgs:
     @interval.setter
     def interval(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "interval", value)
+
+    @property
+    @pulumi.getter
+    def kind(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "kind")
+
+    @kind.setter
+    def kind(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "kind", value)
 
     @property
     @pulumi.getter
@@ -1183,12 +1255,24 @@ class FlyMachineProcessArgs:
 @pulumi.input_type
 class FlyMachineRestartArgs:
     def __init__(__self__, *,
+                 gpu_bid_price: Optional[pulumi.Input[float]] = None,
                  max_retries: Optional[pulumi.Input[int]] = None,
                  policy: Optional[pulumi.Input[str]] = None):
+        if gpu_bid_price is not None:
+            pulumi.set(__self__, "gpu_bid_price", gpu_bid_price)
         if max_retries is not None:
             pulumi.set(__self__, "max_retries", max_retries)
         if policy is not None:
             pulumi.set(__self__, "policy", policy)
+
+    @property
+    @pulumi.getter(name="gpuBidPrice")
+    def gpu_bid_price(self) -> Optional[pulumi.Input[float]]:
+        return pulumi.get(self, "gpu_bid_price")
+
+    @gpu_bid_price.setter
+    def gpu_bid_price(self, value: Optional[pulumi.Input[float]]):
+        pulumi.set(self, "gpu_bid_price", value)
 
     @property
     @pulumi.getter(name="maxRetries")
@@ -1283,7 +1367,7 @@ class FlyMachineServiceConcurrencyArgs:
 class FlyMachineServiceArgs:
     def __init__(__self__, *,
                  autostart: Optional[pulumi.Input[bool]] = None,
-                 autostop: Optional[pulumi.Input[bool]] = None,
+                 autostop: Optional[pulumi.Input[str]] = None,
                  checks: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineCheckArgs']]]] = None,
                  concurrency: Optional[pulumi.Input['FlyMachineServiceConcurrencyArgs']] = None,
                  force_instance_description: Optional[pulumi.Input[str]] = None,
@@ -1324,11 +1408,11 @@ class FlyMachineServiceArgs:
 
     @property
     @pulumi.getter
-    def autostop(self) -> Optional[pulumi.Input[bool]]:
+    def autostop(self) -> Optional[pulumi.Input[str]]:
         return pulumi.get(self, "autostop")
 
     @autostop.setter
-    def autostop(self, value: Optional[pulumi.Input[bool]]):
+    def autostop(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "autostop", value)
 
     @property
@@ -1426,9 +1510,12 @@ class FlyStaticArgs:
     def __init__(__self__, *,
                  guest_path: pulumi.Input[str],
                  url_prefix: pulumi.Input[str],
+                 index_document: Optional[pulumi.Input[str]] = None,
                  tigris_bucket: Optional[pulumi.Input[str]] = None):
         pulumi.set(__self__, "guest_path", guest_path)
         pulumi.set(__self__, "url_prefix", url_prefix)
+        if index_document is not None:
+            pulumi.set(__self__, "index_document", index_document)
         if tigris_bucket is not None:
             pulumi.set(__self__, "tigris_bucket", tigris_bucket)
 
@@ -1449,6 +1536,15 @@ class FlyStaticArgs:
     @url_prefix.setter
     def url_prefix(self, value: pulumi.Input[str]):
         pulumi.set(self, "url_prefix", value)
+
+    @property
+    @pulumi.getter(name="indexDocument")
+    def index_document(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "index_document")
+
+    @index_document.setter
+    def index_document(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "index_document", value)
 
     @property
     @pulumi.getter(name="tigrisBucket")

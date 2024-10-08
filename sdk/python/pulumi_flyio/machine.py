@@ -235,7 +235,9 @@ class Machine(pulumi.CustomResource):
             __props__.__dict__["created_at"] = None
             __props__.__dict__["events"] = None
             __props__.__dict__["fly_id"] = None
+            __props__.__dict__["host_status"] = None
             __props__.__dict__["image_ref"] = None
+            __props__.__dict__["incomplete_config"] = None
             __props__.__dict__["input"] = None
             __props__.__dict__["instance_id"] = None
             __props__.__dict__["machine_name"] = None
@@ -271,7 +273,9 @@ class Machine(pulumi.CustomResource):
         __props__.__dict__["created_at"] = None
         __props__.__dict__["events"] = None
         __props__.__dict__["fly_id"] = None
+        __props__.__dict__["host_status"] = None
         __props__.__dict__["image_ref"] = None
+        __props__.__dict__["incomplete_config"] = None
         __props__.__dict__["input"] = None
         __props__.__dict__["instance_id"] = None
         __props__.__dict__["machine_name"] = None
@@ -314,9 +318,19 @@ class Machine(pulumi.CustomResource):
         return pulumi.get(self, "fly_id")
 
     @property
+    @pulumi.getter(name="hostStatus")
+    def host_status(self) -> pulumi.Output[Optional[str]]:
+        return pulumi.get(self, "host_status")
+
+    @property
     @pulumi.getter(name="imageRef")
     def image_ref(self) -> pulumi.Output[Optional['_flyio.outputs.ImageRef']]:
         return pulumi.get(self, "image_ref")
+
+    @property
+    @pulumi.getter(name="incompleteConfig")
+    def incomplete_config(self) -> pulumi.Output[Optional['_flyio.outputs.FlyMachineConfig']]:
+        return pulumi.get(self, "incomplete_config")
 
     @property
     @pulumi.getter

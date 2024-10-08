@@ -30,7 +30,9 @@ gen::
 	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.json --create-dirs
 	mkdir -p provider/pkg/flyio
 	rm -f $(WORKING_DIR)/bin/$(PROVIDER)
-	oapi-codegen -config oapi.yaml tmp/fly-openapi3.json
+	go install github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@v2.2.0
+	oapi-codegen --config oapi.yaml tmp/fly-openapi3.json
+	sed -i 's/float32/float64/g' provider/pkg/flyio/flyio.gen.go
 	cd provider && go generate -ldflags "-X $(PROJECT)/$(VERSION_PATH)=$(VERSION)" $(PROJECT)/$(PROVIDER_PATH)/cmd/$(PROVIDER)
 
 provider:: gen

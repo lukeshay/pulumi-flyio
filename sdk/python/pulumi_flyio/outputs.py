@@ -203,8 +203,6 @@ class VolumeArgs(dict):
             suggest = "auto_backup_enabled"
         elif key == "computeImage":
             suggest = "compute_image"
-        elif key == "machinesOnly":
-            suggest = "machines_only"
         elif key == "requireUniqueZone":
             suggest = "require_unique_zone"
         elif key == "sizeGb":
@@ -234,7 +232,6 @@ class VolumeArgs(dict):
                  compute_image: Optional[str] = None,
                  encrypted: Optional[bool] = None,
                  fstype: Optional[str] = None,
-                 machines_only: Optional[bool] = None,
                  name: Optional[str] = None,
                  region: Optional[str] = None,
                  require_unique_zone: Optional[bool] = None,
@@ -253,8 +250,6 @@ class VolumeArgs(dict):
             pulumi.set(__self__, "encrypted", encrypted)
         if fstype is not None:
             pulumi.set(__self__, "fstype", fstype)
-        if machines_only is not None:
-            pulumi.set(__self__, "machines_only", machines_only)
         if name is not None:
             pulumi.set(__self__, "name", name)
         if region is not None:
@@ -299,11 +294,6 @@ class VolumeArgs(dict):
     @pulumi.getter
     def fstype(self) -> Optional[str]:
         return pulumi.get(self, "fstype")
-
-    @property
-    @pulumi.getter(name="machinesOnly")
-    def machines_only(self) -> Optional[bool]:
-        return pulumi.get(self, "machines_only")
 
     @property
     @pulumi.getter

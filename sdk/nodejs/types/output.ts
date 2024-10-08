@@ -33,7 +33,6 @@ export interface VolumeArgs {
     computeImage?: string;
     encrypted?: boolean;
     fstype?: string;
-    machinesOnly?: boolean;
     name?: string;
     region?: string;
     requireUniqueZone?: boolean;
@@ -53,6 +52,8 @@ export namespace flyio {
 
     export interface FlyDNSConfig {
         dnsForwardRules?: outputs.flyio.FlyDnsForwardRule[];
+        hostname?: string;
+        hostnameFqdn?: string;
         nameservers?: string[];
         options?: outputs.flyio.FlyDnsOption[];
         searches?: string[];
@@ -76,6 +77,7 @@ export namespace flyio {
 
     export interface FlyFile {
         guestPath?: string;
+        mode?: number;
         rawValue?: string;
         secretName?: string;
     }
@@ -83,6 +85,8 @@ export namespace flyio {
     export interface FlyHTTPOptions {
         compress?: boolean;
         h2Backend?: boolean;
+        headersReadTimeout?: number;
+        idleTimeout?: number;
         response?: outputs.flyio.FlyHTTPResponseOptions;
     }
 
@@ -95,6 +99,7 @@ export namespace flyio {
         gracePeriod?: string;
         headers?: outputs.flyio.FlyMachineHTTPHeader[];
         interval?: string;
+        kind?: string;
         method?: string;
         path?: string;
         port?: number;
@@ -189,6 +194,7 @@ export namespace flyio {
     }
 
     export interface FlyMachineRestart {
+        gpuBidPrice?: number;
         maxRetries?: number;
         policy?: string;
     }
@@ -200,7 +206,7 @@ export namespace flyio {
 
     export interface FlyMachineService {
         autostart?: boolean;
-        autostop?: boolean;
+        autostop?: string;
         checks?: outputs.flyio.FlyMachineCheck[];
         concurrency?: outputs.flyio.FlyMachineServiceConcurrency;
         forceInstanceDescription?: string;
@@ -223,6 +229,7 @@ export namespace flyio {
 
     export interface FlyStatic {
         guestPath: string;
+        indexDocument?: string;
         tigrisBucket?: string;
         urlPrefix: string;
     }

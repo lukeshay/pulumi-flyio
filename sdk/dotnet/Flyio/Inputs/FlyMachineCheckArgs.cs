@@ -26,6 +26,9 @@ namespace Pulumi.Flyio.Flyio.Inputs
         [Input("interval")]
         public Input<string>? Interval { get; set; }
 
+        [Input("kind")]
+        public Input<string>? Kind { get; set; }
+
         [Input("method")]
         public Input<string>? Method { get; set; }
 

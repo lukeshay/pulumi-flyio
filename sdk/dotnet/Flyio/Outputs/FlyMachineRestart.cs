@@ -13,15 +13,19 @@ namespace Pulumi.Flyio.Flyio.Outputs
     [OutputType]
     public sealed class FlyMachineRestart
     {
+        public readonly double? GpuBidPrice;
         public readonly int? MaxRetries;
         public readonly string? Policy;
 
         [OutputConstructor]
         private FlyMachineRestart(
+            double? gpuBidPrice,
+
             int? maxRetries,
 
             string? policy)
         {
+            GpuBidPrice = gpuBidPrice;
             MaxRetries = maxRetries;
             Policy = policy;
         }

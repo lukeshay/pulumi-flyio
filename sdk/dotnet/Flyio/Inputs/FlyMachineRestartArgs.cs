@@ -12,6 +12,9 @@ namespace Pulumi.Flyio.Flyio.Inputs
 
     public sealed class FlyMachineRestartArgs : global::Pulumi.ResourceArgs
     {
+        [Input("gpuBidPrice")]
+        public Input<double>? GpuBidPrice { get; set; }
+
         [Input("maxRetries")]
         public Input<int>? MaxRetries { get; set; }
 

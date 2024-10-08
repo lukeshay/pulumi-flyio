@@ -30,8 +30,14 @@ namespace Pulumi.Flyio
         [Output("flyId")]
         public Output<string> FlyId { get; private set; } = null!;
 
+        [Output("hostStatus")]
+        public Output<string?> HostStatus { get; private set; } = null!;
+
         [Output("imageRef")]
         public Output<Pulumi.Flyio.Flyio.Outputs.ImageRef?> ImageRef { get; private set; } = null!;
+
+        [Output("incompleteConfig")]
+        public Output<Pulumi.Flyio.Flyio.Outputs.FlyMachineConfig?> IncompleteConfig { get; private set; } = null!;
 
         [Output("input")]
         public Output<Outputs.MachineArgs> Input { get; private set; } = null!;
