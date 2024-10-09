@@ -4,9 +4,14 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 from . import flyio as _flyio
 from . import outputs
@@ -183,7 +188,7 @@ class Volume(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  app_name: Optional[pulumi.Input[str]] = None,
                  auto_backup_enabled: Optional[pulumi.Input[bool]] = None,
-                 compute: Optional[pulumi.Input[pulumi.InputType['_flyio.FlyMachineGuestArgs']]] = None,
+                 compute: Optional[pulumi.Input[Union['_flyio.FlyMachineGuestArgs', '_flyio.FlyMachineGuestArgsDict']]] = None,
                  compute_image: Optional[pulumi.Input[str]] = None,
                  encrypted: Optional[pulumi.Input[bool]] = None,
                  fstype: Optional[pulumi.Input[str]] = None,
@@ -225,7 +230,7 @@ class Volume(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  app_name: Optional[pulumi.Input[str]] = None,
                  auto_backup_enabled: Optional[pulumi.Input[bool]] = None,
-                 compute: Optional[pulumi.Input[pulumi.InputType['_flyio.FlyMachineGuestArgs']]] = None,
+                 compute: Optional[pulumi.Input[Union['_flyio.FlyMachineGuestArgs', '_flyio.FlyMachineGuestArgsDict']]] = None,
                  compute_image: Optional[pulumi.Input[str]] = None,
                  encrypted: Optional[pulumi.Input[bool]] = None,
                  fstype: Optional[pulumi.Input[str]] = None,

@@ -141,8 +141,6 @@ var volumeDiffOpts = generateDiffResponseOpts{
 	DeleteBeforeReplaceProps: []string{"Compute", "ComputeImage", "Encrypted", "Fstype", "MachinesOnly", "Name", "Region", "RequireUniqueZone", "SnapshotId", "SourceVolumeId", "AppName"},
 }
 
-// auto_backup_enabled, snapshot_retention, size_gb
-
 func (Volume) Diff(ctx p.Context, id string, state VolumeState, input VolumeArgs) (p.DiffResponse, error) {
 	return generateDiffResponse(state.Input, input, volumeDiffOpts)
 }

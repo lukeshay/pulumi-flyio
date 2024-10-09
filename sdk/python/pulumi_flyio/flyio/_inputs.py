@@ -4,37 +4,80 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from .. import _utilities
 
 __all__ = [
     'FlyDNSConfigArgs',
+    'FlyDNSConfigArgsDict',
     'FlyDnsForwardRuleArgs',
+    'FlyDnsForwardRuleArgsDict',
     'FlyDnsOptionArgs',
+    'FlyDnsOptionArgsDict',
     'FlyEnvFromArgs',
+    'FlyEnvFromArgsDict',
     'FlyFileArgs',
+    'FlyFileArgsDict',
     'FlyHTTPOptionsArgs',
+    'FlyHTTPOptionsArgsDict',
     'FlyHTTPResponseOptionsArgs',
+    'FlyHTTPResponseOptionsArgsDict',
     'FlyMachineCheckArgs',
+    'FlyMachineCheckArgsDict',
     'FlyMachineConfigArgs',
+    'FlyMachineConfigArgsDict',
     'FlyMachineGuestArgs',
+    'FlyMachineGuestArgsDict',
     'FlyMachineHTTPHeaderArgs',
+    'FlyMachineHTTPHeaderArgsDict',
     'FlyMachineInitArgs',
+    'FlyMachineInitArgsDict',
     'FlyMachineMetricsArgs',
+    'FlyMachineMetricsArgsDict',
     'FlyMachineMountArgs',
+    'FlyMachineMountArgsDict',
     'FlyMachinePortArgs',
+    'FlyMachinePortArgsDict',
     'FlyMachineProcessArgs',
+    'FlyMachineProcessArgsDict',
     'FlyMachineRestartArgs',
+    'FlyMachineRestartArgsDict',
     'FlyMachineSecretArgs',
+    'FlyMachineSecretArgsDict',
     'FlyMachineServiceConcurrencyArgs',
+    'FlyMachineServiceConcurrencyArgsDict',
     'FlyMachineServiceArgs',
+    'FlyMachineServiceArgsDict',
     'FlyProxyProtoOptionsArgs',
+    'FlyProxyProtoOptionsArgsDict',
     'FlyStaticArgs',
+    'FlyStaticArgsDict',
     'FlyStopConfigArgs',
+    'FlyStopConfigArgsDict',
     'FlyTLSOptionsArgs',
+    'FlyTLSOptionsArgsDict',
 ]
+
+MYPY = False
+
+if not MYPY:
+    class FlyDNSConfigArgsDict(TypedDict):
+        dns_forward_rules: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyDnsForwardRuleArgsDict']]]]
+        hostname: NotRequired[pulumi.Input[str]]
+        hostname_fqdn: NotRequired[pulumi.Input[str]]
+        nameservers: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        options: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyDnsOptionArgsDict']]]]
+        searches: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        skip_registration: NotRequired[pulumi.Input[bool]]
+elif False:
+    FlyDNSConfigArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyDNSConfigArgs:
@@ -125,6 +168,13 @@ class FlyDNSConfigArgs:
         pulumi.set(self, "skip_registration", value)
 
 
+if not MYPY:
+    class FlyDnsForwardRuleArgsDict(TypedDict):
+        addr: NotRequired[pulumi.Input[str]]
+        basename: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyDnsForwardRuleArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyDnsForwardRuleArgs:
     def __init__(__self__, *,
@@ -153,6 +203,13 @@ class FlyDnsForwardRuleArgs:
     def basename(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "basename", value)
 
+
+if not MYPY:
+    class FlyDnsOptionArgsDict(TypedDict):
+        name: NotRequired[pulumi.Input[str]]
+        value: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyDnsOptionArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyDnsOptionArgs:
@@ -183,6 +240,13 @@ class FlyDnsOptionArgs:
         pulumi.set(self, "value", value)
 
 
+if not MYPY:
+    class FlyEnvFromArgsDict(TypedDict):
+        env_var: NotRequired[pulumi.Input[str]]
+        field_ref: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyEnvFromArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyEnvFromArgs:
     def __init__(__self__, *,
@@ -211,6 +275,15 @@ class FlyEnvFromArgs:
     def field_ref(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "field_ref", value)
 
+
+if not MYPY:
+    class FlyFileArgsDict(TypedDict):
+        guest_path: NotRequired[pulumi.Input[str]]
+        mode: NotRequired[pulumi.Input[int]]
+        raw_value: NotRequired[pulumi.Input[str]]
+        secret_name: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyFileArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyFileArgs:
@@ -264,6 +337,16 @@ class FlyFileArgs:
     def secret_name(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "secret_name", value)
 
+
+if not MYPY:
+    class FlyHTTPOptionsArgsDict(TypedDict):
+        compress: NotRequired[pulumi.Input[bool]]
+        h2_backend: NotRequired[pulumi.Input[bool]]
+        headers_read_timeout: NotRequired[pulumi.Input[int]]
+        idle_timeout: NotRequired[pulumi.Input[int]]
+        response: NotRequired[pulumi.Input['FlyHTTPResponseOptionsArgsDict']]
+elif False:
+    FlyHTTPOptionsArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyHTTPOptionsArgs:
@@ -330,6 +413,13 @@ class FlyHTTPOptionsArgs:
         pulumi.set(self, "response", value)
 
 
+if not MYPY:
+    class FlyHTTPResponseOptionsArgsDict(TypedDict):
+        headers: NotRequired[pulumi.Input[Mapping[str, pulumi.Input[Mapping[str, Any]]]]]
+        pristine: NotRequired[pulumi.Input[bool]]
+elif False:
+    FlyHTTPResponseOptionsArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyHTTPResponseOptionsArgs:
     def __init__(__self__, *,
@@ -358,6 +448,23 @@ class FlyHTTPResponseOptionsArgs:
     def pristine(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "pristine", value)
 
+
+if not MYPY:
+    class FlyMachineCheckArgsDict(TypedDict):
+        grace_period: NotRequired[pulumi.Input[str]]
+        headers: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineHTTPHeaderArgsDict']]]]
+        interval: NotRequired[pulumi.Input[str]]
+        kind: NotRequired[pulumi.Input[str]]
+        method: NotRequired[pulumi.Input[str]]
+        path: NotRequired[pulumi.Input[str]]
+        port: NotRequired[pulumi.Input[int]]
+        protocol: NotRequired[pulumi.Input[str]]
+        timeout: NotRequired[pulumi.Input[str]]
+        tls_server_name: NotRequired[pulumi.Input[str]]
+        tls_skip_verify: NotRequired[pulumi.Input[bool]]
+        type: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineCheckArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineCheckArgs:
@@ -507,6 +614,29 @@ class FlyMachineCheckArgs:
     def type(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "type", value)
 
+
+if not MYPY:
+    class FlyMachineConfigArgsDict(TypedDict):
+        image: pulumi.Input[str]
+        auto_destroy: NotRequired[pulumi.Input[bool]]
+        checks: NotRequired[pulumi.Input[Mapping[str, pulumi.Input['FlyMachineCheckArgsDict']]]]
+        dns: NotRequired[pulumi.Input['FlyDNSConfigArgsDict']]
+        env: NotRequired[pulumi.Input[Mapping[str, pulumi.Input[str]]]]
+        files: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyFileArgsDict']]]]
+        guest: NotRequired[pulumi.Input['FlyMachineGuestArgsDict']]
+        init: NotRequired[pulumi.Input['FlyMachineInitArgsDict']]
+        metadata: NotRequired[pulumi.Input[Mapping[str, pulumi.Input[str]]]]
+        metrics: NotRequired[pulumi.Input['FlyMachineMetricsArgsDict']]
+        mounts: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineMountArgsDict']]]]
+        processes: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineProcessArgsDict']]]]
+        restart: NotRequired[pulumi.Input['FlyMachineRestartArgsDict']]
+        schedule: NotRequired[pulumi.Input[str]]
+        services: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineServiceArgsDict']]]]
+        standbys: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        statics: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyStaticArgsDict']]]]
+        stop_config: NotRequired[pulumi.Input['FlyStopConfigArgsDict']]
+elif False:
+    FlyMachineConfigArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineConfigArgs:
@@ -728,6 +858,18 @@ class FlyMachineConfigArgs:
         pulumi.set(self, "stop_config", value)
 
 
+if not MYPY:
+    class FlyMachineGuestArgsDict(TypedDict):
+        cpu_kind: pulumi.Input[str]
+        cpus: pulumi.Input[int]
+        memory_mb: pulumi.Input[int]
+        gpu_kind: NotRequired[pulumi.Input[str]]
+        gpus: NotRequired[pulumi.Input[int]]
+        host_dedication_id: NotRequired[pulumi.Input[str]]
+        kernel_args: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+elif False:
+    FlyMachineGuestArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyMachineGuestArgs:
     def __init__(__self__, *,
@@ -814,6 +956,13 @@ class FlyMachineGuestArgs:
         pulumi.set(self, "kernel_args", value)
 
 
+if not MYPY:
+    class FlyMachineHTTPHeaderArgsDict(TypedDict):
+        name: NotRequired[pulumi.Input[str]]
+        values: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+elif False:
+    FlyMachineHTTPHeaderArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyMachineHTTPHeaderArgs:
     def __init__(__self__, *,
@@ -842,6 +991,17 @@ class FlyMachineHTTPHeaderArgs:
     def values(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
         pulumi.set(self, "values", value)
 
+
+if not MYPY:
+    class FlyMachineInitArgsDict(TypedDict):
+        cmd: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        entrypoint: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        exec_: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        kernel_args: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        swap_size_mb: NotRequired[pulumi.Input[int]]
+        tty: NotRequired[pulumi.Input[bool]]
+elif False:
+    FlyMachineInitArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineInitArgs:
@@ -920,6 +1080,13 @@ class FlyMachineInitArgs:
         pulumi.set(self, "tty", value)
 
 
+if not MYPY:
+    class FlyMachineMetricsArgsDict(TypedDict):
+        path: NotRequired[pulumi.Input[str]]
+        port: NotRequired[pulumi.Input[int]]
+elif False:
+    FlyMachineMetricsArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyMachineMetricsArgs:
     def __init__(__self__, *,
@@ -948,6 +1115,19 @@ class FlyMachineMetricsArgs:
     def port(self, value: Optional[pulumi.Input[int]]):
         pulumi.set(self, "port", value)
 
+
+if not MYPY:
+    class FlyMachineMountArgsDict(TypedDict):
+        add_size_gb: NotRequired[pulumi.Input[int]]
+        encrypted: NotRequired[pulumi.Input[bool]]
+        extend_threshold_percent: NotRequired[pulumi.Input[int]]
+        name: NotRequired[pulumi.Input[str]]
+        path: NotRequired[pulumi.Input[str]]
+        size_gb: NotRequired[pulumi.Input[int]]
+        size_gb_limit: NotRequired[pulumi.Input[int]]
+        volume: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineMountArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineMountArgs:
@@ -1050,6 +1230,19 @@ class FlyMachineMountArgs:
         pulumi.set(self, "volume", value)
 
 
+if not MYPY:
+    class FlyMachinePortArgsDict(TypedDict):
+        end_port: NotRequired[pulumi.Input[int]]
+        force_https: NotRequired[pulumi.Input[bool]]
+        handlers: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        http_options: NotRequired[pulumi.Input['FlyHTTPOptionsArgsDict']]
+        port: NotRequired[pulumi.Input[int]]
+        proxy_proto_options: NotRequired[pulumi.Input['FlyProxyProtoOptionsArgsDict']]
+        start_port: NotRequired[pulumi.Input[int]]
+        tls_options: NotRequired[pulumi.Input['FlyTLSOptionsArgsDict']]
+elif False:
+    FlyMachinePortArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyMachinePortArgs:
     def __init__(__self__, *,
@@ -1150,6 +1343,19 @@ class FlyMachinePortArgs:
     def tls_options(self, value: Optional[pulumi.Input['FlyTLSOptionsArgs']]):
         pulumi.set(self, "tls_options", value)
 
+
+if not MYPY:
+    class FlyMachineProcessArgsDict(TypedDict):
+        cmd: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        entrypoint: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        env: NotRequired[pulumi.Input[Mapping[str, pulumi.Input[str]]]]
+        env_from: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyEnvFromArgsDict']]]]
+        exec_: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        ignore_app_secrets: NotRequired[pulumi.Input[bool]]
+        secrets: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineSecretArgsDict']]]]
+        user: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineProcessArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineProcessArgs:
@@ -1252,6 +1458,14 @@ class FlyMachineProcessArgs:
         pulumi.set(self, "user", value)
 
 
+if not MYPY:
+    class FlyMachineRestartArgsDict(TypedDict):
+        gpu_bid_price: NotRequired[pulumi.Input[float]]
+        max_retries: NotRequired[pulumi.Input[int]]
+        policy: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineRestartArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyMachineRestartArgs:
     def __init__(__self__, *,
@@ -1293,6 +1507,13 @@ class FlyMachineRestartArgs:
         pulumi.set(self, "policy", value)
 
 
+if not MYPY:
+    class FlyMachineSecretArgsDict(TypedDict):
+        env_var: NotRequired[pulumi.Input[str]]
+        name: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineSecretArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyMachineSecretArgs:
     def __init__(__self__, *,
@@ -1321,6 +1542,14 @@ class FlyMachineSecretArgs:
     def name(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "name", value)
 
+
+if not MYPY:
+    class FlyMachineServiceConcurrencyArgsDict(TypedDict):
+        hard_limit: NotRequired[pulumi.Input[int]]
+        soft_limit: NotRequired[pulumi.Input[int]]
+        type: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineServiceConcurrencyArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineServiceConcurrencyArgs:
@@ -1362,6 +1591,21 @@ class FlyMachineServiceConcurrencyArgs:
     def type(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "type", value)
 
+
+if not MYPY:
+    class FlyMachineServiceArgsDict(TypedDict):
+        autostart: NotRequired[pulumi.Input[bool]]
+        autostop: NotRequired[pulumi.Input[str]]
+        checks: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineCheckArgsDict']]]]
+        concurrency: NotRequired[pulumi.Input['FlyMachineServiceConcurrencyArgsDict']]
+        force_instance_description: NotRequired[pulumi.Input[str]]
+        force_instance_key: NotRequired[pulumi.Input[str]]
+        internal_port: NotRequired[pulumi.Input[int]]
+        min_machines_running: NotRequired[pulumi.Input[int]]
+        ports: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachinePortArgsDict']]]]
+        protocol: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyMachineServiceArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyMachineServiceArgs:
@@ -1488,6 +1732,12 @@ class FlyMachineServiceArgs:
         pulumi.set(self, "protocol", value)
 
 
+if not MYPY:
+    class FlyProxyProtoOptionsArgsDict(TypedDict):
+        version: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyProxyProtoOptionsArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyProxyProtoOptionsArgs:
     def __init__(__self__, *,
@@ -1504,6 +1754,15 @@ class FlyProxyProtoOptionsArgs:
     def version(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "version", value)
 
+
+if not MYPY:
+    class FlyStaticArgsDict(TypedDict):
+        guest_path: pulumi.Input[str]
+        url_prefix: pulumi.Input[str]
+        index_document: NotRequired[pulumi.Input[str]]
+        tigris_bucket: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyStaticArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyStaticArgs:
@@ -1556,6 +1815,13 @@ class FlyStaticArgs:
         pulumi.set(self, "tigris_bucket", value)
 
 
+if not MYPY:
+    class FlyStopConfigArgsDict(TypedDict):
+        signal: NotRequired[pulumi.Input[str]]
+        timeout: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyStopConfigArgsDict: TypeAlias = Mapping[str, Any]
+
 @pulumi.input_type
 class FlyStopConfigArgs:
     def __init__(__self__, *,
@@ -1584,6 +1850,14 @@ class FlyStopConfigArgs:
     def timeout(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "timeout", value)
 
+
+if not MYPY:
+    class FlyTLSOptionsArgsDict(TypedDict):
+        alpn: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        default_self_signed: NotRequired[pulumi.Input[bool]]
+        versions: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+elif False:
+    FlyTLSOptionsArgsDict: TypeAlias = Mapping[str, Any]
 
 @pulumi.input_type
 class FlyTLSOptionsArgs:

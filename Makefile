@@ -79,9 +79,6 @@ python_sdk::
 		cd ./bin && python3 setup.py build sdist
 
 gen_examples: gen_go_example gen_nodejs_example gen_python_example gen_dotnet_example
-	cd ${WORKING_DIR}/examples/nodejs && \
-	sed -i.bak 's/@pulumi\/flyio/$(NODE_MODULE_NAME)/g' package.json && \
-	rm ./package.json.bak
 
 gen_%_example:
 	rm -rf ${WORKING_DIR}/examples/$*

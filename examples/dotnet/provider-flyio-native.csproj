@@ -5,7 +5,6 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Pulumi" Version="3.*" />
 		<PackageReference Include="Pulumi.Flyio" Version="*" />

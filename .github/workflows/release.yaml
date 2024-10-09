@@ -38,13 +38,13 @@ jobs:
         with:
           experimental: true
       - name: Install pulumictl
-        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
         with:
           repo: pulumi/pulumictl
           cache: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           args: -p 3 release --clean
           version: latest
@@ -74,7 +74,7 @@ jobs:
         with:
           experimental: true
       - name: Install pulumictl
-        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
         with:
           repo: pulumi/pulumictl
           cache: true

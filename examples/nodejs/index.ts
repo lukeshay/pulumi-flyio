@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as flyio from "@pulumi/flyio";
+import * as flyio from "pulumi-flyio";
 
 const appNameResource = new flyio.Random("appName", {length: 24});
 const app = new flyio.App("app", {
@@ -12,7 +12,7 @@ const machineSea1 = new flyio.Machine("machine-sea-1", {
     region: "sea",
     appName: app.name,
     config: {
-        image: "nginxdemos/hello:latest",
+        image: "nginxdemos/hello:0.4",
         guest: {
             cpus: 1,
             cpuKind: "shared",
@@ -44,7 +44,7 @@ const machineSea1 = new flyio.Machine("machine-sea-1", {
                 timeout: "2s",
                 tlsSkipVerify: true,
             }],
-            autostop: true,
+            autostop: "suspend",
             autostart: true,
             concurrency: {
                 softLimit: 2000,
@@ -90,7 +90,7 @@ const machineSea2 = new flyio.Machine("machine-sea-2", {
                 timeout: "2s",
                 tlsSkipVerify: true,
             }],
-            autostop: true,
+            autostop: "suspend",
             autostart: true,
             concurrency: {
                 softLimit: 2000,
@@ -139,7 +139,7 @@ const machineIad1 = new flyio.Machine("machine-iad-1", {
                 timeout: "2s",
                 tlsSkipVerify: true,
             }],
-            autostop: true,
+            autostop: "suspend",
             autostart: true,
             concurrency: {
                 softLimit: 2000,
@@ -185,7 +185,7 @@ const machineIad2 = new flyio.Machine("machine-iad-2", {
                 timeout: "2s",
                 tlsSkipVerify: true,
             }],
-            autostop: true,
+            autostop: "suspend",
             autostart: true,
             concurrency: {
                 softLimit: 2000,

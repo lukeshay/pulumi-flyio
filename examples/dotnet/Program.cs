@@ -24,7 +24,7 @@ return await Deployment.RunAsync(() =>
         AppName = app.Name,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
-            Image = "nginxdemos/hello:latest",
+            Image = "nginxdemos/hello:0.4",
             Guest = new Flyio.Flyio.Inputs.FlyMachineGuestArgs
             {
                 Cpus = 1,
@@ -71,7 +71,7 @@ return await Deployment.RunAsync(() =>
                             TlsSkipVerify = true,
                         },
                     },
-                    Autostop = true,
+                    Autostop = "suspend",
                     Autostart = true,
                     Concurrency = new Flyio.Flyio.Inputs.FlyMachineServiceConcurrencyArgs
                     {
@@ -137,7 +137,7 @@ return await Deployment.RunAsync(() =>
                             TlsSkipVerify = true,
                         },
                     },
-                    Autostop = true,
+                    Autostop = "suspend",
                     Autostart = true,
                     Concurrency = new Flyio.Flyio.Inputs.FlyMachineServiceConcurrencyArgs
                     {
@@ -151,7 +151,7 @@ return await Deployment.RunAsync(() =>
     {
         DependsOn =
         {
-            machineSea1, 
+            machineSea1,
         },
     });
 
@@ -210,7 +210,7 @@ return await Deployment.RunAsync(() =>
                             TlsSkipVerify = true,
                         },
                     },
-                    Autostop = true,
+                    Autostop = "suspend",
                     Autostart = true,
                     Concurrency = new Flyio.Flyio.Inputs.FlyMachineServiceConcurrencyArgs
                     {
@@ -276,7 +276,7 @@ return await Deployment.RunAsync(() =>
                             TlsSkipVerify = true,
                         },
                     },
-                    Autostop = true,
+                    Autostop = "suspend",
                     Autostart = true,
                     Concurrency = new Flyio.Flyio.Inputs.FlyMachineServiceConcurrencyArgs
                     {
@@ -290,7 +290,7 @@ return await Deployment.RunAsync(() =>
     {
         DependsOn =
         {
-            machineIad1, 
+            machineIad1,
         },
     });
 
@@ -304,7 +304,7 @@ return await Deployment.RunAsync(() =>
     {
         DependsOn =
         {
-            machineIad1, 
+            machineIad1,
         },
     });
 
@@ -318,7 +318,7 @@ return await Deployment.RunAsync(() =>
     {
         DependsOn =
         {
-            machineSea1, 
+            machineSea1,
         },
     });
 

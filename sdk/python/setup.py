@@ -37,7 +37,8 @@ setup(name='pulumi_flyio',
       },
       install_requires=[
           'parver>=0.2.1',
-          'pulumi',
-          'semver>=2.8.1'
+          'pulumi>=3.136.0,<4.0.0',
+          'semver>=2.8.1',
+          'typing-extensions>=4.11,<5; python_version < "3.11"'
       ],
       zip_safe=False)

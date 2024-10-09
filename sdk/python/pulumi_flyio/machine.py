@@ -4,9 +4,14 @@
 
 import copy
 import warnings
+import sys
 import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
+if sys.version_info >= (3, 11):
+    from typing import NotRequired, TypedDict, TypeAlias
+else:
+    from typing_extensions import NotRequired, TypedDict, TypeAlias
 from . import _utilities
 from . import flyio as _flyio
 from . import outputs
@@ -157,7 +162,7 @@ class Machine(pulumi.CustomResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  app_name: Optional[pulumi.Input[str]] = None,
-                 config: Optional[pulumi.Input[pulumi.InputType['_flyio.FlyMachineConfigArgs']]] = None,
+                 config: Optional[pulumi.Input[Union['_flyio.FlyMachineConfigArgs', '_flyio.FlyMachineConfigArgsDict']]] = None,
                  lease_ttl: Optional[pulumi.Input[int]] = None,
                  lsvd: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -197,7 +202,7 @@ class Machine(pulumi.CustomResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  app_name: Optional[pulumi.Input[str]] = None,
-                 config: Optional[pulumi.Input[pulumi.InputType['_flyio.FlyMachineConfigArgs']]] = None,
+                 config: Optional[pulumi.Input[Union['_flyio.FlyMachineConfigArgs', '_flyio.FlyMachineConfigArgsDict']]] = None,
                  lease_ttl: Optional[pulumi.Input[int]] = None,
                  lsvd: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,

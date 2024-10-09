@@ -31,7 +31,7 @@ func main() {
 			Region:         pulumi.String("sea"),
 			AppName:        app.Name,
 			Config: &flyio.FlyMachineConfigArgs{
-				Image: pulumi.String("nginxdemos/hello:latest"),
+				Image: pulumi.String("nginxdemos/hello:0.4"),
 				Guest: &flyio.FlyMachineGuestArgs{
 					Cpus:     pulumi.Int(1),
 					CpuKind:  pulumi.String("shared"),
@@ -68,7 +68,7 @@ func main() {
 								TlsSkipVerify: pulumi.Bool(true),
 							},
 						},
-						Autostop:  pulumi.Bool(true),
+						Autostop:  pulumi.String("suspend"),
 						Autostart: pulumi.Bool(true),
 						Concurrency: &flyio.FlyMachineServiceConcurrencyArgs{
 							SoftLimit: pulumi.Int(2000),
@@ -123,7 +123,7 @@ func main() {
 								TlsSkipVerify: pulumi.Bool(true),
 							},
 						},
-						Autostop:  pulumi.Bool(true),
+						Autostop:  pulumi.String("suspend"),
 						Autostart: pulumi.Bool(true),
 						Concurrency: &flyio.FlyMachineServiceConcurrencyArgs{
 							SoftLimit: pulumi.Int(2000),
@@ -181,7 +181,7 @@ func main() {
 								TlsSkipVerify: pulumi.Bool(true),
 							},
 						},
-						Autostop:  pulumi.Bool(true),
+						Autostop:  pulumi.String("suspend"),
 						Autostart: pulumi.Bool(true),
 						Concurrency: &flyio.FlyMachineServiceConcurrencyArgs{
 							SoftLimit: pulumi.Int(2000),
@@ -236,7 +236,7 @@ func main() {
 								TlsSkipVerify: pulumi.Bool(true),
 							},
 						},
-						Autostop:  pulumi.Bool(true),
+						Autostop:  pulumi.String("suspend"),
 						Autostart: pulumi.Bool(true),
 						Concurrency: &flyio.FlyMachineServiceConcurrencyArgs{
 							SoftLimit: pulumi.Int(2000),
@@ -273,7 +273,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		ctx.Export("appName", map[string]interface{}{
+		ctx.Export("appName", pulumi.StringMap{
 			"value": app.Name,
 		})
 		return nil
