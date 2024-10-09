@@ -16,7 +16,6 @@ var Version string
 const Name string = "flyio"
 
 func Provider() p.Provider {
-	// TODO: Implement Volumne resource
 	return infer.Provider(infer.Options{
 		Resources: []infer.InferredResource{
 			infer.Resource[Random, RandomArgs, RandomState](),
