@@ -82,6 +82,7 @@ jobs:
       - run: make build
       - name: Generate SDK
         run: make ${{ matrix.language }}_sdk
+      - run: git restore .
       - name: Check worktree clean
         run: |
           git update-index -q --refresh
