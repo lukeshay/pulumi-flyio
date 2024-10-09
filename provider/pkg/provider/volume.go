@@ -60,11 +60,10 @@ func (v Volume) Create(ctx p.Context, name string, input VolumeArgs, preview boo
 	}
 	state.Volume = *result.JSON200
 
-	if input.AutoBackupEnabled != nil && *input.AutoBackupEnabled == false {
+	if input.AutoBackupEnabled != nil && !*input.AutoBackupEnabled {
 		res, err = client.VolumesUpdate(ctx, input.AppName, *result.JSON200.Id, flyio.UpdateVolumeRequest{
 			AutoBackupEnabled: input.AutoBackupEnabled,
 		})
-
 		if err != nil {
 			client.VolumeDelete(ctx, input.AppName, *state.Id)
 			return "", VolumeState{}, err
@@ -129,7 +128,7 @@ func (Volume) Read(ctx p.Context, id string, inputs VolumeArgs, state VolumeStat
 	}
 
 	if result.JSON200 == nil {
-		return id, inputs, state, fmt.Errorf("error showing app: %s", result.Body)
+		return id, inputs, state, fmt.Errorf("error getting volume: %s", result.Body)
 	}
 
 	state.Volume = *result.JSON200
