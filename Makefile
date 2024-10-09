@@ -46,7 +46,15 @@ ensure::
 	cd sdk && go mod tidy
 	cd tests && go mod tidy
 
-provider::
+gen::
+	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.json --create-dirs
+	mkdir -p provider/pkg/flyio
+	rm -f $(WORKING_DIR)/bin/$(PROVIDER)
+	go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest --config oapi.yaml tmp/fly-openapi3.json
+	sed -i 's/float32/float64/g' provider/pkg/flyio/flyio.gen.go
+	cd provider && go generate -ldflags "-X $(PROJECT)/$(VERSION_PATH)=$(VERSION)" $(PROJECT)/$(PROVIDER_PATH)/cmd/$(PROVIDER)
+
+provider:: gen
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
 
 provider_debug::
