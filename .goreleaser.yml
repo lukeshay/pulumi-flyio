@@ -1,6 +1,6 @@
 archives:
   - id: archive
-    name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
+    name_template: "{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}"
 before:
   hooks:
     - make gen
@@ -21,9 +21,9 @@ builds:
       - -X github.com/lukeshay/pulumi-flyio/provider/Version={{.Tag }}
     main: ./cmd/pulumi-resource-flyio/
 changelog:
-  skip: true
+  disable: true
 release:
   disable: false
   prerelease: auto
 snapshot:
-  name_template: '{{ .Tag }}-SNAPSHOT'
+  name_template: "{{ .Tag }}-SNAPSHOT"
