@@ -4,6 +4,10 @@ import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
+	csgen "github.com/pulumi/pulumi/pkg/v3/codegen/dotnet"
+	gogen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
+	tsgen "github.com/pulumi/pulumi/pkg/v3/codegen/nodejs"
+	pygen "github.com/pulumi/pulumi/pkg/v3/codegen/python"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 )
 
@@ -29,20 +33,35 @@ func Provider() p.Provider {
 			Description: "A native Pulumi provider for Fly.io.",
 			Keywords: []string{
 				"pulumi",
+				"fly",
 				"flyio",
 				"category/cloud",
 				"kind/native",
 			},
-			License:    "Apache-2.0",
-			Repository: "https://github.com/lukeshay/pulumi-flyio",
-			Publisher:  "Luke Shay",
+			License:           "Apache-2.0",
+			Repository:        "https://github.com/lukeshay/pulumi-flyio",
+			Publisher:         "Luke Shay",
+			PluginDownloadURL: "https://api.github.com/lukeshay",
 			LanguageMap: map[string]any{
-				"nodejs": map[string]any{
-					"name": "pulumi-flyio",
+				"nodejs": tsgen.NodePackageInfo{
+					PackageName: "pulumi-flyio",
 				},
-				"go": map[string]any{
-					"generateResourceContainerTypes": true,
-					"importBasePath":                 "github.com/lukeshay/pulumi-flyio/sdk/go/flyio",
+				"go": gogen.GoPackageInfo{
+					RespectSchemaVersion:           true,
+					GenerateResourceContainerTypes: true,
+					PackageImportAliases: map[string]string{
+						"github.com/lukeshay/pulumi-flyio/sdk/go/flyio": "flyio",
+					},
+					ImportBasePath: "github.com/lukeshay/pulumi-flyio/sdk/go/flyio",
+				},
+				"python": pygen.PackageInfo{
+					RespectSchemaVersion: true,
+				},
+				"csharp": csgen.CSharpPackageInfo{
+					RespectSchemaVersion: true,
+					PackageReferences: map[string]string{
+						"Pulumi": "3.*",
+					},
 				},
 			},
 		},

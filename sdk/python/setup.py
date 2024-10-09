@@ -23,7 +23,7 @@ setup(name='pulumi_flyio',
       description="A native Pulumi provider for Fly.io.",
       long_description=readme(),
       long_description_content_type='text/markdown',
-      keywords='pulumi flyio category/cloud kind/native',
+      keywords='pulumi fly flyio category/cloud kind/native',
       project_urls={
           'Repository': 'https://github.com/lukeshay/pulumi-flyio'
       },

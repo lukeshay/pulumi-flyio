@@ -53,6 +53,7 @@ namespace Pulumi.Flyio
         {
             var dst = src ?? new global::Pulumi.InvokeOptions{};
             dst.Version = src?.Version ?? Version;
+            dst.PluginDownloadURL = src?.PluginDownloadURL ?? "https://api.github.com/lukeshay";
             return dst;
         }
 

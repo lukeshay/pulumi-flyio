@@ -1,8 +1,9 @@
 {
-    "name": "@pulumi/flyio",
+    "name": "pulumi-flyio",
     "version": "${VERSION}",
     "keywords": [
         "pulumi",
+        "fly",
         "flyio",
         "category/cloud",
         "kind/native"
@@ -21,6 +22,7 @@
     },
     "pulumi": {
         "resource": true,
-        "name": "flyio"
+        "name": "flyio",
+        "server": "https://api.github.com/lukeshay"
     }
 }

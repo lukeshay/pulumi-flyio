@@ -3,7 +3,7 @@ PROJECT_NAME := Pulumi Fly.io Resource Provider
 PACK             := flyio
 PACKDIR          := sdk
 PROJECT          := github.com/lukeshay/pulumi-flyio
-NODE_MODULE_NAME := @lukeshay\/pulumi-flyio
+NODE_MODULE_NAME := pulumi-flyio
 NUGET_PKG_NAME   := Pulumi.Flyio
 
 PROVIDER        := pulumi-resource-${PACK}
@@ -64,7 +64,6 @@ nodejs_sdk::
 		bun run build && \
 		cp ../../README.md ../../LICENSE package.json bun.lockb bin/ && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
-		sed -i.bak 's/@pulumi\/flyio/$(NODE_MODULE_NAME)/g' bin/package.json && \
 		rm ./bin/package.json.bak
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
