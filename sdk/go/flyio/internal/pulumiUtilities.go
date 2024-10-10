@@ -164,8 +164,8 @@ func callPlainInner(
 // PkgResourceDefaultOpts provides package level defaults to pulumi.OptionResource.
 func PkgResourceDefaultOpts(opts []pulumi.ResourceOption) []pulumi.ResourceOption {
 	defaults := []pulumi.ResourceOption{}
-	defaults = append(defaults, pulumi.PluginDownloadURL("https://github.com/lukeshay/pulumi-flyio/releases/download/0.0.18+dirty"))
-	version := semver.MustParse("0.0.18+dirty")
+	defaults = append(defaults, pulumi.PluginDownloadURL("https://github.com/lukeshay/pulumi-flyio/releases/download/${VERSION}"))
+	version := semver.MustParse("0.0.19+dirty")
 	if !version.Equals(semver.Version{}) {
 		defaults = append(defaults, pulumi.Version(version.String()))
 	}
@@ -175,8 +175,8 @@ func PkgResourceDefaultOpts(opts []pulumi.ResourceOption) []pulumi.ResourceOptio
 // PkgInvokeDefaultOpts provides package level defaults to pulumi.OptionInvoke.
 func PkgInvokeDefaultOpts(opts []pulumi.InvokeOption) []pulumi.InvokeOption {
 	defaults := []pulumi.InvokeOption{}
-	defaults = append(defaults, pulumi.PluginDownloadURL("https://github.com/lukeshay/pulumi-flyio/releases/download/0.0.18+dirty"))
-	version := semver.MustParse("0.0.18+dirty")
+	defaults = append(defaults, pulumi.PluginDownloadURL("https://github.com/lukeshay/pulumi-flyio/releases/download/${VERSION}"))
+	version := semver.MustParse("0.0.19+dirty")
 	if !version.Equals(semver.Version{}) {
 		defaults = append(defaults, pulumi.Version(version.String()))
 	}
