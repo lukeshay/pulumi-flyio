@@ -321,7 +321,7 @@ def deprecated(message: str) -> typing.Callable[[C], C]:
     return decorator
 
 def get_plugin_download_url():
-	return "https://github.com/lukeshay/pulumi-flyio/releases/download/${VERSION}"
+	return "https://github.com/lukeshay/pulumi-flyio/releases/download/0.0.21+dirty"
 
 def get_version():
      return _version_str
