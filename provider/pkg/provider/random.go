@@ -15,8 +15,8 @@ type RandomArgs struct {
 }
 
 type RandomState struct {
-	RandomArgs
 	Result string `pulumi:"result"`
+	RandomArgs
 }
 
 func (Random) Create(ctx p.Context, name string, input RandomArgs, preview bool) (string, RandomState, error) {

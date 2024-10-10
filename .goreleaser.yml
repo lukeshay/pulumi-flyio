@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/goreleaser/goreleaser/v2.3.2/www/docs/static/schema.json
 archives:
   - id: archive
     name_template: "{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}"
@@ -26,4 +27,4 @@ release:
   disable: false
   prerelease: auto
 snapshot:
-  name_template: "{{ .Tag }}-SNAPSHOT"
+  version_template: "{{ .Tag }}-SNAPSHOT"

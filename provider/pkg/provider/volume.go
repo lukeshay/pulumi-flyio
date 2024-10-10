@@ -24,14 +24,14 @@ var (
 
 type VolumeArgs struct {
 	flyio.CreateVolumeRequest
-	AppName           string `pulumi:"appName"`
 	AutoBackupEnabled *bool  `pulumi:"autoBackupEnabled,optional"`
+	AppName           string `pulumi:"appName"`
 }
 
 type VolumeState struct {
 	flyio.Volume
-	AppName string     `pulumi:"appName"`
 	Input   VolumeArgs `pulumi:"input"`
+	AppName string     `pulumi:"appName"`
 }
 
 func (v Volume) Create(ctx p.Context, name string, input VolumeArgs, preview bool) (string, VolumeState, error) {

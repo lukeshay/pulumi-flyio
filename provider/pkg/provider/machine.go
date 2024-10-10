@@ -27,9 +27,9 @@ type MachineArgs struct {
 	flyio.CreateMachineRequest
 	WaitForChecks  *int   `pulumi:"waitForChecks,optional"`
 	WaitForUpdate  *int   `pulumi:"waitForUpdate,optional"`
+	SkipLaunch     *bool  `pulumi:"skipLaunch,optional"`
 	AppName        string `pulumi:"appName"`
 	UpdateStrategy string `pulumi:"updateStrategy,optional"`
-	SkipLaunch     *bool  `pulumi:"skipLaunch,optional"`
 }
 
 type MachineState struct {
@@ -325,7 +325,7 @@ func (m Machine) waitForChecks(ctx p.Context, id string, input MachineArgs, stat
 
 			for _, check := range *state.Checks {
 				result[*check.Name] = *check.Status
-				_, _, state, err = m.Read(ctx, id, input, state)
+				_, _, state, _ = m.Read(ctx, id, input, state)
 			}
 
 			return state, fmt.Errorf("not all checks succeeded: %#v", result)
@@ -511,15 +511,15 @@ func destroyMachine(ctx p.Context, state MachineState, machine *flyio.Machine) e
 		return err
 	}
 
-	delRes, err := flyio.ParseMachinesDeleteResponse(res)
+	_, err = flyio.ParseMachinesDeleteResponse(res)
 	if err != nil {
 		return err
 	}
 
-	if delRes.StatusCode() != 200 {
-		result, _ := flyio.ParseMachinesDeleteResponse(res)
-		return fmt.Errorf("error deleting machine: %s", result.Body)
-	}
+	// if delRes.StatusCode() != 200 {
+	// 	result, _ := flyio.ParseMachinesDeleteResponse(res)
+	// 	return fmt.Errorf("error deleting machine: %s", result.Body)
+	// }
 
 	_, err = waitForState(ctx, state.AppName, *machine.Id, *machine.InstanceId, flyio.Destroyed)
 	if err != nil {
