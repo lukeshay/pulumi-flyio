@@ -17,3 +17,4 @@ sdk/dotnet/version.txt
 schema-flyio.json
 **/bun.lockb
 pulumi-plugin.json
+sdk/
