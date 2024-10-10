@@ -53,7 +53,7 @@ export function getVersion(): string {
 
 /** @internal */
 export function resourceOptsDefaults(): any {
-    return { version: getVersion(), pluginDownloadURL: "https://api.github.com/lukeshay" };
+    return { version: getVersion(), pluginDownloadURL: "https://github.com/lukeshay/pulumi-flyio/releases/download/0.0.18+dirty" };
 }
 
 /** @internal */

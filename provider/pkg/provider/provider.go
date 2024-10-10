@@ -1,6 +1,8 @@
 package provider
 
 import (
+	"fmt"
+
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
@@ -40,7 +42,7 @@ func Provider() p.Provider {
 			License:           "Apache-2.0",
 			Repository:        "https://github.com/lukeshay/pulumi-flyio",
 			Publisher:         "Luke Shay",
-			PluginDownloadURL: "https://api.github.com/lukeshay",
+			PluginDownloadURL: fmt.Sprintf("https://github.com/lukeshay/pulumi-flyio/releases/download/%s", Version),
 			LanguageMap: map[string]any{
 				"nodejs": tsgen.NodePackageInfo{
 					PackageName: "pulumi-flyio",

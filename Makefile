@@ -9,7 +9,7 @@ NUGET_PKG_NAME   := Pulumi.Flyio
 PROVIDER        := pulumi-resource-${PACK}
 VERSION         ?= $(shell pulumictl get version)
 PROVIDER_PATH   := provider
-VERSION_PATH    := ${PROVIDER_PATH}.Version
+VERSION_PATH    := ${PROVIDER_PATH}/pkg/provider.Version
 
 GOPATH			:= $(shell go env GOPATH)
 

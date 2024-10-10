@@ -1,5 +1,6 @@
 {
   "resource": true,
   "name": "flyio",
-  "server": "https://api.github.com/lukeshay"
+  "version": "0.0.18+dirty",
+  "server": "https://github.com/lukeshay/pulumi-flyio/releases/download/0.0.18+dirty"
 }
