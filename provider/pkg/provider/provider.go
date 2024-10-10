@@ -42,7 +42,7 @@ func Provider() p.Provider {
 			License:           "Apache-2.0",
 			Repository:        "https://github.com/lukeshay/pulumi-flyio",
 			Publisher:         "Luke Shay",
-			PluginDownloadURL: fmt.Sprintf("https://github.com/lukeshay/pulumi-flyio/releases/download/%s", Version),
+			PluginDownloadURL: fmt.Sprintf("https://github.com/lukeshay/pulumi-flyio/releases/download/v%s", Version),
 			LanguageMap: map[string]any{
 				"nodejs": tsgen.NodePackageInfo{
 					PackageName: "pulumi-flyio",
