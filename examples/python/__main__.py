@@ -201,6 +201,17 @@ volume_sea = flyio.Volume("volume-sea",
     app_name=app.name,
     size_gb=5,
     opts = pulumi.ResourceOptions(depends_on=[machine_sea1]))
+ipv4 = flyio.IP("ipv4",
+    region="sea",
+    app=app.name,
+    addr_type="v4")
+ipv6 = flyio.IP("ipv6",
+    region="sea",
+    app=app.name,
+    addr_type="v6")
+certificate = flyio.Certificate("certificate",
+    app=app.name,
+    hostname="pulumi-flyio.lshay.land")
 pulumi.export("appName", {
     "value": app.name,
 })

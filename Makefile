@@ -127,7 +127,7 @@ endef
 up::
 	$(call pulumi_login) \
 	cd ${EXAMPLES_DIR} && \
-	pulumi stack init dev && \
+	pulumi stack init dev || true && \
 	pulumi stack select dev && \
 	pulumi config set name dev && \
 	pulumi up -y

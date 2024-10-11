@@ -212,6 +212,20 @@ const volumeSea = new flyio.Volume("volume-sea", {
 }, {
     dependsOn: [machineSea1],
 });
+const ipv4 = new flyio.IP("ipv4", {
+    region: "sea",
+    app: app.name,
+    addrType: "v4",
+});
+const ipv6 = new flyio.IP("ipv6", {
+    region: "sea",
+    app: app.name,
+    addrType: "v6",
+});
+const certificate = new flyio.Certificate("certificate", {
+    app: app.name,
+    hostname: "pulumi-flyio.lshay.land",
+});
 export const appName = {
     value: app.name,
 };

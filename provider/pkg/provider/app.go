@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/lukeshay/pulumi-flyio/provider/pkg/flyio"
@@ -26,18 +27,15 @@ type AppState struct {
 	Input AppArgs `pulumi:"input"`
 }
 
-func (App) Create(ctx p.Context, name string, input AppArgs, preview bool) (string, AppState, error) {
+func (App) Create(ctx context.Context, name string, input AppArgs, preview bool) (string, AppState, error) {
 	state := AppState{Input: input}
 	if preview {
 		return name, state, nil
 	}
 
-	client, err := getFlyClient()
-	if err != nil {
-		return "", AppState{}, err
-	}
+	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := client.AppsCreate(ctx, input.CreateAppRequest)
+	res, err := cfg.flyioClient.AppsCreate(ctx, input.CreateAppRequest)
 	if err != nil {
 		return "", AppState{}, err
 	}
@@ -55,7 +53,7 @@ func (App) Create(ctx p.Context, name string, input AppArgs, preview bool) (stri
 		return "", AppState{}, fmt.Errorf("error creating app: %s", result.Body)
 	}
 
-	res, err = client.AppsShow(ctx, *input.AppName)
+	res, err = cfg.flyioClient.AppsShow(ctx, *input.AppName)
 	if err != nil {
 		return "", AppState{}, err
 	}
@@ -74,13 +72,10 @@ func (App) Create(ctx p.Context, name string, input AppArgs, preview bool) (stri
 	return *result2.JSON200.Id, state, nil
 }
 
-func (App) Delete(ctx p.Context, reqID string, state AppState) error {
-	client, err := getFlyClient()
-	if err != nil {
-		return err
-	}
+func (App) Delete(ctx context.Context, reqID string, state AppState) error {
+	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := client.AppsDelete(ctx, *state.Name)
+	res, err := cfg.flyioClient.AppsDelete(ctx, *state.Name)
 	if err != nil {
 		return err
 	}
@@ -97,15 +92,12 @@ func (App) Delete(ctx p.Context, reqID string, state AppState) error {
 	return nil
 }
 
-func (App) Read(ctx p.Context, id string, inputs AppArgs, state AppState) (
+func (App) Read(ctx context.Context, id string, inputs AppArgs, state AppState) (
 	canonicalID string, normalizedInputs AppArgs, normalizedState AppState, err error,
 ) {
-	client, err := getFlyClient()
-	if err != nil {
-		return id, inputs, state, err
-	}
+	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := client.AppsShow(ctx, *state.Name)
+	res, err := cfg.flyioClient.AppsShow(ctx, *state.Name)
 	if err != nil {
 		return id, inputs, state, err
 	}
@@ -129,6 +121,6 @@ var appDiffOpts = generateDiffResponseOpts{
 	DeleteBeforeReplaceProps: []string{"AppName", "OrgSlug", "EnableSubdomains", "Network"},
 }
 
-func (App) Diff(ctx p.Context, id string, state AppState, input AppArgs) (p.DiffResponse, error) {
+func (App) Diff(ctx context.Context, id string, state AppState, input AppArgs) (p.DiffResponse, error) {
 	return generateDiffResponse(state.Input, input, appDiffOpts)
 }

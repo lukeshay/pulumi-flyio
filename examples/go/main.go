@@ -273,6 +273,29 @@ func main() {
 		if err != nil {
 			return err
 		}
+		_, err = flyio.NewIP(ctx, "ipv4", &flyio.IPArgs{
+			Region:   pulumi.String("sea"),
+			App:      app.Name,
+			AddrType: pulumi.String("v4"),
+		})
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewIP(ctx, "ipv6", &flyio.IPArgs{
+			Region:   pulumi.String("sea"),
+			App:      app.Name,
+			AddrType: pulumi.String("v6"),
+		})
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewCertificate(ctx, "certificate", &flyio.CertificateArgs{
+			App:      app.Name,
+			Hostname: pulumi.String("pulumi-flyio.lshay.land"),
+		})
+		if err != nil {
+			return err
+		}
 		ctx.Export("appName", pulumi.StringMap{
 			"value": app.Name,
 		})

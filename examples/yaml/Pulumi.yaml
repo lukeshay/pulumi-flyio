@@ -191,6 +191,23 @@ resources:
       region: sea
       appName: ${app.name}
       sizeGb: 5
+  ipv4:
+    type: flyio:IP
+    properties:
+      region: sea
+      app: ${app.name}
+      addrType: v4
+  ipv6:
+    type: flyio:IP
+    properties:
+      region: sea
+      app: ${app.name}
+      addrType: v6
+  certificate:
+    type: flyio:Certificate
+    properties:
+      app: ${app.name}
+      hostname: pulumi-flyio.lshay.land
 
 outputs:
   appName:

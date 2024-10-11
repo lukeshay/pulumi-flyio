@@ -322,6 +322,26 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    var ipv4 = new Flyio.IP("ipv4", new()
+    {
+        Region = "sea",
+        App = app.Name,
+        AddrType = "v4",
+    });
+
+    var ipv6 = new Flyio.IP("ipv6", new()
+    {
+        Region = "sea",
+        App = app.Name,
+        AddrType = "v6",
+    });
+
+    var certificate = new Flyio.Certificate("certificate", new()
+    {
+        App = app.Name,
+        Hostname = "pulumi-flyio.lshay.land",
+    });
+
     return new Dictionary<string, object?>
     {
         ["appName"] = 

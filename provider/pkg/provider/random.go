@@ -1,10 +1,9 @@
 package provider
 
 import (
+	"context"
 	"math/rand"
 	"time"
-
-	p "github.com/pulumi/pulumi-go-provider"
 )
 
 // TODO: Add annotations
@@ -19,7 +18,7 @@ type RandomState struct {
 	RandomArgs
 }
 
-func (Random) Create(ctx p.Context, name string, input RandomArgs, preview bool) (string, RandomState, error) {
+func (Random) Create(ctx context.Context, name string, input RandomArgs, preview bool) (string, RandomState, error) {
 	state := RandomState{RandomArgs: input}
 	if preview {
 		return name, state, nil

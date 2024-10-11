@@ -1,52 +1,15 @@
 package provider
 
 import (
-	"context"
 	"fmt"
 	"math/rand"
-	"net/http"
-	"os"
 	"reflect"
 	"slices"
 	"strings"
 
-	"github.com/lukeshay/pulumi-flyio/provider/pkg/flyio"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/r3labs/diff/v3"
 )
-
-func requireEnv(key string) (string, error) {
-	value, found := os.LookupEnv(key)
-	if found {
-		return value, nil
-	}
-
-	return "", fmt.Errorf("missing required env var: %s", key)
-}
-
-func addFlyApiToken(req *http.Request) error {
-	flyApiToken, err := requireEnv("FLY_API_TOKEN")
-	if err != nil {
-		return err
-	}
-
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", flyApiToken))
-
-	return nil
-}
-
-func getFlyClient() (*flyio.Client, error) {
-	client, err := flyio.NewClient("https://api.machines.dev/v1")
-	if err != nil {
-		return nil, err
-	}
-
-	client.RequestEditors = append(client.RequestEditors, func(ctx context.Context, req *http.Request) error {
-		return addFlyApiToken(req)
-	})
-
-	return client, nil
-}
 
 type generateDiffResponseOpts struct {
 	ReplaceProps             []string

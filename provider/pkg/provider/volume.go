@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -34,18 +35,15 @@ type VolumeState struct {
 	AppName string     `pulumi:"appName"`
 }
 
-func (v Volume) Create(ctx p.Context, name string, input VolumeArgs, preview bool) (string, VolumeState, error) {
+func (v Volume) Create(ctx context.Context, name string, input VolumeArgs, preview bool) (string, VolumeState, error) {
 	state := VolumeState{Input: input, AppName: input.AppName}
 	if preview {
 		return name, state, nil
 	}
 
-	client, err := getFlyClient()
-	if err != nil {
-		return "", VolumeState{}, err
-	}
+	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := client.VolumesCreate(ctx, input.AppName, input.CreateVolumeRequest)
+	res, err := cfg.flyioClient.VolumesCreate(ctx, input.AppName, input.CreateVolumeRequest)
 	if err != nil {
 		return "", VolumeState{}, err
 	}
@@ -61,22 +59,22 @@ func (v Volume) Create(ctx p.Context, name string, input VolumeArgs, preview boo
 	state.Volume = *result.JSON200
 
 	if input.AutoBackupEnabled != nil && !*input.AutoBackupEnabled {
-		res, err = client.VolumesUpdate(ctx, input.AppName, *result.JSON200.Id, flyio.UpdateVolumeRequest{
+		res, err = cfg.flyioClient.VolumesUpdate(ctx, input.AppName, *result.JSON200.Id, flyio.UpdateVolumeRequest{
 			AutoBackupEnabled: input.AutoBackupEnabled,
 		})
 		if err != nil {
-			client.VolumeDelete(ctx, input.AppName, *state.Id)
+			cfg.flyioClient.VolumeDelete(ctx, input.AppName, *state.Id)
 			return "", VolumeState{}, err
 		}
 
 		result2, err := flyio.ParseVolumesUpdateResponse(res)
 		if err != nil {
-			client.VolumeDelete(ctx, input.AppName, *state.Id)
+			cfg.flyioClient.VolumeDelete(ctx, input.AppName, *state.Id)
 			return "", VolumeState{}, err
 		}
 
 		if result2.JSON200 == nil {
-			client.VolumeDelete(ctx, input.AppName, *state.Id)
+			cfg.flyioClient.VolumeDelete(ctx, input.AppName, *state.Id)
 			return "", VolumeState{}, resErr("error updating volume", result, result.Body)
 		}
 
@@ -86,13 +84,10 @@ func (v Volume) Create(ctx p.Context, name string, input VolumeArgs, preview boo
 	return *result.JSON200.Id, state, nil
 }
 
-func (Volume) Delete(ctx p.Context, reqID string, state VolumeState) error {
-	client, err := getFlyClient()
-	if err != nil {
-		return err
-	}
+func (Volume) Delete(ctx context.Context, reqID string, state VolumeState) error {
+	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := client.VolumeDelete(ctx, state.AppName, *state.Id)
+	res, err := cfg.flyioClient.VolumeDelete(ctx, state.AppName, *state.Id)
 	if err != nil {
 		return err
 	}
@@ -109,15 +104,12 @@ func (Volume) Delete(ctx p.Context, reqID string, state VolumeState) error {
 	return nil
 }
 
-func (Volume) Read(ctx p.Context, id string, inputs VolumeArgs, state VolumeState) (
+func (Volume) Read(ctx context.Context, id string, inputs VolumeArgs, state VolumeState) (
 	canonicalID string, normalizedInputs VolumeArgs, normalizedState VolumeState, err error,
 ) {
-	client, err := getFlyClient()
-	if err != nil {
-		return id, inputs, state, err
-	}
+	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := client.VolumesGetById(ctx, *state.Name, *state.Id)
+	res, err := cfg.flyioClient.VolumesGetById(ctx, *state.Name, *state.Id)
 	if err != nil {
 		return id, inputs, state, err
 	}
@@ -141,11 +133,11 @@ var volumeDiffOpts = generateDiffResponseOpts{
 	DeleteBeforeReplaceProps: []string{"Compute", "ComputeImage", "Encrypted", "Fstype", "MachinesOnly", "Name", "Region", "RequireUniqueZone", "SnapshotId", "SourceVolumeId", "AppName"},
 }
 
-func (Volume) Diff(ctx p.Context, id string, state VolumeState, input VolumeArgs) (p.DiffResponse, error) {
+func (Volume) Diff(ctx context.Context, id string, state VolumeState, input VolumeArgs) (p.DiffResponse, error) {
 	return generateDiffResponse(state.Input, input, volumeDiffOpts)
 }
 
-func (m Volume) Update(ctx p.Context, id string, state VolumeState, input VolumeArgs, preview bool) (VolumeState, error) {
+func (m Volume) Update(ctx context.Context, id string, state VolumeState, input VolumeArgs, preview bool) (VolumeState, error) {
 	diff, _ := m.Diff(ctx, id, state, input)
 
 	if diff.DeleteBeforeReplace {
@@ -163,16 +155,13 @@ func (m Volume) Update(ctx p.Context, id string, state VolumeState, input Volume
 		return newState, nil
 	}
 
-	client, err := getFlyClient()
-	if err != nil {
-		return state, err
-	}
+	cfg := infer.GetConfig[Config](ctx)
 
 	if isFirstNilAndSecondNotNil(state.AutoBackupEnabled, input.AutoBackupEnabled) ||
 		areBothNotNilAndNotEqual(state.AutoBackupEnabled, input.AutoBackupEnabled) ||
 		isFirstNilAndSecondNotNil(state.SnapshotRetention, input.SnapshotRetention) ||
 		areBothNotNilAndNotEqual(state.SnapshotRetention, input.SnapshotRetention) {
-		res, err := client.VolumesUpdate(ctx, state.AppName, *state.Id, flyio.UpdateVolumeRequest{
+		res, err := cfg.flyioClient.VolumesUpdate(ctx, state.AppName, *state.Id, flyio.UpdateVolumeRequest{
 			AutoBackupEnabled: input.AutoBackupEnabled,
 			SnapshotRetention: input.SnapshotRetention,
 		})
@@ -193,7 +182,7 @@ func (m Volume) Update(ctx p.Context, id string, state VolumeState, input Volume
 	}
 
 	if isFirstNilAndSecondNotNil(state.SizeGb, input.SizeGb) || areBothNotNilAndNotEqual(state.SizeGb, input.SizeGb) {
-		res, err := client.VolumesExtend(ctx, state.AppName, *state.Id, flyio.ExtendVolumeRequest{
+		res, err := cfg.flyioClient.VolumesExtend(ctx, state.AppName, *state.Id, flyio.ExtendVolumeRequest{
 			SizeGb: input.SizeGb,
 		})
 		if err != nil {
