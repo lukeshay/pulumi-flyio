@@ -124,11 +124,15 @@ func (c Machine) Update(ctx context.Context, id string, state MachineState, inpu
 
 		state.Machine = *result.JSON200
 	} else {
-		if *state.Name == *input.CreateMachineRequest.Name {
-			name := fmt.Sprintf("%s-%s", *input.CreateMachineRequest.Name, randSeq(6))
+		name := *state.Name
 
-			input.CreateMachineRequest.Name = &name
+		if input.CreateMachineRequest.Name == nil {
+			name = fmt.Sprintf("%s-%s", *state.Name, randSeq(6))
+		} else if *state.Name == *input.CreateMachineRequest.Name {
+			name = fmt.Sprintf("%s-%s", *input.CreateMachineRequest.Name, randSeq(6))
 		}
+
+		input.CreateMachineRequest.Name = &name
 
 		createRes, err := cfg.flyioClient.MachinesCreate(ctx, input.App, input.CreateMachineRequest)
 		if err != nil {
