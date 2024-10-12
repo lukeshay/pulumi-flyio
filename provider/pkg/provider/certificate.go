@@ -32,7 +32,7 @@ type CertificateStateChecks struct {
 }
 
 type CertificateState struct {
-	input                     CertificateArgs
+	Input                     CertificateArgs        `pulumi:"input"`
 	App                       string                 `json:"app" pulumi:"app"`
 	Hostname                  string                 `json:"hostname" pulumi:"hostname"`
 	CreatedAt                 time.Time              `json:"createdAt" pulumi:"createdAt"`
@@ -55,7 +55,7 @@ type CertificateState struct {
 func (Certificate) Create(ctx context.Context, name string, input CertificateArgs, preview bool) (string, CertificateState, error) {
 	if preview {
 		state := CertificateState{
-			input:     input,
+			Input:     input,
 			Hostname:  input.Hostname,
 			App:       input.App,
 			CreatedAt: time.Now(),
@@ -72,7 +72,7 @@ func (Certificate) Create(ctx context.Context, name string, input CertificateArg
 	}
 
 	state := CertificateState{
-		input:                     input,
+		Input:                     input,
 		App:                       input.App,
 		CreatedAt:                 certificate.CreatedAt,
 		ID:                        certificate.ID,
@@ -113,7 +113,7 @@ func (Certificate) Read(ctx context.Context, id string, input CertificateArgs, s
 	}
 
 	state = CertificateState{
-		input:                     input,
+		Input:                     input,
 		App:                       input.App,
 		CreatedAt:                 certificate.CreatedAt,
 		ID:                        certificate.ID,
@@ -154,10 +154,10 @@ func (Certificate) Read(ctx context.Context, id string, input CertificateArgs, s
 // }
 
 var certificateDiffOpts = generateDiffResponseOpts{
-	ReplaceProps:             []string{},
-	DeleteBeforeReplaceProps: []string{"App", "Hostname"},
+	ReplaceProps:             []string{"App", "Hostname"},
+	DeleteBeforeReplaceProps: []string{},
 }
 
 func (Certificate) Diff(ctx context.Context, id string, state CertificateState, input CertificateArgs) (p.DiffResponse, error) {
-	return generateDiffResponse(state.input, input, certificateDiffOpts)
+	return generateDiffResponse(state.Input, input, certificateDiffOpts)
 }

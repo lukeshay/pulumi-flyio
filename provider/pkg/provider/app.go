@@ -19,63 +19,69 @@ var (
 )
 
 type AppArgs struct {
-	flyio.CreateAppRequest
+	Name             string  `json:"name" pulumi:"name"`
+	Org              string  `json:"org" pulumi:"org"`
+	EnableSubdomains *bool   `json:"enableSubdomains,omitempty" pulumi:"enableSubdomains,optional"`
+	Network          *string `json:"network,omitempty" pulumi:"network,optional"`
 }
 
 type AppState struct {
-	flyio.App
-	Input AppArgs `pulumi:"input"`
+	Name             string  `json:"name" pulumi:"name"`
+	Org              string  `json:"org" pulumi:"org"`
+	Status           *string `json:"status,omitempty" pulumi:"status,optional"`
+	EnableSubdomains *bool   `json:"enableSubdomains,omitempty" pulumi:"enableSubdomains,optional"`
+	Network          *string `json:"network,omitempty" pulumi:"network,optional"`
+	Input            AppArgs `pulumi:"input"`
 }
 
-func (App) Create(ctx context.Context, name string, input AppArgs, preview bool) (string, AppState, error) {
-	state := AppState{Input: input}
+func (c App) Create(ctx context.Context, name string, input AppArgs, preview bool) (string, AppState, error) {
 	if preview {
-		return name, state, nil
+		return name, AppState{
+			Input:            input,
+			Name:             input.Name,
+			Org:              input.Org,
+			EnableSubdomains: input.EnableSubdomains,
+			Network:          input.Network,
+		}, nil
 	}
 
 	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := cfg.flyioClient.AppsCreate(ctx, input.CreateAppRequest)
+	res, err := cfg.flyioClient.AppsCreate(ctx, flyio.CreateAppRequest{
+		AppName:          &input.Name,
+		OrgSlug:          &input.Org,
+		EnableSubdomains: input.EnableSubdomains,
+		Network:          input.Network,
+	})
 	if err != nil {
 		return "", AppState{}, err
 	}
 
-	result, err := flyio.ParseAppsCreateResponse(res)
+	createResult, err := flyio.ParseAppsCreateResponse(res)
 	if err != nil {
 		return "", AppState{}, err
 	}
 
-	if result.JSON400 != nil {
-		return "", AppState{}, fmt.Errorf(*result.JSON400.Error)
+	if createResult.JSON400 != nil {
+		return "", AppState{}, fmt.Errorf(*createResult.JSON400.Error)
 	}
 
-	if result.StatusCode() != 201 {
-		return "", AppState{}, fmt.Errorf("error creating app: %s", result.Body)
+	if createResult.StatusCode() != 201 {
+		return "", AppState{}, fmt.Errorf("error creating app: %s", createResult.Body)
 	}
 
-	res, err = cfg.flyioClient.AppsShow(ctx, *input.AppName)
+	app, state, err := c.show(ctx, cfg, input)
 	if err != nil {
 		return "", AppState{}, err
 	}
 
-	result2, err := flyio.ParseAppsShowResponse(res)
-	if err != nil {
-		return "", AppState{}, err
-	}
-
-	if result2.JSON200 == nil {
-		return "", AppState{}, fmt.Errorf("error showing app: %s", result.Body)
-	}
-
-	state.App = *result2.JSON200
-
-	return *result2.JSON200.Id, state, nil
+	return *app.Id, state, err
 }
 
 func (App) Delete(ctx context.Context, reqID string, state AppState) error {
 	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := cfg.flyioClient.AppsDelete(ctx, *state.Name)
+	res, err := cfg.flyioClient.AppsDelete(ctx, state.Name)
 	if err != nil {
 		return err
 	}
@@ -85,40 +91,54 @@ func (App) Delete(ctx context.Context, reqID string, state AppState) error {
 		return err
 	}
 
-	if result.StatusCode() != 202 {
+	if result.StatusCode() > 299 {
 		return fmt.Errorf("error deleting app: %s", result.Body)
 	}
 
 	return nil
 }
 
-func (App) Read(ctx context.Context, id string, inputs AppArgs, state AppState) (
-	canonicalID string, normalizedInputs AppArgs, normalizedState AppState, err error,
+func (c App) Read(ctx context.Context, id string, inputs AppArgs, state AppState) (
+	string, AppArgs, AppState, error,
 ) {
 	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := cfg.flyioClient.AppsShow(ctx, *state.Name)
+	_, newState, err := c.show(ctx, cfg, inputs)
 	if err != nil {
 		return id, inputs, state, err
+	}
+
+	return id, inputs, newState, nil
+}
+
+func (App) show(ctx context.Context, cfg Config, inputs AppArgs) (*flyio.App, AppState, error) {
+	res, err := cfg.flyioClient.AppsShow(ctx, inputs.Name)
+	if err != nil {
+		return nil, AppState{}, err
 	}
 
 	result, err := flyio.ParseAppsShowResponse(res)
 	if err != nil {
-		return id, inputs, state, err
+		return nil, AppState{}, err
 	}
 
 	if result.JSON200 == nil {
-		return id, inputs, state, fmt.Errorf("error showing app: %s", result.Body)
+		return nil, AppState{}, fmt.Errorf("error showing app: %s", result.Body)
 	}
 
-	state.App = *result.JSON200
-
-	return id, inputs, state, nil
+	return result.JSON200, AppState{
+		Input:            inputs,
+		EnableSubdomains: inputs.EnableSubdomains,
+		Name:             *result.JSON200.Name,
+		Network:          inputs.Network,
+		Org:              *result.JSON200.Organization.Slug,
+		Status:           result.JSON200.Status,
+	}, nil
 }
 
 var appDiffOpts = generateDiffResponseOpts{
-	ReplaceProps:             []string{},
-	DeleteBeforeReplaceProps: []string{"AppName", "OrgSlug", "EnableSubdomains", "Network"},
+	ReplaceProps:             []string{"Org", "Name"},
+	DeleteBeforeReplaceProps: []string{},
 }
 
 func (App) Diff(ctx context.Context, id string, state AppState, input AppArgs) (p.DiffResponse, error) {

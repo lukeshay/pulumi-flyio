@@ -29,7 +29,7 @@ type IPStateNetwork struct {
 }
 
 type IPState struct {
-	input     IPArgs
+	Input     IPArgs    `pulumi:"input"`
 	FlyID     string    `json:"flyId" pulumi:"flyId"`
 	Address   string    `json:"address" pulumi:"address"`
 	Type      string    `json:"type" pulumi:"type"`
@@ -42,7 +42,7 @@ type IPState struct {
 func (IP) Create(ctx context.Context, name string, input IPArgs, preview bool) (string, IPState, error) {
 	if preview {
 		state := IPState{
-			input:     input,
+			Input:     input,
 			FlyID:     "",
 			Address:   "",
 			Type:      input.AddrType,
@@ -77,7 +77,7 @@ func (IP) Create(ctx context.Context, name string, input IPArgs, preview bool) (
 	}
 
 	state := IPState{
-		input:     input,
+		Input:     input,
 		FlyID:     ipAddress.ID,
 		Address:   ipAddress.Address,
 		Type:      ipAddress.Type,
@@ -102,10 +102,10 @@ func (IP) Delete(ctx context.Context, reqID string, state IPState) error {
 }
 
 var ipDiffOpts = generateDiffResponseOpts{
-	ReplaceProps:             []string{},
-	DeleteBeforeReplaceProps: []string{"App", "AddrType", "Region", "Network"},
+	ReplaceProps:             []string{"App", "AddrType", "Region", "Network"},
+	DeleteBeforeReplaceProps: []string{},
 }
 
 func (IP) Diff(ctx context.Context, id string, state IPState, input IPArgs) (p.DiffResponse, error) {
-	return generateDiffResponse(state.input, input, ipDiffOpts)
+	return generateDiffResponse(state.Input, input, ipDiffOpts)
 }

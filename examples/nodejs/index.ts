@@ -3,14 +3,14 @@ import * as flyio from "pulumi-flyio";
 
 const appNameResource = new flyio.Random("appName", {length: 24});
 const app = new flyio.App("app", {
-    appName: pulumi.interpolate`pulumi-${appNameResource.result}`,
-    orgSlug: "luke-shay",
+    name: pulumi.interpolate`pulumi-${appNameResource.result}`,
+    org: "luke-shay",
 });
 const machineSea1 = new flyio.Machine("machine-sea-1", {
     name: "machine-sea-1",
-    updateStrategy: "bluegreen",
     region: "sea",
-    appName: app.name,
+    app: app.name,
+    deploymentStrategy: "bluegreen",
     config: {
         image: "nginxdemos/hello:0.4",
         guest: {
@@ -56,7 +56,7 @@ const machineSea1 = new flyio.Machine("machine-sea-1", {
 const machineSea2 = new flyio.Machine("machine-sea-2", {
     name: "machine-sea-2",
     region: "sea",
-    appName: app.name,
+    app: app.name,
     config: {
         image: "nginxdemos/hello:latest",
         guest: {
@@ -103,9 +103,8 @@ const machineSea2 = new flyio.Machine("machine-sea-2", {
 });
 const machineIad1 = new flyio.Machine("machine-iad-1", {
     name: "machine-iad-1",
-    updateStrategy: "bluegreen",
     region: "iad",
-    appName: app.name,
+    app: app.name,
     config: {
         image: "nginxdemos/hello:latest",
         guest: {
@@ -151,7 +150,7 @@ const machineIad1 = new flyio.Machine("machine-iad-1", {
 const machineIad2 = new flyio.Machine("machine-iad-2", {
     name: "machine-iad-2",
     region: "iad",
-    appName: app.name,
+    app: app.name,
     config: {
         image: "nginxdemos/hello:latest",
         guest: {
@@ -198,8 +197,9 @@ const machineIad2 = new flyio.Machine("machine-iad-2", {
 });
 const volumeIad = new flyio.Volume("volume-iad", {
     name: "volume_iad",
+    autoBackupEnabled: true,
     region: "iad",
-    appName: app.name,
+    app: app.name,
     sizeGb: 5,
 }, {
     dependsOn: [machineIad1],
@@ -207,7 +207,7 @@ const volumeIad = new flyio.Volume("volume-iad", {
 const volumeSea = new flyio.Volume("volume-sea", {
     name: "volume_sea",
     region: "sea",
-    appName: app.name,
+    app: app.name,
     sizeGb: 5,
 }, {
     dependsOn: [machineSea1],

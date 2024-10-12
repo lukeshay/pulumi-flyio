@@ -12,16 +12,16 @@ return await Deployment.RunAsync(() =>
 
     var app = new Flyio.App("app", new()
     {
-        AppName = appNameResource.Result.Apply(result => $"pulumi-{result}"),
-        OrgSlug = "luke-shay",
+        Name = appNameResource.Result.Apply(result => $"pulumi-{result}"),
+        Org = "luke-shay",
     });
 
     var machineSea1 = new Flyio.Machine("machine-sea-1", new()
     {
         Name = "machine-sea-1",
-        UpdateStrategy = "bluegreen",
         Region = "sea",
-        AppName = app.Name,
+        App = app.Name,
+        DeploymentStrategy = "bluegreen",
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
             Image = "nginxdemos/hello:0.4",
@@ -87,7 +87,7 @@ return await Deployment.RunAsync(() =>
     {
         Name = "machine-sea-2",
         Region = "sea",
-        AppName = app.Name,
+        App = app.Name,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
             Image = "nginxdemos/hello:latest",
@@ -158,9 +158,8 @@ return await Deployment.RunAsync(() =>
     var machineIad1 = new Flyio.Machine("machine-iad-1", new()
     {
         Name = "machine-iad-1",
-        UpdateStrategy = "bluegreen",
         Region = "iad",
-        AppName = app.Name,
+        App = app.Name,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
             Image = "nginxdemos/hello:latest",
@@ -226,7 +225,7 @@ return await Deployment.RunAsync(() =>
     {
         Name = "machine-iad-2",
         Region = "iad",
-        AppName = app.Name,
+        App = app.Name,
         Config = new Flyio.Flyio.Inputs.FlyMachineConfigArgs
         {
             Image = "nginxdemos/hello:latest",
@@ -297,8 +296,9 @@ return await Deployment.RunAsync(() =>
     var volumeIad = new Flyio.Volume("volume-iad", new()
     {
         Name = "volume_iad",
+        AutoBackupEnabled = true,
         Region = "iad",
-        AppName = app.Name,
+        App = app.Name,
         SizeGb = 5,
     }, new CustomResourceOptions
     {
@@ -312,7 +312,7 @@ return await Deployment.RunAsync(() =>
     {
         Name = "volume_sea",
         Region = "sea",
-        AppName = app.Name,
+        App = app.Name,
         SizeGb = 5,
     }, new CustomResourceOptions
     {

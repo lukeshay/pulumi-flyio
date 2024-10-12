@@ -13,15 +13,15 @@ resources:
   app:
     type: flyio:App
     properties:
-      appName: pulumi-${appName.result}
-      orgSlug: luke-shay
+      name: pulumi-${appName.result}
+      org: luke-shay
   machine-sea-1:
     type: flyio:Machine
     properties:
       name: machine-sea-1
-      updateStrategy: bluegreen
       region: sea
-      appName: ${app.name}
+      app: ${app.name}
+      deploymentStrategy: bluegreen
       config:
         image: nginxdemos/hello:0.4
         guest:
@@ -61,7 +61,7 @@ resources:
     properties:
       name: machine-sea-2
       region: sea
-      appName: ${app.name}
+      app: ${app.name}
       config:
         image: nginxdemos/hello:latest
         guest:
@@ -97,9 +97,8 @@ resources:
     type: flyio:Machine
     properties:
       name: machine-iad-1
-      updateStrategy: bluegreen
       region: iad
-      appName: ${app.name}
+      app: ${app.name}
       config:
         image: nginxdemos/hello:latest
         guest:
@@ -139,7 +138,7 @@ resources:
     properties:
       name: machine-iad-2
       region: iad
-      appName: ${app.name}
+      app: ${app.name}
       config:
         image: nginxdemos/hello:latest
         guest:
@@ -178,8 +177,9 @@ resources:
         - ${machine-iad-1}
     properties:
       name: volume_iad
+      autoBackupEnabled: true
       region: iad
-      appName: ${app.name}
+      app: ${app.name}
       sizeGb: 5
   volume-sea:
     type: flyio:Volume
@@ -189,7 +189,7 @@ resources:
     properties:
       name: volume_sea
       region: sea
-      appName: ${app.name}
+      app: ${app.name}
       sizeGb: 5
   ipv4:
     type: flyio:IP

@@ -17,19 +17,19 @@ func main() {
 			return err
 		}
 		app, err := flyio.NewApp(ctx, "app", &flyio.AppArgs{
-			AppName: appNameResource.Result.ApplyT(func(result string) (string, error) {
+			Name: appNameResource.Result.ApplyT(func(result string) (string, error) {
 				return fmt.Sprintf("pulumi-%v", result), nil
 			}).(pulumi.StringOutput),
-			OrgSlug: pulumi.String("luke-shay"),
+			Org: pulumi.String("luke-shay"),
 		})
 		if err != nil {
 			return err
 		}
 		machineSea1, err := flyio.NewMachine(ctx, "machine-sea-1", &flyio.MachineArgs{
-			Name:           pulumi.String("machine-sea-1"),
-			UpdateStrategy: pulumi.String("bluegreen"),
-			Region:         pulumi.String("sea"),
-			AppName:        app.Name,
+			Name:               pulumi.String("machine-sea-1"),
+			Region:             pulumi.String("sea"),
+			App:                app.Name,
+			DeploymentStrategy: pulumi.String("bluegreen"),
 			Config: &flyio.FlyMachineConfigArgs{
 				Image: pulumi.String("nginxdemos/hello:0.4"),
 				Guest: &flyio.FlyMachineGuestArgs{
@@ -82,9 +82,9 @@ func main() {
 			return err
 		}
 		_, err = flyio.NewMachine(ctx, "machine-sea-2", &flyio.MachineArgs{
-			Name:    pulumi.String("machine-sea-2"),
-			Region:  pulumi.String("sea"),
-			AppName: app.Name,
+			Name:   pulumi.String("machine-sea-2"),
+			Region: pulumi.String("sea"),
+			App:    app.Name,
 			Config: &flyio.FlyMachineConfigArgs{
 				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
@@ -139,10 +139,9 @@ func main() {
 			return err
 		}
 		machineIad1, err := flyio.NewMachine(ctx, "machine-iad-1", &flyio.MachineArgs{
-			Name:           pulumi.String("machine-iad-1"),
-			UpdateStrategy: pulumi.String("bluegreen"),
-			Region:         pulumi.String("iad"),
-			AppName:        app.Name,
+			Name:   pulumi.String("machine-iad-1"),
+			Region: pulumi.String("iad"),
+			App:    app.Name,
 			Config: &flyio.FlyMachineConfigArgs{
 				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
@@ -195,9 +194,9 @@ func main() {
 			return err
 		}
 		_, err = flyio.NewMachine(ctx, "machine-iad-2", &flyio.MachineArgs{
-			Name:    pulumi.String("machine-iad-2"),
-			Region:  pulumi.String("iad"),
-			AppName: app.Name,
+			Name:   pulumi.String("machine-iad-2"),
+			Region: pulumi.String("iad"),
+			App:    app.Name,
 			Config: &flyio.FlyMachineConfigArgs{
 				Image: pulumi.String("nginxdemos/hello:latest"),
 				Guest: &flyio.FlyMachineGuestArgs{
@@ -252,10 +251,11 @@ func main() {
 			return err
 		}
 		_, err = flyio.NewVolume(ctx, "volume-iad", &flyio.VolumeArgs{
-			Name:    pulumi.String("volume_iad"),
-			Region:  pulumi.String("iad"),
-			AppName: app.Name,
-			SizeGb:  pulumi.Int(5),
+			Name:              pulumi.String("volume_iad"),
+			AutoBackupEnabled: pulumi.Bool(true),
+			Region:            pulumi.String("iad"),
+			App:               app.Name,
+			SizeGb:            pulumi.Int(5),
 		}, pulumi.DependsOn([]pulumi.Resource{
 			machineIad1,
 		}))
@@ -263,10 +263,10 @@ func main() {
 			return err
 		}
 		_, err = flyio.NewVolume(ctx, "volume-sea", &flyio.VolumeArgs{
-			Name:    pulumi.String("volume_sea"),
-			Region:  pulumi.String("sea"),
-			AppName: app.Name,
-			SizeGb:  pulumi.Int(5),
+			Name:   pulumi.String("volume_sea"),
+			Region: pulumi.String("sea"),
+			App:    app.Name,
+			SizeGb: pulumi.Int(5),
 		}, pulumi.DependsOn([]pulumi.Resource{
 			machineSea1,
 		}))
