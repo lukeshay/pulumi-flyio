@@ -5,7 +5,6 @@ generate:
   client: true
 output-options:
   exclude-operation-ids:
-    - Secrets_list
     - Secret_create
     - Secret_generate
     - Secret_delete

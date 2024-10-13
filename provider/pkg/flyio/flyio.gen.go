@@ -224,6 +224,13 @@ type ListAppsResponse struct {
 	TotalApps *int       `json:"total_apps,omitempty" pulumi:"totalApps,optional"`
 }
 
+// ListSecret defines model for ListSecret.
+type ListSecret struct {
+	Label     *string `json:"label,omitempty" pulumi:"label,optional"`
+	Publickey *[]int  `json:"publickey,omitempty" pulumi:"publickey,optional"`
+	Type      *string `json:"type,omitempty" pulumi:"type,optional"`
+}
+
 // ListenSocket defines model for ListenSocket.
 type ListenSocket struct {
 	Address *string `json:"address,omitempty" pulumi:"address,optional"`
@@ -977,6 +984,9 @@ type ClientInterface interface {
 	// MachinesWait request
 	MachinesWait(ctx context.Context, appName string, machineId string, params *MachinesWaitParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// SecretsList request
+	SecretsList(ctx context.Context, appName string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// VolumesList request
 	VolumesList(ctx context.Context, appName string, params *VolumesListParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1414,6 +1424,18 @@ func (c *Client) MachinesListVersions(ctx context.Context, appName string, machi
 
 func (c *Client) MachinesWait(ctx context.Context, appName string, machineId string, params *MachinesWaitParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewMachinesWaitRequest(c.Server, appName, machineId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SecretsList(ctx context.Context, appName string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSecretsListRequest(c.Server, appName)
 	if err != nil {
 		return nil, err
 	}
@@ -3000,6 +3022,40 @@ func NewMachinesWaitRequest(server string, appName string, machineId string, par
 	return req, nil
 }
 
+// NewSecretsListRequest generates requests for SecretsList
+func NewSecretsListRequest(server string, appName string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "app_name", runtime.ParamLocationPath, appName)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/apps/%s/secrets", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewVolumesListRequest generates requests for VolumesList
 func NewVolumesListRequest(server string, appName string, params *VolumesListParams) (*http.Request, error) {
 	var err error
@@ -3579,6 +3635,9 @@ type ClientWithResponsesInterface interface {
 
 	// MachinesWaitWithResponse request
 	MachinesWaitWithResponse(ctx context.Context, appName string, machineId string, params *MachinesWaitParams, reqEditors ...RequestEditorFn) (*MachinesWaitResponse, error)
+
+	// SecretsListWithResponse request
+	SecretsListWithResponse(ctx context.Context, appName string, reqEditors ...RequestEditorFn) (*SecretsListResponse, error)
 
 	// VolumesListWithResponse request
 	VolumesListWithResponse(ctx context.Context, appName string, params *VolumesListParams, reqEditors ...RequestEditorFn) (*VolumesListResponse, error)
@@ -4208,6 +4267,28 @@ func (r MachinesWaitResponse) StatusCode() int {
 	return 0
 }
 
+type SecretsListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]ListSecret
+}
+
+// Status returns HTTPResponse.Status
+func (r SecretsListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SecretsListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type VolumesListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -4726,6 +4807,15 @@ func (c *ClientWithResponses) MachinesWaitWithResponse(ctx context.Context, appN
 		return nil, err
 	}
 	return ParseMachinesWaitResponse(rsp)
+}
+
+// SecretsListWithResponse request returning *SecretsListResponse
+func (c *ClientWithResponses) SecretsListWithResponse(ctx context.Context, appName string, reqEditors ...RequestEditorFn) (*SecretsListResponse, error) {
+	rsp, err := c.SecretsList(ctx, appName, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSecretsListResponse(rsp)
 }
 
 // VolumesListWithResponse request returning *VolumesListResponse
@@ -5493,6 +5583,32 @@ func ParseMachinesWaitResponse(rsp *http.Response) (*MachinesWaitResponse, error
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSecretsListResponse parses an HTTP response from a SecretsListWithResponse call
+func ParseSecretsListResponse(rsp *http.Response) (*SecretsListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SecretsListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ListSecret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	}
 

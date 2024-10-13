@@ -48,40 +48,42 @@ func (v Volume) Create(ctx context.Context, name string, input VolumeArgs, previ
 		return "", VolumeState{}, err
 	}
 
-	result, err := v.parseVolumesCreateResponse(res)
+	volumeCreate, err := v.parseVolumesCreateResponse(res)
 	if err != nil {
 		return "", VolumeState{}, err
 	}
 
-	if result.JSON200 == nil {
-		return "", VolumeState{}, resErr("error creating volume", result, result.Body)
+	if volumeCreate.JSON200 == nil {
+		return "", VolumeState{}, resErr("error creating volume", volumeCreate, volumeCreate.Body)
 	}
-	state.Volume = *result.JSON200
+
+	state.Volume = *volumeCreate.JSON200
 
 	if input.AutoBackupEnabled != nil && !*input.AutoBackupEnabled {
-		res, err = cfg.flyioClient.VolumesUpdate(ctx, input.App, *result.JSON200.Id, flyio.UpdateVolumeRequest{
+		res, err = cfg.flyioClient.VolumesUpdate(ctx, input.App, *volumeCreate.JSON200.Id, flyio.UpdateVolumeRequest{
 			AutoBackupEnabled: input.AutoBackupEnabled,
+			SnapshotRetention: input.SnapshotRetention,
 		})
 		if err != nil {
 			cfg.flyioClient.VolumeDelete(ctx, input.App, *state.Id)
 			return "", VolumeState{}, err
 		}
 
-		result2, err := flyio.ParseVolumesUpdateResponse(res)
+		volumeUpdate, err := flyio.ParseVolumesUpdateResponse(res)
 		if err != nil {
 			cfg.flyioClient.VolumeDelete(ctx, input.App, *state.Id)
 			return "", VolumeState{}, err
 		}
 
-		if result2.JSON200 == nil {
+		if volumeUpdate.JSON200 == nil {
 			cfg.flyioClient.VolumeDelete(ctx, input.App, *state.Id)
-			return "", VolumeState{}, resErr("error updating volume", result, result.Body)
+			return "", VolumeState{}, resErr("error updating volume", volumeCreate, volumeCreate.Body)
 		}
 
-		state.Volume = *result2.JSON200
+		state.Volume = *volumeUpdate.JSON200
 	}
 
-	return *result.JSON200.Id, state, nil
+	return *volumeCreate.JSON200.Id, state, nil
 }
 
 func (Volume) Delete(ctx context.Context, reqID string, state VolumeState) error {
@@ -138,23 +140,6 @@ func (Volume) Diff(ctx context.Context, id string, state VolumeState, input Volu
 }
 
 func (m Volume) Update(ctx context.Context, id string, state VolumeState, input VolumeArgs, preview bool) (VolumeState, error) {
-	diff, _ := m.Diff(ctx, id, state, input)
-
-	if diff.DeleteBeforeReplace {
-		if input.SourceVolumeId == nil {
-			input.SourceVolumeId = state.Id
-		}
-
-		_, newState, err := m.Create(ctx, id, input, false)
-		if err != nil {
-			return state, err
-		}
-
-		m.Delete(ctx, id, state)
-
-		return newState, nil
-	}
-
 	cfg := infer.GetConfig[Config](ctx)
 
 	if isFirstNilAndSecondNotNil(state.AutoBackupEnabled, input.AutoBackupEnabled) ||

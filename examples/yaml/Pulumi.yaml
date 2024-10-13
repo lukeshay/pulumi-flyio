@@ -15,6 +15,7 @@ resources:
     properties:
       name: pulumi-${appName.result}
       org: luke-shay
+      network: pulumi-flyio
   machine-sea-1:
     type: flyio:Machine
     properties:
@@ -203,11 +204,26 @@ resources:
       region: sea
       app: ${app.name}
       addrType: v6
+  privateipv6:
+    type: flyio:IP
+    properties:
+      region: sea
+      app: ${app.name}
+      addrType: private_v6
+      network: pulumi-flyio
   certificate:
     type: flyio:Certificate
     properties:
       app: ${app.name}
       hostname: pulumi-flyio.lshay.land
+  wireguardPeer:
+    type: flyio:WireGuardPeer
+    properties:
+      org: luke-shay
+  wireguardToken:
+    type: flyio:WireGuardToken
+    properties:
+      org: luke-shay
 
 outputs:
   appName:

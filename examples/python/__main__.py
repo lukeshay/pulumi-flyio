@@ -4,7 +4,8 @@ import pulumi_flyio as flyio
 app_name_resource = flyio.Random("appName", length=24)
 app = flyio.App("app",
     name=app_name_resource.result.apply(lambda result: f"pulumi-{result}"),
-    org="luke-shay")
+    org="luke-shay",
+    network="pulumi-flyio")
 machine_sea1 = flyio.Machine("machine-sea-1",
     name="machine-sea-1",
     region="sea",
@@ -209,9 +210,16 @@ ipv6 = flyio.IP("ipv6",
     region="sea",
     app=app.name,
     addr_type="v6")
+privateipv6 = flyio.IP("privateipv6",
+    region="sea",
+    app=app.name,
+    addr_type="private_v6",
+    network="pulumi-flyio")
 certificate = flyio.Certificate("certificate",
     app=app.name,
     hostname="pulumi-flyio.lshay.land")
+wireguard_peer = flyio.WireGuardPeer("wireguardPeer", org="luke-shay")
+wireguard_token = flyio.WireGuardToken("wireguardToken", org="luke-shay")
 pulumi.export("appName", {
     "value": app.name,
 })

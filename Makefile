@@ -47,7 +47,8 @@ ensure::
 	cd tests && go mod tidy
 
 gen::
-	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.json --create-dirs
+	curl 'https://docs.machines.dev/spec/openapi3.json' -o tmp/fly-openapi3.tmp.json --create-dirs
+	jq '.paths."/apps/{app_name}/secrets".get += {"parameters": [{"name":"app_name","in":"path","description":"Fly App Name","required":true,"schema":{"type":"string"}}]}' tmp/fly-openapi3.tmp.json > tmp/fly-openapi3.json
 	mkdir -p provider/pkg/flyio
 	rm -f $(WORKING_DIR)/bin/$(PROVIDER)
 	go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest --config oapi.yaml tmp/fly-openapi3.json

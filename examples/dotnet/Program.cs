@@ -14,6 +14,7 @@ return await Deployment.RunAsync(() =>
     {
         Name = appNameResource.Result.Apply(result => $"pulumi-{result}"),
         Org = "luke-shay",
+        Network = "pulumi-flyio",
     });
 
     var machineSea1 = new Flyio.Machine("machine-sea-1", new()
@@ -336,10 +337,28 @@ return await Deployment.RunAsync(() =>
         AddrType = "v6",
     });
 
+    var privateipv6 = new Flyio.IP("privateipv6", new()
+    {
+        Region = "sea",
+        App = app.Name,
+        AddrType = "private_v6",
+        Network = "pulumi-flyio",
+    });
+
     var certificate = new Flyio.Certificate("certificate", new()
     {
         App = app.Name,
         Hostname = "pulumi-flyio.lshay.land",
+    });
+
+    var wireguardPeer = new Flyio.WireGuardPeer("wireguardPeer", new()
+    {
+        Org = "luke-shay",
+    });
+
+    var wireguardToken = new Flyio.WireGuardToken("wireguardToken", new()
+    {
+        Org = "luke-shay",
     });
 
     return new Dictionary<string, object?>

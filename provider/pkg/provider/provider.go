@@ -22,11 +22,16 @@ var Version string
 const Name string = "flyio"
 
 type Config struct {
-	FlyApiToken string `pulumi:"token,optional"`
+	FlyApiToken string `pulumi:"token,optional" provider:"secret"`
 
 	flyioClient *flyio.Client
 	flyClient   *fly.Client
 }
+
+var (
+	_ infer.CustomConfigure = (*Config)(nil)
+	_ infer.Annotated       = (*Config)(nil)
+)
 
 // Annotate provides user-facing descriptions and defaults for Config's fields.
 func (c *Config) Annotate(a infer.Annotator) {
@@ -36,10 +41,6 @@ func (c *Config) Annotate(a infer.Annotator) {
 
 // Configure validates and processes user-provided configuration values.
 func (c *Config) Configure(_ context.Context) error {
-	if c.FlyApiToken == "" {
-		return fmt.Errorf("token config or FLY_API_TOKEN, FLY_TOKEN, FLY_API_KEY, FLY_KEY environment variable is required")
-	}
-
 	flyioClient, err := flyio.NewClient("https://api.machines.dev/v1")
 	if err != nil {
 		return err
@@ -68,14 +69,19 @@ func Provider() p.Provider {
 	return infer.Provider(infer.Options{
 		Config: infer.Config[*Config](),
 		Resources: []infer.InferredResource{
-			infer.Resource[Random, RandomArgs, RandomState](),
-			infer.Resource[App, AppArgs, AppState](),
-			infer.Resource[Machine, MachineArgs, MachineState](),
-			infer.Resource[Volume, VolumeArgs, VolumeState](),
-			infer.Resource[IP, IPArgs, IPState](),
-			infer.Resource[Certificate, CertificateArgs, CertificateState](),
+			infer.Resource[Random](),
+			infer.Resource[App](),
+			infer.Resource[Machine](),
+			infer.Resource[Volume](),
+			infer.Resource[IP](),
+			infer.Resource[Certificate](),
+			infer.Resource[Secrets](),
+			infer.Resource[WireGuardPeer](),
+			infer.Resource[WireGuardToken](),
 		},
-		Functions: []infer.InferredFunction{},
+		Functions: []infer.InferredFunction{
+			infer.Function[GetApp](),
+		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "index",
 		},
@@ -92,7 +98,7 @@ func Provider() p.Provider {
 			License:           "Apache-2.0",
 			Repository:        "https://github.com/lukeshay/pulumi-flyio",
 			Publisher:         "Luke Shay",
-			PluginDownloadURL: fmt.Sprintf("https://github.com/lukeshay/pulumi-flyio/releases/download/v%s", Version),
+			PluginDownloadURL: "github://api.github.com/lukeshay",
 			LanguageMap: map[string]any{
 				"nodejs": tsgen.NodePackageInfo{
 					PackageName: "pulumi-flyio",

@@ -5,6 +5,7 @@ const appNameResource = new flyio.Random("appName", {length: 24});
 const app = new flyio.App("app", {
     name: pulumi.interpolate`pulumi-${appNameResource.result}`,
     org: "luke-shay",
+    network: "pulumi-flyio",
 });
 const machineSea1 = new flyio.Machine("machine-sea-1", {
     name: "machine-sea-1",
@@ -222,10 +223,18 @@ const ipv6 = new flyio.IP("ipv6", {
     app: app.name,
     addrType: "v6",
 });
+const privateipv6 = new flyio.IP("privateipv6", {
+    region: "sea",
+    app: app.name,
+    addrType: "private_v6",
+    network: "pulumi-flyio",
+});
 const certificate = new flyio.Certificate("certificate", {
     app: app.name,
     hostname: "pulumi-flyio.lshay.land",
 });
+const wireguardPeer = new flyio.WireGuardPeer("wireguardPeer", {org: "luke-shay"});
+const wireguardToken = new flyio.WireGuardToken("wireguardToken", {org: "luke-shay"});
 export const appName = {
     value: app.name,
 };

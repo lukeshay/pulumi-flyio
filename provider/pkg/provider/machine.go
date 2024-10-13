@@ -21,17 +21,24 @@ var (
 	_ infer.CustomDiff[MachineArgs, MachineState]     = (*Machine)(nil)
 )
 
+type MachineDeploymentStrategy string
+
+var (
+	ImmediateMachineDeploymentStrategy MachineDeploymentStrategy = "immediate"
+	BlueGreenMachineDeploymentStrategy MachineDeploymentStrategy = "bluegreen"
+)
+
 type MachineArgs struct {
 	flyio.CreateMachineRequest
-	App                string  `pulumi:"app"`
-	DeploymentStrategy *string `pulumi:"deploymentStrategy,optional"`
+	App                string                     `pulumi:"app"`
+	DeploymentStrategy *MachineDeploymentStrategy `pulumi:"deploymentStrategy,optional"`
 }
 
 type MachineState struct {
 	flyio.Machine
-	App                string      `pulumi:"app"`
-	DeploymentStrategy *string     `pulumi:"deploymentStrategy,optional"`
-	Input              MachineArgs `pulumi:"input"`
+	App                string                     `pulumi:"app"`
+	DeploymentStrategy *MachineDeploymentStrategy `pulumi:"deploymentStrategy,optional"`
+	Input              MachineArgs                `pulumi:"input"`
 }
 
 func (m Machine) Create(ctx context.Context, name string, input MachineArgs, preview bool) (string, MachineState, error) {
@@ -99,7 +106,7 @@ func (c Machine) Update(ctx context.Context, id string, state MachineState, inpu
 
 	cfg := infer.GetConfig[Config](ctx)
 
-	if input.DeploymentStrategy == nil || *input.DeploymentStrategy == "standard" {
+	if input.DeploymentStrategy == nil || *input.DeploymentStrategy == "immediate" {
 		res, err := cfg.flyioClient.MachinesUpdate(ctx, state.App, id, flyio.MachinesUpdateJSONRequestBody{
 			Config:                  input.Config,
 			Name:                    input.Name,

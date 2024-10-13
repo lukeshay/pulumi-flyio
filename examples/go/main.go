@@ -20,7 +20,8 @@ func main() {
 			Name: appNameResource.Result.ApplyT(func(result string) (string, error) {
 				return fmt.Sprintf("pulumi-%v", result), nil
 			}).(pulumi.StringOutput),
-			Org: pulumi.String("luke-shay"),
+			Org:     pulumi.String("luke-shay"),
+			Network: pulumi.String("pulumi-flyio"),
 		})
 		if err != nil {
 			return err
@@ -289,9 +290,30 @@ func main() {
 		if err != nil {
 			return err
 		}
+		_, err = flyio.NewIP(ctx, "privateipv6", &flyio.IPArgs{
+			Region:   pulumi.String("sea"),
+			App:      app.Name,
+			AddrType: pulumi.String("private_v6"),
+			Network:  pulumi.String("pulumi-flyio"),
+		})
+		if err != nil {
+			return err
+		}
 		_, err = flyio.NewCertificate(ctx, "certificate", &flyio.CertificateArgs{
 			App:      app.Name,
 			Hostname: pulumi.String("pulumi-flyio.lshay.land"),
+		})
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewWireGuardPeer(ctx, "wireguardPeer", &flyio.WireGuardPeerArgs{
+			Org: pulumi.String("luke-shay"),
+		})
+		if err != nil {
+			return err
+		}
+		_, err = flyio.NewWireGuardToken(ctx, "wireguardToken", &flyio.WireGuardTokenArgs{
+			Org: pulumi.String("luke-shay"),
 		})
 		if err != nil {
 			return err
