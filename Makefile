@@ -48,7 +48,6 @@ dotnet_sdk::
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
 	cd ${PACKDIR}/dotnet/&& \
-		echo "${DOTNET_VERSION}" >version.txt && \
 		dotnet build /p:Version=${DOTNET_VERSION} && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' ./pulumi-plugin.json && \
 		rm ./pulumi-plugin.json.bak
