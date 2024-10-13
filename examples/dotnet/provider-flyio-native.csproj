@@ -7,7 +7,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Pulumi" Version="3.*" />
-		<PackageReference Include="Pulumi.Flyio" Version="0.0.27+dirty" />
+		<PackageReference Include="Pulumi.Flyio" Version="0.0.30" />
 	</ItemGroup>
 
 </Project>

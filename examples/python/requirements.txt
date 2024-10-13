@@ -1,2 +1,2 @@
-pulumi-flyio==0.0.27+dirty
+pulumi-flyio==0.0.30
 pulumi>=3.0.0,<4.0.0

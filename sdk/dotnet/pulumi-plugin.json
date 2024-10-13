@@ -1,6 +1,6 @@
 {
   "resource": true,
   "name": "flyio",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "server": "github://api.github.com/lukeshay"
 }
