@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pulumi;
-using Flyio = Pulumi.Flyio;
+using Flyio = PulumiFlyio.Flyio;
 
 return await Deployment.RunAsync(() => 
 {

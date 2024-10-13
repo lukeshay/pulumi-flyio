@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     [FlyioResourceType("flyio:index:Certificate")]
     public partial class Certificate : global::Pulumi.CustomResource
@@ -34,7 +35,7 @@ namespace Pulumi.Flyio
         public Output<bool> Configured { get; private set; } = null!;
 
         [Output("createdAt")]
-        public Output<Pulumi.Flyio.Time.Outputs.Time> CreatedAt { get; private set; } = null!;
+        public Output<PulumiFlyio.Flyio.Time.Outputs.Time> CreatedAt { get; private set; } = null!;
 
         [Output("dnsProvider")]
         public Output<string> DnsProvider { get; private set; } = null!;

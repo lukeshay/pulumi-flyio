@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     [FlyioResourceType("flyio:index:WireGuardToken")]
     public partial class WireGuardToken : global::Pulumi.CustomResource

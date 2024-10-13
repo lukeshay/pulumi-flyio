@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Immutable;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     public static class Config
     {

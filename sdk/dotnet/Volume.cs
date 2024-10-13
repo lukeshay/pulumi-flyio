@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     [FlyioResourceType("flyio:index:Volume")]
     public partial class Volume : global::Pulumi.CustomResource
@@ -125,7 +126,7 @@ namespace Pulumi.Flyio
         public Input<bool>? AutoBackupEnabled { get; set; }
 
         [Input("compute")]
-        public Input<Pulumi.Flyio.Flyio.Inputs.FlyMachineGuestArgs>? Compute { get; set; }
+        public Input<PulumiFlyio.Flyio.Flyio.Inputs.FlyMachineGuestArgs>? Compute { get; set; }
 
         [Input("computeImage")]
         public Input<string>? ComputeImage { get; set; }

@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     [FlyioResourceType("flyio:index:Random")]
     public partial class Random : global::Pulumi.CustomResource

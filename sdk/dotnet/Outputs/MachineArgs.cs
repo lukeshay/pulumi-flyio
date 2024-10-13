@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio.Outputs
+namespace PulumiFlyio.Flyio.Outputs
 {
 
     [OutputType]
     public sealed class MachineArgs
     {
         public readonly string App;
-        public readonly Pulumi.Flyio.Flyio.Outputs.FlyMachineConfig Config;
+        public readonly PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineConfig Config;
         public readonly string? DeploymentStrategy;
         public readonly int? LeaseTtl;
         public readonly bool? Lsvd;
@@ -27,7 +28,7 @@ namespace Pulumi.Flyio.Outputs
         private MachineArgs(
             string app,
 
-            Pulumi.Flyio.Flyio.Outputs.FlyMachineConfig config,
+            PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineConfig config,
 
             string? deploymentStrategy,
 

@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio.Outputs
+namespace PulumiFlyio.Flyio.Outputs
 {
 
     [OutputType]
@@ -15,7 +16,7 @@ namespace Pulumi.Flyio.Outputs
     {
         public readonly string App;
         public readonly bool? AutoBackupEnabled;
-        public readonly Pulumi.Flyio.Flyio.Outputs.FlyMachineGuest? Compute;
+        public readonly PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineGuest? Compute;
         public readonly string? ComputeImage;
         public readonly bool? Encrypted;
         public readonly string? Fstype;
@@ -33,7 +34,7 @@ namespace Pulumi.Flyio.Outputs
 
             bool? autoBackupEnabled,
 
-            Pulumi.Flyio.Flyio.Outputs.FlyMachineGuest? compute,
+            PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineGuest? compute,
 
             string? computeImage,
 

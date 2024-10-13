@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     [FlyioResourceType("flyio:index:IP")]
     public partial class IP : global::Pulumi.CustomResource
@@ -19,7 +20,7 @@ namespace Pulumi.Flyio
         public Output<string> App { get; private set; } = null!;
 
         [Output("createdAt")]
-        public Output<Pulumi.Flyio.Time.Outputs.Time> CreatedAt { get; private set; } = null!;
+        public Output<PulumiFlyio.Flyio.Time.Outputs.Time> CreatedAt { get; private set; } = null!;
 
         [Output("flyId")]
         public Output<string> FlyId { get; private set; } = null!;

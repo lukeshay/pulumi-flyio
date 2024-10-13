@@ -116,6 +116,7 @@ func Provider() p.Provider {
 				},
 				"csharp": csgen.CSharpPackageInfo{
 					RespectSchemaVersion: true,
+					RootNamespace:        "PulumiFlyio",
 					PackageReferences: map[string]string{
 						"Pulumi": "3.*",
 					},

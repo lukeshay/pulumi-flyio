@@ -27,7 +27,7 @@ jobs:
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      NUGET_PUBLISH_KEY: ""
+      NUGET_PUBLISH_KEY: ${{ secrets.NUGET_PUBLISH_KEY }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4

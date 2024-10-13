@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio.Flyio.Inputs
+namespace PulumiFlyio.Flyio.Flyio.Inputs
 {
 
     public sealed class FlyMachineServiceArgs : global::Pulumi.ResourceArgs

@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Flyio
+namespace PulumiFlyio.Flyio
 {
     [FlyioResourceType("flyio:index:Machine")]
     public partial class Machine : global::Pulumi.CustomResource
@@ -16,10 +17,10 @@ namespace Pulumi.Flyio
         public Output<string> App { get; private set; } = null!;
 
         [Output("checks")]
-        public Output<ImmutableArray<Pulumi.Flyio.Flyio.Outputs.CheckStatus>> Checks { get; private set; } = null!;
+        public Output<ImmutableArray<PulumiFlyio.Flyio.Flyio.Outputs.CheckStatus>> Checks { get; private set; } = null!;
 
         [Output("config")]
-        public Output<Pulumi.Flyio.Flyio.Outputs.FlyMachineConfig> Config { get; private set; } = null!;
+        public Output<PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineConfig> Config { get; private set; } = null!;
 
         [Output("createdAt")]
         public Output<string?> CreatedAt { get; private set; } = null!;
@@ -28,7 +29,7 @@ namespace Pulumi.Flyio
         public Output<string?> DeploymentStrategy { get; private set; } = null!;
 
         [Output("events")]
-        public Output<ImmutableArray<Pulumi.Flyio.Flyio.Outputs.MachineEvent>> Events { get; private set; } = null!;
+        public Output<ImmutableArray<PulumiFlyio.Flyio.Flyio.Outputs.MachineEvent>> Events { get; private set; } = null!;
 
         [Output("flyId")]
         public Output<string> FlyId { get; private set; } = null!;
@@ -37,10 +38,10 @@ namespace Pulumi.Flyio
         public Output<string?> HostStatus { get; private set; } = null!;
 
         [Output("imageRef")]
-        public Output<Pulumi.Flyio.Flyio.Outputs.ImageRef?> ImageRef { get; private set; } = null!;
+        public Output<PulumiFlyio.Flyio.Flyio.Outputs.ImageRef?> ImageRef { get; private set; } = null!;
 
         [Output("incompleteConfig")]
-        public Output<Pulumi.Flyio.Flyio.Outputs.FlyMachineConfig?> IncompleteConfig { get; private set; } = null!;
+        public Output<PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineConfig?> IncompleteConfig { get; private set; } = null!;
 
         [Output("input")]
         public Output<Outputs.MachineArgs> Input { get; private set; } = null!;
@@ -116,7 +117,7 @@ namespace Pulumi.Flyio
         public Input<string> App { get; set; } = null!;
 
         [Input("config", required: true)]
-        public Input<Pulumi.Flyio.Flyio.Inputs.FlyMachineConfigArgs> Config { get; set; } = null!;
+        public Input<PulumiFlyio.Flyio.Flyio.Inputs.FlyMachineConfigArgs> Config { get; set; } = null!;
 
         [Input("deploymentStrategy")]
         public Input<string>? DeploymentStrategy { get; set; }
