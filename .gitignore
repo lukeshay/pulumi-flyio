@@ -14,5 +14,4 @@ provider/**/schema-embed.json
 /tmp/
 .env*
 sdk/dotnet/version.txt
-schema-flyio.json
 **/bun.lockb
