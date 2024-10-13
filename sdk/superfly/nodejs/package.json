@@ -1,0 +1,28 @@
+{
+    "name": "pulumi-flyio",
+    "version": "${VERSION}",
+    "keywords": [
+        "pulumi",
+        "fly",
+        "flyio",
+        "category/cloud",
+        "kind/native"
+    ],
+    "repository": "https://github.com/lukeshay/pulumi-flyio",
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^3.136.0"
+    },
+    "devDependencies": {
+        "@types/node": "^14",
+        "typescript": "^4.3.5"
+    },
+    "pulumi": {
+        "resource": true,
+        "name": "flyio",
+        "server": "github://api.github.com/lukeshay"
+    }
+}

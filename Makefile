@@ -2,6 +2,7 @@ PROJECT_NAME := Pulumi Fly.io Resource Provider
 
 PACK             := flyio
 PACKDIR          := sdk
+PACKDIR_SUPERFLY := ${PACKDIR}/superfly
 PROJECT          := github.com/lukeshay/pulumi-flyio
 NODE_MODULE_NAME := pulumi-flyio
 NUGET_PKG_NAME   := Pulumi.Flyio
@@ -91,6 +92,16 @@ nodejs_sdk::
 		cp ../../README.md ../../LICENSE package.json bun.lockb bin/ && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
 		rm ./bin/package.json.bak
+nodejs_sdk_superfly:: VERSION := $(shell pulumictl get version --language javascript)
+nodejs_sdk_superfly::
+	rm -rf sdk/nodejs-superfly
+	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs --out ${PACKDIR_SUPERFLY}
+	cd ${PACKDIR_SUPERFLY}/nodejs/ && \
+		bun install && \
+		bun run tsc && \
+		cp ../../../README.md ../../../LICENSE package.json bun.lockb bin/ && \
+		sed -i.bak -e 's/$${VERSION}/$(VERSION)/g' -e 's/pulumi-flyio/pulumi-superfly/g' bin/package.json && \
+		rm ./bin/package.json.bak
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
 python_sdk::
@@ -101,6 +112,19 @@ python_sdk::
 		python3 setup.py clean --all 2>/dev/null && \
 		rm -rf ./bin/ ../python.bin/ && cp -R . ../python.bin && mv ../python.bin ./bin && \
 		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
+		sed -i.bak 's/$${VERSION}/$(VERSION)/g' ./bin/pulumi_flyio/pulumi-plugin.json && \
+		rm ./bin/setup.py.bak ./bin/pulumi_flyio/pulumi-plugin.json.bak && \
+		cd ./bin && python3 setup.py build sdist
+
+python_sdk_superfly:: PYPI_VERSION := $(shell pulumictl get version --language python)
+python_sdk_superfly::
+	rm -rf sdk/python
+	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python --out ${PACKDIR_SUPERFLY}
+	cp README.md ${PACKDIR_SUPERFLY}/python/
+	cd ${PACKDIR_SUPERFLY}/python/ && \
+		python3 setup.py clean --all 2>/dev/null && \
+		rm -rf ./bin/ ../python.bin/ && cp -R . ../python.bin && mv ../python.bin ./bin && \
+		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' -e "s/name='pulumi_flyio'/name='pulumi_superfly'/g" ./bin/setup.py && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' ./bin/pulumi_flyio/pulumi-plugin.json && \
 		rm ./bin/setup.py.bak ./bin/pulumi_flyio/pulumi-plugin.json.bak && \
 		cd ./bin && python3 setup.py build sdist
@@ -147,7 +171,7 @@ devcontainer::
 
 .PHONY: build
 
-build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
+build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk nodejs_sdk_superfly python_sdk_superfly
 
 # Required for the codegen action that runs in pulumi/pulumi
 only_build:: build
