@@ -21,30 +21,8 @@ TESTPARALLELISM := 4
 OS    := $(shell uname)
 SHELL := /bin/bash
 
-prepare::
-	@if test -z "${NAME}"; then echo "NAME not set"; exit 1; fi
-	@if test -z "${REPOSITORY}"; then echo "REPOSITORY not set"; exit 1; fi
-	@if test -z "${ORG}"; then echo "ORG not set"; exit 1; fi
-	@if test ! -d "provider/cmd/pulumi-resource-xyz"; then "Project already prepared"; exit 1; fi # SED_SKIP
-
-	mv "provider/cmd/pulumi-resource-xyz" provider/cmd/pulumi-resource-${NAME} # SED_SKIP
-
-	if [[ "${OS}" != "Darwin" ]]; then \
-		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '/SED_SKIP/!s,github.com/pulumi/pulumi-[x]yz,${REPOSITORY},g' {} \; &> /dev/null; \
-		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '/SED_SKIP/!s/[xX]yz/${NAME}/g' {} \; &> /dev/null; \
-		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '/SED_SKIP/!s/[aA]bc/${ORG}/g' {} \; &> /dev/null; \
-	fi
-
-	# In MacOS the -i parameter needs an empty string to execute in place.
-	if [[ "${OS}" == "Darwin" ]]; then \
-		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' '/SED_SKIP/!s,github.com/pulumi/pulumi-[x]yz,${REPOSITORY},g' {} \; &> /dev/null; \
-		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' '/SED_SKIP/!s/[xX]yz/${NAME}/g' {} \; &> /dev/null; \
-		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' '/SED_SKIP/!s/[aA]bc/${ORG}/g' {} \; &> /dev/null; \
-	fi
-
 ensure::
 	cd provider && go mod tidy
-	cd sdk && go mod tidy
 	cd tests && go mod tidy
 
 gen::
@@ -75,6 +53,13 @@ dotnet_sdk::
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' ./pulumi-plugin.json && \
 		rm ./pulumi-plugin.json.bak
 
+java_sdk::
+	rm -rf sdk/java
+	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language java
+	# cd ${PACKDIR}/java/&& \
+	# 	sed -i.bak 's/$${VERSION}/$(VERSION)/g' ./pulumi-plugin.json && \
+	# 	rm ./pulumi-plugin.json.bak
+
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
@@ -92,8 +77,8 @@ nodejs_sdk::
 		cp ../../README.md ../../LICENSE package.json bun.lockb bin/ && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
 		rm ./bin/package.json.bak
-nodejs_sdk_superfly:: VERSION := $(shell pulumictl get version --language javascript)
-nodejs_sdk_superfly::
+nodejs_superfly_sdk:: VERSION := $(shell pulumictl get version --language javascript)
+nodejs_superfly_sdk::
 	rm -rf sdk/nodejs-superfly
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs --out ${PACKDIR_SUPERFLY}
 	cd ${PACKDIR_SUPERFLY}/nodejs/ && \
@@ -116,8 +101,8 @@ python_sdk::
 		rm ./bin/setup.py.bak ./bin/pulumi_flyio/pulumi-plugin.json.bak && \
 		cd ./bin && python3 setup.py build sdist
 
-python_sdk_superfly:: PYPI_VERSION := $(shell pulumictl get version --language python)
-python_sdk_superfly::
+python_superfly_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
+python_superfly_sdk::
 	rm -rf sdk/python
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python --out ${PACKDIR_SUPERFLY}
 	cp README.md ${PACKDIR_SUPERFLY}/python/
@@ -132,6 +117,7 @@ python_sdk_superfly::
 gen_examples: gen_go_example \
 		gen_nodejs_example \
 		gen_python_example \
+		gen_java_example \
 		gen_dotnet_example
 
 gen_%_example:
@@ -171,7 +157,7 @@ devcontainer::
 
 .PHONY: build
 
-build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk nodejs_sdk_superfly python_sdk_superfly
+build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk java_sdk python_superfly_sdk nodejs_superfly_sdk
 
 # Required for the codegen action that runs in pulumi/pulumi
 only_build:: build
@@ -206,3 +192,11 @@ install_go_sdk::
 install_nodejs_sdk::
 	-yarn unlink --cwd $(WORKING_DIR)/sdk/nodejs/bin
 	yarn link --cwd $(WORKING_DIR)/sdk/nodejs/bin
+
+prepare::
+	git tag --delete ${VERSION} || true
+	git tag ${VERSION}
+prepare:: build gen_examples
+prepare::
+	git tag --delete ${VERSION}
+	

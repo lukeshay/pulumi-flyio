@@ -1,0 +1,6 @@
+name: provider-flyio-native
+runtime: java
+plugins:
+  providers:
+    - name: flyio
+      path: ../../bin

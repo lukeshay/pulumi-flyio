@@ -13,5 +13,4 @@ ci-scripts
 provider/**/schema-embed.json
 /tmp/
 .env*
-sdk/dotnet/version.txt
 **/bun.lockb

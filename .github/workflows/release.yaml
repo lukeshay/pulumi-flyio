@@ -22,7 +22,7 @@ env:
 jobs:
   publish_binary:
     name: publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: release
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -46,7 +46,7 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
-          args: -p 3 release --clean
+          args: -p 4 release --clean
           version: latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,7 +57,7 @@ jobs:
           path: ./bin
   publish_sdk:
     name: Publish SDKs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: publish_binary
     environment: release
     strategy:
@@ -65,9 +65,9 @@ jobs:
       matrix:
         language:
           - nodejs
-          - nodejs-superfly
+          - nodejs_superfly
           - python
-          - python-superfly
+          - python_superfly
           - dotnet
           - go
     env:
@@ -89,7 +89,7 @@ jobs:
           repo: pulumi/pulumictl
           cache: true
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: make build
+      - run: make provider
       - name: Generate SDK
         run: make ${{ matrix.language }}_sdk
       - name: Check worktree clean
@@ -113,7 +113,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: ${{github.workspace}}/sdk/python/bin/dist
-      - if: ${{ matrix.language == 'python-superfly' && env.PUBLISH_PYPI == 'true' }}
+      - if: ${{ matrix.language == 'python_superfly' && env.PUBLISH_PYPI == 'true' }}
         name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -124,7 +124,7 @@ jobs:
           access: "public"
           token: ${{ env.NPM_TOKEN }}
           package: ${{github.workspace}}/sdk/nodejs/bin/package.json
-      - if: ${{ matrix.language == 'nodejs-superfly' && env.PUBLISH_NPM == 'true' }}
+      - if: ${{ matrix.language == 'nodejs_superfly' && env.PUBLISH_NPM == 'true' }}
         uses: JS-DevTools/npm-publish@v1
         with:
           access: "public"
