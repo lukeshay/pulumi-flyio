@@ -199,9 +199,7 @@ prepare:: build gen_examples
 prepare::
 	git tag --delete ${VERSION}
 
-commit::
-	git add .
-	git commit -m "Prepare ${VERSION}"
+push::
 	git tag ${VERSION}
 	git push
 	git push origin ${VERSION}

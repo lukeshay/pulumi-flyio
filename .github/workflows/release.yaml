@@ -16,7 +16,7 @@ env:
   PUBLISH_NPM: true
   NPM_REGISTRY_URL: https://registry.npmjs.org
   NUGET_FEED_URL: https://api.nuget.org/v3/index.json
-  PUBLISH_NUGET: false
+  PUBLISH_NUGET: true
   PUBLISH_PYPI: true
 
 jobs:
