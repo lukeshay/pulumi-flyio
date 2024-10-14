@@ -29,6 +29,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IP{}
 	case "flyio:index:Machine":
 		r = &Machine{}
+	case "flyio:index:PostgresAttachment":
+		r = &PostgresAttachment{}
 	case "flyio:index:Random":
 		r = &Random{}
 	case "flyio:index:Secrets":

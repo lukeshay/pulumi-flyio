@@ -21,6 +21,7 @@
         "index.ts",
         "ip.ts",
         "machine.ts",
+        "postgresAttachment.ts",
         "provider.ts",
         "random.ts",
         "secrets.ts",

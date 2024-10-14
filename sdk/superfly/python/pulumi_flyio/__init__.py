@@ -10,6 +10,7 @@ from .certificate import *
 from .get_app import *
 from .ip import *
 from .machine import *
+from .postgres_attachment import *
 from .provider import *
 from .random import *
 from .secrets import *
@@ -43,6 +44,7 @@ _utilities.register(
    "flyio:index:Certificate": "Certificate",
    "flyio:index:IP": "IP",
    "flyio:index:Machine": "Machine",
+   "flyio:index:PostgresAttachment": "PostgresAttachment",
    "flyio:index:Random": "Random",
    "flyio:index:Secrets": "Secrets",
    "flyio:index:Volume": "Volume",

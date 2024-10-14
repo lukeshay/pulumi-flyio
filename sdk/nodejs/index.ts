@@ -30,6 +30,11 @@ export type Machine = import("./machine").Machine;
 export const Machine: typeof import("./machine").Machine = null as any;
 utilities.lazyLoad(exports, ["Machine"], () => require("./machine"));
 
+export { PostgresAttachmentArgs } from "./postgresAttachment";
+export type PostgresAttachment = import("./postgresAttachment").PostgresAttachment;
+export const PostgresAttachment: typeof import("./postgresAttachment").PostgresAttachment = null as any;
+utilities.lazyLoad(exports, ["PostgresAttachment"], () => require("./postgresAttachment"));
+
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
@@ -82,6 +87,8 @@ const _module = {
                 return new IP(name, <any>undefined, { urn })
             case "flyio:index:Machine":
                 return new Machine(name, <any>undefined, { urn })
+            case "flyio:index:PostgresAttachment":
+                return new PostgresAttachment(name, <any>undefined, { urn })
             case "flyio:index:Random":
                 return new Random(name, <any>undefined, { urn })
             case "flyio:index:Secrets":
