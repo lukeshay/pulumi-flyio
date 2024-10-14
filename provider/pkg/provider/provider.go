@@ -78,6 +78,7 @@ func Provider() p.Provider {
 			infer.Resource[Secrets](),
 			infer.Resource[WireGuardPeer](),
 			infer.Resource[WireGuardToken](),
+			infer.Resource[PostgresAttachment](),
 		},
 		Functions: []infer.InferredFunction{
 			infer.Function[GetApp](),
