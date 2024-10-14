@@ -202,5 +202,5 @@ prepare::
 	git commit -m "Prepare ${VERSION}"
 	git tag ${VERSION}
 	git push
-	git push --tags
+	git push origin ${VERSION}
 	
