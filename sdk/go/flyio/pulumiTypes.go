@@ -243,6 +243,7 @@ type VolumeArgsType struct {
 	SnapshotId        *string                `pulumi:"snapshotId"`
 	SnapshotRetention *int                   `pulumi:"snapshotRetention"`
 	SourceVolumeId    *string                `pulumi:"sourceVolumeId"`
+	UniqueZoneAppWide *bool                  `pulumi:"uniqueZoneAppWide"`
 }
 
 type VolumeArgsTypeOutput struct{ *pulumi.OutputState }
@@ -309,6 +310,10 @@ func (o VolumeArgsTypeOutput) SnapshotRetention() pulumi.IntPtrOutput {
 
 func (o VolumeArgsTypeOutput) SourceVolumeId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VolumeArgsType) *string { return v.SourceVolumeId }).(pulumi.StringPtrOutput)
+}
+
+func (o VolumeArgsTypeOutput) UniqueZoneAppWide() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VolumeArgsType) *bool { return v.UniqueZoneAppWide }).(pulumi.BoolPtrOutput)
 }
 
 func init() {

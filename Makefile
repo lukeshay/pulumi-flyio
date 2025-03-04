@@ -73,7 +73,7 @@ nodejs_sdk::
 	cd ${PACKDIR}/nodejs/ && \
 		bun install && \
 		bun run tsc && \
-		cp ../../README.md ../../LICENSE package.json bun.lockb bin/ && \
+		cp ../../README.md ../../LICENSE package.json bun.lock bin/ && \
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
 		rm ./bin/package.json.bak
 nodejs_superfly_sdk:: VERSION := $(shell pulumictl get version --language javascript)
@@ -83,7 +83,7 @@ nodejs_superfly_sdk::
 	cd ${PACKDIR_SUPERFLY}/nodejs/ && \
 		bun install && \
 		bun run tsc && \
-		cp ../../../README.md ../../../LICENSE package.json bun.lockb bin/ && \
+		cp ../../../README.md ../../../LICENSE package.json bun.lock bin/ && \
 		sed -i.bak -e 's/$${VERSION}/$(VERSION)/g' -e 's/pulumi-flyio/pulumi-superfly/g' bin/package.json && \
 		rm ./bin/package.json.bak
 

@@ -5,6 +5,7 @@ package com.pulumi.flyio.flyio.inputs;
 
 import com.pulumi.core.Output;
 import com.pulumi.core.annotations.Import;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.Objects;
@@ -15,6 +16,13 @@ import javax.annotation.Nullable;
 public final class FlyMachineMetricsArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final FlyMachineMetricsArgs Empty = new FlyMachineMetricsArgs();
+
+    @Import(name="https")
+    private @Nullable Output<Boolean> https;
+
+    public Optional<Output<Boolean>> https() {
+        return Optional.ofNullable(this.https);
+    }
 
     @Import(name="path")
     private @Nullable Output<String> path;
@@ -33,6 +41,7 @@ public final class FlyMachineMetricsArgs extends com.pulumi.resources.ResourceAr
     private FlyMachineMetricsArgs() {}
 
     private FlyMachineMetricsArgs(FlyMachineMetricsArgs $) {
+        this.https = $.https;
         this.path = $.path;
         this.port = $.port;
     }
@@ -53,6 +62,15 @@ public final class FlyMachineMetricsArgs extends com.pulumi.resources.ResourceAr
 
         public Builder(FlyMachineMetricsArgs defaults) {
             $ = new FlyMachineMetricsArgs(Objects.requireNonNull(defaults));
+        }
+
+        public Builder https(@Nullable Output<Boolean> https) {
+            $.https = https;
+            return this;
+        }
+
+        public Builder https(Boolean https) {
+            return https(Output.of(https));
         }
 
         public Builder path(@Nullable Output<String> path) {

@@ -16,6 +16,7 @@ namespace PulumiFlyio.Flyio.Flyio.Outputs
     {
         public readonly bool? AutoDestroy;
         public readonly ImmutableDictionary<string, Outputs.FlyMachineCheck>? Checks;
+        public readonly ImmutableArray<Outputs.FlyContainerConfig> Containers;
         public readonly Outputs.FlyDNSConfig? Dns;
         public readonly ImmutableDictionary<string, string>? Env;
         public readonly ImmutableArray<Outputs.FlyFile> Files;
@@ -32,12 +33,15 @@ namespace PulumiFlyio.Flyio.Flyio.Outputs
         public readonly ImmutableArray<string> Standbys;
         public readonly ImmutableArray<Outputs.FlyStatic> Statics;
         public readonly Outputs.FlyStopConfig? StopConfig;
+        public readonly ImmutableArray<Outputs.FlyVolumeConfig> Volumes;
 
         [OutputConstructor]
         private FlyMachineConfig(
             bool? autoDestroy,
 
             ImmutableDictionary<string, Outputs.FlyMachineCheck>? checks,
+
+            ImmutableArray<Outputs.FlyContainerConfig> containers,
 
             Outputs.FlyDNSConfig? dns,
 
@@ -69,10 +73,13 @@ namespace PulumiFlyio.Flyio.Flyio.Outputs
 
             ImmutableArray<Outputs.FlyStatic> statics,
 
-            Outputs.FlyStopConfig? stopConfig)
+            Outputs.FlyStopConfig? stopConfig,
+
+            ImmutableArray<Outputs.FlyVolumeConfig> volumes)
         {
             AutoDestroy = autoDestroy;
             Checks = checks;
+            Containers = containers;
             Dns = dns;
             Env = env;
             Files = files;
@@ -89,6 +96,7 @@ namespace PulumiFlyio.Flyio.Flyio.Outputs
             Standbys = standbys;
             Statics = statics;
             StopConfig = stopConfig;
+            Volumes = volumes;
         }
     }
 }

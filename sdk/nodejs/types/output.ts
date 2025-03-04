@@ -60,6 +60,7 @@ export interface VolumeArgs {
     snapshotId?: string;
     snapshotRetention?: number;
     sourceVolumeId?: string;
+    uniqueZoneAppWide?: boolean;
 }
 
 export namespace flyio {
@@ -68,6 +69,48 @@ export namespace flyio {
         output?: string;
         status?: string;
         updatedAt?: string;
+    }
+
+    export interface FlyContainerConfig {
+        cmd?: string[];
+        dependsOn?: outputs.flyio.FlyContainerDependency[];
+        entrypoint?: string[];
+        env?: {[key: string]: string};
+        envFrom?: outputs.flyio.FlyEnvFrom[];
+        exec?: string[];
+        files?: outputs.flyio.FlyFile[];
+        healthchecks?: outputs.flyio.FlyContainerHealthcheck[];
+        image?: string;
+        mounts?: outputs.flyio.FlyContainerMount[];
+        name?: string;
+        restart?: outputs.flyio.FlyMachineRestart;
+        secrets?: outputs.flyio.FlyMachineSecret[];
+        stop?: outputs.flyio.FlyStopConfig;
+        user?: string;
+    }
+
+    export interface FlyContainerDependency {
+        condition?: string;
+        name?: string;
+    }
+
+    export interface FlyContainerHealthcheck {
+        exec?: outputs.flyio.FlyExecHealthcheck;
+        failureThreshold?: number;
+        gracePeriod?: number;
+        http?: outputs.flyio.FlyHTTPHealthcheck;
+        interval?: number;
+        kind?: string;
+        name?: string;
+        successThreshold?: number;
+        tcp?: outputs.flyio.FlyTCPHealthcheck;
+        timeout?: number;
+        unhealthy?: string;
+    }
+
+    export interface FlyContainerMount {
+        name?: string;
+        path?: string;
     }
 
     export interface FlyDNSConfig {
@@ -95,11 +138,25 @@ export namespace flyio {
         fieldRef?: string;
     }
 
+    export interface FlyExecHealthcheck {
+        command?: string[];
+    }
+
     export interface FlyFile {
         guestPath?: string;
         mode?: number;
         rawValue?: string;
         secretName?: string;
+    }
+
+    export interface FlyHTTPHealthcheck {
+        headers?: outputs.flyio.FlyMachineHTTPHeader[];
+        method?: string;
+        path?: string;
+        port?: number;
+        scheme?: string;
+        tlsServerName?: string;
+        tlsSkipVerify?: boolean;
     }
 
     export interface FlyHTTPOptions {
@@ -133,6 +190,7 @@ export namespace flyio {
     export interface FlyMachineConfig {
         autoDestroy?: boolean;
         checks?: {[key: string]: outputs.flyio.FlyMachineCheck};
+        containers?: outputs.flyio.FlyContainerConfig[];
         dns?: outputs.flyio.FlyDNSConfig;
         env?: {[key: string]: string};
         files?: outputs.flyio.FlyFile[];
@@ -149,6 +207,7 @@ export namespace flyio {
         standbys?: string[];
         statics?: outputs.flyio.FlyStatic[];
         stopConfig?: outputs.flyio.FlyStopConfig;
+        volumes?: outputs.flyio.FlyVolumeConfig[];
     }
 
     export interface FlyMachineGuest {
@@ -176,6 +235,7 @@ export namespace flyio {
     }
 
     export interface FlyMachineMetrics {
+        https?: boolean;
         path?: string;
         port?: number;
     }
@@ -259,10 +319,24 @@ export namespace flyio {
         timeout?: string;
     }
 
+    export interface FlyTCPHealthcheck {
+        port?: number;
+    }
+
     export interface FlyTLSOptions {
         alpn?: string[];
         defaultSelfSigned?: boolean;
         versions?: string[];
+    }
+
+    export interface FlyTempDirVolume {
+        sizeMb?: number;
+        storageType?: string;
+    }
+
+    export interface FlyVolumeConfig {
+        name?: string;
+        tempDir?: outputs.flyio.FlyTempDirVolume;
     }
 
     export interface ImageRef {

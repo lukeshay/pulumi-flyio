@@ -24,6 +24,14 @@ namespace PulumiFlyio.Flyio.Flyio.Inputs
             set => _checks = value;
         }
 
+        [Input("containers")]
+        private InputList<Inputs.FlyContainerConfigArgs>? _containers;
+        public InputList<Inputs.FlyContainerConfigArgs> Containers
+        {
+            get => _containers ?? (_containers = new InputList<Inputs.FlyContainerConfigArgs>());
+            set => _containers = value;
+        }
+
         [Input("dns")]
         public Input<Inputs.FlyDNSConfigArgs>? Dns { get; set; }
 
@@ -111,6 +119,14 @@ namespace PulumiFlyio.Flyio.Flyio.Inputs
 
         [Input("stopConfig")]
         public Input<Inputs.FlyStopConfigArgs>? StopConfig { get; set; }
+
+        [Input("volumes")]
+        private InputList<Inputs.FlyVolumeConfigArgs>? _volumes;
+        public InputList<Inputs.FlyVolumeConfigArgs> Volumes
+        {
+            get => _volumes ?? (_volumes = new InputList<Inputs.FlyVolumeConfigArgs>());
+            set => _volumes = value;
+        }
 
         public FlyMachineConfigArgs()
         {

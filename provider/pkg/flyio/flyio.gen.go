@@ -47,6 +47,25 @@ const (
 	VolumeHostStatusUnreachable VolumeHostStatus = "unreachable"
 )
 
+// Defines values for FlyContainerDependencyCondition.
+const (
+	FlyContainerDependencyConditionExitedSuccessfully FlyContainerDependencyCondition = "exited_successfully"
+	FlyContainerDependencyConditionHealthy            FlyContainerDependencyCondition = "healthy"
+	FlyContainerDependencyConditionStarted            FlyContainerDependencyCondition = "started"
+)
+
+// Defines values for FlyContainerHealthcheckKind.
+const (
+	FlyContainerHealthcheckKindLiveness  FlyContainerHealthcheckKind = "liveness"
+	FlyContainerHealthcheckKindReadiness FlyContainerHealthcheckKind = "readiness"
+)
+
+// Defines values for FlyContainerHealthcheckScheme.
+const (
+	HTTP  FlyContainerHealthcheckScheme = "http"
+	HTTPS FlyContainerHealthcheckScheme = "https"
+)
+
 // Defines values for FlyEnvFromFieldRef.
 const (
 	AppName   FlyEnvFromFieldRef = "app_name"
@@ -59,8 +78,8 @@ const (
 
 // Defines values for FlyMachineCheckKind.
 const (
-	Informational FlyMachineCheckKind = "informational"
-	Readiness     FlyMachineCheckKind = "readiness"
+	FlyMachineCheckKindInformational FlyMachineCheckKind = "informational"
+	FlyMachineCheckKindReadiness     FlyMachineCheckKind = "readiness"
 )
 
 // Defines values for FlyMachineRestartPolicy.
@@ -78,6 +97,11 @@ const (
 	Suspend FlyMachineServiceAutostop = "suspend"
 )
 
+// Defines values for FlyUnhealthyPolicy.
+const (
+	UnhealthyPolicyStop FlyUnhealthyPolicy = "stop"
+)
+
 // Defines values for MainStatusCode.
 const (
 	CapacityErr MainStatusCode = "insufficient_capacity"
@@ -86,10 +110,10 @@ const (
 
 // Defines values for MachinesWaitParamsState.
 const (
-	Destroyed MachinesWaitParamsState = "destroyed"
-	Started   MachinesWaitParamsState = "started"
-	Stopped   MachinesWaitParamsState = "stopped"
-	Suspended MachinesWaitParamsState = "suspended"
+	MachinesWaitParamsStateDestroyed MachinesWaitParamsState = "destroyed"
+	MachinesWaitParamsStateStarted   MachinesWaitParamsState = "started"
+	MachinesWaitParamsStateStopped   MachinesWaitParamsState = "stopped"
+	MachinesWaitParamsStateSuspended MachinesWaitParamsState = "suspended"
 )
 
 // App defines model for App.
@@ -142,7 +166,8 @@ type CreateMachineRequest struct {
 
 // CreateOIDCTokenRequest Optional parameters
 type CreateOIDCTokenRequest struct {
-	Aud *string `json:"aud,omitempty" pulumi:"aud,optional"`
+	Aud              *string `json:"aud,omitempty" pulumi:"aud,optional"`
+	AwsPrincipalTags *bool   `json:"aws_principal_tags,omitempty" pulumi:"awsPrincipalTags,optional"`
 }
 
 // CreateVolumeRequest defines model for CreateVolumeRequest.
@@ -161,7 +186,8 @@ type CreateVolumeRequest struct {
 	SnapshotRetention *int    `json:"snapshot_retention,omitempty" pulumi:"snapshotRetention,optional"`
 
 	// SourceVolumeId fork from remote volume
-	SourceVolumeId *string `json:"source_volume_id,omitempty" pulumi:"sourceVolumeId,optional"`
+	SourceVolumeId    *string `json:"source_volume_id,omitempty" pulumi:"sourceVolumeId,optional"`
+	UniqueZoneAppWide *bool   `json:"unique_zone_app_wide,omitempty" pulumi:"uniqueZoneAppWide,optional"`
 }
 
 // ErrorResponse defines model for ErrorResponse.
@@ -278,8 +304,10 @@ type MachineEvent struct {
 // MachineExecRequest defines model for MachineExecRequest.
 type MachineExecRequest struct {
 	// Cmd Deprecated: use Command instead
-	Command *[]string `json:"command,omitempty" pulumi:"command,optional"`
-	Timeout *int      `json:"timeout,omitempty" pulumi:"timeout,optional"`
+	Command   *[]string `json:"command,omitempty" pulumi:"command,optional"`
+	Container *string   `json:"container,omitempty" pulumi:"container,optional"`
+	Stdin     *string   `json:"stdin,omitempty" pulumi:"stdin,optional"`
+	Timeout   *int      `json:"timeout,omitempty" pulumi:"timeout,optional"`
 }
 
 // MachineVersion defines model for MachineVersion.
@@ -378,6 +406,114 @@ type VolumeSnapshot struct {
 	Status        *string `json:"status,omitempty" pulumi:"status,optional"`
 }
 
+// FlyContainerConfig defines model for fly.ContainerConfig.
+type FlyContainerConfig struct {
+	// Cmd CmdOverride is used to override the default command of the image.
+	Cmd *[]string `json:"cmd,omitempty" pulumi:"cmd,optional"`
+
+	// DependsOn DependsOn can be used to define dependencies between containers. The container will only be
+	// started after all of its dependent conditions have been satisfied.
+	DependsOn *[]FlyContainerDependency `json:"depends_on,omitempty" pulumi:"dependsOn,optional"`
+
+	// Entrypoint EntrypointOverride is used to override the default entrypoint of the image.
+	Entrypoint *[]string `json:"entrypoint,omitempty" pulumi:"entrypoint,optional"`
+
+	// Env ExtraEnv is used to add additional environment variables to the container.
+	Env *map[string]string `json:"env,omitempty" pulumi:"env,optional"`
+
+	// EnvFrom EnvFrom can be provided to set environment variables from machine fields.
+	EnvFrom *[]FlyEnvFrom `json:"env_from,omitempty" pulumi:"envFrom,optional"`
+
+	// Exec Image Config overrides - these fields are used to override the image configuration.
+	// If not provided, the image configuration will be used.
+	// ExecOverride is used to override the default command of the image.
+	Exec *[]string `json:"exec,omitempty" pulumi:"exec,optional"`
+
+	// Files Files are files that will be written to the container file system.
+	Files *[]FlyFile `json:"files,omitempty" pulumi:"files,optional"`
+
+	// Healthchecks Healthchecks determine the health of your containers. Healthchecks can use HTTP, TCP or an Exec command.
+	Healthchecks *[]FlyContainerHealthcheck `json:"healthchecks,omitempty" pulumi:"healthchecks,optional"`
+
+	// Image Image is the docker image to run.
+	Image *string `json:"image,omitempty" pulumi:"image,optional"`
+
+	// Mounts Set of mounts added to the container. These must reference a volume in the machine config via its name.
+	Mounts *[]FlyContainerMount `json:"mounts,omitempty" pulumi:"mounts,optional"`
+
+	// Name Name is used to identify the container in the machine.
+	Name *string `json:"name,omitempty" pulumi:"name,optional"`
+
+	// Restart Restart is used to define the restart policy for the container. NOTE: spot-price is not
+	// supported for containers.
+	Restart *FlyMachineRestart `json:"restart,omitempty" pulumi:"restart,optional"`
+
+	// Secrets Secrets can be provided at the process level to explicitly indicate which secrets should be
+	// used for the process. If not provided, the secrets provided at the machine level will be used.
+	Secrets *[]FlyMachineSecret `json:"secrets,omitempty" pulumi:"secrets,optional"`
+
+	// Stop Stop is used to define the signal and timeout for stopping the container.
+	Stop *FlyStopConfig `json:"stop,omitempty" pulumi:"stop,optional"`
+
+	// User UserOverride is used to override the default user of the image.
+	User *string `json:"user,omitempty" pulumi:"user,optional"`
+}
+
+// FlyContainerDependency defines model for fly.ContainerDependency.
+type FlyContainerDependency struct {
+	Condition *FlyContainerDependencyCondition `json:"condition,omitempty" pulumi:"condition,optional"`
+	Name      *string                          `json:"name,omitempty" pulumi:"name,optional"`
+}
+
+// FlyContainerDependencyCondition defines model for fly.ContainerDependencyCondition.
+type FlyContainerDependencyCondition string
+
+// FlyContainerHealthcheck defines model for fly.ContainerHealthcheck.
+type FlyContainerHealthcheck struct {
+	Exec *FlyExecHealthcheck `json:"exec,omitempty" pulumi:"exec,optional"`
+
+	// FailureThreshold The number of times the check must fail before considering the container unhealthy.
+	FailureThreshold *int `json:"failure_threshold,omitempty" pulumi:"failureThreshold,optional"`
+
+	// GracePeriod The time in seconds to wait after a container starts before checking its health.
+	GracePeriod *int                `json:"grace_period,omitempty" pulumi:"gracePeriod,optional"`
+	Http        *FlyHTTPHealthcheck `json:"http,omitempty" pulumi:"http,optional"`
+
+	// Interval The time in seconds between executing the defined check.
+	Interval *int `json:"interval,omitempty" pulumi:"interval,optional"`
+
+	// Kind Kind of healthcheck (readiness, liveness)
+	Kind *FlyContainerHealthcheckKind `json:"kind,omitempty" pulumi:"kind,optional"`
+
+	// Name The name of the check. Must be unique within the container.
+	Name *string `json:"name,omitempty" pulumi:"name,optional"`
+
+	// SuccessThreshold The number of times the check must succeeed before considering the container healthy.
+	SuccessThreshold *int               `json:"success_threshold,omitempty" pulumi:"successThreshold,optional"`
+	Tcp              *FlyTCPHealthcheck `json:"tcp,omitempty" pulumi:"tcp,optional"`
+
+	// Timeout The time in seconds to wait for the check to complete.
+	Timeout *int `json:"timeout,omitempty" pulumi:"timeout,optional"`
+
+	// Unhealthy Unhealthy policy that determines what action to take if a container is deemed unhealthy
+	Unhealthy *FlyUnhealthyPolicy `json:"unhealthy,omitempty" pulumi:"unhealthy,optional"`
+}
+
+// FlyContainerHealthcheckKind defines model for fly.ContainerHealthcheckKind.
+type FlyContainerHealthcheckKind string
+
+// FlyContainerHealthcheckScheme defines model for fly.ContainerHealthcheckScheme.
+type FlyContainerHealthcheckScheme string
+
+// FlyContainerMount defines model for fly.ContainerMount.
+type FlyContainerMount struct {
+	// Name The name of the volume. Must exist in the volumes field in the machine configuration
+	Name *string `json:"name,omitempty" pulumi:"name,optional"`
+
+	// Path The path to mount the volume within the container
+	Path *string `json:"path,omitempty" pulumi:"path,optional"`
+}
+
 // FlyDNSConfig defines model for fly.DNSConfig.
 type FlyDNSConfig struct {
 	DnsForwardRules  *[]FlyDnsForwardRule `json:"dns_forward_rules,omitempty" pulumi:"dnsForwardRules,optional"`
@@ -407,6 +543,12 @@ type FlyEnvFrom struct {
 // FlyEnvFromFieldRef FieldRef selects a field of the Machine: supports id, version, app_name, private_ip, region, image.
 type FlyEnvFromFieldRef string
 
+// FlyExecHealthcheck defines model for fly.ExecHealthcheck.
+type FlyExecHealthcheck struct {
+	// Command The command to run to check the health of the container (e.g. ["cat", "/tmp/healthy"])
+	Command *[]string `json:"command,omitempty" pulumi:"command,optional"`
+}
+
 // FlyFile A file that will be written to the Machine. One of RawValue or SecretName must be set.
 type FlyFile struct {
 	// GuestPath GuestPath is the path on the machine where the file will be written and must be an absolute path.
@@ -421,6 +563,30 @@ type FlyFile struct {
 
 	// SecretName The name of the secret that contains the base64 encoded file contents.
 	SecretName *string `json:"secret_name,omitempty" pulumi:"secretName,optional"`
+}
+
+// FlyHTTPHealthcheck defines model for fly.HTTPHealthcheck.
+type FlyHTTPHealthcheck struct {
+	// Headers Additional headers to send with the request
+	Headers *[]FlyMachineHTTPHeader `json:"headers,omitempty" pulumi:"headers,optional"`
+
+	// Method The HTTP method to use to when making the request
+	Method *string `json:"method,omitempty" pulumi:"method,optional"`
+
+	// Path The path to send the request to
+	Path *string `json:"path,omitempty" pulumi:"path,optional"`
+
+	// Port The port to connect to, often the same as internal_port
+	Port *int `json:"port,omitempty" pulumi:"port,optional"`
+
+	// Scheme Whether to use http or https
+	Scheme *FlyContainerHealthcheckScheme `json:"scheme,omitempty" pulumi:"scheme,optional"`
+
+	// TlsServerName If the protocol is https, the hostname to use for TLS certificate validation
+	TlsServerName *string `json:"tls_server_name,omitempty" pulumi:"tlsServerName,optional"`
+
+	// TlsSkipVerify If the protocol is https, whether or not to verify the TLS certificate
+	TlsSkipVerify *bool `json:"tls_skip_verify,omitempty" pulumi:"tlsSkipVerify,optional"`
 }
 
 // FlyHTTPOptions defines model for fly.HTTPOptions.
@@ -484,6 +650,10 @@ type FlyMachineConfig struct {
 	AutoDestroy *bool                       `json:"auto_destroy,omitempty" pulumi:"autoDestroy,optional"`
 	Checks      *map[string]FlyMachineCheck `json:"checks,omitempty" pulumi:"checks,optional"`
 
+	// Containers Containers are a list of containers that will run in the machine. Currently restricted to
+	// only specific organizations.
+	Containers *[]FlyContainerConfig `json:"containers,omitempty" pulumi:"containers,optional"`
+
 	// DisableMachineAutostart Deprecated: use Service.Autostart instead
 	Dns                     *FlyDNSConfig `json:"dns,omitempty" pulumi:"dns,optional"`
 
@@ -512,6 +682,10 @@ type FlyMachineConfig struct {
 	Standbys   *[]string      `json:"standbys,omitempty" pulumi:"standbys,optional"`
 	Statics    *[]FlyStatic   `json:"statics,omitempty" pulumi:"statics,optional"`
 	StopConfig *FlyStopConfig `json:"stop_config,omitempty" pulumi:"stopConfig,optional"`
+
+	// Volumes Volumes describe the set of volumes that can be attached to the machine. Used in conjuction
+	// with containers
+	Volumes *[]FlyVolumeConfig `json:"volumes,omitempty" pulumi:"volumes,optional"`
 }
 
 // FlyMachineGuest defines model for fly.MachineGuest.
@@ -546,8 +720,9 @@ type FlyMachineInit struct {
 
 // FlyMachineMetrics defines model for fly.MachineMetrics.
 type FlyMachineMetrics struct {
-	Path *string `json:"path,omitempty" pulumi:"path,optional"`
-	Port *int    `json:"port,omitempty" pulumi:"port,optional"`
+	Https *bool   `json:"https,omitempty" pulumi:"https,optional"`
+	Path  *string `json:"path,omitempty" pulumi:"path,optional"`
+	Port  *int    `json:"port,omitempty" pulumi:"port,optional"`
 }
 
 // FlyMachineMount defines model for fly.MachineMount.
@@ -678,11 +853,36 @@ type FlyStopConfig struct {
 	Timeout *string `json:"timeout,omitempty" pulumi:"timeout,optional"`
 }
 
+// FlyTCPHealthcheck defines model for fly.TCPHealthcheck.
+type FlyTCPHealthcheck struct {
+	// Port The port to connect to, often the same as internal_port
+	Port *int `json:"port,omitempty" pulumi:"port,optional"`
+}
+
 // FlyTLSOptions defines model for fly.TLSOptions.
 type FlyTLSOptions struct {
 	Alpn              *[]string `json:"alpn,omitempty" pulumi:"alpn,optional"`
 	DefaultSelfSigned *bool     `json:"default_self_signed,omitempty" pulumi:"defaultSelfSigned,optional"`
 	Versions          *[]string `json:"versions,omitempty" pulumi:"versions,optional"`
+}
+
+// FlyTempDirVolume defines model for fly.TempDirVolume.
+type FlyTempDirVolume struct {
+	// SizeMb The size limit of the temp dir, only applicable when using disk backed storage.
+	SizeMb *int `json:"size_mb,omitempty" pulumi:"sizeMb,optional"`
+
+	// StorageType The type of storage used to back the temp dir. Either disk or memory.
+	StorageType *string `json:"storage_type,omitempty" pulumi:"storageType,optional"`
+}
+
+// FlyUnhealthyPolicy defines model for fly.UnhealthyPolicy.
+type FlyUnhealthyPolicy string
+
+// FlyVolumeConfig defines model for fly.VolumeConfig.
+type FlyVolumeConfig struct {
+	// Name The name of the volume. A volume must have a unique name within an app
+	Name    *string           `json:"name,omitempty" pulumi:"name,optional"`
+	TempDir *FlyTempDirVolume `json:"temp_dir,omitempty" pulumi:"tempDir,optional"`
 }
 
 // FlyDnsForwardRule defines model for fly.dnsForwardRule.
@@ -721,6 +921,9 @@ type MachinesListParams struct {
 
 	// Region Region filter
 	Region *string `form:"region,omitempty" json:"region,omitempty"`
+
+	// State comma separated list of states to filter (created, started, stopped, suspended)
+	State *string `form:"state,omitempty" json:"state,omitempty"`
 
 	// Summary Only return summary info about machines (omit config, checks, events, host_status, nonce, etc.)
 	Summary *bool `form:"summary,omitempty" json:"summary,omitempty"`
@@ -1815,6 +2018,22 @@ func NewMachinesListRequest(server string, appName string, params *MachinesListP
 		if params.Region != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "region", runtime.ParamLocationQuery, *params.Region); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.State != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "state", runtime.ParamLocationQuery, *params.State); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err

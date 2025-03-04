@@ -28,6 +28,7 @@ public final class VolumeArgs {
     private @Nullable String snapshotId;
     private @Nullable Integer snapshotRetention;
     private @Nullable String sourceVolumeId;
+    private @Nullable Boolean uniqueZoneAppWide;
 
     private VolumeArgs() {}
     public String app() {
@@ -69,6 +70,9 @@ public final class VolumeArgs {
     public Optional<String> sourceVolumeId() {
         return Optional.ofNullable(this.sourceVolumeId);
     }
+    public Optional<Boolean> uniqueZoneAppWide() {
+        return Optional.ofNullable(this.uniqueZoneAppWide);
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -92,6 +96,7 @@ public final class VolumeArgs {
         private @Nullable String snapshotId;
         private @Nullable Integer snapshotRetention;
         private @Nullable String sourceVolumeId;
+        private @Nullable Boolean uniqueZoneAppWide;
         public Builder() {}
         public Builder(VolumeArgs defaults) {
     	      Objects.requireNonNull(defaults);
@@ -108,6 +113,7 @@ public final class VolumeArgs {
     	      this.snapshotId = defaults.snapshotId;
     	      this.snapshotRetention = defaults.snapshotRetention;
     	      this.sourceVolumeId = defaults.sourceVolumeId;
+    	      this.uniqueZoneAppWide = defaults.uniqueZoneAppWide;
         }
 
         @CustomType.Setter
@@ -190,6 +196,12 @@ public final class VolumeArgs {
             this.sourceVolumeId = sourceVolumeId;
             return this;
         }
+        @CustomType.Setter
+        public Builder uniqueZoneAppWide(@Nullable Boolean uniqueZoneAppWide) {
+
+            this.uniqueZoneAppWide = uniqueZoneAppWide;
+            return this;
+        }
         public VolumeArgs build() {
             final var _resultValue = new VolumeArgs();
             _resultValue.app = app;
@@ -205,6 +217,7 @@ public final class VolumeArgs {
             _resultValue.snapshotId = snapshotId;
             _resultValue.snapshotRetention = snapshotRetention;
             _resultValue.sourceVolumeId = sourceVolumeId;
+            _resultValue.uniqueZoneAppWide = uniqueZoneAppWide;
             return _resultValue;
         }
     }

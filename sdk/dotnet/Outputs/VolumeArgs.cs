@@ -27,6 +27,7 @@ namespace PulumiFlyio.Flyio.Outputs
         public readonly string? SnapshotId;
         public readonly int? SnapshotRetention;
         public readonly string? SourceVolumeId;
+        public readonly bool? UniqueZoneAppWide;
 
         [OutputConstructor]
         private VolumeArgs(
@@ -54,7 +55,9 @@ namespace PulumiFlyio.Flyio.Outputs
 
             int? snapshotRetention,
 
-            string? sourceVolumeId)
+            string? sourceVolumeId,
+
+            bool? uniqueZoneAppWide)
         {
             App = app;
             AutoBackupEnabled = autoBackupEnabled;
@@ -69,6 +72,7 @@ namespace PulumiFlyio.Flyio.Outputs
             SnapshotId = snapshotId;
             SnapshotRetention = snapshotRetention;
             SourceVolumeId = sourceVolumeId;
+            UniqueZoneAppWide = uniqueZoneAppWide;
         }
     }
 }

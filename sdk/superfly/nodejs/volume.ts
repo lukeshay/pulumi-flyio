@@ -81,6 +81,7 @@ export class Volume extends pulumi.CustomResource {
             resourceInputs["snapshotId"] = args ? args.snapshotId : undefined;
             resourceInputs["snapshotRetention"] = args ? args.snapshotRetention : undefined;
             resourceInputs["sourceVolumeId"] = args ? args.sourceVolumeId : undefined;
+            resourceInputs["uniqueZoneAppWide"] = args ? args.uniqueZoneAppWide : undefined;
             resourceInputs["attachedAllocId"] = undefined /*out*/;
             resourceInputs["attachedMachineId"] = undefined /*out*/;
             resourceInputs["blockSize"] = undefined /*out*/;
@@ -137,4 +138,5 @@ export interface VolumeArgs {
     snapshotId?: pulumi.Input<string>;
     snapshotRetention?: pulumi.Input<number>;
     sourceVolumeId?: pulumi.Input<string>;
+    uniqueZoneAppWide?: pulumi.Input<boolean>;
 }

@@ -13,6 +13,9 @@ namespace PulumiFlyio.Flyio.Flyio.Inputs
 
     public sealed class FlyMachineMetricsArgs : global::Pulumi.ResourceArgs
     {
+        [Input("https")]
+        public Input<bool>? Https { get; set; }
+
         [Input("path")]
         public Input<string>? Path { get; set; }
 

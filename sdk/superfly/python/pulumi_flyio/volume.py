@@ -33,7 +33,8 @@ class VolumeArgs:
                  size_gb: Optional[pulumi.Input[int]] = None,
                  snapshot_id: Optional[pulumi.Input[str]] = None,
                  snapshot_retention: Optional[pulumi.Input[int]] = None,
-                 source_volume_id: Optional[pulumi.Input[str]] = None):
+                 source_volume_id: Optional[pulumi.Input[str]] = None,
+                 unique_zone_app_wide: Optional[pulumi.Input[bool]] = None):
         """
         The set of arguments for constructing a Volume resource.
         """
@@ -62,6 +63,8 @@ class VolumeArgs:
             pulumi.set(__self__, "snapshot_retention", snapshot_retention)
         if source_volume_id is not None:
             pulumi.set(__self__, "source_volume_id", source_volume_id)
+        if unique_zone_app_wide is not None:
+            pulumi.set(__self__, "unique_zone_app_wide", unique_zone_app_wide)
 
     @property
     @pulumi.getter
@@ -180,6 +183,15 @@ class VolumeArgs:
     def source_volume_id(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "source_volume_id", value)
 
+    @property
+    @pulumi.getter(name="uniqueZoneAppWide")
+    def unique_zone_app_wide(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "unique_zone_app_wide")
+
+    @unique_zone_app_wide.setter
+    def unique_zone_app_wide(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "unique_zone_app_wide", value)
+
 
 class Volume(pulumi.CustomResource):
     @overload
@@ -199,6 +211,7 @@ class Volume(pulumi.CustomResource):
                  snapshot_id: Optional[pulumi.Input[str]] = None,
                  snapshot_retention: Optional[pulumi.Input[int]] = None,
                  source_volume_id: Optional[pulumi.Input[str]] = None,
+                 unique_zone_app_wide: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
         """
         Create a Volume resource with the given unique name, props, and options.
@@ -241,6 +254,7 @@ class Volume(pulumi.CustomResource):
                  snapshot_id: Optional[pulumi.Input[str]] = None,
                  snapshot_retention: Optional[pulumi.Input[int]] = None,
                  source_volume_id: Optional[pulumi.Input[str]] = None,
+                 unique_zone_app_wide: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -265,6 +279,7 @@ class Volume(pulumi.CustomResource):
             __props__.__dict__["snapshot_id"] = snapshot_id
             __props__.__dict__["snapshot_retention"] = snapshot_retention
             __props__.__dict__["source_volume_id"] = source_volume_id
+            __props__.__dict__["unique_zone_app_wide"] = unique_zone_app_wide
             __props__.__dict__["attached_alloc_id"] = None
             __props__.__dict__["attached_machine_id"] = None
             __props__.__dict__["block_size"] = None

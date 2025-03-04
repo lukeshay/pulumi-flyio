@@ -344,6 +344,8 @@ class VolumeArgs(dict):
             suggest = "snapshot_retention"
         elif key == "sourceVolumeId":
             suggest = "source_volume_id"
+        elif key == "uniqueZoneAppWide":
+            suggest = "unique_zone_app_wide"
 
         if suggest:
             pulumi.log.warn(f"Key '{key}' not found in VolumeArgs. Access the value via the '{suggest}' property getter instead.")
@@ -369,7 +371,8 @@ class VolumeArgs(dict):
                  size_gb: Optional[int] = None,
                  snapshot_id: Optional[str] = None,
                  snapshot_retention: Optional[int] = None,
-                 source_volume_id: Optional[str] = None):
+                 source_volume_id: Optional[str] = None,
+                 unique_zone_app_wide: Optional[bool] = None):
         pulumi.set(__self__, "app", app)
         if auto_backup_enabled is not None:
             pulumi.set(__self__, "auto_backup_enabled", auto_backup_enabled)
@@ -395,6 +398,8 @@ class VolumeArgs(dict):
             pulumi.set(__self__, "snapshot_retention", snapshot_retention)
         if source_volume_id is not None:
             pulumi.set(__self__, "source_volume_id", source_volume_id)
+        if unique_zone_app_wide is not None:
+            pulumi.set(__self__, "unique_zone_app_wide", unique_zone_app_wide)
 
     @property
     @pulumi.getter
@@ -460,5 +465,10 @@ class VolumeArgs(dict):
     @pulumi.getter(name="sourceVolumeId")
     def source_volume_id(self) -> Optional[str]:
         return pulumi.get(self, "source_volume_id")
+
+    @property
+    @pulumi.getter(name="uniqueZoneAppWide")
+    def unique_zone_app_wide(self) -> Optional[bool]:
+        return pulumi.get(self, "unique_zone_app_wide")
 
 

@@ -70,6 +70,538 @@ func (o CheckStatusArrayOutput) Index(i pulumi.IntInput) CheckStatusOutput {
 	}).(CheckStatusOutput)
 }
 
+type FlyContainerConfig struct {
+	Cmd          []string                  `pulumi:"cmd"`
+	DependsOn    []FlyContainerDependency  `pulumi:"dependsOn"`
+	Entrypoint   []string                  `pulumi:"entrypoint"`
+	Env          map[string]string         `pulumi:"env"`
+	EnvFrom      []FlyEnvFrom              `pulumi:"envFrom"`
+	Exec         []string                  `pulumi:"exec"`
+	Files        []FlyFile                 `pulumi:"files"`
+	Healthchecks []FlyContainerHealthcheck `pulumi:"healthchecks"`
+	Image        *string                   `pulumi:"image"`
+	Mounts       []FlyContainerMount       `pulumi:"mounts"`
+	Name         *string                   `pulumi:"name"`
+	Restart      *FlyMachineRestart        `pulumi:"restart"`
+	Secrets      []FlyMachineSecret        `pulumi:"secrets"`
+	Stop         *FlyStopConfig            `pulumi:"stop"`
+	User         *string                   `pulumi:"user"`
+}
+
+// FlyContainerConfigInput is an input type that accepts FlyContainerConfigArgs and FlyContainerConfigOutput values.
+// You can construct a concrete instance of `FlyContainerConfigInput` via:
+//
+//	FlyContainerConfigArgs{...}
+type FlyContainerConfigInput interface {
+	pulumi.Input
+
+	ToFlyContainerConfigOutput() FlyContainerConfigOutput
+	ToFlyContainerConfigOutputWithContext(context.Context) FlyContainerConfigOutput
+}
+
+type FlyContainerConfigArgs struct {
+	Cmd          pulumi.StringArrayInput           `pulumi:"cmd"`
+	DependsOn    FlyContainerDependencyArrayInput  `pulumi:"dependsOn"`
+	Entrypoint   pulumi.StringArrayInput           `pulumi:"entrypoint"`
+	Env          pulumi.StringMapInput             `pulumi:"env"`
+	EnvFrom      FlyEnvFromArrayInput              `pulumi:"envFrom"`
+	Exec         pulumi.StringArrayInput           `pulumi:"exec"`
+	Files        FlyFileArrayInput                 `pulumi:"files"`
+	Healthchecks FlyContainerHealthcheckArrayInput `pulumi:"healthchecks"`
+	Image        pulumi.StringPtrInput             `pulumi:"image"`
+	Mounts       FlyContainerMountArrayInput       `pulumi:"mounts"`
+	Name         pulumi.StringPtrInput             `pulumi:"name"`
+	Restart      FlyMachineRestartPtrInput         `pulumi:"restart"`
+	Secrets      FlyMachineSecretArrayInput        `pulumi:"secrets"`
+	Stop         FlyStopConfigPtrInput             `pulumi:"stop"`
+	User         pulumi.StringPtrInput             `pulumi:"user"`
+}
+
+func (FlyContainerConfigArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerConfig)(nil)).Elem()
+}
+
+func (i FlyContainerConfigArgs) ToFlyContainerConfigOutput() FlyContainerConfigOutput {
+	return i.ToFlyContainerConfigOutputWithContext(context.Background())
+}
+
+func (i FlyContainerConfigArgs) ToFlyContainerConfigOutputWithContext(ctx context.Context) FlyContainerConfigOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerConfigOutput)
+}
+
+// FlyContainerConfigArrayInput is an input type that accepts FlyContainerConfigArray and FlyContainerConfigArrayOutput values.
+// You can construct a concrete instance of `FlyContainerConfigArrayInput` via:
+//
+//	FlyContainerConfigArray{ FlyContainerConfigArgs{...} }
+type FlyContainerConfigArrayInput interface {
+	pulumi.Input
+
+	ToFlyContainerConfigArrayOutput() FlyContainerConfigArrayOutput
+	ToFlyContainerConfigArrayOutputWithContext(context.Context) FlyContainerConfigArrayOutput
+}
+
+type FlyContainerConfigArray []FlyContainerConfigInput
+
+func (FlyContainerConfigArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerConfig)(nil)).Elem()
+}
+
+func (i FlyContainerConfigArray) ToFlyContainerConfigArrayOutput() FlyContainerConfigArrayOutput {
+	return i.ToFlyContainerConfigArrayOutputWithContext(context.Background())
+}
+
+func (i FlyContainerConfigArray) ToFlyContainerConfigArrayOutputWithContext(ctx context.Context) FlyContainerConfigArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerConfigArrayOutput)
+}
+
+type FlyContainerConfigOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerConfigOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerConfig)(nil)).Elem()
+}
+
+func (o FlyContainerConfigOutput) ToFlyContainerConfigOutput() FlyContainerConfigOutput {
+	return o
+}
+
+func (o FlyContainerConfigOutput) ToFlyContainerConfigOutputWithContext(ctx context.Context) FlyContainerConfigOutput {
+	return o
+}
+
+func (o FlyContainerConfigOutput) Cmd() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []string { return v.Cmd }).(pulumi.StringArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) DependsOn() FlyContainerDependencyArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []FlyContainerDependency { return v.DependsOn }).(FlyContainerDependencyArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Entrypoint() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []string { return v.Entrypoint }).(pulumi.StringArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Env() pulumi.StringMapOutput {
+	return o.ApplyT(func(v FlyContainerConfig) map[string]string { return v.Env }).(pulumi.StringMapOutput)
+}
+
+func (o FlyContainerConfigOutput) EnvFrom() FlyEnvFromArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []FlyEnvFrom { return v.EnvFrom }).(FlyEnvFromArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Exec() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []string { return v.Exec }).(pulumi.StringArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Files() FlyFileArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []FlyFile { return v.Files }).(FlyFileArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Healthchecks() FlyContainerHealthcheckArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []FlyContainerHealthcheck { return v.Healthchecks }).(FlyContainerHealthcheckArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Image() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerConfig) *string { return v.Image }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyContainerConfigOutput) Mounts() FlyContainerMountArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []FlyContainerMount { return v.Mounts }).(FlyContainerMountArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerConfig) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyContainerConfigOutput) Restart() FlyMachineRestartPtrOutput {
+	return o.ApplyT(func(v FlyContainerConfig) *FlyMachineRestart { return v.Restart }).(FlyMachineRestartPtrOutput)
+}
+
+func (o FlyContainerConfigOutput) Secrets() FlyMachineSecretArrayOutput {
+	return o.ApplyT(func(v FlyContainerConfig) []FlyMachineSecret { return v.Secrets }).(FlyMachineSecretArrayOutput)
+}
+
+func (o FlyContainerConfigOutput) Stop() FlyStopConfigPtrOutput {
+	return o.ApplyT(func(v FlyContainerConfig) *FlyStopConfig { return v.Stop }).(FlyStopConfigPtrOutput)
+}
+
+func (o FlyContainerConfigOutput) User() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerConfig) *string { return v.User }).(pulumi.StringPtrOutput)
+}
+
+type FlyContainerConfigArrayOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerConfigArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerConfig)(nil)).Elem()
+}
+
+func (o FlyContainerConfigArrayOutput) ToFlyContainerConfigArrayOutput() FlyContainerConfigArrayOutput {
+	return o
+}
+
+func (o FlyContainerConfigArrayOutput) ToFlyContainerConfigArrayOutputWithContext(ctx context.Context) FlyContainerConfigArrayOutput {
+	return o
+}
+
+func (o FlyContainerConfigArrayOutput) Index(i pulumi.IntInput) FlyContainerConfigOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlyContainerConfig {
+		return vs[0].([]FlyContainerConfig)[vs[1].(int)]
+	}).(FlyContainerConfigOutput)
+}
+
+type FlyContainerDependency struct {
+	Condition *string `pulumi:"condition"`
+	Name      *string `pulumi:"name"`
+}
+
+// FlyContainerDependencyInput is an input type that accepts FlyContainerDependencyArgs and FlyContainerDependencyOutput values.
+// You can construct a concrete instance of `FlyContainerDependencyInput` via:
+//
+//	FlyContainerDependencyArgs{...}
+type FlyContainerDependencyInput interface {
+	pulumi.Input
+
+	ToFlyContainerDependencyOutput() FlyContainerDependencyOutput
+	ToFlyContainerDependencyOutputWithContext(context.Context) FlyContainerDependencyOutput
+}
+
+type FlyContainerDependencyArgs struct {
+	Condition pulumi.StringPtrInput `pulumi:"condition"`
+	Name      pulumi.StringPtrInput `pulumi:"name"`
+}
+
+func (FlyContainerDependencyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerDependency)(nil)).Elem()
+}
+
+func (i FlyContainerDependencyArgs) ToFlyContainerDependencyOutput() FlyContainerDependencyOutput {
+	return i.ToFlyContainerDependencyOutputWithContext(context.Background())
+}
+
+func (i FlyContainerDependencyArgs) ToFlyContainerDependencyOutputWithContext(ctx context.Context) FlyContainerDependencyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerDependencyOutput)
+}
+
+// FlyContainerDependencyArrayInput is an input type that accepts FlyContainerDependencyArray and FlyContainerDependencyArrayOutput values.
+// You can construct a concrete instance of `FlyContainerDependencyArrayInput` via:
+//
+//	FlyContainerDependencyArray{ FlyContainerDependencyArgs{...} }
+type FlyContainerDependencyArrayInput interface {
+	pulumi.Input
+
+	ToFlyContainerDependencyArrayOutput() FlyContainerDependencyArrayOutput
+	ToFlyContainerDependencyArrayOutputWithContext(context.Context) FlyContainerDependencyArrayOutput
+}
+
+type FlyContainerDependencyArray []FlyContainerDependencyInput
+
+func (FlyContainerDependencyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerDependency)(nil)).Elem()
+}
+
+func (i FlyContainerDependencyArray) ToFlyContainerDependencyArrayOutput() FlyContainerDependencyArrayOutput {
+	return i.ToFlyContainerDependencyArrayOutputWithContext(context.Background())
+}
+
+func (i FlyContainerDependencyArray) ToFlyContainerDependencyArrayOutputWithContext(ctx context.Context) FlyContainerDependencyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerDependencyArrayOutput)
+}
+
+type FlyContainerDependencyOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerDependencyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerDependency)(nil)).Elem()
+}
+
+func (o FlyContainerDependencyOutput) ToFlyContainerDependencyOutput() FlyContainerDependencyOutput {
+	return o
+}
+
+func (o FlyContainerDependencyOutput) ToFlyContainerDependencyOutputWithContext(ctx context.Context) FlyContainerDependencyOutput {
+	return o
+}
+
+func (o FlyContainerDependencyOutput) Condition() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerDependency) *string { return v.Condition }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyContainerDependencyOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerDependency) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+type FlyContainerDependencyArrayOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerDependencyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerDependency)(nil)).Elem()
+}
+
+func (o FlyContainerDependencyArrayOutput) ToFlyContainerDependencyArrayOutput() FlyContainerDependencyArrayOutput {
+	return o
+}
+
+func (o FlyContainerDependencyArrayOutput) ToFlyContainerDependencyArrayOutputWithContext(ctx context.Context) FlyContainerDependencyArrayOutput {
+	return o
+}
+
+func (o FlyContainerDependencyArrayOutput) Index(i pulumi.IntInput) FlyContainerDependencyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlyContainerDependency {
+		return vs[0].([]FlyContainerDependency)[vs[1].(int)]
+	}).(FlyContainerDependencyOutput)
+}
+
+type FlyContainerHealthcheck struct {
+	Exec             *FlyExecHealthcheck `pulumi:"exec"`
+	FailureThreshold *int                `pulumi:"failureThreshold"`
+	GracePeriod      *int                `pulumi:"gracePeriod"`
+	Http             *FlyHTTPHealthcheck `pulumi:"http"`
+	Interval         *int                `pulumi:"interval"`
+	Kind             *string             `pulumi:"kind"`
+	Name             *string             `pulumi:"name"`
+	SuccessThreshold *int                `pulumi:"successThreshold"`
+	Tcp              *FlyTCPHealthcheck  `pulumi:"tcp"`
+	Timeout          *int                `pulumi:"timeout"`
+	Unhealthy        *string             `pulumi:"unhealthy"`
+}
+
+// FlyContainerHealthcheckInput is an input type that accepts FlyContainerHealthcheckArgs and FlyContainerHealthcheckOutput values.
+// You can construct a concrete instance of `FlyContainerHealthcheckInput` via:
+//
+//	FlyContainerHealthcheckArgs{...}
+type FlyContainerHealthcheckInput interface {
+	pulumi.Input
+
+	ToFlyContainerHealthcheckOutput() FlyContainerHealthcheckOutput
+	ToFlyContainerHealthcheckOutputWithContext(context.Context) FlyContainerHealthcheckOutput
+}
+
+type FlyContainerHealthcheckArgs struct {
+	Exec             FlyExecHealthcheckPtrInput `pulumi:"exec"`
+	FailureThreshold pulumi.IntPtrInput         `pulumi:"failureThreshold"`
+	GracePeriod      pulumi.IntPtrInput         `pulumi:"gracePeriod"`
+	Http             FlyHTTPHealthcheckPtrInput `pulumi:"http"`
+	Interval         pulumi.IntPtrInput         `pulumi:"interval"`
+	Kind             pulumi.StringPtrInput      `pulumi:"kind"`
+	Name             pulumi.StringPtrInput      `pulumi:"name"`
+	SuccessThreshold pulumi.IntPtrInput         `pulumi:"successThreshold"`
+	Tcp              FlyTCPHealthcheckPtrInput  `pulumi:"tcp"`
+	Timeout          pulumi.IntPtrInput         `pulumi:"timeout"`
+	Unhealthy        pulumi.StringPtrInput      `pulumi:"unhealthy"`
+}
+
+func (FlyContainerHealthcheckArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerHealthcheck)(nil)).Elem()
+}
+
+func (i FlyContainerHealthcheckArgs) ToFlyContainerHealthcheckOutput() FlyContainerHealthcheckOutput {
+	return i.ToFlyContainerHealthcheckOutputWithContext(context.Background())
+}
+
+func (i FlyContainerHealthcheckArgs) ToFlyContainerHealthcheckOutputWithContext(ctx context.Context) FlyContainerHealthcheckOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerHealthcheckOutput)
+}
+
+// FlyContainerHealthcheckArrayInput is an input type that accepts FlyContainerHealthcheckArray and FlyContainerHealthcheckArrayOutput values.
+// You can construct a concrete instance of `FlyContainerHealthcheckArrayInput` via:
+//
+//	FlyContainerHealthcheckArray{ FlyContainerHealthcheckArgs{...} }
+type FlyContainerHealthcheckArrayInput interface {
+	pulumi.Input
+
+	ToFlyContainerHealthcheckArrayOutput() FlyContainerHealthcheckArrayOutput
+	ToFlyContainerHealthcheckArrayOutputWithContext(context.Context) FlyContainerHealthcheckArrayOutput
+}
+
+type FlyContainerHealthcheckArray []FlyContainerHealthcheckInput
+
+func (FlyContainerHealthcheckArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerHealthcheck)(nil)).Elem()
+}
+
+func (i FlyContainerHealthcheckArray) ToFlyContainerHealthcheckArrayOutput() FlyContainerHealthcheckArrayOutput {
+	return i.ToFlyContainerHealthcheckArrayOutputWithContext(context.Background())
+}
+
+func (i FlyContainerHealthcheckArray) ToFlyContainerHealthcheckArrayOutputWithContext(ctx context.Context) FlyContainerHealthcheckArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerHealthcheckArrayOutput)
+}
+
+type FlyContainerHealthcheckOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerHealthcheckOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerHealthcheck)(nil)).Elem()
+}
+
+func (o FlyContainerHealthcheckOutput) ToFlyContainerHealthcheckOutput() FlyContainerHealthcheckOutput {
+	return o
+}
+
+func (o FlyContainerHealthcheckOutput) ToFlyContainerHealthcheckOutputWithContext(ctx context.Context) FlyContainerHealthcheckOutput {
+	return o
+}
+
+func (o FlyContainerHealthcheckOutput) Exec() FlyExecHealthcheckPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *FlyExecHealthcheck { return v.Exec }).(FlyExecHealthcheckPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) FailureThreshold() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *int { return v.FailureThreshold }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) GracePeriod() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *int { return v.GracePeriod }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Http() FlyHTTPHealthcheckPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *FlyHTTPHealthcheck { return v.Http }).(FlyHTTPHealthcheckPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *int { return v.Interval }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Kind() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *string { return v.Kind }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) SuccessThreshold() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *int { return v.SuccessThreshold }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Tcp() FlyTCPHealthcheckPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *FlyTCPHealthcheck { return v.Tcp }).(FlyTCPHealthcheckPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Timeout() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *int { return v.Timeout }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyContainerHealthcheckOutput) Unhealthy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerHealthcheck) *string { return v.Unhealthy }).(pulumi.StringPtrOutput)
+}
+
+type FlyContainerHealthcheckArrayOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerHealthcheckArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerHealthcheck)(nil)).Elem()
+}
+
+func (o FlyContainerHealthcheckArrayOutput) ToFlyContainerHealthcheckArrayOutput() FlyContainerHealthcheckArrayOutput {
+	return o
+}
+
+func (o FlyContainerHealthcheckArrayOutput) ToFlyContainerHealthcheckArrayOutputWithContext(ctx context.Context) FlyContainerHealthcheckArrayOutput {
+	return o
+}
+
+func (o FlyContainerHealthcheckArrayOutput) Index(i pulumi.IntInput) FlyContainerHealthcheckOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlyContainerHealthcheck {
+		return vs[0].([]FlyContainerHealthcheck)[vs[1].(int)]
+	}).(FlyContainerHealthcheckOutput)
+}
+
+type FlyContainerMount struct {
+	Name *string `pulumi:"name"`
+	Path *string `pulumi:"path"`
+}
+
+// FlyContainerMountInput is an input type that accepts FlyContainerMountArgs and FlyContainerMountOutput values.
+// You can construct a concrete instance of `FlyContainerMountInput` via:
+//
+//	FlyContainerMountArgs{...}
+type FlyContainerMountInput interface {
+	pulumi.Input
+
+	ToFlyContainerMountOutput() FlyContainerMountOutput
+	ToFlyContainerMountOutputWithContext(context.Context) FlyContainerMountOutput
+}
+
+type FlyContainerMountArgs struct {
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	Path pulumi.StringPtrInput `pulumi:"path"`
+}
+
+func (FlyContainerMountArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerMount)(nil)).Elem()
+}
+
+func (i FlyContainerMountArgs) ToFlyContainerMountOutput() FlyContainerMountOutput {
+	return i.ToFlyContainerMountOutputWithContext(context.Background())
+}
+
+func (i FlyContainerMountArgs) ToFlyContainerMountOutputWithContext(ctx context.Context) FlyContainerMountOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerMountOutput)
+}
+
+// FlyContainerMountArrayInput is an input type that accepts FlyContainerMountArray and FlyContainerMountArrayOutput values.
+// You can construct a concrete instance of `FlyContainerMountArrayInput` via:
+//
+//	FlyContainerMountArray{ FlyContainerMountArgs{...} }
+type FlyContainerMountArrayInput interface {
+	pulumi.Input
+
+	ToFlyContainerMountArrayOutput() FlyContainerMountArrayOutput
+	ToFlyContainerMountArrayOutputWithContext(context.Context) FlyContainerMountArrayOutput
+}
+
+type FlyContainerMountArray []FlyContainerMountInput
+
+func (FlyContainerMountArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerMount)(nil)).Elem()
+}
+
+func (i FlyContainerMountArray) ToFlyContainerMountArrayOutput() FlyContainerMountArrayOutput {
+	return i.ToFlyContainerMountArrayOutputWithContext(context.Background())
+}
+
+func (i FlyContainerMountArray) ToFlyContainerMountArrayOutputWithContext(ctx context.Context) FlyContainerMountArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyContainerMountArrayOutput)
+}
+
+type FlyContainerMountOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerMountOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyContainerMount)(nil)).Elem()
+}
+
+func (o FlyContainerMountOutput) ToFlyContainerMountOutput() FlyContainerMountOutput {
+	return o
+}
+
+func (o FlyContainerMountOutput) ToFlyContainerMountOutputWithContext(ctx context.Context) FlyContainerMountOutput {
+	return o
+}
+
+func (o FlyContainerMountOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerMount) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyContainerMountOutput) Path() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyContainerMount) *string { return v.Path }).(pulumi.StringPtrOutput)
+}
+
+type FlyContainerMountArrayOutput struct{ *pulumi.OutputState }
+
+func (FlyContainerMountArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyContainerMount)(nil)).Elem()
+}
+
+func (o FlyContainerMountArrayOutput) ToFlyContainerMountArrayOutput() FlyContainerMountArrayOutput {
+	return o
+}
+
+func (o FlyContainerMountArrayOutput) ToFlyContainerMountArrayOutputWithContext(ctx context.Context) FlyContainerMountArrayOutput {
+	return o
+}
+
+func (o FlyContainerMountArrayOutput) Index(i pulumi.IntInput) FlyContainerMountOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlyContainerMount {
+		return vs[0].([]FlyContainerMount)[vs[1].(int)]
+	}).(FlyContainerMountOutput)
+}
+
 type FlyDNSConfig struct {
 	DnsForwardRules  []FlyDnsForwardRule `pulumi:"dnsForwardRules"`
 	Hostname         *string             `pulumi:"hostname"`
@@ -593,6 +1125,139 @@ func (o FlyEnvFromArrayOutput) Index(i pulumi.IntInput) FlyEnvFromOutput {
 	}).(FlyEnvFromOutput)
 }
 
+type FlyExecHealthcheck struct {
+	Command []string `pulumi:"command"`
+}
+
+// FlyExecHealthcheckInput is an input type that accepts FlyExecHealthcheckArgs and FlyExecHealthcheckOutput values.
+// You can construct a concrete instance of `FlyExecHealthcheckInput` via:
+//
+//	FlyExecHealthcheckArgs{...}
+type FlyExecHealthcheckInput interface {
+	pulumi.Input
+
+	ToFlyExecHealthcheckOutput() FlyExecHealthcheckOutput
+	ToFlyExecHealthcheckOutputWithContext(context.Context) FlyExecHealthcheckOutput
+}
+
+type FlyExecHealthcheckArgs struct {
+	Command pulumi.StringArrayInput `pulumi:"command"`
+}
+
+func (FlyExecHealthcheckArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyExecHealthcheck)(nil)).Elem()
+}
+
+func (i FlyExecHealthcheckArgs) ToFlyExecHealthcheckOutput() FlyExecHealthcheckOutput {
+	return i.ToFlyExecHealthcheckOutputWithContext(context.Background())
+}
+
+func (i FlyExecHealthcheckArgs) ToFlyExecHealthcheckOutputWithContext(ctx context.Context) FlyExecHealthcheckOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyExecHealthcheckOutput)
+}
+
+func (i FlyExecHealthcheckArgs) ToFlyExecHealthcheckPtrOutput() FlyExecHealthcheckPtrOutput {
+	return i.ToFlyExecHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (i FlyExecHealthcheckArgs) ToFlyExecHealthcheckPtrOutputWithContext(ctx context.Context) FlyExecHealthcheckPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyExecHealthcheckOutput).ToFlyExecHealthcheckPtrOutputWithContext(ctx)
+}
+
+// FlyExecHealthcheckPtrInput is an input type that accepts FlyExecHealthcheckArgs, FlyExecHealthcheckPtr and FlyExecHealthcheckPtrOutput values.
+// You can construct a concrete instance of `FlyExecHealthcheckPtrInput` via:
+//
+//	        FlyExecHealthcheckArgs{...}
+//
+//	or:
+//
+//	        nil
+type FlyExecHealthcheckPtrInput interface {
+	pulumi.Input
+
+	ToFlyExecHealthcheckPtrOutput() FlyExecHealthcheckPtrOutput
+	ToFlyExecHealthcheckPtrOutputWithContext(context.Context) FlyExecHealthcheckPtrOutput
+}
+
+type flyExecHealthcheckPtrType FlyExecHealthcheckArgs
+
+func FlyExecHealthcheckPtr(v *FlyExecHealthcheckArgs) FlyExecHealthcheckPtrInput {
+	return (*flyExecHealthcheckPtrType)(v)
+}
+
+func (*flyExecHealthcheckPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyExecHealthcheck)(nil)).Elem()
+}
+
+func (i *flyExecHealthcheckPtrType) ToFlyExecHealthcheckPtrOutput() FlyExecHealthcheckPtrOutput {
+	return i.ToFlyExecHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (i *flyExecHealthcheckPtrType) ToFlyExecHealthcheckPtrOutputWithContext(ctx context.Context) FlyExecHealthcheckPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyExecHealthcheckPtrOutput)
+}
+
+type FlyExecHealthcheckOutput struct{ *pulumi.OutputState }
+
+func (FlyExecHealthcheckOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyExecHealthcheck)(nil)).Elem()
+}
+
+func (o FlyExecHealthcheckOutput) ToFlyExecHealthcheckOutput() FlyExecHealthcheckOutput {
+	return o
+}
+
+func (o FlyExecHealthcheckOutput) ToFlyExecHealthcheckOutputWithContext(ctx context.Context) FlyExecHealthcheckOutput {
+	return o
+}
+
+func (o FlyExecHealthcheckOutput) ToFlyExecHealthcheckPtrOutput() FlyExecHealthcheckPtrOutput {
+	return o.ToFlyExecHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (o FlyExecHealthcheckOutput) ToFlyExecHealthcheckPtrOutputWithContext(ctx context.Context) FlyExecHealthcheckPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v FlyExecHealthcheck) *FlyExecHealthcheck {
+		return &v
+	}).(FlyExecHealthcheckPtrOutput)
+}
+
+func (o FlyExecHealthcheckOutput) Command() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v FlyExecHealthcheck) []string { return v.Command }).(pulumi.StringArrayOutput)
+}
+
+type FlyExecHealthcheckPtrOutput struct{ *pulumi.OutputState }
+
+func (FlyExecHealthcheckPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyExecHealthcheck)(nil)).Elem()
+}
+
+func (o FlyExecHealthcheckPtrOutput) ToFlyExecHealthcheckPtrOutput() FlyExecHealthcheckPtrOutput {
+	return o
+}
+
+func (o FlyExecHealthcheckPtrOutput) ToFlyExecHealthcheckPtrOutputWithContext(ctx context.Context) FlyExecHealthcheckPtrOutput {
+	return o
+}
+
+func (o FlyExecHealthcheckPtrOutput) Elem() FlyExecHealthcheckOutput {
+	return o.ApplyT(func(v *FlyExecHealthcheck) FlyExecHealthcheck {
+		if v != nil {
+			return *v
+		}
+		var ret FlyExecHealthcheck
+		return ret
+	}).(FlyExecHealthcheckOutput)
+}
+
+func (o FlyExecHealthcheckPtrOutput) Command() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *FlyExecHealthcheck) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Command
+	}).(pulumi.StringArrayOutput)
+}
+
 type FlyFile struct {
 	GuestPath  *string `pulumi:"guestPath"`
 	Mode       *int    `pulumi:"mode"`
@@ -703,6 +1368,229 @@ func (o FlyFileArrayOutput) Index(i pulumi.IntInput) FlyFileOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlyFile {
 		return vs[0].([]FlyFile)[vs[1].(int)]
 	}).(FlyFileOutput)
+}
+
+type FlyHTTPHealthcheck struct {
+	Headers       []FlyMachineHTTPHeader `pulumi:"headers"`
+	Method        *string                `pulumi:"method"`
+	Path          *string                `pulumi:"path"`
+	Port          *int                   `pulumi:"port"`
+	Scheme        *string                `pulumi:"scheme"`
+	TlsServerName *string                `pulumi:"tlsServerName"`
+	TlsSkipVerify *bool                  `pulumi:"tlsSkipVerify"`
+}
+
+// FlyHTTPHealthcheckInput is an input type that accepts FlyHTTPHealthcheckArgs and FlyHTTPHealthcheckOutput values.
+// You can construct a concrete instance of `FlyHTTPHealthcheckInput` via:
+//
+//	FlyHTTPHealthcheckArgs{...}
+type FlyHTTPHealthcheckInput interface {
+	pulumi.Input
+
+	ToFlyHTTPHealthcheckOutput() FlyHTTPHealthcheckOutput
+	ToFlyHTTPHealthcheckOutputWithContext(context.Context) FlyHTTPHealthcheckOutput
+}
+
+type FlyHTTPHealthcheckArgs struct {
+	Headers       FlyMachineHTTPHeaderArrayInput `pulumi:"headers"`
+	Method        pulumi.StringPtrInput          `pulumi:"method"`
+	Path          pulumi.StringPtrInput          `pulumi:"path"`
+	Port          pulumi.IntPtrInput             `pulumi:"port"`
+	Scheme        pulumi.StringPtrInput          `pulumi:"scheme"`
+	TlsServerName pulumi.StringPtrInput          `pulumi:"tlsServerName"`
+	TlsSkipVerify pulumi.BoolPtrInput            `pulumi:"tlsSkipVerify"`
+}
+
+func (FlyHTTPHealthcheckArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyHTTPHealthcheck)(nil)).Elem()
+}
+
+func (i FlyHTTPHealthcheckArgs) ToFlyHTTPHealthcheckOutput() FlyHTTPHealthcheckOutput {
+	return i.ToFlyHTTPHealthcheckOutputWithContext(context.Background())
+}
+
+func (i FlyHTTPHealthcheckArgs) ToFlyHTTPHealthcheckOutputWithContext(ctx context.Context) FlyHTTPHealthcheckOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyHTTPHealthcheckOutput)
+}
+
+func (i FlyHTTPHealthcheckArgs) ToFlyHTTPHealthcheckPtrOutput() FlyHTTPHealthcheckPtrOutput {
+	return i.ToFlyHTTPHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (i FlyHTTPHealthcheckArgs) ToFlyHTTPHealthcheckPtrOutputWithContext(ctx context.Context) FlyHTTPHealthcheckPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyHTTPHealthcheckOutput).ToFlyHTTPHealthcheckPtrOutputWithContext(ctx)
+}
+
+// FlyHTTPHealthcheckPtrInput is an input type that accepts FlyHTTPHealthcheckArgs, FlyHTTPHealthcheckPtr and FlyHTTPHealthcheckPtrOutput values.
+// You can construct a concrete instance of `FlyHTTPHealthcheckPtrInput` via:
+//
+//	        FlyHTTPHealthcheckArgs{...}
+//
+//	or:
+//
+//	        nil
+type FlyHTTPHealthcheckPtrInput interface {
+	pulumi.Input
+
+	ToFlyHTTPHealthcheckPtrOutput() FlyHTTPHealthcheckPtrOutput
+	ToFlyHTTPHealthcheckPtrOutputWithContext(context.Context) FlyHTTPHealthcheckPtrOutput
+}
+
+type flyHTTPHealthcheckPtrType FlyHTTPHealthcheckArgs
+
+func FlyHTTPHealthcheckPtr(v *FlyHTTPHealthcheckArgs) FlyHTTPHealthcheckPtrInput {
+	return (*flyHTTPHealthcheckPtrType)(v)
+}
+
+func (*flyHTTPHealthcheckPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyHTTPHealthcheck)(nil)).Elem()
+}
+
+func (i *flyHTTPHealthcheckPtrType) ToFlyHTTPHealthcheckPtrOutput() FlyHTTPHealthcheckPtrOutput {
+	return i.ToFlyHTTPHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (i *flyHTTPHealthcheckPtrType) ToFlyHTTPHealthcheckPtrOutputWithContext(ctx context.Context) FlyHTTPHealthcheckPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyHTTPHealthcheckPtrOutput)
+}
+
+type FlyHTTPHealthcheckOutput struct{ *pulumi.OutputState }
+
+func (FlyHTTPHealthcheckOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyHTTPHealthcheck)(nil)).Elem()
+}
+
+func (o FlyHTTPHealthcheckOutput) ToFlyHTTPHealthcheckOutput() FlyHTTPHealthcheckOutput {
+	return o
+}
+
+func (o FlyHTTPHealthcheckOutput) ToFlyHTTPHealthcheckOutputWithContext(ctx context.Context) FlyHTTPHealthcheckOutput {
+	return o
+}
+
+func (o FlyHTTPHealthcheckOutput) ToFlyHTTPHealthcheckPtrOutput() FlyHTTPHealthcheckPtrOutput {
+	return o.ToFlyHTTPHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (o FlyHTTPHealthcheckOutput) ToFlyHTTPHealthcheckPtrOutputWithContext(ctx context.Context) FlyHTTPHealthcheckPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v FlyHTTPHealthcheck) *FlyHTTPHealthcheck {
+		return &v
+	}).(FlyHTTPHealthcheckPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) Headers() FlyMachineHTTPHeaderArrayOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) []FlyMachineHTTPHeader { return v.Headers }).(FlyMachineHTTPHeaderArrayOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) Method() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) *string { return v.Method }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) Path() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) *string { return v.Path }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) *int { return v.Port }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) Scheme() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) *string { return v.Scheme }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) TlsServerName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) *string { return v.TlsServerName }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckOutput) TlsSkipVerify() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v FlyHTTPHealthcheck) *bool { return v.TlsSkipVerify }).(pulumi.BoolPtrOutput)
+}
+
+type FlyHTTPHealthcheckPtrOutput struct{ *pulumi.OutputState }
+
+func (FlyHTTPHealthcheckPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyHTTPHealthcheck)(nil)).Elem()
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) ToFlyHTTPHealthcheckPtrOutput() FlyHTTPHealthcheckPtrOutput {
+	return o
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) ToFlyHTTPHealthcheckPtrOutputWithContext(ctx context.Context) FlyHTTPHealthcheckPtrOutput {
+	return o
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) Elem() FlyHTTPHealthcheckOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) FlyHTTPHealthcheck {
+		if v != nil {
+			return *v
+		}
+		var ret FlyHTTPHealthcheck
+		return ret
+	}).(FlyHTTPHealthcheckOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) Headers() FlyMachineHTTPHeaderArrayOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) []FlyMachineHTTPHeader {
+		if v == nil {
+			return nil
+		}
+		return v.Headers
+	}).(FlyMachineHTTPHeaderArrayOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) Method() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Method
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) Path() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Path
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Port
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) Scheme() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Scheme
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) TlsServerName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TlsServerName
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o FlyHTTPHealthcheckPtrOutput) TlsSkipVerify() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *FlyHTTPHealthcheck) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.TlsSkipVerify
+	}).(pulumi.BoolPtrOutput)
 }
 
 type FlyHTTPOptions struct {
@@ -1254,6 +2142,7 @@ func (o FlyMachineCheckMapOutput) MapIndex(k pulumi.StringInput) FlyMachineCheck
 type FlyMachineConfig struct {
 	AutoDestroy *bool                      `pulumi:"autoDestroy"`
 	Checks      map[string]FlyMachineCheck `pulumi:"checks"`
+	Containers  []FlyContainerConfig       `pulumi:"containers"`
 	Dns         *FlyDNSConfig              `pulumi:"dns"`
 	Env         map[string]string          `pulumi:"env"`
 	Files       []FlyFile                  `pulumi:"files"`
@@ -1270,6 +2159,7 @@ type FlyMachineConfig struct {
 	Standbys    []string                   `pulumi:"standbys"`
 	Statics     []FlyStatic                `pulumi:"statics"`
 	StopConfig  *FlyStopConfig             `pulumi:"stopConfig"`
+	Volumes     []FlyVolumeConfig          `pulumi:"volumes"`
 }
 
 // FlyMachineConfigInput is an input type that accepts FlyMachineConfigArgs and FlyMachineConfigOutput values.
@@ -1284,24 +2174,26 @@ type FlyMachineConfigInput interface {
 }
 
 type FlyMachineConfigArgs struct {
-	AutoDestroy pulumi.BoolPtrInput         `pulumi:"autoDestroy"`
-	Checks      FlyMachineCheckMapInput     `pulumi:"checks"`
-	Dns         FlyDNSConfigPtrInput        `pulumi:"dns"`
-	Env         pulumi.StringMapInput       `pulumi:"env"`
-	Files       FlyFileArrayInput           `pulumi:"files"`
-	Guest       FlyMachineGuestPtrInput     `pulumi:"guest"`
-	Image       pulumi.StringInput          `pulumi:"image"`
-	Init        FlyMachineInitPtrInput      `pulumi:"init"`
-	Metadata    pulumi.StringMapInput       `pulumi:"metadata"`
-	Metrics     FlyMachineMetricsPtrInput   `pulumi:"metrics"`
-	Mounts      FlyMachineMountArrayInput   `pulumi:"mounts"`
-	Processes   FlyMachineProcessArrayInput `pulumi:"processes"`
-	Restart     FlyMachineRestartPtrInput   `pulumi:"restart"`
-	Schedule    pulumi.StringPtrInput       `pulumi:"schedule"`
-	Services    FlyMachineServiceArrayInput `pulumi:"services"`
-	Standbys    pulumi.StringArrayInput     `pulumi:"standbys"`
-	Statics     FlyStaticArrayInput         `pulumi:"statics"`
-	StopConfig  FlyStopConfigPtrInput       `pulumi:"stopConfig"`
+	AutoDestroy pulumi.BoolPtrInput          `pulumi:"autoDestroy"`
+	Checks      FlyMachineCheckMapInput      `pulumi:"checks"`
+	Containers  FlyContainerConfigArrayInput `pulumi:"containers"`
+	Dns         FlyDNSConfigPtrInput         `pulumi:"dns"`
+	Env         pulumi.StringMapInput        `pulumi:"env"`
+	Files       FlyFileArrayInput            `pulumi:"files"`
+	Guest       FlyMachineGuestPtrInput      `pulumi:"guest"`
+	Image       pulumi.StringInput           `pulumi:"image"`
+	Init        FlyMachineInitPtrInput       `pulumi:"init"`
+	Metadata    pulumi.StringMapInput        `pulumi:"metadata"`
+	Metrics     FlyMachineMetricsPtrInput    `pulumi:"metrics"`
+	Mounts      FlyMachineMountArrayInput    `pulumi:"mounts"`
+	Processes   FlyMachineProcessArrayInput  `pulumi:"processes"`
+	Restart     FlyMachineRestartPtrInput    `pulumi:"restart"`
+	Schedule    pulumi.StringPtrInput        `pulumi:"schedule"`
+	Services    FlyMachineServiceArrayInput  `pulumi:"services"`
+	Standbys    pulumi.StringArrayInput      `pulumi:"standbys"`
+	Statics     FlyStaticArrayInput          `pulumi:"statics"`
+	StopConfig  FlyStopConfigPtrInput        `pulumi:"stopConfig"`
+	Volumes     FlyVolumeConfigArrayInput    `pulumi:"volumes"`
 }
 
 func (FlyMachineConfigArgs) ElementType() reflect.Type {
@@ -1336,6 +2228,10 @@ func (o FlyMachineConfigOutput) AutoDestroy() pulumi.BoolPtrOutput {
 
 func (o FlyMachineConfigOutput) Checks() FlyMachineCheckMapOutput {
 	return o.ApplyT(func(v FlyMachineConfig) map[string]FlyMachineCheck { return v.Checks }).(FlyMachineCheckMapOutput)
+}
+
+func (o FlyMachineConfigOutput) Containers() FlyContainerConfigArrayOutput {
+	return o.ApplyT(func(v FlyMachineConfig) []FlyContainerConfig { return v.Containers }).(FlyContainerConfigArrayOutput)
 }
 
 func (o FlyMachineConfigOutput) Dns() FlyDNSConfigPtrOutput {
@@ -1402,6 +2298,10 @@ func (o FlyMachineConfigOutput) StopConfig() FlyStopConfigPtrOutput {
 	return o.ApplyT(func(v FlyMachineConfig) *FlyStopConfig { return v.StopConfig }).(FlyStopConfigPtrOutput)
 }
 
+func (o FlyMachineConfigOutput) Volumes() FlyVolumeConfigArrayOutput {
+	return o.ApplyT(func(v FlyMachineConfig) []FlyVolumeConfig { return v.Volumes }).(FlyVolumeConfigArrayOutput)
+}
+
 type FlyMachineConfigPtrOutput struct{ *pulumi.OutputState }
 
 func (FlyMachineConfigPtrOutput) ElementType() reflect.Type {
@@ -1442,6 +2342,15 @@ func (o FlyMachineConfigPtrOutput) Checks() FlyMachineCheckMapOutput {
 		}
 		return v.Checks
 	}).(FlyMachineCheckMapOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Containers() FlyContainerConfigArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyContainerConfig {
+		if v == nil {
+			return nil
+		}
+		return v.Containers
+	}).(FlyContainerConfigArrayOutput)
 }
 
 func (o FlyMachineConfigPtrOutput) Dns() FlyDNSConfigPtrOutput {
@@ -1586,6 +2495,15 @@ func (o FlyMachineConfigPtrOutput) StopConfig() FlyStopConfigPtrOutput {
 		}
 		return v.StopConfig
 	}).(FlyStopConfigPtrOutput)
+}
+
+func (o FlyMachineConfigPtrOutput) Volumes() FlyVolumeConfigArrayOutput {
+	return o.ApplyT(func(v *FlyMachineConfig) []FlyVolumeConfig {
+		if v == nil {
+			return nil
+		}
+		return v.Volumes
+	}).(FlyVolumeConfigArrayOutput)
 }
 
 type FlyMachineGuest struct {
@@ -2120,8 +3038,9 @@ func (o FlyMachineInitPtrOutput) Tty() pulumi.BoolPtrOutput {
 }
 
 type FlyMachineMetrics struct {
-	Path *string `pulumi:"path"`
-	Port *int    `pulumi:"port"`
+	Https *bool   `pulumi:"https"`
+	Path  *string `pulumi:"path"`
+	Port  *int    `pulumi:"port"`
 }
 
 // FlyMachineMetricsInput is an input type that accepts FlyMachineMetricsArgs and FlyMachineMetricsOutput values.
@@ -2136,8 +3055,9 @@ type FlyMachineMetricsInput interface {
 }
 
 type FlyMachineMetricsArgs struct {
-	Path pulumi.StringPtrInput `pulumi:"path"`
-	Port pulumi.IntPtrInput    `pulumi:"port"`
+	Https pulumi.BoolPtrInput   `pulumi:"https"`
+	Path  pulumi.StringPtrInput `pulumi:"path"`
+	Port  pulumi.IntPtrInput    `pulumi:"port"`
 }
 
 func (FlyMachineMetricsArgs) ElementType() reflect.Type {
@@ -2217,6 +3137,10 @@ func (o FlyMachineMetricsOutput) ToFlyMachineMetricsPtrOutputWithContext(ctx con
 	}).(FlyMachineMetricsPtrOutput)
 }
 
+func (o FlyMachineMetricsOutput) Https() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v FlyMachineMetrics) *bool { return v.Https }).(pulumi.BoolPtrOutput)
+}
+
 func (o FlyMachineMetricsOutput) Path() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FlyMachineMetrics) *string { return v.Path }).(pulumi.StringPtrOutput)
 }
@@ -2247,6 +3171,15 @@ func (o FlyMachineMetricsPtrOutput) Elem() FlyMachineMetricsOutput {
 		var ret FlyMachineMetrics
 		return ret
 	}).(FlyMachineMetricsOutput)
+}
+
+func (o FlyMachineMetricsPtrOutput) Https() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *FlyMachineMetrics) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.Https
+	}).(pulumi.BoolPtrOutput)
 }
 
 func (o FlyMachineMetricsPtrOutput) Path() pulumi.StringPtrOutput {
@@ -3642,6 +4575,139 @@ func (o FlyStopConfigPtrOutput) Timeout() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+type FlyTCPHealthcheck struct {
+	Port *int `pulumi:"port"`
+}
+
+// FlyTCPHealthcheckInput is an input type that accepts FlyTCPHealthcheckArgs and FlyTCPHealthcheckOutput values.
+// You can construct a concrete instance of `FlyTCPHealthcheckInput` via:
+//
+//	FlyTCPHealthcheckArgs{...}
+type FlyTCPHealthcheckInput interface {
+	pulumi.Input
+
+	ToFlyTCPHealthcheckOutput() FlyTCPHealthcheckOutput
+	ToFlyTCPHealthcheckOutputWithContext(context.Context) FlyTCPHealthcheckOutput
+}
+
+type FlyTCPHealthcheckArgs struct {
+	Port pulumi.IntPtrInput `pulumi:"port"`
+}
+
+func (FlyTCPHealthcheckArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyTCPHealthcheck)(nil)).Elem()
+}
+
+func (i FlyTCPHealthcheckArgs) ToFlyTCPHealthcheckOutput() FlyTCPHealthcheckOutput {
+	return i.ToFlyTCPHealthcheckOutputWithContext(context.Background())
+}
+
+func (i FlyTCPHealthcheckArgs) ToFlyTCPHealthcheckOutputWithContext(ctx context.Context) FlyTCPHealthcheckOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyTCPHealthcheckOutput)
+}
+
+func (i FlyTCPHealthcheckArgs) ToFlyTCPHealthcheckPtrOutput() FlyTCPHealthcheckPtrOutput {
+	return i.ToFlyTCPHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (i FlyTCPHealthcheckArgs) ToFlyTCPHealthcheckPtrOutputWithContext(ctx context.Context) FlyTCPHealthcheckPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyTCPHealthcheckOutput).ToFlyTCPHealthcheckPtrOutputWithContext(ctx)
+}
+
+// FlyTCPHealthcheckPtrInput is an input type that accepts FlyTCPHealthcheckArgs, FlyTCPHealthcheckPtr and FlyTCPHealthcheckPtrOutput values.
+// You can construct a concrete instance of `FlyTCPHealthcheckPtrInput` via:
+//
+//	        FlyTCPHealthcheckArgs{...}
+//
+//	or:
+//
+//	        nil
+type FlyTCPHealthcheckPtrInput interface {
+	pulumi.Input
+
+	ToFlyTCPHealthcheckPtrOutput() FlyTCPHealthcheckPtrOutput
+	ToFlyTCPHealthcheckPtrOutputWithContext(context.Context) FlyTCPHealthcheckPtrOutput
+}
+
+type flyTCPHealthcheckPtrType FlyTCPHealthcheckArgs
+
+func FlyTCPHealthcheckPtr(v *FlyTCPHealthcheckArgs) FlyTCPHealthcheckPtrInput {
+	return (*flyTCPHealthcheckPtrType)(v)
+}
+
+func (*flyTCPHealthcheckPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyTCPHealthcheck)(nil)).Elem()
+}
+
+func (i *flyTCPHealthcheckPtrType) ToFlyTCPHealthcheckPtrOutput() FlyTCPHealthcheckPtrOutput {
+	return i.ToFlyTCPHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (i *flyTCPHealthcheckPtrType) ToFlyTCPHealthcheckPtrOutputWithContext(ctx context.Context) FlyTCPHealthcheckPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyTCPHealthcheckPtrOutput)
+}
+
+type FlyTCPHealthcheckOutput struct{ *pulumi.OutputState }
+
+func (FlyTCPHealthcheckOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyTCPHealthcheck)(nil)).Elem()
+}
+
+func (o FlyTCPHealthcheckOutput) ToFlyTCPHealthcheckOutput() FlyTCPHealthcheckOutput {
+	return o
+}
+
+func (o FlyTCPHealthcheckOutput) ToFlyTCPHealthcheckOutputWithContext(ctx context.Context) FlyTCPHealthcheckOutput {
+	return o
+}
+
+func (o FlyTCPHealthcheckOutput) ToFlyTCPHealthcheckPtrOutput() FlyTCPHealthcheckPtrOutput {
+	return o.ToFlyTCPHealthcheckPtrOutputWithContext(context.Background())
+}
+
+func (o FlyTCPHealthcheckOutput) ToFlyTCPHealthcheckPtrOutputWithContext(ctx context.Context) FlyTCPHealthcheckPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v FlyTCPHealthcheck) *FlyTCPHealthcheck {
+		return &v
+	}).(FlyTCPHealthcheckPtrOutput)
+}
+
+func (o FlyTCPHealthcheckOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyTCPHealthcheck) *int { return v.Port }).(pulumi.IntPtrOutput)
+}
+
+type FlyTCPHealthcheckPtrOutput struct{ *pulumi.OutputState }
+
+func (FlyTCPHealthcheckPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyTCPHealthcheck)(nil)).Elem()
+}
+
+func (o FlyTCPHealthcheckPtrOutput) ToFlyTCPHealthcheckPtrOutput() FlyTCPHealthcheckPtrOutput {
+	return o
+}
+
+func (o FlyTCPHealthcheckPtrOutput) ToFlyTCPHealthcheckPtrOutputWithContext(ctx context.Context) FlyTCPHealthcheckPtrOutput {
+	return o
+}
+
+func (o FlyTCPHealthcheckPtrOutput) Elem() FlyTCPHealthcheckOutput {
+	return o.ApplyT(func(v *FlyTCPHealthcheck) FlyTCPHealthcheck {
+		if v != nil {
+			return *v
+		}
+		var ret FlyTCPHealthcheck
+		return ret
+	}).(FlyTCPHealthcheckOutput)
+}
+
+func (o FlyTCPHealthcheckPtrOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *FlyTCPHealthcheck) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Port
+	}).(pulumi.IntPtrOutput)
+}
+
 type FlyTLSOptions struct {
 	Alpn              []string `pulumi:"alpn"`
 	DefaultSelfSigned *bool    `pulumi:"defaultSelfSigned"`
@@ -3803,6 +4869,254 @@ func (o FlyTLSOptionsPtrOutput) Versions() pulumi.StringArrayOutput {
 		}
 		return v.Versions
 	}).(pulumi.StringArrayOutput)
+}
+
+type FlyTempDirVolume struct {
+	SizeMb      *int    `pulumi:"sizeMb"`
+	StorageType *string `pulumi:"storageType"`
+}
+
+// FlyTempDirVolumeInput is an input type that accepts FlyTempDirVolumeArgs and FlyTempDirVolumeOutput values.
+// You can construct a concrete instance of `FlyTempDirVolumeInput` via:
+//
+//	FlyTempDirVolumeArgs{...}
+type FlyTempDirVolumeInput interface {
+	pulumi.Input
+
+	ToFlyTempDirVolumeOutput() FlyTempDirVolumeOutput
+	ToFlyTempDirVolumeOutputWithContext(context.Context) FlyTempDirVolumeOutput
+}
+
+type FlyTempDirVolumeArgs struct {
+	SizeMb      pulumi.IntPtrInput    `pulumi:"sizeMb"`
+	StorageType pulumi.StringPtrInput `pulumi:"storageType"`
+}
+
+func (FlyTempDirVolumeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyTempDirVolume)(nil)).Elem()
+}
+
+func (i FlyTempDirVolumeArgs) ToFlyTempDirVolumeOutput() FlyTempDirVolumeOutput {
+	return i.ToFlyTempDirVolumeOutputWithContext(context.Background())
+}
+
+func (i FlyTempDirVolumeArgs) ToFlyTempDirVolumeOutputWithContext(ctx context.Context) FlyTempDirVolumeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyTempDirVolumeOutput)
+}
+
+func (i FlyTempDirVolumeArgs) ToFlyTempDirVolumePtrOutput() FlyTempDirVolumePtrOutput {
+	return i.ToFlyTempDirVolumePtrOutputWithContext(context.Background())
+}
+
+func (i FlyTempDirVolumeArgs) ToFlyTempDirVolumePtrOutputWithContext(ctx context.Context) FlyTempDirVolumePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyTempDirVolumeOutput).ToFlyTempDirVolumePtrOutputWithContext(ctx)
+}
+
+// FlyTempDirVolumePtrInput is an input type that accepts FlyTempDirVolumeArgs, FlyTempDirVolumePtr and FlyTempDirVolumePtrOutput values.
+// You can construct a concrete instance of `FlyTempDirVolumePtrInput` via:
+//
+//	        FlyTempDirVolumeArgs{...}
+//
+//	or:
+//
+//	        nil
+type FlyTempDirVolumePtrInput interface {
+	pulumi.Input
+
+	ToFlyTempDirVolumePtrOutput() FlyTempDirVolumePtrOutput
+	ToFlyTempDirVolumePtrOutputWithContext(context.Context) FlyTempDirVolumePtrOutput
+}
+
+type flyTempDirVolumePtrType FlyTempDirVolumeArgs
+
+func FlyTempDirVolumePtr(v *FlyTempDirVolumeArgs) FlyTempDirVolumePtrInput {
+	return (*flyTempDirVolumePtrType)(v)
+}
+
+func (*flyTempDirVolumePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyTempDirVolume)(nil)).Elem()
+}
+
+func (i *flyTempDirVolumePtrType) ToFlyTempDirVolumePtrOutput() FlyTempDirVolumePtrOutput {
+	return i.ToFlyTempDirVolumePtrOutputWithContext(context.Background())
+}
+
+func (i *flyTempDirVolumePtrType) ToFlyTempDirVolumePtrOutputWithContext(ctx context.Context) FlyTempDirVolumePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyTempDirVolumePtrOutput)
+}
+
+type FlyTempDirVolumeOutput struct{ *pulumi.OutputState }
+
+func (FlyTempDirVolumeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyTempDirVolume)(nil)).Elem()
+}
+
+func (o FlyTempDirVolumeOutput) ToFlyTempDirVolumeOutput() FlyTempDirVolumeOutput {
+	return o
+}
+
+func (o FlyTempDirVolumeOutput) ToFlyTempDirVolumeOutputWithContext(ctx context.Context) FlyTempDirVolumeOutput {
+	return o
+}
+
+func (o FlyTempDirVolumeOutput) ToFlyTempDirVolumePtrOutput() FlyTempDirVolumePtrOutput {
+	return o.ToFlyTempDirVolumePtrOutputWithContext(context.Background())
+}
+
+func (o FlyTempDirVolumeOutput) ToFlyTempDirVolumePtrOutputWithContext(ctx context.Context) FlyTempDirVolumePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v FlyTempDirVolume) *FlyTempDirVolume {
+		return &v
+	}).(FlyTempDirVolumePtrOutput)
+}
+
+func (o FlyTempDirVolumeOutput) SizeMb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v FlyTempDirVolume) *int { return v.SizeMb }).(pulumi.IntPtrOutput)
+}
+
+func (o FlyTempDirVolumeOutput) StorageType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyTempDirVolume) *string { return v.StorageType }).(pulumi.StringPtrOutput)
+}
+
+type FlyTempDirVolumePtrOutput struct{ *pulumi.OutputState }
+
+func (FlyTempDirVolumePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**FlyTempDirVolume)(nil)).Elem()
+}
+
+func (o FlyTempDirVolumePtrOutput) ToFlyTempDirVolumePtrOutput() FlyTempDirVolumePtrOutput {
+	return o
+}
+
+func (o FlyTempDirVolumePtrOutput) ToFlyTempDirVolumePtrOutputWithContext(ctx context.Context) FlyTempDirVolumePtrOutput {
+	return o
+}
+
+func (o FlyTempDirVolumePtrOutput) Elem() FlyTempDirVolumeOutput {
+	return o.ApplyT(func(v *FlyTempDirVolume) FlyTempDirVolume {
+		if v != nil {
+			return *v
+		}
+		var ret FlyTempDirVolume
+		return ret
+	}).(FlyTempDirVolumeOutput)
+}
+
+func (o FlyTempDirVolumePtrOutput) SizeMb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *FlyTempDirVolume) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SizeMb
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o FlyTempDirVolumePtrOutput) StorageType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FlyTempDirVolume) *string {
+		if v == nil {
+			return nil
+		}
+		return v.StorageType
+	}).(pulumi.StringPtrOutput)
+}
+
+type FlyVolumeConfig struct {
+	Name    *string           `pulumi:"name"`
+	TempDir *FlyTempDirVolume `pulumi:"tempDir"`
+}
+
+// FlyVolumeConfigInput is an input type that accepts FlyVolumeConfigArgs and FlyVolumeConfigOutput values.
+// You can construct a concrete instance of `FlyVolumeConfigInput` via:
+//
+//	FlyVolumeConfigArgs{...}
+type FlyVolumeConfigInput interface {
+	pulumi.Input
+
+	ToFlyVolumeConfigOutput() FlyVolumeConfigOutput
+	ToFlyVolumeConfigOutputWithContext(context.Context) FlyVolumeConfigOutput
+}
+
+type FlyVolumeConfigArgs struct {
+	Name    pulumi.StringPtrInput    `pulumi:"name"`
+	TempDir FlyTempDirVolumePtrInput `pulumi:"tempDir"`
+}
+
+func (FlyVolumeConfigArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyVolumeConfig)(nil)).Elem()
+}
+
+func (i FlyVolumeConfigArgs) ToFlyVolumeConfigOutput() FlyVolumeConfigOutput {
+	return i.ToFlyVolumeConfigOutputWithContext(context.Background())
+}
+
+func (i FlyVolumeConfigArgs) ToFlyVolumeConfigOutputWithContext(ctx context.Context) FlyVolumeConfigOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyVolumeConfigOutput)
+}
+
+// FlyVolumeConfigArrayInput is an input type that accepts FlyVolumeConfigArray and FlyVolumeConfigArrayOutput values.
+// You can construct a concrete instance of `FlyVolumeConfigArrayInput` via:
+//
+//	FlyVolumeConfigArray{ FlyVolumeConfigArgs{...} }
+type FlyVolumeConfigArrayInput interface {
+	pulumi.Input
+
+	ToFlyVolumeConfigArrayOutput() FlyVolumeConfigArrayOutput
+	ToFlyVolumeConfigArrayOutputWithContext(context.Context) FlyVolumeConfigArrayOutput
+}
+
+type FlyVolumeConfigArray []FlyVolumeConfigInput
+
+func (FlyVolumeConfigArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyVolumeConfig)(nil)).Elem()
+}
+
+func (i FlyVolumeConfigArray) ToFlyVolumeConfigArrayOutput() FlyVolumeConfigArrayOutput {
+	return i.ToFlyVolumeConfigArrayOutputWithContext(context.Background())
+}
+
+func (i FlyVolumeConfigArray) ToFlyVolumeConfigArrayOutputWithContext(ctx context.Context) FlyVolumeConfigArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlyVolumeConfigArrayOutput)
+}
+
+type FlyVolumeConfigOutput struct{ *pulumi.OutputState }
+
+func (FlyVolumeConfigOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlyVolumeConfig)(nil)).Elem()
+}
+
+func (o FlyVolumeConfigOutput) ToFlyVolumeConfigOutput() FlyVolumeConfigOutput {
+	return o
+}
+
+func (o FlyVolumeConfigOutput) ToFlyVolumeConfigOutputWithContext(ctx context.Context) FlyVolumeConfigOutput {
+	return o
+}
+
+func (o FlyVolumeConfigOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FlyVolumeConfig) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+func (o FlyVolumeConfigOutput) TempDir() FlyTempDirVolumePtrOutput {
+	return o.ApplyT(func(v FlyVolumeConfig) *FlyTempDirVolume { return v.TempDir }).(FlyTempDirVolumePtrOutput)
+}
+
+type FlyVolumeConfigArrayOutput struct{ *pulumi.OutputState }
+
+func (FlyVolumeConfigArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlyVolumeConfig)(nil)).Elem()
+}
+
+func (o FlyVolumeConfigArrayOutput) ToFlyVolumeConfigArrayOutput() FlyVolumeConfigArrayOutput {
+	return o
+}
+
+func (o FlyVolumeConfigArrayOutput) ToFlyVolumeConfigArrayOutputWithContext(ctx context.Context) FlyVolumeConfigArrayOutput {
+	return o
+}
+
+func (o FlyVolumeConfigArrayOutput) Index(i pulumi.IntInput) FlyVolumeConfigOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlyVolumeConfig {
+		return vs[0].([]FlyVolumeConfig)[vs[1].(int)]
+	}).(FlyVolumeConfigOutput)
 }
 
 type ImageRef struct {
@@ -3984,6 +5298,14 @@ func (o MachineEventArrayOutput) Index(i pulumi.IntInput) MachineEventOutput {
 }
 
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerConfigInput)(nil)).Elem(), FlyContainerConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerConfigArrayInput)(nil)).Elem(), FlyContainerConfigArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerDependencyInput)(nil)).Elem(), FlyContainerDependencyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerDependencyArrayInput)(nil)).Elem(), FlyContainerDependencyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerHealthcheckInput)(nil)).Elem(), FlyContainerHealthcheckArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerHealthcheckArrayInput)(nil)).Elem(), FlyContainerHealthcheckArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerMountInput)(nil)).Elem(), FlyContainerMountArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyContainerMountArrayInput)(nil)).Elem(), FlyContainerMountArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyDNSConfigInput)(nil)).Elem(), FlyDNSConfigArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyDNSConfigPtrInput)(nil)).Elem(), FlyDNSConfigArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyDnsForwardRuleInput)(nil)).Elem(), FlyDnsForwardRuleArgs{})
@@ -3992,8 +5314,12 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyDnsOptionArrayInput)(nil)).Elem(), FlyDnsOptionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyEnvFromInput)(nil)).Elem(), FlyEnvFromArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyEnvFromArrayInput)(nil)).Elem(), FlyEnvFromArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyExecHealthcheckInput)(nil)).Elem(), FlyExecHealthcheckArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyExecHealthcheckPtrInput)(nil)).Elem(), FlyExecHealthcheckArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyFileInput)(nil)).Elem(), FlyFileArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyFileArrayInput)(nil)).Elem(), FlyFileArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyHTTPHealthcheckInput)(nil)).Elem(), FlyHTTPHealthcheckArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyHTTPHealthcheckPtrInput)(nil)).Elem(), FlyHTTPHealthcheckArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyHTTPOptionsInput)(nil)).Elem(), FlyHTTPOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyHTTPOptionsPtrInput)(nil)).Elem(), FlyHTTPOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyHTTPResponseOptionsInput)(nil)).Elem(), FlyHTTPResponseOptionsArgs{})
@@ -4030,10 +5356,24 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyStaticArrayInput)(nil)).Elem(), FlyStaticArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyStopConfigInput)(nil)).Elem(), FlyStopConfigArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyStopConfigPtrInput)(nil)).Elem(), FlyStopConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyTCPHealthcheckInput)(nil)).Elem(), FlyTCPHealthcheckArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyTCPHealthcheckPtrInput)(nil)).Elem(), FlyTCPHealthcheckArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyTLSOptionsInput)(nil)).Elem(), FlyTLSOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlyTLSOptionsPtrInput)(nil)).Elem(), FlyTLSOptionsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyTempDirVolumeInput)(nil)).Elem(), FlyTempDirVolumeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyTempDirVolumePtrInput)(nil)).Elem(), FlyTempDirVolumeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyVolumeConfigInput)(nil)).Elem(), FlyVolumeConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlyVolumeConfigArrayInput)(nil)).Elem(), FlyVolumeConfigArray{})
 	pulumi.RegisterOutputType(CheckStatusOutput{})
 	pulumi.RegisterOutputType(CheckStatusArrayOutput{})
+	pulumi.RegisterOutputType(FlyContainerConfigOutput{})
+	pulumi.RegisterOutputType(FlyContainerConfigArrayOutput{})
+	pulumi.RegisterOutputType(FlyContainerDependencyOutput{})
+	pulumi.RegisterOutputType(FlyContainerDependencyArrayOutput{})
+	pulumi.RegisterOutputType(FlyContainerHealthcheckOutput{})
+	pulumi.RegisterOutputType(FlyContainerHealthcheckArrayOutput{})
+	pulumi.RegisterOutputType(FlyContainerMountOutput{})
+	pulumi.RegisterOutputType(FlyContainerMountArrayOutput{})
 	pulumi.RegisterOutputType(FlyDNSConfigOutput{})
 	pulumi.RegisterOutputType(FlyDNSConfigPtrOutput{})
 	pulumi.RegisterOutputType(FlyDnsForwardRuleOutput{})
@@ -4042,8 +5382,12 @@ func init() {
 	pulumi.RegisterOutputType(FlyDnsOptionArrayOutput{})
 	pulumi.RegisterOutputType(FlyEnvFromOutput{})
 	pulumi.RegisterOutputType(FlyEnvFromArrayOutput{})
+	pulumi.RegisterOutputType(FlyExecHealthcheckOutput{})
+	pulumi.RegisterOutputType(FlyExecHealthcheckPtrOutput{})
 	pulumi.RegisterOutputType(FlyFileOutput{})
 	pulumi.RegisterOutputType(FlyFileArrayOutput{})
+	pulumi.RegisterOutputType(FlyHTTPHealthcheckOutput{})
+	pulumi.RegisterOutputType(FlyHTTPHealthcheckPtrOutput{})
 	pulumi.RegisterOutputType(FlyHTTPOptionsOutput{})
 	pulumi.RegisterOutputType(FlyHTTPOptionsPtrOutput{})
 	pulumi.RegisterOutputType(FlyHTTPResponseOptionsOutput{})
@@ -4081,8 +5425,14 @@ func init() {
 	pulumi.RegisterOutputType(FlyStaticArrayOutput{})
 	pulumi.RegisterOutputType(FlyStopConfigOutput{})
 	pulumi.RegisterOutputType(FlyStopConfigPtrOutput{})
+	pulumi.RegisterOutputType(FlyTCPHealthcheckOutput{})
+	pulumi.RegisterOutputType(FlyTCPHealthcheckPtrOutput{})
 	pulumi.RegisterOutputType(FlyTLSOptionsOutput{})
 	pulumi.RegisterOutputType(FlyTLSOptionsPtrOutput{})
+	pulumi.RegisterOutputType(FlyTempDirVolumeOutput{})
+	pulumi.RegisterOutputType(FlyTempDirVolumePtrOutput{})
+	pulumi.RegisterOutputType(FlyVolumeConfigOutput{})
+	pulumi.RegisterOutputType(FlyVolumeConfigArrayOutput{})
 	pulumi.RegisterOutputType(ImageRefOutput{})
 	pulumi.RegisterOutputType(ImageRefPtrOutput{})
 	pulumi.RegisterOutputType(MachineEventOutput{})

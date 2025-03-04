@@ -17,11 +17,17 @@ from . import outputs
 
 __all__ = [
     'CheckStatus',
+    'FlyContainerConfig',
+    'FlyContainerDependency',
+    'FlyContainerHealthcheck',
+    'FlyContainerMount',
     'FlyDNSConfig',
     'FlyDnsForwardRule',
     'FlyDnsOption',
     'FlyEnvFrom',
+    'FlyExecHealthcheck',
     'FlyFile',
+    'FlyHTTPHealthcheck',
     'FlyHTTPOptions',
     'FlyHTTPResponseOptions',
     'FlyMachineCheck',
@@ -40,7 +46,10 @@ __all__ = [
     'FlyProxyProtoOptions',
     'FlyStatic',
     'FlyStopConfig',
+    'FlyTCPHealthcheck',
     'FlyTLSOptions',
+    'FlyTempDirVolume',
+    'FlyVolumeConfig',
     'ImageRef',
     'MachineEvent',
 ]
@@ -97,6 +106,310 @@ class CheckStatus(dict):
     @pulumi.getter(name="updatedAt")
     def updated_at(self) -> Optional[str]:
         return pulumi.get(self, "updated_at")
+
+
+@pulumi.output_type
+class FlyContainerConfig(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "dependsOn":
+            suggest = "depends_on"
+        elif key == "envFrom":
+            suggest = "env_from"
+        elif key == "exec":
+            suggest = "exec_"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in FlyContainerConfig. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        FlyContainerConfig.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        FlyContainerConfig.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 cmd: Optional[Sequence[str]] = None,
+                 depends_on: Optional[Sequence['outputs.FlyContainerDependency']] = None,
+                 entrypoint: Optional[Sequence[str]] = None,
+                 env: Optional[Mapping[str, str]] = None,
+                 env_from: Optional[Sequence['outputs.FlyEnvFrom']] = None,
+                 exec_: Optional[Sequence[str]] = None,
+                 files: Optional[Sequence['outputs.FlyFile']] = None,
+                 healthchecks: Optional[Sequence['outputs.FlyContainerHealthcheck']] = None,
+                 image: Optional[str] = None,
+                 mounts: Optional[Sequence['outputs.FlyContainerMount']] = None,
+                 name: Optional[str] = None,
+                 restart: Optional['outputs.FlyMachineRestart'] = None,
+                 secrets: Optional[Sequence['outputs.FlyMachineSecret']] = None,
+                 stop: Optional['outputs.FlyStopConfig'] = None,
+                 user: Optional[str] = None):
+        if cmd is not None:
+            pulumi.set(__self__, "cmd", cmd)
+        if depends_on is not None:
+            pulumi.set(__self__, "depends_on", depends_on)
+        if entrypoint is not None:
+            pulumi.set(__self__, "entrypoint", entrypoint)
+        if env is not None:
+            pulumi.set(__self__, "env", env)
+        if env_from is not None:
+            pulumi.set(__self__, "env_from", env_from)
+        if exec_ is not None:
+            pulumi.set(__self__, "exec_", exec_)
+        if files is not None:
+            pulumi.set(__self__, "files", files)
+        if healthchecks is not None:
+            pulumi.set(__self__, "healthchecks", healthchecks)
+        if image is not None:
+            pulumi.set(__self__, "image", image)
+        if mounts is not None:
+            pulumi.set(__self__, "mounts", mounts)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if restart is not None:
+            pulumi.set(__self__, "restart", restart)
+        if secrets is not None:
+            pulumi.set(__self__, "secrets", secrets)
+        if stop is not None:
+            pulumi.set(__self__, "stop", stop)
+        if user is not None:
+            pulumi.set(__self__, "user", user)
+
+    @property
+    @pulumi.getter
+    def cmd(self) -> Optional[Sequence[str]]:
+        return pulumi.get(self, "cmd")
+
+    @property
+    @pulumi.getter(name="dependsOn")
+    def depends_on(self) -> Optional[Sequence['outputs.FlyContainerDependency']]:
+        return pulumi.get(self, "depends_on")
+
+    @property
+    @pulumi.getter
+    def entrypoint(self) -> Optional[Sequence[str]]:
+        return pulumi.get(self, "entrypoint")
+
+    @property
+    @pulumi.getter
+    def env(self) -> Optional[Mapping[str, str]]:
+        return pulumi.get(self, "env")
+
+    @property
+    @pulumi.getter(name="envFrom")
+    def env_from(self) -> Optional[Sequence['outputs.FlyEnvFrom']]:
+        return pulumi.get(self, "env_from")
+
+    @property
+    @pulumi.getter(name="exec")
+    def exec_(self) -> Optional[Sequence[str]]:
+        return pulumi.get(self, "exec_")
+
+    @property
+    @pulumi.getter
+    def files(self) -> Optional[Sequence['outputs.FlyFile']]:
+        return pulumi.get(self, "files")
+
+    @property
+    @pulumi.getter
+    def healthchecks(self) -> Optional[Sequence['outputs.FlyContainerHealthcheck']]:
+        return pulumi.get(self, "healthchecks")
+
+    @property
+    @pulumi.getter
+    def image(self) -> Optional[str]:
+        return pulumi.get(self, "image")
+
+    @property
+    @pulumi.getter
+    def mounts(self) -> Optional[Sequence['outputs.FlyContainerMount']]:
+        return pulumi.get(self, "mounts")
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[str]:
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def restart(self) -> Optional['outputs.FlyMachineRestart']:
+        return pulumi.get(self, "restart")
+
+    @property
+    @pulumi.getter
+    def secrets(self) -> Optional[Sequence['outputs.FlyMachineSecret']]:
+        return pulumi.get(self, "secrets")
+
+    @property
+    @pulumi.getter
+    def stop(self) -> Optional['outputs.FlyStopConfig']:
+        return pulumi.get(self, "stop")
+
+    @property
+    @pulumi.getter
+    def user(self) -> Optional[str]:
+        return pulumi.get(self, "user")
+
+
+@pulumi.output_type
+class FlyContainerDependency(dict):
+    def __init__(__self__, *,
+                 condition: Optional[str] = None,
+                 name: Optional[str] = None):
+        if condition is not None:
+            pulumi.set(__self__, "condition", condition)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+
+    @property
+    @pulumi.getter
+    def condition(self) -> Optional[str]:
+        return pulumi.get(self, "condition")
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[str]:
+        return pulumi.get(self, "name")
+
+
+@pulumi.output_type
+class FlyContainerHealthcheck(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "exec":
+            suggest = "exec_"
+        elif key == "failureThreshold":
+            suggest = "failure_threshold"
+        elif key == "gracePeriod":
+            suggest = "grace_period"
+        elif key == "successThreshold":
+            suggest = "success_threshold"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in FlyContainerHealthcheck. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        FlyContainerHealthcheck.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        FlyContainerHealthcheck.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 exec_: Optional['outputs.FlyExecHealthcheck'] = None,
+                 failure_threshold: Optional[int] = None,
+                 grace_period: Optional[int] = None,
+                 http: Optional['outputs.FlyHTTPHealthcheck'] = None,
+                 interval: Optional[int] = None,
+                 kind: Optional[str] = None,
+                 name: Optional[str] = None,
+                 success_threshold: Optional[int] = None,
+                 tcp: Optional['outputs.FlyTCPHealthcheck'] = None,
+                 timeout: Optional[int] = None,
+                 unhealthy: Optional[str] = None):
+        if exec_ is not None:
+            pulumi.set(__self__, "exec_", exec_)
+        if failure_threshold is not None:
+            pulumi.set(__self__, "failure_threshold", failure_threshold)
+        if grace_period is not None:
+            pulumi.set(__self__, "grace_period", grace_period)
+        if http is not None:
+            pulumi.set(__self__, "http", http)
+        if interval is not None:
+            pulumi.set(__self__, "interval", interval)
+        if kind is not None:
+            pulumi.set(__self__, "kind", kind)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if success_threshold is not None:
+            pulumi.set(__self__, "success_threshold", success_threshold)
+        if tcp is not None:
+            pulumi.set(__self__, "tcp", tcp)
+        if timeout is not None:
+            pulumi.set(__self__, "timeout", timeout)
+        if unhealthy is not None:
+            pulumi.set(__self__, "unhealthy", unhealthy)
+
+    @property
+    @pulumi.getter(name="exec")
+    def exec_(self) -> Optional['outputs.FlyExecHealthcheck']:
+        return pulumi.get(self, "exec_")
+
+    @property
+    @pulumi.getter(name="failureThreshold")
+    def failure_threshold(self) -> Optional[int]:
+        return pulumi.get(self, "failure_threshold")
+
+    @property
+    @pulumi.getter(name="gracePeriod")
+    def grace_period(self) -> Optional[int]:
+        return pulumi.get(self, "grace_period")
+
+    @property
+    @pulumi.getter
+    def http(self) -> Optional['outputs.FlyHTTPHealthcheck']:
+        return pulumi.get(self, "http")
+
+    @property
+    @pulumi.getter
+    def interval(self) -> Optional[int]:
+        return pulumi.get(self, "interval")
+
+    @property
+    @pulumi.getter
+    def kind(self) -> Optional[str]:
+        return pulumi.get(self, "kind")
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[str]:
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter(name="successThreshold")
+    def success_threshold(self) -> Optional[int]:
+        return pulumi.get(self, "success_threshold")
+
+    @property
+    @pulumi.getter
+    def tcp(self) -> Optional['outputs.FlyTCPHealthcheck']:
+        return pulumi.get(self, "tcp")
+
+    @property
+    @pulumi.getter
+    def timeout(self) -> Optional[int]:
+        return pulumi.get(self, "timeout")
+
+    @property
+    @pulumi.getter
+    def unhealthy(self) -> Optional[str]:
+        return pulumi.get(self, "unhealthy")
+
+
+@pulumi.output_type
+class FlyContainerMount(dict):
+    def __init__(__self__, *,
+                 name: Optional[str] = None,
+                 path: Optional[str] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if path is not None:
+            pulumi.set(__self__, "path", path)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[str]:
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter
+    def path(self) -> Optional[str]:
+        return pulumi.get(self, "path")
 
 
 @pulumi.output_type
@@ -264,6 +577,19 @@ class FlyEnvFrom(dict):
 
 
 @pulumi.output_type
+class FlyExecHealthcheck(dict):
+    def __init__(__self__, *,
+                 command: Optional[Sequence[str]] = None):
+        if command is not None:
+            pulumi.set(__self__, "command", command)
+
+    @property
+    @pulumi.getter
+    def command(self) -> Optional[Sequence[str]]:
+        return pulumi.get(self, "command")
+
+
+@pulumi.output_type
 class FlyFile(dict):
     @staticmethod
     def __key_warning(key: str):
@@ -319,6 +645,86 @@ class FlyFile(dict):
     @pulumi.getter(name="secretName")
     def secret_name(self) -> Optional[str]:
         return pulumi.get(self, "secret_name")
+
+
+@pulumi.output_type
+class FlyHTTPHealthcheck(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "tlsServerName":
+            suggest = "tls_server_name"
+        elif key == "tlsSkipVerify":
+            suggest = "tls_skip_verify"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in FlyHTTPHealthcheck. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        FlyHTTPHealthcheck.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        FlyHTTPHealthcheck.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 headers: Optional[Sequence['outputs.FlyMachineHTTPHeader']] = None,
+                 method: Optional[str] = None,
+                 path: Optional[str] = None,
+                 port: Optional[int] = None,
+                 scheme: Optional[str] = None,
+                 tls_server_name: Optional[str] = None,
+                 tls_skip_verify: Optional[bool] = None):
+        if headers is not None:
+            pulumi.set(__self__, "headers", headers)
+        if method is not None:
+            pulumi.set(__self__, "method", method)
+        if path is not None:
+            pulumi.set(__self__, "path", path)
+        if port is not None:
+            pulumi.set(__self__, "port", port)
+        if scheme is not None:
+            pulumi.set(__self__, "scheme", scheme)
+        if tls_server_name is not None:
+            pulumi.set(__self__, "tls_server_name", tls_server_name)
+        if tls_skip_verify is not None:
+            pulumi.set(__self__, "tls_skip_verify", tls_skip_verify)
+
+    @property
+    @pulumi.getter
+    def headers(self) -> Optional[Sequence['outputs.FlyMachineHTTPHeader']]:
+        return pulumi.get(self, "headers")
+
+    @property
+    @pulumi.getter
+    def method(self) -> Optional[str]:
+        return pulumi.get(self, "method")
+
+    @property
+    @pulumi.getter
+    def path(self) -> Optional[str]:
+        return pulumi.get(self, "path")
+
+    @property
+    @pulumi.getter
+    def port(self) -> Optional[int]:
+        return pulumi.get(self, "port")
+
+    @property
+    @pulumi.getter
+    def scheme(self) -> Optional[str]:
+        return pulumi.get(self, "scheme")
+
+    @property
+    @pulumi.getter(name="tlsServerName")
+    def tls_server_name(self) -> Optional[str]:
+        return pulumi.get(self, "tls_server_name")
+
+    @property
+    @pulumi.getter(name="tlsSkipVerify")
+    def tls_skip_verify(self) -> Optional[bool]:
+        return pulumi.get(self, "tls_skip_verify")
 
 
 @pulumi.output_type
@@ -555,6 +961,7 @@ class FlyMachineConfig(dict):
                  image: str,
                  auto_destroy: Optional[bool] = None,
                  checks: Optional[Mapping[str, 'outputs.FlyMachineCheck']] = None,
+                 containers: Optional[Sequence['outputs.FlyContainerConfig']] = None,
                  dns: Optional['outputs.FlyDNSConfig'] = None,
                  env: Optional[Mapping[str, str]] = None,
                  files: Optional[Sequence['outputs.FlyFile']] = None,
@@ -569,12 +976,15 @@ class FlyMachineConfig(dict):
                  services: Optional[Sequence['outputs.FlyMachineService']] = None,
                  standbys: Optional[Sequence[str]] = None,
                  statics: Optional[Sequence['outputs.FlyStatic']] = None,
-                 stop_config: Optional['outputs.FlyStopConfig'] = None):
+                 stop_config: Optional['outputs.FlyStopConfig'] = None,
+                 volumes: Optional[Sequence['outputs.FlyVolumeConfig']] = None):
         pulumi.set(__self__, "image", image)
         if auto_destroy is not None:
             pulumi.set(__self__, "auto_destroy", auto_destroy)
         if checks is not None:
             pulumi.set(__self__, "checks", checks)
+        if containers is not None:
+            pulumi.set(__self__, "containers", containers)
         if dns is not None:
             pulumi.set(__self__, "dns", dns)
         if env is not None:
@@ -605,6 +1015,8 @@ class FlyMachineConfig(dict):
             pulumi.set(__self__, "statics", statics)
         if stop_config is not None:
             pulumi.set(__self__, "stop_config", stop_config)
+        if volumes is not None:
+            pulumi.set(__self__, "volumes", volumes)
 
     @property
     @pulumi.getter
@@ -620,6 +1032,11 @@ class FlyMachineConfig(dict):
     @pulumi.getter
     def checks(self) -> Optional[Mapping[str, 'outputs.FlyMachineCheck']]:
         return pulumi.get(self, "checks")
+
+    @property
+    @pulumi.getter
+    def containers(self) -> Optional[Sequence['outputs.FlyContainerConfig']]:
+        return pulumi.get(self, "containers")
 
     @property
     @pulumi.getter
@@ -695,6 +1112,11 @@ class FlyMachineConfig(dict):
     @pulumi.getter(name="stopConfig")
     def stop_config(self) -> Optional['outputs.FlyStopConfig']:
         return pulumi.get(self, "stop_config")
+
+    @property
+    @pulumi.getter
+    def volumes(self) -> Optional[Sequence['outputs.FlyVolumeConfig']]:
+        return pulumi.get(self, "volumes")
 
 
 @pulumi.output_type
@@ -878,12 +1300,20 @@ class FlyMachineInit(dict):
 @pulumi.output_type
 class FlyMachineMetrics(dict):
     def __init__(__self__, *,
+                 https: Optional[bool] = None,
                  path: Optional[str] = None,
                  port: Optional[int] = None):
+        if https is not None:
+            pulumi.set(__self__, "https", https)
         if path is not None:
             pulumi.set(__self__, "path", path)
         if port is not None:
             pulumi.set(__self__, "port", port)
+
+    @property
+    @pulumi.getter
+    def https(self) -> Optional[bool]:
+        return pulumi.get(self, "https")
 
     @property
     @pulumi.getter
@@ -1509,6 +1939,19 @@ class FlyStopConfig(dict):
 
 
 @pulumi.output_type
+class FlyTCPHealthcheck(dict):
+    def __init__(__self__, *,
+                 port: Optional[int] = None):
+        if port is not None:
+            pulumi.set(__self__, "port", port)
+
+    @property
+    @pulumi.getter
+    def port(self) -> Optional[int]:
+        return pulumi.get(self, "port")
+
+
+@pulumi.output_type
 class FlyTLSOptions(dict):
     @staticmethod
     def __key_warning(key: str):
@@ -1552,6 +1995,84 @@ class FlyTLSOptions(dict):
     @pulumi.getter
     def versions(self) -> Optional[Sequence[str]]:
         return pulumi.get(self, "versions")
+
+
+@pulumi.output_type
+class FlyTempDirVolume(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "sizeMb":
+            suggest = "size_mb"
+        elif key == "storageType":
+            suggest = "storage_type"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in FlyTempDirVolume. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        FlyTempDirVolume.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        FlyTempDirVolume.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 size_mb: Optional[int] = None,
+                 storage_type: Optional[str] = None):
+        if size_mb is not None:
+            pulumi.set(__self__, "size_mb", size_mb)
+        if storage_type is not None:
+            pulumi.set(__self__, "storage_type", storage_type)
+
+    @property
+    @pulumi.getter(name="sizeMb")
+    def size_mb(self) -> Optional[int]:
+        return pulumi.get(self, "size_mb")
+
+    @property
+    @pulumi.getter(name="storageType")
+    def storage_type(self) -> Optional[str]:
+        return pulumi.get(self, "storage_type")
+
+
+@pulumi.output_type
+class FlyVolumeConfig(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "tempDir":
+            suggest = "temp_dir"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in FlyVolumeConfig. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        FlyVolumeConfig.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        FlyVolumeConfig.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 name: Optional[str] = None,
+                 temp_dir: Optional['outputs.FlyTempDirVolume'] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if temp_dir is not None:
+            pulumi.set(__self__, "temp_dir", temp_dir)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[str]:
+        return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter(name="tempDir")
+    def temp_dir(self) -> Optional['outputs.FlyTempDirVolume']:
+        return pulumi.get(self, "temp_dir")
 
 
 @pulumi.output_type

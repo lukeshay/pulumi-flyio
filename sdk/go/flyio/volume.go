@@ -94,6 +94,7 @@ type volumeArgs struct {
 	SnapshotId        *string                `pulumi:"snapshotId"`
 	SnapshotRetention *int                   `pulumi:"snapshotRetention"`
 	SourceVolumeId    *string                `pulumi:"sourceVolumeId"`
+	UniqueZoneAppWide *bool                  `pulumi:"uniqueZoneAppWide"`
 }
 
 // The set of arguments for constructing a Volume resource.
@@ -111,6 +112,7 @@ type VolumeArgs struct {
 	SnapshotId        pulumi.StringPtrInput
 	SnapshotRetention pulumi.IntPtrInput
 	SourceVolumeId    pulumi.StringPtrInput
+	UniqueZoneAppWide pulumi.BoolPtrInput
 }
 
 func (VolumeArgs) ElementType() reflect.Type {

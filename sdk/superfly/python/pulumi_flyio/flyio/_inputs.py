@@ -15,6 +15,14 @@ else:
 from .. import _utilities
 
 __all__ = [
+    'FlyContainerConfigArgs',
+    'FlyContainerConfigArgsDict',
+    'FlyContainerDependencyArgs',
+    'FlyContainerDependencyArgsDict',
+    'FlyContainerHealthcheckArgs',
+    'FlyContainerHealthcheckArgsDict',
+    'FlyContainerMountArgs',
+    'FlyContainerMountArgsDict',
     'FlyDNSConfigArgs',
     'FlyDNSConfigArgsDict',
     'FlyDnsForwardRuleArgs',
@@ -23,8 +31,12 @@ __all__ = [
     'FlyDnsOptionArgsDict',
     'FlyEnvFromArgs',
     'FlyEnvFromArgsDict',
+    'FlyExecHealthcheckArgs',
+    'FlyExecHealthcheckArgsDict',
     'FlyFileArgs',
     'FlyFileArgsDict',
+    'FlyHTTPHealthcheckArgs',
+    'FlyHTTPHealthcheckArgsDict',
     'FlyHTTPOptionsArgs',
     'FlyHTTPOptionsArgsDict',
     'FlyHTTPResponseOptionsArgs',
@@ -61,11 +73,447 @@ __all__ = [
     'FlyStaticArgsDict',
     'FlyStopConfigArgs',
     'FlyStopConfigArgsDict',
+    'FlyTCPHealthcheckArgs',
+    'FlyTCPHealthcheckArgsDict',
     'FlyTLSOptionsArgs',
     'FlyTLSOptionsArgsDict',
+    'FlyTempDirVolumeArgs',
+    'FlyTempDirVolumeArgsDict',
+    'FlyVolumeConfigArgs',
+    'FlyVolumeConfigArgsDict',
 ]
 
 MYPY = False
+
+if not MYPY:
+    class FlyContainerConfigArgsDict(TypedDict):
+        cmd: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        depends_on: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyContainerDependencyArgsDict']]]]
+        entrypoint: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        env: NotRequired[pulumi.Input[Mapping[str, pulumi.Input[str]]]]
+        env_from: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyEnvFromArgsDict']]]]
+        exec_: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+        files: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyFileArgsDict']]]]
+        healthchecks: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyContainerHealthcheckArgsDict']]]]
+        image: NotRequired[pulumi.Input[str]]
+        mounts: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyContainerMountArgsDict']]]]
+        name: NotRequired[pulumi.Input[str]]
+        restart: NotRequired[pulumi.Input['FlyMachineRestartArgsDict']]
+        secrets: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineSecretArgsDict']]]]
+        stop: NotRequired[pulumi.Input['FlyStopConfigArgsDict']]
+        user: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyContainerConfigArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyContainerConfigArgs:
+    def __init__(__self__, *,
+                 cmd: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 depends_on: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerDependencyArgs']]]] = None,
+                 entrypoint: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 env: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
+                 env_from: Optional[pulumi.Input[Sequence[pulumi.Input['FlyEnvFromArgs']]]] = None,
+                 exec_: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
+                 files: Optional[pulumi.Input[Sequence[pulumi.Input['FlyFileArgs']]]] = None,
+                 healthchecks: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerHealthcheckArgs']]]] = None,
+                 image: Optional[pulumi.Input[str]] = None,
+                 mounts: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerMountArgs']]]] = None,
+                 name: Optional[pulumi.Input[str]] = None,
+                 restart: Optional[pulumi.Input['FlyMachineRestartArgs']] = None,
+                 secrets: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineSecretArgs']]]] = None,
+                 stop: Optional[pulumi.Input['FlyStopConfigArgs']] = None,
+                 user: Optional[pulumi.Input[str]] = None):
+        if cmd is not None:
+            pulumi.set(__self__, "cmd", cmd)
+        if depends_on is not None:
+            pulumi.set(__self__, "depends_on", depends_on)
+        if entrypoint is not None:
+            pulumi.set(__self__, "entrypoint", entrypoint)
+        if env is not None:
+            pulumi.set(__self__, "env", env)
+        if env_from is not None:
+            pulumi.set(__self__, "env_from", env_from)
+        if exec_ is not None:
+            pulumi.set(__self__, "exec_", exec_)
+        if files is not None:
+            pulumi.set(__self__, "files", files)
+        if healthchecks is not None:
+            pulumi.set(__self__, "healthchecks", healthchecks)
+        if image is not None:
+            pulumi.set(__self__, "image", image)
+        if mounts is not None:
+            pulumi.set(__self__, "mounts", mounts)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if restart is not None:
+            pulumi.set(__self__, "restart", restart)
+        if secrets is not None:
+            pulumi.set(__self__, "secrets", secrets)
+        if stop is not None:
+            pulumi.set(__self__, "stop", stop)
+        if user is not None:
+            pulumi.set(__self__, "user", user)
+
+    @property
+    @pulumi.getter
+    def cmd(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "cmd")
+
+    @cmd.setter
+    def cmd(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "cmd", value)
+
+    @property
+    @pulumi.getter(name="dependsOn")
+    def depends_on(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerDependencyArgs']]]]:
+        return pulumi.get(self, "depends_on")
+
+    @depends_on.setter
+    def depends_on(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerDependencyArgs']]]]):
+        pulumi.set(self, "depends_on", value)
+
+    @property
+    @pulumi.getter
+    def entrypoint(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "entrypoint")
+
+    @entrypoint.setter
+    def entrypoint(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "entrypoint", value)
+
+    @property
+    @pulumi.getter
+    def env(self) -> Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]]:
+        return pulumi.get(self, "env")
+
+    @env.setter
+    def env(self, value: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]]):
+        pulumi.set(self, "env", value)
+
+    @property
+    @pulumi.getter(name="envFrom")
+    def env_from(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyEnvFromArgs']]]]:
+        return pulumi.get(self, "env_from")
+
+    @env_from.setter
+    def env_from(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyEnvFromArgs']]]]):
+        pulumi.set(self, "env_from", value)
+
+    @property
+    @pulumi.getter(name="exec")
+    def exec_(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "exec_")
+
+    @exec_.setter
+    def exec_(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "exec_", value)
+
+    @property
+    @pulumi.getter
+    def files(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyFileArgs']]]]:
+        return pulumi.get(self, "files")
+
+    @files.setter
+    def files(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyFileArgs']]]]):
+        pulumi.set(self, "files", value)
+
+    @property
+    @pulumi.getter
+    def healthchecks(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerHealthcheckArgs']]]]:
+        return pulumi.get(self, "healthchecks")
+
+    @healthchecks.setter
+    def healthchecks(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerHealthcheckArgs']]]]):
+        pulumi.set(self, "healthchecks", value)
+
+    @property
+    @pulumi.getter
+    def image(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "image")
+
+    @image.setter
+    def image(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "image", value)
+
+    @property
+    @pulumi.getter
+    def mounts(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerMountArgs']]]]:
+        return pulumi.get(self, "mounts")
+
+    @mounts.setter
+    def mounts(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerMountArgs']]]]):
+        pulumi.set(self, "mounts", value)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def restart(self) -> Optional[pulumi.Input['FlyMachineRestartArgs']]:
+        return pulumi.get(self, "restart")
+
+    @restart.setter
+    def restart(self, value: Optional[pulumi.Input['FlyMachineRestartArgs']]):
+        pulumi.set(self, "restart", value)
+
+    @property
+    @pulumi.getter
+    def secrets(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineSecretArgs']]]]:
+        return pulumi.get(self, "secrets")
+
+    @secrets.setter
+    def secrets(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineSecretArgs']]]]):
+        pulumi.set(self, "secrets", value)
+
+    @property
+    @pulumi.getter
+    def stop(self) -> Optional[pulumi.Input['FlyStopConfigArgs']]:
+        return pulumi.get(self, "stop")
+
+    @stop.setter
+    def stop(self, value: Optional[pulumi.Input['FlyStopConfigArgs']]):
+        pulumi.set(self, "stop", value)
+
+    @property
+    @pulumi.getter
+    def user(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "user")
+
+    @user.setter
+    def user(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "user", value)
+
+
+if not MYPY:
+    class FlyContainerDependencyArgsDict(TypedDict):
+        condition: NotRequired[pulumi.Input[str]]
+        name: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyContainerDependencyArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyContainerDependencyArgs:
+    def __init__(__self__, *,
+                 condition: Optional[pulumi.Input[str]] = None,
+                 name: Optional[pulumi.Input[str]] = None):
+        if condition is not None:
+            pulumi.set(__self__, "condition", condition)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+
+    @property
+    @pulumi.getter
+    def condition(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "condition")
+
+    @condition.setter
+    def condition(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "condition", value)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+
+if not MYPY:
+    class FlyContainerHealthcheckArgsDict(TypedDict):
+        exec_: NotRequired[pulumi.Input['FlyExecHealthcheckArgsDict']]
+        failure_threshold: NotRequired[pulumi.Input[int]]
+        grace_period: NotRequired[pulumi.Input[int]]
+        http: NotRequired[pulumi.Input['FlyHTTPHealthcheckArgsDict']]
+        interval: NotRequired[pulumi.Input[int]]
+        kind: NotRequired[pulumi.Input[str]]
+        name: NotRequired[pulumi.Input[str]]
+        success_threshold: NotRequired[pulumi.Input[int]]
+        tcp: NotRequired[pulumi.Input['FlyTCPHealthcheckArgsDict']]
+        timeout: NotRequired[pulumi.Input[int]]
+        unhealthy: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyContainerHealthcheckArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyContainerHealthcheckArgs:
+    def __init__(__self__, *,
+                 exec_: Optional[pulumi.Input['FlyExecHealthcheckArgs']] = None,
+                 failure_threshold: Optional[pulumi.Input[int]] = None,
+                 grace_period: Optional[pulumi.Input[int]] = None,
+                 http: Optional[pulumi.Input['FlyHTTPHealthcheckArgs']] = None,
+                 interval: Optional[pulumi.Input[int]] = None,
+                 kind: Optional[pulumi.Input[str]] = None,
+                 name: Optional[pulumi.Input[str]] = None,
+                 success_threshold: Optional[pulumi.Input[int]] = None,
+                 tcp: Optional[pulumi.Input['FlyTCPHealthcheckArgs']] = None,
+                 timeout: Optional[pulumi.Input[int]] = None,
+                 unhealthy: Optional[pulumi.Input[str]] = None):
+        if exec_ is not None:
+            pulumi.set(__self__, "exec_", exec_)
+        if failure_threshold is not None:
+            pulumi.set(__self__, "failure_threshold", failure_threshold)
+        if grace_period is not None:
+            pulumi.set(__self__, "grace_period", grace_period)
+        if http is not None:
+            pulumi.set(__self__, "http", http)
+        if interval is not None:
+            pulumi.set(__self__, "interval", interval)
+        if kind is not None:
+            pulumi.set(__self__, "kind", kind)
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if success_threshold is not None:
+            pulumi.set(__self__, "success_threshold", success_threshold)
+        if tcp is not None:
+            pulumi.set(__self__, "tcp", tcp)
+        if timeout is not None:
+            pulumi.set(__self__, "timeout", timeout)
+        if unhealthy is not None:
+            pulumi.set(__self__, "unhealthy", unhealthy)
+
+    @property
+    @pulumi.getter(name="exec")
+    def exec_(self) -> Optional[pulumi.Input['FlyExecHealthcheckArgs']]:
+        return pulumi.get(self, "exec_")
+
+    @exec_.setter
+    def exec_(self, value: Optional[pulumi.Input['FlyExecHealthcheckArgs']]):
+        pulumi.set(self, "exec_", value)
+
+    @property
+    @pulumi.getter(name="failureThreshold")
+    def failure_threshold(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "failure_threshold")
+
+    @failure_threshold.setter
+    def failure_threshold(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "failure_threshold", value)
+
+    @property
+    @pulumi.getter(name="gracePeriod")
+    def grace_period(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "grace_period")
+
+    @grace_period.setter
+    def grace_period(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "grace_period", value)
+
+    @property
+    @pulumi.getter
+    def http(self) -> Optional[pulumi.Input['FlyHTTPHealthcheckArgs']]:
+        return pulumi.get(self, "http")
+
+    @http.setter
+    def http(self, value: Optional[pulumi.Input['FlyHTTPHealthcheckArgs']]):
+        pulumi.set(self, "http", value)
+
+    @property
+    @pulumi.getter
+    def interval(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "interval")
+
+    @interval.setter
+    def interval(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "interval", value)
+
+    @property
+    @pulumi.getter
+    def kind(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "kind")
+
+    @kind.setter
+    def kind(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "kind", value)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="successThreshold")
+    def success_threshold(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "success_threshold")
+
+    @success_threshold.setter
+    def success_threshold(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "success_threshold", value)
+
+    @property
+    @pulumi.getter
+    def tcp(self) -> Optional[pulumi.Input['FlyTCPHealthcheckArgs']]:
+        return pulumi.get(self, "tcp")
+
+    @tcp.setter
+    def tcp(self, value: Optional[pulumi.Input['FlyTCPHealthcheckArgs']]):
+        pulumi.set(self, "tcp", value)
+
+    @property
+    @pulumi.getter
+    def timeout(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "timeout")
+
+    @timeout.setter
+    def timeout(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "timeout", value)
+
+    @property
+    @pulumi.getter
+    def unhealthy(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "unhealthy")
+
+    @unhealthy.setter
+    def unhealthy(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "unhealthy", value)
+
+
+if not MYPY:
+    class FlyContainerMountArgsDict(TypedDict):
+        name: NotRequired[pulumi.Input[str]]
+        path: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyContainerMountArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyContainerMountArgs:
+    def __init__(__self__, *,
+                 name: Optional[pulumi.Input[str]] = None,
+                 path: Optional[pulumi.Input[str]] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if path is not None:
+            pulumi.set(__self__, "path", path)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def path(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "path")
+
+    @path.setter
+    def path(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "path", value)
+
 
 if not MYPY:
     class FlyDNSConfigArgsDict(TypedDict):
@@ -277,6 +725,29 @@ class FlyEnvFromArgs:
 
 
 if not MYPY:
+    class FlyExecHealthcheckArgsDict(TypedDict):
+        command: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
+elif False:
+    FlyExecHealthcheckArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyExecHealthcheckArgs:
+    def __init__(__self__, *,
+                 command: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+        if command is not None:
+            pulumi.set(__self__, "command", command)
+
+    @property
+    @pulumi.getter
+    def command(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
+        return pulumi.get(self, "command")
+
+    @command.setter
+    def command(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
+        pulumi.set(self, "command", value)
+
+
+if not MYPY:
     class FlyFileArgsDict(TypedDict):
         guest_path: NotRequired[pulumi.Input[str]]
         mode: NotRequired[pulumi.Input[int]]
@@ -336,6 +807,107 @@ class FlyFileArgs:
     @secret_name.setter
     def secret_name(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "secret_name", value)
+
+
+if not MYPY:
+    class FlyHTTPHealthcheckArgsDict(TypedDict):
+        headers: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyMachineHTTPHeaderArgsDict']]]]
+        method: NotRequired[pulumi.Input[str]]
+        path: NotRequired[pulumi.Input[str]]
+        port: NotRequired[pulumi.Input[int]]
+        scheme: NotRequired[pulumi.Input[str]]
+        tls_server_name: NotRequired[pulumi.Input[str]]
+        tls_skip_verify: NotRequired[pulumi.Input[bool]]
+elif False:
+    FlyHTTPHealthcheckArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyHTTPHealthcheckArgs:
+    def __init__(__self__, *,
+                 headers: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineHTTPHeaderArgs']]]] = None,
+                 method: Optional[pulumi.Input[str]] = None,
+                 path: Optional[pulumi.Input[str]] = None,
+                 port: Optional[pulumi.Input[int]] = None,
+                 scheme: Optional[pulumi.Input[str]] = None,
+                 tls_server_name: Optional[pulumi.Input[str]] = None,
+                 tls_skip_verify: Optional[pulumi.Input[bool]] = None):
+        if headers is not None:
+            pulumi.set(__self__, "headers", headers)
+        if method is not None:
+            pulumi.set(__self__, "method", method)
+        if path is not None:
+            pulumi.set(__self__, "path", path)
+        if port is not None:
+            pulumi.set(__self__, "port", port)
+        if scheme is not None:
+            pulumi.set(__self__, "scheme", scheme)
+        if tls_server_name is not None:
+            pulumi.set(__self__, "tls_server_name", tls_server_name)
+        if tls_skip_verify is not None:
+            pulumi.set(__self__, "tls_skip_verify", tls_skip_verify)
+
+    @property
+    @pulumi.getter
+    def headers(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineHTTPHeaderArgs']]]]:
+        return pulumi.get(self, "headers")
+
+    @headers.setter
+    def headers(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineHTTPHeaderArgs']]]]):
+        pulumi.set(self, "headers", value)
+
+    @property
+    @pulumi.getter
+    def method(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "method")
+
+    @method.setter
+    def method(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "method", value)
+
+    @property
+    @pulumi.getter
+    def path(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "path")
+
+    @path.setter
+    def path(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "path", value)
+
+    @property
+    @pulumi.getter
+    def port(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "port")
+
+    @port.setter
+    def port(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "port", value)
+
+    @property
+    @pulumi.getter
+    def scheme(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "scheme")
+
+    @scheme.setter
+    def scheme(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "scheme", value)
+
+    @property
+    @pulumi.getter(name="tlsServerName")
+    def tls_server_name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "tls_server_name")
+
+    @tls_server_name.setter
+    def tls_server_name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "tls_server_name", value)
+
+    @property
+    @pulumi.getter(name="tlsSkipVerify")
+    def tls_skip_verify(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "tls_skip_verify")
+
+    @tls_skip_verify.setter
+    def tls_skip_verify(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "tls_skip_verify", value)
 
 
 if not MYPY:
@@ -620,6 +1192,7 @@ if not MYPY:
         image: pulumi.Input[str]
         auto_destroy: NotRequired[pulumi.Input[bool]]
         checks: NotRequired[pulumi.Input[Mapping[str, pulumi.Input['FlyMachineCheckArgsDict']]]]
+        containers: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyContainerConfigArgsDict']]]]
         dns: NotRequired[pulumi.Input['FlyDNSConfigArgsDict']]
         env: NotRequired[pulumi.Input[Mapping[str, pulumi.Input[str]]]]
         files: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyFileArgsDict']]]]
@@ -635,6 +1208,7 @@ if not MYPY:
         standbys: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
         statics: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyStaticArgsDict']]]]
         stop_config: NotRequired[pulumi.Input['FlyStopConfigArgsDict']]
+        volumes: NotRequired[pulumi.Input[Sequence[pulumi.Input['FlyVolumeConfigArgsDict']]]]
 elif False:
     FlyMachineConfigArgsDict: TypeAlias = Mapping[str, Any]
 
@@ -644,6 +1218,7 @@ class FlyMachineConfigArgs:
                  image: pulumi.Input[str],
                  auto_destroy: Optional[pulumi.Input[bool]] = None,
                  checks: Optional[pulumi.Input[Mapping[str, pulumi.Input['FlyMachineCheckArgs']]]] = None,
+                 containers: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerConfigArgs']]]] = None,
                  dns: Optional[pulumi.Input['FlyDNSConfigArgs']] = None,
                  env: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
                  files: Optional[pulumi.Input[Sequence[pulumi.Input['FlyFileArgs']]]] = None,
@@ -658,12 +1233,15 @@ class FlyMachineConfigArgs:
                  services: Optional[pulumi.Input[Sequence[pulumi.Input['FlyMachineServiceArgs']]]] = None,
                  standbys: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  statics: Optional[pulumi.Input[Sequence[pulumi.Input['FlyStaticArgs']]]] = None,
-                 stop_config: Optional[pulumi.Input['FlyStopConfigArgs']] = None):
+                 stop_config: Optional[pulumi.Input['FlyStopConfigArgs']] = None,
+                 volumes: Optional[pulumi.Input[Sequence[pulumi.Input['FlyVolumeConfigArgs']]]] = None):
         pulumi.set(__self__, "image", image)
         if auto_destroy is not None:
             pulumi.set(__self__, "auto_destroy", auto_destroy)
         if checks is not None:
             pulumi.set(__self__, "checks", checks)
+        if containers is not None:
+            pulumi.set(__self__, "containers", containers)
         if dns is not None:
             pulumi.set(__self__, "dns", dns)
         if env is not None:
@@ -694,6 +1272,8 @@ class FlyMachineConfigArgs:
             pulumi.set(__self__, "statics", statics)
         if stop_config is not None:
             pulumi.set(__self__, "stop_config", stop_config)
+        if volumes is not None:
+            pulumi.set(__self__, "volumes", volumes)
 
     @property
     @pulumi.getter
@@ -721,6 +1301,15 @@ class FlyMachineConfigArgs:
     @checks.setter
     def checks(self, value: Optional[pulumi.Input[Mapping[str, pulumi.Input['FlyMachineCheckArgs']]]]):
         pulumi.set(self, "checks", value)
+
+    @property
+    @pulumi.getter
+    def containers(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerConfigArgs']]]]:
+        return pulumi.get(self, "containers")
+
+    @containers.setter
+    def containers(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyContainerConfigArgs']]]]):
+        pulumi.set(self, "containers", value)
 
     @property
     @pulumi.getter
@@ -856,6 +1445,15 @@ class FlyMachineConfigArgs:
     @stop_config.setter
     def stop_config(self, value: Optional[pulumi.Input['FlyStopConfigArgs']]):
         pulumi.set(self, "stop_config", value)
+
+    @property
+    @pulumi.getter
+    def volumes(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['FlyVolumeConfigArgs']]]]:
+        return pulumi.get(self, "volumes")
+
+    @volumes.setter
+    def volumes(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FlyVolumeConfigArgs']]]]):
+        pulumi.set(self, "volumes", value)
 
 
 if not MYPY:
@@ -1082,6 +1680,7 @@ class FlyMachineInitArgs:
 
 if not MYPY:
     class FlyMachineMetricsArgsDict(TypedDict):
+        https: NotRequired[pulumi.Input[bool]]
         path: NotRequired[pulumi.Input[str]]
         port: NotRequired[pulumi.Input[int]]
 elif False:
@@ -1090,12 +1689,24 @@ elif False:
 @pulumi.input_type
 class FlyMachineMetricsArgs:
     def __init__(__self__, *,
+                 https: Optional[pulumi.Input[bool]] = None,
                  path: Optional[pulumi.Input[str]] = None,
                  port: Optional[pulumi.Input[int]] = None):
+        if https is not None:
+            pulumi.set(__self__, "https", https)
         if path is not None:
             pulumi.set(__self__, "path", path)
         if port is not None:
             pulumi.set(__self__, "port", port)
+
+    @property
+    @pulumi.getter
+    def https(self) -> Optional[pulumi.Input[bool]]:
+        return pulumi.get(self, "https")
+
+    @https.setter
+    def https(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "https", value)
 
     @property
     @pulumi.getter
@@ -1852,6 +2463,29 @@ class FlyStopConfigArgs:
 
 
 if not MYPY:
+    class FlyTCPHealthcheckArgsDict(TypedDict):
+        port: NotRequired[pulumi.Input[int]]
+elif False:
+    FlyTCPHealthcheckArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyTCPHealthcheckArgs:
+    def __init__(__self__, *,
+                 port: Optional[pulumi.Input[int]] = None):
+        if port is not None:
+            pulumi.set(__self__, "port", port)
+
+    @property
+    @pulumi.getter
+    def port(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "port")
+
+    @port.setter
+    def port(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "port", value)
+
+
+if not MYPY:
     class FlyTLSOptionsArgsDict(TypedDict):
         alpn: NotRequired[pulumi.Input[Sequence[pulumi.Input[str]]]]
         default_self_signed: NotRequired[pulumi.Input[bool]]
@@ -1898,5 +2532,77 @@ class FlyTLSOptionsArgs:
     @versions.setter
     def versions(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
         pulumi.set(self, "versions", value)
+
+
+if not MYPY:
+    class FlyTempDirVolumeArgsDict(TypedDict):
+        size_mb: NotRequired[pulumi.Input[int]]
+        storage_type: NotRequired[pulumi.Input[str]]
+elif False:
+    FlyTempDirVolumeArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyTempDirVolumeArgs:
+    def __init__(__self__, *,
+                 size_mb: Optional[pulumi.Input[int]] = None,
+                 storage_type: Optional[pulumi.Input[str]] = None):
+        if size_mb is not None:
+            pulumi.set(__self__, "size_mb", size_mb)
+        if storage_type is not None:
+            pulumi.set(__self__, "storage_type", storage_type)
+
+    @property
+    @pulumi.getter(name="sizeMb")
+    def size_mb(self) -> Optional[pulumi.Input[int]]:
+        return pulumi.get(self, "size_mb")
+
+    @size_mb.setter
+    def size_mb(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "size_mb", value)
+
+    @property
+    @pulumi.getter(name="storageType")
+    def storage_type(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "storage_type")
+
+    @storage_type.setter
+    def storage_type(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "storage_type", value)
+
+
+if not MYPY:
+    class FlyVolumeConfigArgsDict(TypedDict):
+        name: NotRequired[pulumi.Input[str]]
+        temp_dir: NotRequired[pulumi.Input['FlyTempDirVolumeArgsDict']]
+elif False:
+    FlyVolumeConfigArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class FlyVolumeConfigArgs:
+    def __init__(__self__, *,
+                 name: Optional[pulumi.Input[str]] = None,
+                 temp_dir: Optional[pulumi.Input['FlyTempDirVolumeArgs']] = None):
+        if name is not None:
+            pulumi.set(__self__, "name", name)
+        if temp_dir is not None:
+            pulumi.set(__self__, "temp_dir", temp_dir)
+
+    @property
+    @pulumi.getter
+    def name(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="tempDir")
+    def temp_dir(self) -> Optional[pulumi.Input['FlyTempDirVolumeArgs']]:
+        return pulumi.get(self, "temp_dir")
+
+    @temp_dir.setter
+    def temp_dir(self, value: Optional[pulumi.Input['FlyTempDirVolumeArgs']]):
+        pulumi.set(self, "temp_dir", value)
 
 

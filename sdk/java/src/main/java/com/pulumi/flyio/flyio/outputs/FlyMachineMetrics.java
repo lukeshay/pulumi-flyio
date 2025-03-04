@@ -4,6 +4,7 @@
 package com.pulumi.flyio.flyio.outputs;
 
 import com.pulumi.core.annotations.CustomType;
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.Objects;
@@ -12,10 +13,14 @@ import javax.annotation.Nullable;
 
 @CustomType
 public final class FlyMachineMetrics {
+    private @Nullable Boolean https;
     private @Nullable String path;
     private @Nullable Integer port;
 
     private FlyMachineMetrics() {}
+    public Optional<Boolean> https() {
+        return Optional.ofNullable(this.https);
+    }
     public Optional<String> path() {
         return Optional.ofNullable(this.path);
     }
@@ -32,15 +37,23 @@ public final class FlyMachineMetrics {
     }
     @CustomType.Builder
     public static final class Builder {
+        private @Nullable Boolean https;
         private @Nullable String path;
         private @Nullable Integer port;
         public Builder() {}
         public Builder(FlyMachineMetrics defaults) {
     	      Objects.requireNonNull(defaults);
+    	      this.https = defaults.https;
     	      this.path = defaults.path;
     	      this.port = defaults.port;
         }
 
+        @CustomType.Setter
+        public Builder https(@Nullable Boolean https) {
+
+            this.https = https;
+            return this;
+        }
         @CustomType.Setter
         public Builder path(@Nullable String path) {
 
@@ -55,6 +68,7 @@ public final class FlyMachineMetrics {
         }
         public FlyMachineMetrics build() {
             final var _resultValue = new FlyMachineMetrics();
+            _resultValue.https = https;
             _resultValue.path = path;
             _resultValue.port = port;
             return _resultValue;

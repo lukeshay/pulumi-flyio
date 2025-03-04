@@ -6,6 +6,48 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
 export namespace flyio {
+    export interface FlyContainerConfigArgs {
+        cmd?: pulumi.Input<pulumi.Input<string>[]>;
+        dependsOn?: pulumi.Input<pulumi.Input<inputs.flyio.FlyContainerDependencyArgs>[]>;
+        entrypoint?: pulumi.Input<pulumi.Input<string>[]>;
+        env?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+        envFrom?: pulumi.Input<pulumi.Input<inputs.flyio.FlyEnvFromArgs>[]>;
+        exec?: pulumi.Input<pulumi.Input<string>[]>;
+        files?: pulumi.Input<pulumi.Input<inputs.flyio.FlyFileArgs>[]>;
+        healthchecks?: pulumi.Input<pulumi.Input<inputs.flyio.FlyContainerHealthcheckArgs>[]>;
+        image?: pulumi.Input<string>;
+        mounts?: pulumi.Input<pulumi.Input<inputs.flyio.FlyContainerMountArgs>[]>;
+        name?: pulumi.Input<string>;
+        restart?: pulumi.Input<inputs.flyio.FlyMachineRestartArgs>;
+        secrets?: pulumi.Input<pulumi.Input<inputs.flyio.FlyMachineSecretArgs>[]>;
+        stop?: pulumi.Input<inputs.flyio.FlyStopConfigArgs>;
+        user?: pulumi.Input<string>;
+    }
+
+    export interface FlyContainerDependencyArgs {
+        condition?: pulumi.Input<string>;
+        name?: pulumi.Input<string>;
+    }
+
+    export interface FlyContainerHealthcheckArgs {
+        exec?: pulumi.Input<inputs.flyio.FlyExecHealthcheckArgs>;
+        failureThreshold?: pulumi.Input<number>;
+        gracePeriod?: pulumi.Input<number>;
+        http?: pulumi.Input<inputs.flyio.FlyHTTPHealthcheckArgs>;
+        interval?: pulumi.Input<number>;
+        kind?: pulumi.Input<string>;
+        name?: pulumi.Input<string>;
+        successThreshold?: pulumi.Input<number>;
+        tcp?: pulumi.Input<inputs.flyio.FlyTCPHealthcheckArgs>;
+        timeout?: pulumi.Input<number>;
+        unhealthy?: pulumi.Input<string>;
+    }
+
+    export interface FlyContainerMountArgs {
+        name?: pulumi.Input<string>;
+        path?: pulumi.Input<string>;
+    }
+
     export interface FlyDNSConfigArgs {
         dnsForwardRules?: pulumi.Input<pulumi.Input<inputs.flyio.FlyDnsForwardRuleArgs>[]>;
         hostname?: pulumi.Input<string>;
@@ -31,11 +73,25 @@ export namespace flyio {
         fieldRef?: pulumi.Input<string>;
     }
 
+    export interface FlyExecHealthcheckArgs {
+        command?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
     export interface FlyFileArgs {
         guestPath?: pulumi.Input<string>;
         mode?: pulumi.Input<number>;
         rawValue?: pulumi.Input<string>;
         secretName?: pulumi.Input<string>;
+    }
+
+    export interface FlyHTTPHealthcheckArgs {
+        headers?: pulumi.Input<pulumi.Input<inputs.flyio.FlyMachineHTTPHeaderArgs>[]>;
+        method?: pulumi.Input<string>;
+        path?: pulumi.Input<string>;
+        port?: pulumi.Input<number>;
+        scheme?: pulumi.Input<string>;
+        tlsServerName?: pulumi.Input<string>;
+        tlsSkipVerify?: pulumi.Input<boolean>;
     }
 
     export interface FlyHTTPOptionsArgs {
@@ -69,6 +125,7 @@ export namespace flyio {
     export interface FlyMachineConfigArgs {
         autoDestroy?: pulumi.Input<boolean>;
         checks?: pulumi.Input<{[key: string]: pulumi.Input<inputs.flyio.FlyMachineCheckArgs>}>;
+        containers?: pulumi.Input<pulumi.Input<inputs.flyio.FlyContainerConfigArgs>[]>;
         dns?: pulumi.Input<inputs.flyio.FlyDNSConfigArgs>;
         env?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
         files?: pulumi.Input<pulumi.Input<inputs.flyio.FlyFileArgs>[]>;
@@ -85,6 +142,7 @@ export namespace flyio {
         standbys?: pulumi.Input<pulumi.Input<string>[]>;
         statics?: pulumi.Input<pulumi.Input<inputs.flyio.FlyStaticArgs>[]>;
         stopConfig?: pulumi.Input<inputs.flyio.FlyStopConfigArgs>;
+        volumes?: pulumi.Input<pulumi.Input<inputs.flyio.FlyVolumeConfigArgs>[]>;
     }
 
     export interface FlyMachineGuestArgs {
@@ -112,6 +170,7 @@ export namespace flyio {
     }
 
     export interface FlyMachineMetricsArgs {
+        https?: pulumi.Input<boolean>;
         path?: pulumi.Input<string>;
         port?: pulumi.Input<number>;
     }
@@ -195,10 +254,24 @@ export namespace flyio {
         timeout?: pulumi.Input<string>;
     }
 
+    export interface FlyTCPHealthcheckArgs {
+        port?: pulumi.Input<number>;
+    }
+
     export interface FlyTLSOptionsArgs {
         alpn?: pulumi.Input<pulumi.Input<string>[]>;
         defaultSelfSigned?: pulumi.Input<boolean>;
         versions?: pulumi.Input<pulumi.Input<string>[]>;
+    }
+
+    export interface FlyTempDirVolumeArgs {
+        sizeMb?: pulumi.Input<number>;
+        storageType?: pulumi.Input<string>;
+    }
+
+    export interface FlyVolumeConfigArgs {
+        name?: pulumi.Input<string>;
+        tempDir?: pulumi.Input<inputs.flyio.FlyTempDirVolumeArgs>;
     }
 
 }

@@ -14,15 +14,19 @@ namespace PulumiFlyio.Flyio.Flyio.Outputs
     [OutputType]
     public sealed class FlyMachineMetrics
     {
+        public readonly bool? Https;
         public readonly string? Path;
         public readonly int? Port;
 
         [OutputConstructor]
         private FlyMachineMetrics(
+            bool? https,
+
             string? path,
 
             int? port)
         {
+            Https = https;
             Path = path;
             Port = port;
         }

@@ -157,7 +157,7 @@ func (c Machine) Update(ctx context.Context, id string, state MachineState, inpu
 
 		newMachine := createResult.JSON200
 
-		err = c.waitForState(ctx, state.App, newMachine, flyio.Started)
+		err = c.waitForState(ctx, state.App, newMachine, flyio.MachinesWaitParamsStateStarted)
 		if err != nil {
 			force := true
 			cfg.flyioClient.MachinesDelete(ctx, state.App, *newMachine.Id, &flyio.MachinesDeleteParams{

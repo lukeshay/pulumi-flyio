@@ -6,6 +6,7 @@ package com.pulumi.flyio.flyio.inputs;
 import com.pulumi.core.Output;
 import com.pulumi.core.annotations.Import;
 import com.pulumi.exceptions.MissingRequiredPropertyException;
+import com.pulumi.flyio.flyio.inputs.FlyContainerConfigArgs;
 import com.pulumi.flyio.flyio.inputs.FlyDNSConfigArgs;
 import com.pulumi.flyio.flyio.inputs.FlyFileArgs;
 import com.pulumi.flyio.flyio.inputs.FlyMachineCheckArgs;
@@ -18,6 +19,7 @@ import com.pulumi.flyio.flyio.inputs.FlyMachineRestartArgs;
 import com.pulumi.flyio.flyio.inputs.FlyMachineServiceArgs;
 import com.pulumi.flyio.flyio.inputs.FlyStaticArgs;
 import com.pulumi.flyio.flyio.inputs.FlyStopConfigArgs;
+import com.pulumi.flyio.flyio.inputs.FlyVolumeConfigArgs;
 import java.lang.Boolean;
 import java.lang.String;
 import java.util.List;
@@ -43,6 +45,13 @@ public final class FlyMachineConfigArgs extends com.pulumi.resources.ResourceArg
 
     public Optional<Output<Map<String,FlyMachineCheckArgs>>> checks() {
         return Optional.ofNullable(this.checks);
+    }
+
+    @Import(name="containers")
+    private @Nullable Output<List<FlyContainerConfigArgs>> containers;
+
+    public Optional<Output<List<FlyContainerConfigArgs>>> containers() {
+        return Optional.ofNullable(this.containers);
     }
 
     @Import(name="dns")
@@ -157,11 +166,19 @@ public final class FlyMachineConfigArgs extends com.pulumi.resources.ResourceArg
         return Optional.ofNullable(this.stopConfig);
     }
 
+    @Import(name="volumes")
+    private @Nullable Output<List<FlyVolumeConfigArgs>> volumes;
+
+    public Optional<Output<List<FlyVolumeConfigArgs>>> volumes() {
+        return Optional.ofNullable(this.volumes);
+    }
+
     private FlyMachineConfigArgs() {}
 
     private FlyMachineConfigArgs(FlyMachineConfigArgs $) {
         this.autoDestroy = $.autoDestroy;
         this.checks = $.checks;
+        this.containers = $.containers;
         this.dns = $.dns;
         this.env = $.env;
         this.files = $.files;
@@ -178,6 +195,7 @@ public final class FlyMachineConfigArgs extends com.pulumi.resources.ResourceArg
         this.standbys = $.standbys;
         this.statics = $.statics;
         this.stopConfig = $.stopConfig;
+        this.volumes = $.volumes;
     }
 
     public static Builder builder() {
@@ -214,6 +232,19 @@ public final class FlyMachineConfigArgs extends com.pulumi.resources.ResourceArg
 
         public Builder checks(Map<String,FlyMachineCheckArgs> checks) {
             return checks(Output.of(checks));
+        }
+
+        public Builder containers(@Nullable Output<List<FlyContainerConfigArgs>> containers) {
+            $.containers = containers;
+            return this;
+        }
+
+        public Builder containers(List<FlyContainerConfigArgs> containers) {
+            return containers(Output.of(containers));
+        }
+
+        public Builder containers(FlyContainerConfigArgs... containers) {
+            return containers(List.of(containers));
         }
 
         public Builder dns(@Nullable Output<FlyDNSConfigArgs> dns) {
@@ -382,6 +413,19 @@ public final class FlyMachineConfigArgs extends com.pulumi.resources.ResourceArg
 
         public Builder stopConfig(FlyStopConfigArgs stopConfig) {
             return stopConfig(Output.of(stopConfig));
+        }
+
+        public Builder volumes(@Nullable Output<List<FlyVolumeConfigArgs>> volumes) {
+            $.volumes = volumes;
+            return this;
+        }
+
+        public Builder volumes(List<FlyVolumeConfigArgs> volumes) {
+            return volumes(Output.of(volumes));
+        }
+
+        public Builder volumes(FlyVolumeConfigArgs... volumes) {
+            return volumes(List.of(volumes));
         }
 
         public FlyMachineConfigArgs build() {

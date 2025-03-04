@@ -158,6 +158,9 @@ namespace PulumiFlyio.Flyio
         [Input("sourceVolumeId")]
         public Input<string>? SourceVolumeId { get; set; }
 
+        [Input("uniqueZoneAppWide")]
+        public Input<bool>? UniqueZoneAppWide { get; set; }
+
         public VolumeArgs()
         {
         }

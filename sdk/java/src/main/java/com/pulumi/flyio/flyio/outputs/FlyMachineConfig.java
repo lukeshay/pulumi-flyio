@@ -5,6 +5,7 @@ package com.pulumi.flyio.flyio.outputs;
 
 import com.pulumi.core.annotations.CustomType;
 import com.pulumi.exceptions.MissingRequiredPropertyException;
+import com.pulumi.flyio.flyio.outputs.FlyContainerConfig;
 import com.pulumi.flyio.flyio.outputs.FlyDNSConfig;
 import com.pulumi.flyio.flyio.outputs.FlyFile;
 import com.pulumi.flyio.flyio.outputs.FlyMachineCheck;
@@ -17,6 +18,7 @@ import com.pulumi.flyio.flyio.outputs.FlyMachineRestart;
 import com.pulumi.flyio.flyio.outputs.FlyMachineService;
 import com.pulumi.flyio.flyio.outputs.FlyStatic;
 import com.pulumi.flyio.flyio.outputs.FlyStopConfig;
+import com.pulumi.flyio.flyio.outputs.FlyVolumeConfig;
 import java.lang.Boolean;
 import java.lang.String;
 import java.util.List;
@@ -29,6 +31,7 @@ import javax.annotation.Nullable;
 public final class FlyMachineConfig {
     private @Nullable Boolean autoDestroy;
     private @Nullable Map<String,FlyMachineCheck> checks;
+    private @Nullable List<FlyContainerConfig> containers;
     private @Nullable FlyDNSConfig dns;
     private @Nullable Map<String,String> env;
     private @Nullable List<FlyFile> files;
@@ -45,6 +48,7 @@ public final class FlyMachineConfig {
     private @Nullable List<String> standbys;
     private @Nullable List<FlyStatic> statics;
     private @Nullable FlyStopConfig stopConfig;
+    private @Nullable List<FlyVolumeConfig> volumes;
 
     private FlyMachineConfig() {}
     public Optional<Boolean> autoDestroy() {
@@ -52,6 +56,9 @@ public final class FlyMachineConfig {
     }
     public Map<String,FlyMachineCheck> checks() {
         return this.checks == null ? Map.of() : this.checks;
+    }
+    public List<FlyContainerConfig> containers() {
+        return this.containers == null ? List.of() : this.containers;
     }
     public Optional<FlyDNSConfig> dns() {
         return Optional.ofNullable(this.dns);
@@ -101,6 +108,9 @@ public final class FlyMachineConfig {
     public Optional<FlyStopConfig> stopConfig() {
         return Optional.ofNullable(this.stopConfig);
     }
+    public List<FlyVolumeConfig> volumes() {
+        return this.volumes == null ? List.of() : this.volumes;
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -113,6 +123,7 @@ public final class FlyMachineConfig {
     public static final class Builder {
         private @Nullable Boolean autoDestroy;
         private @Nullable Map<String,FlyMachineCheck> checks;
+        private @Nullable List<FlyContainerConfig> containers;
         private @Nullable FlyDNSConfig dns;
         private @Nullable Map<String,String> env;
         private @Nullable List<FlyFile> files;
@@ -129,11 +140,13 @@ public final class FlyMachineConfig {
         private @Nullable List<String> standbys;
         private @Nullable List<FlyStatic> statics;
         private @Nullable FlyStopConfig stopConfig;
+        private @Nullable List<FlyVolumeConfig> volumes;
         public Builder() {}
         public Builder(FlyMachineConfig defaults) {
     	      Objects.requireNonNull(defaults);
     	      this.autoDestroy = defaults.autoDestroy;
     	      this.checks = defaults.checks;
+    	      this.containers = defaults.containers;
     	      this.dns = defaults.dns;
     	      this.env = defaults.env;
     	      this.files = defaults.files;
@@ -150,6 +163,7 @@ public final class FlyMachineConfig {
     	      this.standbys = defaults.standbys;
     	      this.statics = defaults.statics;
     	      this.stopConfig = defaults.stopConfig;
+    	      this.volumes = defaults.volumes;
         }
 
         @CustomType.Setter
@@ -163,6 +177,15 @@ public final class FlyMachineConfig {
 
             this.checks = checks;
             return this;
+        }
+        @CustomType.Setter
+        public Builder containers(@Nullable List<FlyContainerConfig> containers) {
+
+            this.containers = containers;
+            return this;
+        }
+        public Builder containers(FlyContainerConfig... containers) {
+            return containers(List.of(containers));
         }
         @CustomType.Setter
         public Builder dns(@Nullable FlyDNSConfig dns) {
@@ -280,10 +303,20 @@ public final class FlyMachineConfig {
             this.stopConfig = stopConfig;
             return this;
         }
+        @CustomType.Setter
+        public Builder volumes(@Nullable List<FlyVolumeConfig> volumes) {
+
+            this.volumes = volumes;
+            return this;
+        }
+        public Builder volumes(FlyVolumeConfig... volumes) {
+            return volumes(List.of(volumes));
+        }
         public FlyMachineConfig build() {
             final var _resultValue = new FlyMachineConfig();
             _resultValue.autoDestroy = autoDestroy;
             _resultValue.checks = checks;
+            _resultValue.containers = containers;
             _resultValue.dns = dns;
             _resultValue.env = env;
             _resultValue.files = files;
@@ -300,6 +333,7 @@ public final class FlyMachineConfig {
             _resultValue.standbys = standbys;
             _resultValue.statics = statics;
             _resultValue.stopConfig = stopConfig;
+            _resultValue.volumes = volumes;
             return _resultValue;
         }
     }

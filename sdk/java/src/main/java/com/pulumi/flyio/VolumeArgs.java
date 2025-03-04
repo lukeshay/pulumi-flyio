@@ -110,6 +110,13 @@ public final class VolumeArgs extends com.pulumi.resources.ResourceArgs {
         return Optional.ofNullable(this.sourceVolumeId);
     }
 
+    @Import(name="uniqueZoneAppWide")
+    private @Nullable Output<Boolean> uniqueZoneAppWide;
+
+    public Optional<Output<Boolean>> uniqueZoneAppWide() {
+        return Optional.ofNullable(this.uniqueZoneAppWide);
+    }
+
     private VolumeArgs() {}
 
     private VolumeArgs(VolumeArgs $) {
@@ -126,6 +133,7 @@ public final class VolumeArgs extends com.pulumi.resources.ResourceArgs {
         this.snapshotId = $.snapshotId;
         this.snapshotRetention = $.snapshotRetention;
         this.sourceVolumeId = $.sourceVolumeId;
+        this.uniqueZoneAppWide = $.uniqueZoneAppWide;
     }
 
     public static Builder builder() {
@@ -261,6 +269,15 @@ public final class VolumeArgs extends com.pulumi.resources.ResourceArgs {
 
         public Builder sourceVolumeId(String sourceVolumeId) {
             return sourceVolumeId(Output.of(sourceVolumeId));
+        }
+
+        public Builder uniqueZoneAppWide(@Nullable Output<Boolean> uniqueZoneAppWide) {
+            $.uniqueZoneAppWide = uniqueZoneAppWide;
+            return this;
+        }
+
+        public Builder uniqueZoneAppWide(Boolean uniqueZoneAppWide) {
+            return uniqueZoneAppWide(Output.of(uniqueZoneAppWide));
         }
 
         public VolumeArgs build() {
