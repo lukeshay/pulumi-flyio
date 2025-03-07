@@ -11,6 +11,7 @@ import com.pulumi.flyio.SecretsArgs;
 import com.pulumi.flyio.Utilities;
 import java.lang.String;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Nullable;
 
 @ResourceType(type="flyio:index:Secrets")
@@ -21,11 +22,11 @@ public class Secrets extends com.pulumi.resources.CustomResource {
     public Output<String> app() {
         return this.app;
     }
-    @Export(name="secretKeys", refs={List.class,String.class}, tree="[0,1]")
-    private Output<List<String>> secretKeys;
+    @Export(name="values", refs={Map.class,String.class}, tree="[0,1,1]")
+    private Output<Map<String,String>> values;
 
-    public Output<List<String>> secretKeys() {
-        return this.secretKeys;
+    public Output<Map<String,String>> values() {
+        return this.values;
     }
 
     /**
@@ -67,6 +68,9 @@ public class Secrets extends com.pulumi.resources.CustomResource {
     private static com.pulumi.resources.CustomResourceOptions makeResourceOptions(@Nullable com.pulumi.resources.CustomResourceOptions options, @Nullable Output<java.lang.String> id) {
         var defaultOptions = com.pulumi.resources.CustomResourceOptions.builder()
             .version(Utilities.getVersion())
+            .additionalSecretOutputs(List.of(
+                "values"
+            ))
             .build();
         return com.pulumi.resources.CustomResourceOptions.merge(defaultOptions, options, id);
     }

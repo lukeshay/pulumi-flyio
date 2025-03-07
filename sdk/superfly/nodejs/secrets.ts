@@ -32,7 +32,7 @@ export class Secrets extends pulumi.CustomResource {
     }
 
     public readonly app!: pulumi.Output<string>;
-    public /*out*/ readonly secretKeys!: pulumi.Output<string[]>;
+    public readonly values!: pulumi.Output<{[key: string]: string}>;
 
     /**
      * Create a Secrets resource with the given unique name, arguments, and options.
@@ -53,12 +53,13 @@ export class Secrets extends pulumi.CustomResource {
             }
             resourceInputs["app"] = args ? args.app : undefined;
             resourceInputs["values"] = args?.values ? pulumi.secret(args.values) : undefined;
-            resourceInputs["secretKeys"] = undefined /*out*/;
         } else {
             resourceInputs["app"] = undefined /*out*/;
-            resourceInputs["secretKeys"] = undefined /*out*/;
+            resourceInputs["values"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
+        const secretOpts = { additionalSecretOutputs: ["values"] };
+        opts = pulumi.mergeOptions(opts, secretOpts);
         super(Secrets.__pulumiType, name, resourceInputs, opts);
     }
 }

@@ -99,7 +99,8 @@ class Secrets(pulumi.CustomResource):
             if values is None and not opts.urn:
                 raise TypeError("Missing required property 'values'")
             __props__.__dict__["values"] = None if values is None else pulumi.Output.secret(values)
-            __props__.__dict__["secret_keys"] = None
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["values"])
+        opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(Secrets, __self__).__init__(
             'flyio:index:Secrets',
             resource_name,
@@ -123,7 +124,7 @@ class Secrets(pulumi.CustomResource):
         __props__ = SecretsArgs.__new__(SecretsArgs)
 
         __props__.__dict__["app"] = None
-        __props__.__dict__["secret_keys"] = None
+        __props__.__dict__["values"] = None
         return Secrets(resource_name, opts=opts, __props__=__props__)
 
     @property
@@ -132,7 +133,7 @@ class Secrets(pulumi.CustomResource):
         return pulumi.get(self, "app")
 
     @property
-    @pulumi.getter(name="secretKeys")
-    def secret_keys(self) -> pulumi.Output[Sequence[str]]:
-        return pulumi.get(self, "secret_keys")
+    @pulumi.getter
+    def values(self) -> pulumi.Output[Mapping[str, str]]:
+        return pulumi.get(self, "values")
 

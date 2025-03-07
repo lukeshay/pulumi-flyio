@@ -15,8 +15,8 @@ import (
 type Secrets struct {
 	pulumi.CustomResourceState
 
-	App        pulumi.StringOutput      `pulumi:"app"`
-	SecretKeys pulumi.StringArrayOutput `pulumi:"secretKeys"`
+	App    pulumi.StringOutput    `pulumi:"app"`
+	Values pulumi.StringMapOutput `pulumi:"values"`
 }
 
 // NewSecrets registers a new resource with the given unique name, arguments, and options.
@@ -35,6 +35,10 @@ func NewSecrets(ctx *pulumi.Context,
 	if args.Values != nil {
 		args.Values = pulumi.ToSecret(args.Values).(pulumi.StringMapInput)
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"values",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Secrets
 	err := ctx.RegisterResource("flyio:index:Secrets", name, args, &resource, opts...)
@@ -169,8 +173,8 @@ func (o SecretsOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *Secrets) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
 
-func (o SecretsOutput) SecretKeys() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *Secrets) pulumi.StringArrayOutput { return v.SecretKeys }).(pulumi.StringArrayOutput)
+func (o SecretsOutput) Values() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Secrets) pulumi.StringMapOutput { return v.Values }).(pulumi.StringMapOutput)
 }
 
 type SecretsArrayOutput struct{ *pulumi.OutputState }

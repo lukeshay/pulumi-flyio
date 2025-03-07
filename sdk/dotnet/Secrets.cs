@@ -16,8 +16,8 @@ namespace PulumiFlyio.Flyio
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
-        [Output("secretKeys")]
-        public Output<ImmutableArray<string>> SecretKeys { get; private set; } = null!;
+        [Output("values")]
+        public Output<ImmutableDictionary<string, string>> Values { get; private set; } = null!;
 
 
         /// <summary>
@@ -43,6 +43,10 @@ namespace PulumiFlyio.Flyio
             {
                 Version = Utilities.Version,
                 PluginDownloadURL = "github://api.github.com/lukeshay",
+                AdditionalSecretOutputs =
+                {
+                    "values",
+                },
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.

@@ -28,6 +28,12 @@ public class App extends com.pulumi.resources.CustomResource {
     public Output<AppArgs> input() {
         return this.input;
     }
+    @Export(name="ipv6Address", refs={String.class}, tree="[0]")
+    private Output<String> ipv6Address;
+
+    public Output<String> ipv6Address() {
+        return this.ipv6Address;
+    }
     @Export(name="name", refs={String.class}, tree="[0]")
     private Output<String> name;
 
@@ -46,11 +52,23 @@ public class App extends com.pulumi.resources.CustomResource {
     public Output<String> org() {
         return this.org;
     }
+    @Export(name="sharedIPAddress", refs={String.class}, tree="[0]")
+    private Output<String> sharedIPAddress;
+
+    public Output<String> sharedIPAddress() {
+        return this.sharedIPAddress;
+    }
     @Export(name="status", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> status;
 
     public Output<Optional<String>> status() {
         return Codegen.optional(this.status);
+    }
+    @Export(name="url", refs={String.class}, tree="[0]")
+    private Output<String> url;
+
+    public Output<String> url() {
+        return this.url;
     }
 
     /**

@@ -35,10 +35,13 @@ export class App extends pulumi.CustomResource {
 
     public readonly enableSubdomains!: pulumi.Output<boolean | undefined>;
     public /*out*/ readonly input!: pulumi.Output<outputs.AppArgs>;
+    public /*out*/ readonly ipv6Address!: pulumi.Output<string>;
     public readonly name!: pulumi.Output<string>;
     public readonly network!: pulumi.Output<string | undefined>;
     public readonly org!: pulumi.Output<string>;
+    public /*out*/ readonly sharedIPAddress!: pulumi.Output<string>;
     public /*out*/ readonly status!: pulumi.Output<string | undefined>;
+    public /*out*/ readonly url!: pulumi.Output<string>;
 
     /**
      * Create a App resource with the given unique name, arguments, and options.
@@ -62,14 +65,20 @@ export class App extends pulumi.CustomResource {
             resourceInputs["network"] = args ? args.network : undefined;
             resourceInputs["org"] = args ? args.org : undefined;
             resourceInputs["input"] = undefined /*out*/;
+            resourceInputs["ipv6Address"] = undefined /*out*/;
+            resourceInputs["sharedIPAddress"] = undefined /*out*/;
             resourceInputs["status"] = undefined /*out*/;
+            resourceInputs["url"] = undefined /*out*/;
         } else {
             resourceInputs["enableSubdomains"] = undefined /*out*/;
             resourceInputs["input"] = undefined /*out*/;
+            resourceInputs["ipv6Address"] = undefined /*out*/;
             resourceInputs["name"] = undefined /*out*/;
             resourceInputs["network"] = undefined /*out*/;
             resourceInputs["org"] = undefined /*out*/;
+            resourceInputs["sharedIPAddress"] = undefined /*out*/;
             resourceInputs["status"] = undefined /*out*/;
+            resourceInputs["url"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(App.__pulumiType, name, resourceInputs, opts);
