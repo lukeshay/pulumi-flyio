@@ -28,12 +28,9 @@ type AppArgs struct {
 type AppState struct {
 	Name             string  `json:"name" pulumi:"name"`
 	Org              string  `json:"org" pulumi:"org"`
-	Status           string  `json:"status,omitempty" pulumi:"status,optional"`
+	Status           *string `json:"status,omitempty" pulumi:"status,optional"`
 	EnableSubdomains *bool   `json:"enableSubdomains,omitempty" pulumi:"enableSubdomains,optional"`
-	Network          string  `json:"network,omitempty" pulumi:"network,optional"`
-	URL              string  `json:"url" pulumi:"url"`
-	SharedIPAddress  string  `json:"sharedIPAddress" pulumi:"sharedIPAddress"`
-	IPV6Address      string  `json:"ipv6Address" pulumi:"ipv6Address"`
+	Network          *string `json:"network,omitempty" pulumi:"network,optional"`
 	Input            AppArgs `pulumi:"input"`
 }
 
@@ -44,7 +41,7 @@ func (c App) Create(ctx context.Context, name string, input AppArgs, preview boo
 			Name:             input.Name,
 			Org:              input.Org,
 			EnableSubdomains: input.EnableSubdomains,
-			Network:          *input.Network,
+			Network:          input.Network,
 		}, nil
 	}
 
@@ -129,21 +126,13 @@ func (App) show(ctx context.Context, cfg Config, inputs AppArgs) (*flyio.App, Ap
 		return nil, AppState{}, fmt.Errorf("error showing app: %s", result.Body)
 	}
 
-	app, err := cfg.flyClient.GetApp(ctx, inputs.Name)
-	if err != nil {
-		return nil, AppState{}, err
-	}
-
 	return result.JSON200, AppState{
 		Input:            inputs,
 		EnableSubdomains: inputs.EnableSubdomains,
-		Name:             app.Name,
-		Network:          app.Network,
-		Org:              app.Organization.Slug,
-		Status:           app.Status,
-		URL:              app.AppURL,
-		SharedIPAddress:  app.SharedIPAddress,
-		IPV6Address:      app.IPAddress.Address,
+		Name:             *result.JSON200.Name,
+		Network:          inputs.Network,
+		Org:              *result.JSON200.Organization.Slug,
+		Status:           result.JSON200.Status,
 	}, nil
 }
 

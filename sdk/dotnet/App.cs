@@ -19,9 +19,6 @@ namespace PulumiFlyio.Flyio
         [Output("input")]
         public Output<Outputs.AppArgs> Input { get; private set; } = null!;
 
-        [Output("ipv6Address")]
-        public Output<string> Ipv6Address { get; private set; } = null!;
-
         [Output("name")]
         public Output<string> Name { get; private set; } = null!;
 
@@ -31,14 +28,8 @@ namespace PulumiFlyio.Flyio
         [Output("org")]
         public Output<string> Org { get; private set; } = null!;
 
-        [Output("sharedIPAddress")]
-        public Output<string> SharedIPAddress { get; private set; } = null!;
-
         [Output("status")]
         public Output<string?> Status { get; private set; } = null!;
-
-        [Output("url")]
-        public Output<string> Url { get; private set; } = null!;
 
 
         /// <summary>

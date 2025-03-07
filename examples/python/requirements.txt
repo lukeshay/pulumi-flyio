@@ -1,2 +1,2 @@
-pulumi-flyio==0.0.38
+pulumi-flyio==0.0.39
 pulumi>=3.0.0,<4.0.0

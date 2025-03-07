@@ -131,10 +131,7 @@ class App(pulumi.CustomResource):
                 raise TypeError("Missing required property 'org'")
             __props__.__dict__["org"] = org
             __props__.__dict__["input"] = None
-            __props__.__dict__["ipv6_address"] = None
-            __props__.__dict__["shared_ip_address"] = None
             __props__.__dict__["status"] = None
-            __props__.__dict__["url"] = None
         super(App, __self__).__init__(
             'flyio:index:App',
             resource_name,
@@ -159,13 +156,10 @@ class App(pulumi.CustomResource):
 
         __props__.__dict__["enable_subdomains"] = None
         __props__.__dict__["input"] = None
-        __props__.__dict__["ipv6_address"] = None
         __props__.__dict__["name"] = None
         __props__.__dict__["network"] = None
         __props__.__dict__["org"] = None
-        __props__.__dict__["shared_ip_address"] = None
         __props__.__dict__["status"] = None
-        __props__.__dict__["url"] = None
         return App(resource_name, opts=opts, __props__=__props__)
 
     @property
@@ -177,11 +171,6 @@ class App(pulumi.CustomResource):
     @pulumi.getter
     def input(self) -> pulumi.Output['outputs.AppArgs']:
         return pulumi.get(self, "input")
-
-    @property
-    @pulumi.getter(name="ipv6Address")
-    def ipv6_address(self) -> pulumi.Output[str]:
-        return pulumi.get(self, "ipv6_address")
 
     @property
     @pulumi.getter
@@ -199,17 +188,7 @@ class App(pulumi.CustomResource):
         return pulumi.get(self, "org")
 
     @property
-    @pulumi.getter(name="sharedIPAddress")
-    def shared_ip_address(self) -> pulumi.Output[str]:
-        return pulumi.get(self, "shared_ip_address")
-
-    @property
     @pulumi.getter
     def status(self) -> pulumi.Output[Optional[str]]:
         return pulumi.get(self, "status")
-
-    @property
-    @pulumi.getter
-    def url(self) -> pulumi.Output[str]:
-        return pulumi.get(self, "url")
 

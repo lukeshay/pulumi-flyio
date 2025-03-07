@@ -17,13 +17,10 @@ type App struct {
 
 	EnableSubdomains pulumi.BoolPtrOutput   `pulumi:"enableSubdomains"`
 	Input            AppArgsTypeOutput      `pulumi:"input"`
-	Ipv6Address      pulumi.StringOutput    `pulumi:"ipv6Address"`
 	Name             pulumi.StringOutput    `pulumi:"name"`
 	Network          pulumi.StringPtrOutput `pulumi:"network"`
 	Org              pulumi.StringOutput    `pulumi:"org"`
-	SharedIPAddress  pulumi.StringOutput    `pulumi:"sharedIPAddress"`
 	Status           pulumi.StringPtrOutput `pulumi:"status"`
-	Url              pulumi.StringOutput    `pulumi:"url"`
 }
 
 // NewApp registers a new resource with the given unique name, arguments, and options.
@@ -181,10 +178,6 @@ func (o AppOutput) Input() AppArgsTypeOutput {
 	return o.ApplyT(func(v *App) AppArgsTypeOutput { return v.Input }).(AppArgsTypeOutput)
 }
 
-func (o AppOutput) Ipv6Address() pulumi.StringOutput {
-	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Ipv6Address }).(pulumi.StringOutput)
-}
-
 func (o AppOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -197,16 +190,8 @@ func (o AppOutput) Org() pulumi.StringOutput {
 	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Org }).(pulumi.StringOutput)
 }
 
-func (o AppOutput) SharedIPAddress() pulumi.StringOutput {
-	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.SharedIPAddress }).(pulumi.StringOutput)
-}
-
 func (o AppOutput) Status() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *App) pulumi.StringPtrOutput { return v.Status }).(pulumi.StringPtrOutput)
-}
-
-func (o AppOutput) Url() pulumi.StringOutput {
-	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Url }).(pulumi.StringOutput)
 }
 
 type AppArrayOutput struct{ *pulumi.OutputState }
