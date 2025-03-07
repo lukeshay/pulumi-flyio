@@ -23,21 +23,12 @@ type SecretsArgs struct {
 }
 
 type SecretsState struct {
-	App        string   `json:"app" pulumi:"app"`
-	SecretKeys []string `pulumi:"secretKeys"`
-	Input      SecretsArgs
+	App    string            `json:"app" pulumi:"app"`
+	Values map[string]string `pulumi:"values" provider:"secret"`
 }
 
 func (Secrets) Create(ctx context.Context, name string, input SecretsArgs, preview bool) (string, SecretsState, error) {
-	state := SecretsState{
-		App:        input.App,
-		SecretKeys: make([]string, 0, len(input.Values)),
-		Input:      input,
-	}
-
-	for k := range input.Values {
-		state.SecretKeys = append(state.SecretKeys, k)
-	}
+	state := SecretsState(input)
 
 	if preview {
 		return name, state, nil
@@ -54,12 +45,7 @@ func (Secrets) Create(ctx context.Context, name string, input SecretsArgs, previ
 }
 
 func (Secrets) Update(ctx context.Context, name string, state SecretsState, input SecretsArgs, preview bool) (SecretsState, error) {
-	state.SecretKeys = make([]string, 0, len(input.Values))
-	state.Input = input
-
-	for k := range input.Values {
-		state.SecretKeys = append(state.SecretKeys, k)
-	}
+	state.Values = input.Values
 
 	if preview {
 		return state, nil
@@ -67,12 +53,32 @@ func (Secrets) Update(ctx context.Context, name string, state SecretsState, inpu
 
 	cfg := infer.GetConfig[Config](ctx)
 
+	unsetKeys := []string{}
+	for k := range state.Values {
+		if _, ok := input.Values[k]; !ok {
+			unsetKeys = append(unsetKeys, k)
+		}
+	}
+
 	_, err := cfg.flyClient.SetSecrets(ctx, input.App, input.Values)
+	if err != nil {
+		return state, err
+	}
+
+	_, err = cfg.flyClient.UnsetSecrets(ctx, input.App, unsetKeys)
 	return state, err
 }
 
 func (Secrets) Delete(ctx context.Context, reqID string, state SecretsState) error {
-	return nil
+	cfg := infer.GetConfig[Config](ctx)
+
+	secretKeys := make([]string, 0, len(state.Values))
+	for k := range state.Values {
+		secretKeys = append(secretKeys, k)
+	}
+
+	_, err := cfg.flyClient.UnsetSecrets(ctx, state.App, secretKeys)
+	return err
 }
 
 var secretsDiffProps = generateDiffResponseOpts{
@@ -81,5 +87,5 @@ var secretsDiffProps = generateDiffResponseOpts{
 }
 
 func (Secrets) Diff(ctx context.Context, id string, state SecretsState, input SecretsArgs) (p.DiffResponse, error) {
-	return generateDiffResponse(state.Input, input, secretsDiffProps)
+	return generateDiffResponse(state, input, secretsDiffProps)
 }
