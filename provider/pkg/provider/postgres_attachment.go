@@ -55,6 +55,9 @@ func (PostgresAttachment) Create(ctx context.Context, name string, input Postgre
 	}
 
 	attachments, err := cfg.flyClient.ListPostgresClusterAttachments(ctx, input.App, input.Postgres)
+	if err != nil {
+		return name, state, err
+	}
 
 	state.ConnectionString = attachment.ConnectionString
 	state.VariableName = attachment.EnvironmentVariableName
