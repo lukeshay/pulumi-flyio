@@ -42,17 +42,14 @@ type MachineState struct {
 }
 
 func (m Machine) Create(ctx context.Context, name string, input MachineArgs, preview bool) (string, MachineState, error) {
+	input.CreateMachineRequest.Name = nil
+
 	if preview {
 		return name, MachineState{
 			Input:              input,
 			App:                input.App,
 			DeploymentStrategy: input.DeploymentStrategy,
 		}, nil
-	}
-
-	if input.Name == nil {
-		name := fmt.Sprintf("%s-%s", name, randSeq(6))
-		input.Name = &name
 	}
 
 	machine, err := createMachine(ctx, input.App, input.CreateMachineRequest)
@@ -67,7 +64,7 @@ func (m Machine) Create(ctx context.Context, name string, input MachineArgs, pre
 		DeploymentStrategy: input.DeploymentStrategy,
 	}
 
-	return *state.Machine.Name, state, err
+	return *state.Name, state, err
 }
 
 func (m Machine) Delete(ctx context.Context, _id string, state MachineState) error {
@@ -79,7 +76,7 @@ func (m Machine) Read(ctx context.Context, id string, inputs MachineArgs, state 
 ) {
 	cfg := infer.GetConfig[Config](ctx)
 
-	res, err := cfg.flyioClient.MachinesShow(ctx, state.App, id)
+	res, err := cfg.flyioClient.MachinesShow(ctx, state.App, *state.Id)
 	if err != nil {
 		return id, inputs, state, err
 	}
@@ -99,6 +96,8 @@ func (m Machine) Read(ctx context.Context, id string, inputs MachineArgs, state 
 }
 
 func (c Machine) Update(ctx context.Context, id string, state MachineState, input MachineArgs, preview bool) (MachineState, error) {
+	input.Name = nil
+
 	if preview {
 		state.Input = input
 		return state, nil
@@ -107,9 +106,8 @@ func (c Machine) Update(ctx context.Context, id string, state MachineState, inpu
 	cfg := infer.GetConfig[Config](ctx)
 
 	if input.DeploymentStrategy == nil || *input.DeploymentStrategy == "immediate" {
-		res, err := cfg.flyioClient.MachinesUpdate(ctx, state.App, id, flyio.MachinesUpdateJSONRequestBody{
+		res, err := cfg.flyioClient.MachinesUpdate(ctx, state.App, *state.Id, flyio.MachinesUpdateJSONRequestBody{
 			Config:                  input.Config,
-			Name:                    input.Name,
 			SkipLaunch:              input.SkipLaunch,
 			Region:                  input.Region,
 			Lsvd:                    input.Lsvd,
@@ -131,31 +129,10 @@ func (c Machine) Update(ctx context.Context, id string, state MachineState, inpu
 
 		state.Machine = *result.JSON200
 	} else {
-		name := *state.Name
-
-		if input.CreateMachineRequest.Name == nil {
-			name = fmt.Sprintf("%s-%s", *state.Name, randSeq(6))
-		} else if *state.Name == *input.CreateMachineRequest.Name {
-			name = fmt.Sprintf("%s-%s", *input.CreateMachineRequest.Name, randSeq(6))
-		}
-
-		input.CreateMachineRequest.Name = &name
-
-		createRes, err := cfg.flyioClient.MachinesCreate(ctx, input.App, input.CreateMachineRequest)
+		newMachine, err := createMachine(ctx, input.App, input.CreateMachineRequest)
 		if err != nil {
 			return state, err
 		}
-
-		createResult, err := flyio.ParseMachinesCreateResponse(createRes)
-		if err != nil {
-			return state, err
-		}
-
-		if createResult.JSON200 == nil {
-			return state, fmt.Errorf("error creating new machine: %s", createResult.Body)
-		}
-
-		newMachine := createResult.JSON200
 
 		err = c.waitForState(ctx, state.App, newMachine, flyio.MachinesWaitParamsStateStarted)
 		if err != nil {
@@ -175,15 +152,14 @@ func (c Machine) Update(ctx context.Context, id string, state MachineState, inpu
 			return state, err
 		}
 
-		error := c.delete(ctx, state.App, *state.Id)
-		if error != nil {
-			return state, error
+		err = c.delete(ctx, state.App, *state.Id)
+		if err != nil {
+			return state, err
 		}
 
 		state.Machine = *newMachine
 	}
 	state.Input = input
-	state.DeploymentStrategy = input.DeploymentStrategy
 
 	return state, nil
 }
@@ -315,6 +291,7 @@ func (Machine) waitForChecks(ctx context.Context, app string, machine *flyio.Mac
 
 func createMachine(ctx context.Context, appName string, input flyio.CreateMachineRequest) (*flyio.Machine, error) {
 	cfg := infer.GetConfig[Config](ctx)
+	input.Name = nil
 
 	res, err := cfg.flyioClient.MachinesCreate(ctx, appName, input)
 	if err != nil {

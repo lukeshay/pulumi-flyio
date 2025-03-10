@@ -6,6 +6,7 @@ import (
 
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
+	"github.com/superfly/fly-go"
 )
 
 // TODO: Add annotations
@@ -70,34 +71,7 @@ func (Certificate) Create(ctx context.Context, name string, input CertificateArg
 	if err != nil {
 		return name, CertificateState{}, err
 	}
-
-	state := CertificateState{
-		Input:                     input,
-		App:                       input.App,
-		CreatedAt:                 certificate.CreatedAt,
-		ID:                        certificate.ID,
-		AcmeDNSConfigured:         certificate.AcmeDNSConfigured,
-		AcmeALPNConfigured:        certificate.AcmeALPNConfigured,
-		Configured:                certificate.Configured,
-		CertificateAuthority:      certificate.CertificateAuthority,
-		DNSProvider:               certificate.DNSProvider,
-		DNSValidationInstructions: certificate.DNSValidationInstructions,
-		DNSValidationHostname:     certificate.DNSValidationHostname,
-		DNSValidationTarget:       certificate.DNSValidationTarget,
-		Source:                    certificate.Source,
-		ClientStatus:              certificate.ClientStatus,
-		IsApex:                    certificate.IsApex,
-		IsWildcard:                certificate.IsWildcard,
-		Checks: CertificateStateChecks{
-			ARecords:              checks.ARecords,
-			AAAARecords:           checks.AAAARecords,
-			CNAMERecords:          checks.CNAMERecords,
-			SOA:                   checks.SOA,
-			DNSProvider:           checks.DNSProvider,
-			DNSVerificationRecord: checks.DNSVerificationRecord,
-			ResolvedAddresses:     checks.ResolvedAddresses,
-		},
-	}
+	state := buildCerticateState(input, certificate, checks)
 
 	return name, state, nil
 }
@@ -107,14 +81,40 @@ func (Certificate) Read(ctx context.Context, id string, input CertificateArgs, s
 ) {
 	cfg := infer.GetConfig[Config](ctx)
 
-	certificate, checks, err := cfg.flyClient.CheckAppCertificate(ctx, state.App, state.Hostname)
+	certificate, checks, err := cfg.flyClient.CheckAppCertificate(ctx, state.Input.App, state.Input.Hostname)
 	if err != nil {
 		return id, input, state, err
 	}
 
-	state = CertificateState{
+	state = buildCerticateState(input, certificate, checks)
+
+	return id, input, state, nil
+}
+
+func (Certificate) Delete(ctx context.Context, reqID string, state CertificateState) error {
+	cfg := infer.GetConfig[Config](ctx)
+
+	p.GetLogger(ctx).Infof("Deleting Certificate %s from %s", state.Hostname, state.App)
+
+	_, err := cfg.flyClient.DeleteCertificate(ctx, state.Input.App, state.Input.Hostname)
+
+	return err
+}
+
+var certificateDiffOpts = generateDiffResponseOpts{
+	ReplaceProps:             []string{},
+	DeleteBeforeReplaceProps: []string{"App", "Hostname"},
+}
+
+func (Certificate) Diff(ctx context.Context, id string, state CertificateState, input CertificateArgs) (p.DiffResponse, error) {
+	return generateDiffResponse(state.Input, input, certificateDiffOpts)
+}
+
+func buildCerticateState(input CertificateArgs, certificate *fly.AppCertificate, checks *fly.HostnameCheck) CertificateState {
+	return CertificateState{
 		Input:                     input,
 		App:                       input.App,
+		Hostname:                  input.Hostname,
 		CreatedAt:                 certificate.CreatedAt,
 		ID:                        certificate.ID,
 		AcmeDNSConfigured:         certificate.AcmeDNSConfigured,
@@ -139,25 +139,4 @@ func (Certificate) Read(ctx context.Context, id string, input CertificateArgs, s
 			ResolvedAddresses:     checks.ResolvedAddresses,
 		},
 	}
-
-	return id, input, state, nil
-}
-
-// func (Certificate) Delete(ctx context.Context, reqID string, state CertificateState) error {
-// 	cfg := infer.GetConfig[Config](ctx)
-//
-// 	p.GetLogger(ctx).Infof("Deleting Certificate %s from %s", state.Hostname, state.App)
-//
-// 	_, err := cfg.flyClient.DeleteCertificate(ctx, state.App, state.Hostname)
-//
-// 	return err
-// }
-
-var certificateDiffOpts = generateDiffResponseOpts{
-	ReplaceProps:             []string{"App", "Hostname"},
-	DeleteBeforeReplaceProps: []string{},
-}
-
-func (Certificate) Diff(ctx context.Context, id string, state CertificateState, input CertificateArgs) (p.DiffResponse, error) {
-	return generateDiffResponse(state.Input, input, certificateDiffOpts)
 }

@@ -142,6 +142,14 @@ up::
 	pulumi config set name dev && \
 	pulumi up -y
 
+refresh::
+	$(call pulumi_login) \
+	cd ${EXAMPLES_DIR} && \
+	pulumi stack init dev || true && \
+	pulumi stack select dev && \
+	pulumi config set name dev && \
+	pulumi refresh -y
+
 down::
 	$(call pulumi_login) \
 	cd ${EXAMPLES_DIR} && \
