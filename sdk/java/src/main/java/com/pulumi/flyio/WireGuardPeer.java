@@ -14,59 +14,135 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io WireGuard peer for private network connectivity.
+ * 
+ */
 @ResourceType(type="flyio:index:WireGuardPeer")
 public class WireGuardPeer extends com.pulumi.resources.CustomResource {
+    /**
+     * The endpoint IP address for the WireGuard peer.
+     * 
+     */
     @Export(name="endpointIp", refs={String.class}, tree="[0]")
     private Output<String> endpointIp;
 
+    /**
+     * @return The endpoint IP address for the WireGuard peer.
+     * 
+     */
     public Output<String> endpointIp() {
         return this.endpointIp;
     }
+    /**
+     * The name of the WireGuard peer.
+     * 
+     */
     @Export(name="name", refs={String.class}, tree="[0]")
     private Output<String> name;
 
+    /**
+     * @return The name of the WireGuard peer.
+     * 
+     */
     public Output<String> name() {
         return this.name;
     }
+    /**
+     * The network the WireGuard peer belongs to.
+     * 
+     */
     @Export(name="network", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> network;
 
+    /**
+     * @return The network the WireGuard peer belongs to.
+     * 
+     */
     public Output<Optional<String>> network() {
         return Codegen.optional(this.network);
     }
+    /**
+     * The organization the WireGuard peer belongs to.
+     * 
+     */
     @Export(name="org", refs={String.class}, tree="[0]")
     private Output<String> org;
 
+    /**
+     * @return The organization the WireGuard peer belongs to.
+     * 
+     */
     public Output<String> org() {
         return this.org;
     }
+    /**
+     * The IP address assigned to the WireGuard peer.
+     * 
+     */
     @Export(name="peerIp", refs={String.class}, tree="[0]")
     private Output<String> peerIp;
 
+    /**
+     * @return The IP address assigned to the WireGuard peer.
+     * 
+     */
     public Output<String> peerIp() {
         return this.peerIp;
     }
+    /**
+     * The private key of the WireGuard peer.
+     * 
+     */
     @Export(name="privateKey", refs={String.class}, tree="[0]")
     private Output<String> privateKey;
 
+    /**
+     * @return The private key of the WireGuard peer.
+     * 
+     */
     public Output<String> privateKey() {
         return this.privateKey;
     }
+    /**
+     * The public key of the WireGuard peer.
+     * 
+     */
     @Export(name="publicKey", refs={String.class}, tree="[0]")
     private Output<String> publicKey;
 
+    /**
+     * @return The public key of the WireGuard peer.
+     * 
+     */
     public Output<String> publicKey() {
         return this.publicKey;
     }
+    /**
+     * The region the WireGuard peer is in.
+     * 
+     */
     @Export(name="region", refs={String.class}, tree="[0]")
     private Output<String> region;
 
+    /**
+     * @return The region the WireGuard peer is in.
+     * 
+     */
     public Output<String> region() {
         return this.region;
     }
+    /**
+     * The WireGuard configuration for the peer.
+     * 
+     */
     @Export(name="wireguardConfig", refs={String.class}, tree="[0]")
     private Output<String> wireguardConfig;
 
+    /**
+     * @return The WireGuard configuration for the peer.
+     * 
+     */
     public Output<String> wireguardConfig() {
         return this.wireguardConfig;
     }

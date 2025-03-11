@@ -8,8 +8,13 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type IP struct{}
+
+var _ infer.Annotated = (*IP)(nil)
+
+func (i *IP) Annotate(anno infer.Annotator) {
+	anno.Describe(&i, "A Fly.io IP address allocation for an application.")
+}
 
 var (
 	_ infer.CustomResource[IPArgs, IPState] = (*IP)(nil)
@@ -23,9 +28,25 @@ type IPArgs struct {
 	Network  *string `json:"network,omitempty" pulumi:"network,optional"`
 }
 
+var _ infer.Annotated = (*IPArgs)(nil)
+
+func (a *IPArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.App, "The name of the Fly.io application to allocate the IP address for.")
+	anno.Describe(&a.AddrType, "The type of IP address (v4 or v6).")
+	anno.Describe(&a.Region, "The region to allocate the IP address in.")
+	anno.Describe(&a.Network, "The network to allocate the IP address in.")
+}
+
 type IPStateNetwork struct {
 	Name         string `json:"name" pulumi:"name"`
 	Organization string `json:"organization" pulumi:"organization"`
+}
+
+var _ infer.Annotated = (*IPStateNetwork)(nil)
+
+func (n *IPStateNetwork) Annotate(anno infer.Annotator) {
+	anno.Describe(&n.Name, "The name of the network.")
+	anno.Describe(&n.Organization, "The organization the network belongs to.")
 }
 
 type IPState struct {
@@ -37,6 +58,19 @@ type IPState struct {
 	CreatedAt time.Time `json:"createdAt" pulumi:"createdAt"`
 	App       string    `json:"app" pulumi:"app"`
 	Network   *string   `json:"network,omitempty" pulumi:"network,optional"`
+}
+
+var _ infer.Annotated = (*IPState)(nil)
+
+func (s *IPState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Input, "The input arguments used to allocate the IP address.")
+	anno.Describe(&s.FlyID, "The Fly.io IP address ID.")
+	anno.Describe(&s.Address, "The allocated IP address.")
+	anno.Describe(&s.Type, "The type of IP address (v4 or v6).")
+	anno.Describe(&s.Region, "The region the IP address is allocated in.")
+	anno.Describe(&s.CreatedAt, "When the IP address was allocated.")
+	anno.Describe(&s.App, "The application the IP address is allocated for.")
+	anno.Describe(&s.Network, "The network the IP address belongs to.")
 }
 
 func (IP) Create(ctx context.Context, name string, input IPArgs, preview bool) (string, IPState, error) {

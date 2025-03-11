@@ -6,6 +6,9 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io volume provides persistent storage for your applications.
+ */
 export class Volume extends pulumi.CustomResource {
     /**
      * Get an existing Volume resource's state with the given name, ID, and optional extra
@@ -33,6 +36,9 @@ export class Volume extends pulumi.CustomResource {
         return obj['__pulumiType'] === Volume.__pulumiType;
     }
 
+    /**
+     * The Fly.io application the volume is attached to.
+     */
     public readonly app!: pulumi.Output<string>;
     public /*out*/ readonly attachedAllocId!: pulumi.Output<string | undefined>;
     public /*out*/ readonly attachedMachineId!: pulumi.Output<string | undefined>;
@@ -46,6 +52,9 @@ export class Volume extends pulumi.CustomResource {
     public /*out*/ readonly flyId!: pulumi.Output<string>;
     public readonly fstype!: pulumi.Output<string | undefined>;
     public /*out*/ readonly hostStatus!: pulumi.Output<string | undefined>;
+    /**
+     * The input arguments used to create the volume.
+     */
     public /*out*/ readonly input!: pulumi.Output<outputs.VolumeArgs>;
     public readonly name!: pulumi.Output<string | undefined>;
     public readonly region!: pulumi.Output<string | undefined>;
@@ -125,7 +134,13 @@ export class Volume extends pulumi.CustomResource {
  * The set of arguments for constructing a Volume resource.
  */
 export interface VolumeArgs {
+    /**
+     * The Fly.io application to attach the volume to.
+     */
     app: pulumi.Input<string>;
+    /**
+     * Whether to enable automatic backups for the volume.
+     */
     autoBackupEnabled?: pulumi.Input<boolean>;
     compute?: pulumi.Input<inputs.flyio.FlyMachineGuestArgs>;
     computeImage?: pulumi.Input<string>;

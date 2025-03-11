@@ -14,16 +14,32 @@ public final class CertificateArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final CertificateArgs Empty = new CertificateArgs();
 
+    /**
+     * The name of the Fly app to add the certificate to.
+     * 
+     */
     @Import(name="app", required=true)
     private Output<String> app;
 
+    /**
+     * @return The name of the Fly app to add the certificate to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
 
+    /**
+     * The hostname for the certificate (e.g., example.com).
+     * 
+     */
     @Import(name="hostname", required=true)
     private Output<String> hostname;
 
+    /**
+     * @return The hostname for the certificate (e.g., example.com).
+     * 
+     */
     public Output<String> hostname() {
         return this.hostname;
     }
@@ -53,20 +69,44 @@ public final class CertificateArgs extends com.pulumi.resources.ResourceArgs {
             $ = new CertificateArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param app The name of the Fly app to add the certificate to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(Output<String> app) {
             $.app = app;
             return this;
         }
 
+        /**
+         * @param app The name of the Fly app to add the certificate to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(String app) {
             return app(Output.of(app));
         }
 
+        /**
+         * @param hostname The hostname for the certificate (e.g., example.com).
+         * 
+         * @return builder
+         * 
+         */
         public Builder hostname(Output<String> hostname) {
             $.hostname = hostname;
             return this;
         }
 
+        /**
+         * @param hostname The hostname for the certificate (e.g., example.com).
+         * 
+         * @return builder
+         * 
+         */
         public Builder hostname(String hostname) {
             return hostname(Output.of(hostname));
         }

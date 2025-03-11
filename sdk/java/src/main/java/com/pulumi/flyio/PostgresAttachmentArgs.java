@@ -17,44 +17,92 @@ public final class PostgresAttachmentArgs extends com.pulumi.resources.ResourceA
 
     public static final PostgresAttachmentArgs Empty = new PostgresAttachmentArgs();
 
+    /**
+     * The application to attach the Postgres database to.
+     * 
+     */
     @Import(name="app", required=true)
     private Output<String> app;
 
+    /**
+     * @return The application to attach the Postgres database to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
 
+    /**
+     * The name of the database to use.
+     * 
+     */
     @Import(name="databaseName")
     private @Nullable Output<String> databaseName;
 
+    /**
+     * @return The name of the database to use.
+     * 
+     */
     public Optional<Output<String>> databaseName() {
         return Optional.ofNullable(this.databaseName);
     }
 
+    /**
+     * The database user to connect as.
+     * 
+     */
     @Import(name="databaseUser")
     private @Nullable Output<String> databaseUser;
 
+    /**
+     * @return The database user to connect as.
+     * 
+     */
     public Optional<Output<String>> databaseUser() {
         return Optional.ofNullable(this.databaseUser);
     }
 
+    /**
+     * Whether to manually enter the connection details.
+     * 
+     */
     @Import(name="manualEntry")
     private @Nullable Output<Boolean> manualEntry;
 
+    /**
+     * @return Whether to manually enter the connection details.
+     * 
+     */
     public Optional<Output<Boolean>> manualEntry() {
         return Optional.ofNullable(this.manualEntry);
     }
 
+    /**
+     * The Postgres cluster to attach.
+     * 
+     */
     @Import(name="postgres", required=true)
     private Output<String> postgres;
 
+    /**
+     * @return The Postgres cluster to attach.
+     * 
+     */
     public Output<String> postgres() {
         return this.postgres;
     }
 
+    /**
+     * The environment variable name to store the connection string.
+     * 
+     */
     @Import(name="variableName")
     private @Nullable Output<String> variableName;
 
+    /**
+     * @return The environment variable name to store the connection string.
+     * 
+     */
     public Optional<Output<String>> variableName() {
         return Optional.ofNullable(this.variableName);
     }
@@ -88,56 +136,128 @@ public final class PostgresAttachmentArgs extends com.pulumi.resources.ResourceA
             $ = new PostgresAttachmentArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param app The application to attach the Postgres database to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(Output<String> app) {
             $.app = app;
             return this;
         }
 
+        /**
+         * @param app The application to attach the Postgres database to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(String app) {
             return app(Output.of(app));
         }
 
+        /**
+         * @param databaseName The name of the database to use.
+         * 
+         * @return builder
+         * 
+         */
         public Builder databaseName(@Nullable Output<String> databaseName) {
             $.databaseName = databaseName;
             return this;
         }
 
+        /**
+         * @param databaseName The name of the database to use.
+         * 
+         * @return builder
+         * 
+         */
         public Builder databaseName(String databaseName) {
             return databaseName(Output.of(databaseName));
         }
 
+        /**
+         * @param databaseUser The database user to connect as.
+         * 
+         * @return builder
+         * 
+         */
         public Builder databaseUser(@Nullable Output<String> databaseUser) {
             $.databaseUser = databaseUser;
             return this;
         }
 
+        /**
+         * @param databaseUser The database user to connect as.
+         * 
+         * @return builder
+         * 
+         */
         public Builder databaseUser(String databaseUser) {
             return databaseUser(Output.of(databaseUser));
         }
 
+        /**
+         * @param manualEntry Whether to manually enter the connection details.
+         * 
+         * @return builder
+         * 
+         */
         public Builder manualEntry(@Nullable Output<Boolean> manualEntry) {
             $.manualEntry = manualEntry;
             return this;
         }
 
+        /**
+         * @param manualEntry Whether to manually enter the connection details.
+         * 
+         * @return builder
+         * 
+         */
         public Builder manualEntry(Boolean manualEntry) {
             return manualEntry(Output.of(manualEntry));
         }
 
+        /**
+         * @param postgres The Postgres cluster to attach.
+         * 
+         * @return builder
+         * 
+         */
         public Builder postgres(Output<String> postgres) {
             $.postgres = postgres;
             return this;
         }
 
+        /**
+         * @param postgres The Postgres cluster to attach.
+         * 
+         * @return builder
+         * 
+         */
         public Builder postgres(String postgres) {
             return postgres(Output.of(postgres));
         }
 
+        /**
+         * @param variableName The environment variable name to store the connection string.
+         * 
+         * @return builder
+         * 
+         */
         public Builder variableName(@Nullable Output<String> variableName) {
             $.variableName = variableName;
             return this;
         }
 
+        /**
+         * @param variableName The environment variable name to store the connection string.
+         * 
+         * @return builder
+         * 
+         */
         public Builder variableName(String variableName) {
             return variableName(Output.of(variableName));
         }

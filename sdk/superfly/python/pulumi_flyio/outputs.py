@@ -18,7 +18,7 @@ from . import flyio as _flyio
 __all__ = [
     'AppArgs',
     'CertificateArgs',
-    'CertificateStateChecks',
+    'CertificateIssuanceWaiterArgs',
     'IPArgs',
     'MachineArgs',
     'VolumeArgs',
@@ -48,6 +48,12 @@ class AppArgs(dict):
                  org: str,
                  enable_subdomains: Optional[bool] = None,
                  network: Optional[str] = None):
+        """
+        :param str name: The name of the Fly.io application.
+        :param str org: The organization the application belongs to.
+        :param bool enable_subdomains: Whether to enable subdomains for the application.
+        :param str network: The network the application belongs to.
+        """
         pulumi.set(__self__, "name", name)
         pulumi.set(__self__, "org", org)
         if enable_subdomains is not None:
@@ -58,21 +64,33 @@ class AppArgs(dict):
     @property
     @pulumi.getter
     def name(self) -> str:
+        """
+        The name of the Fly.io application.
+        """
         return pulumi.get(self, "name")
 
     @property
     @pulumi.getter
     def org(self) -> str:
+        """
+        The organization the application belongs to.
+        """
         return pulumi.get(self, "org")
 
     @property
     @pulumi.getter(name="enableSubdomains")
     def enable_subdomains(self) -> Optional[bool]:
+        """
+        Whether to enable subdomains for the application.
+        """
         return pulumi.get(self, "enable_subdomains")
 
     @property
     @pulumi.getter
     def network(self) -> Optional[str]:
+        """
+        The network the application belongs to.
+        """
         return pulumi.get(self, "network")
 
 
@@ -81,99 +99,68 @@ class CertificateArgs(dict):
     def __init__(__self__, *,
                  app: str,
                  hostname: str):
+        """
+        :param str app: The name of the Fly app to add the certificate to.
+        :param str hostname: The hostname for the certificate (e.g., example.com).
+        """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "hostname", hostname)
 
     @property
     @pulumi.getter
     def app(self) -> str:
+        """
+        The name of the Fly app to add the certificate to.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter
     def hostname(self) -> str:
+        """
+        The hostname for the certificate (e.g., example.com).
+        """
         return pulumi.get(self, "hostname")
 
 
 @pulumi.output_type
-class CertificateStateChecks(dict):
-    @staticmethod
-    def __key_warning(key: str):
-        suggest = None
-        if key == "aRecords":
-            suggest = "a_records"
-        elif key == "aaaaRecords":
-            suggest = "aaaa_records"
-        elif key == "cnameRecords":
-            suggest = "cname_records"
-        elif key == "dnsProvider":
-            suggest = "dns_provider"
-        elif key == "dnsVerificationRecord":
-            suggest = "dns_verification_record"
-        elif key == "resolvedAddresses":
-            suggest = "resolved_addresses"
-
-        if suggest:
-            pulumi.log.warn(f"Key '{key}' not found in CertificateStateChecks. Access the value via the '{suggest}' property getter instead.")
-
-    def __getitem__(self, key: str) -> Any:
-        CertificateStateChecks.__key_warning(key)
-        return super().__getitem__(key)
-
-    def get(self, key: str, default = None) -> Any:
-        CertificateStateChecks.__key_warning(key)
-        return super().get(key, default)
-
+class CertificateIssuanceWaiterArgs(dict):
     def __init__(__self__, *,
-                 a_records: Sequence[str],
-                 aaaa_records: Sequence[str],
-                 cname_records: Sequence[str],
-                 dns_provider: str,
-                 dns_verification_record: str,
-                 resolved_addresses: Sequence[str],
-                 soa: str):
-        pulumi.set(__self__, "a_records", a_records)
-        pulumi.set(__self__, "aaaa_records", aaaa_records)
-        pulumi.set(__self__, "cname_records", cname_records)
-        pulumi.set(__self__, "dns_provider", dns_provider)
-        pulumi.set(__self__, "dns_verification_record", dns_verification_record)
-        pulumi.set(__self__, "resolved_addresses", resolved_addresses)
-        pulumi.set(__self__, "soa", soa)
-
-    @property
-    @pulumi.getter(name="aRecords")
-    def a_records(self) -> Sequence[str]:
-        return pulumi.get(self, "a_records")
-
-    @property
-    @pulumi.getter(name="aaaaRecords")
-    def aaaa_records(self) -> Sequence[str]:
-        return pulumi.get(self, "aaaa_records")
-
-    @property
-    @pulumi.getter(name="cnameRecords")
-    def cname_records(self) -> Sequence[str]:
-        return pulumi.get(self, "cname_records")
-
-    @property
-    @pulumi.getter(name="dnsProvider")
-    def dns_provider(self) -> str:
-        return pulumi.get(self, "dns_provider")
-
-    @property
-    @pulumi.getter(name="dnsVerificationRecord")
-    def dns_verification_record(self) -> str:
-        return pulumi.get(self, "dns_verification_record")
-
-    @property
-    @pulumi.getter(name="resolvedAddresses")
-    def resolved_addresses(self) -> Sequence[str]:
-        return pulumi.get(self, "resolved_addresses")
+                 app: str,
+                 hostname: str,
+                 timeout: int):
+        """
+        :param str app: The name of the Fly app that the certificate is associated with.
+        :param str hostname: The hostname for the certificate (e.g., example.com).
+        :param int timeout: The maximum time to wait for the certificate to be fully issued (in seconds).
+        """
+        pulumi.set(__self__, "app", app)
+        pulumi.set(__self__, "hostname", hostname)
+        pulumi.set(__self__, "timeout", timeout)
 
     @property
     @pulumi.getter
-    def soa(self) -> str:
-        return pulumi.get(self, "soa")
+    def app(self) -> str:
+        """
+        The name of the Fly app that the certificate is associated with.
+        """
+        return pulumi.get(self, "app")
+
+    @property
+    @pulumi.getter
+    def hostname(self) -> str:
+        """
+        The hostname for the certificate (e.g., example.com).
+        """
+        return pulumi.get(self, "hostname")
+
+    @property
+    @pulumi.getter
+    def timeout(self) -> int:
+        """
+        The maximum time to wait for the certificate to be fully issued (in seconds).
+        """
+        return pulumi.get(self, "timeout")
 
 
 @pulumi.output_type
@@ -200,6 +187,12 @@ class IPArgs(dict):
                  app: str,
                  region: str,
                  network: Optional[str] = None):
+        """
+        :param str addr_type: The type of IP address (v4 or v6).
+        :param str app: The name of the Fly.io application to allocate the IP address for.
+        :param str region: The region to allocate the IP address in.
+        :param str network: The network to allocate the IP address in.
+        """
         pulumi.set(__self__, "addr_type", addr_type)
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "region", region)
@@ -209,21 +202,33 @@ class IPArgs(dict):
     @property
     @pulumi.getter(name="addrType")
     def addr_type(self) -> str:
+        """
+        The type of IP address (v4 or v6).
+        """
         return pulumi.get(self, "addr_type")
 
     @property
     @pulumi.getter
     def app(self) -> str:
+        """
+        The name of the Fly.io application to allocate the IP address for.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter
     def region(self) -> str:
+        """
+        The region to allocate the IP address in.
+        """
         return pulumi.get(self, "region")
 
     @property
     @pulumi.getter
     def network(self) -> Optional[str]:
+        """
+        The network to allocate the IP address in.
+        """
         return pulumi.get(self, "network")
 
 
@@ -262,6 +267,10 @@ class MachineArgs(dict):
                  region: Optional[str] = None,
                  skip_launch: Optional[bool] = None,
                  skip_service_registration: Optional[bool] = None):
+        """
+        :param str app: The Fly.io application to deploy the machine to.
+        :param str deployment_strategy: The deployment strategy for the machine.
+        """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "config", config)
         if deployment_strategy is not None:
@@ -282,6 +291,9 @@ class MachineArgs(dict):
     @property
     @pulumi.getter
     def app(self) -> str:
+        """
+        The Fly.io application to deploy the machine to.
+        """
         return pulumi.get(self, "app")
 
     @property
@@ -292,6 +304,9 @@ class MachineArgs(dict):
     @property
     @pulumi.getter(name="deploymentStrategy")
     def deployment_strategy(self) -> Optional[str]:
+        """
+        The deployment strategy for the machine.
+        """
         return pulumi.get(self, "deployment_strategy")
 
     @property
@@ -373,6 +388,10 @@ class VolumeArgs(dict):
                  snapshot_retention: Optional[int] = None,
                  source_volume_id: Optional[str] = None,
                  unique_zone_app_wide: Optional[bool] = None):
+        """
+        :param str app: The Fly.io application to attach the volume to.
+        :param bool auto_backup_enabled: Whether to enable automatic backups for the volume.
+        """
         pulumi.set(__self__, "app", app)
         if auto_backup_enabled is not None:
             pulumi.set(__self__, "auto_backup_enabled", auto_backup_enabled)
@@ -404,11 +423,17 @@ class VolumeArgs(dict):
     @property
     @pulumi.getter
     def app(self) -> str:
+        """
+        The Fly.io application to attach the volume to.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter(name="autoBackupEnabled")
     def auto_backup_enabled(self) -> Optional[bool]:
+        """
+        Whether to enable automatic backups for the volume.
+        """
         return pulumi.get(self, "auto_backup_enabled")
 
     @property

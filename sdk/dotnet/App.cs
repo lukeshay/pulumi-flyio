@@ -10,24 +10,45 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io application.
+    /// </summary>
     [FlyioResourceType("flyio:index:App")]
     public partial class App : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// Whether subdomains are enabled for the application.
+        /// </summary>
         [Output("enableSubdomains")]
         public Output<bool?> EnableSubdomains { get; private set; } = null!;
 
+        /// <summary>
+        /// The input arguments used to create the application.
+        /// </summary>
         [Output("input")]
         public Output<Outputs.AppArgs> Input { get; private set; } = null!;
 
+        /// <summary>
+        /// The name of the Fly.io application.
+        /// </summary>
         [Output("name")]
         public Output<string> Name { get; private set; } = null!;
 
+        /// <summary>
+        /// The network the application belongs to.
+        /// </summary>
         [Output("network")]
         public Output<string?> Network { get; private set; } = null!;
 
+        /// <summary>
+        /// The organization the application belongs to.
+        /// </summary>
         [Output("org")]
         public Output<string> Org { get; private set; } = null!;
 
+        /// <summary>
+        /// The current status of the application.
+        /// </summary>
         [Output("status")]
         public Output<string?> Status { get; private set; } = null!;
 
@@ -77,15 +98,27 @@ namespace PulumiFlyio.Flyio
 
     public sealed class AppArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// Whether to enable subdomains for the application.
+        /// </summary>
         [Input("enableSubdomains")]
         public Input<bool>? EnableSubdomains { get; set; }
 
+        /// <summary>
+        /// The name of the Fly.io application.
+        /// </summary>
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
+        /// <summary>
+        /// The network the application belongs to.
+        /// </summary>
         [Input("network")]
         public Input<string>? Network { get; set; }
 
+        /// <summary>
+        /// The organization the application belongs to.
+        /// </summary>
         [Input("org", required: true)]
         public Input<string> Org { get; set; } = null!;
 

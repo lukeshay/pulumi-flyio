@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * Manages application secrets for a Fly.io application.
+ */
 export class Secrets extends pulumi.CustomResource {
     /**
      * Get an existing Secrets resource's state with the given name, ID, and optional extra
@@ -31,7 +34,13 @@ export class Secrets extends pulumi.CustomResource {
         return obj['__pulumiType'] === Secrets.__pulumiType;
     }
 
+    /**
+     * The Fly.io application the secrets are set for.
+     */
     public readonly app!: pulumi.Output<string>;
+    /**
+     * The secret values, as key-value pairs.
+     */
     public readonly values!: pulumi.Output<{[key: string]: string}>;
 
     /**
@@ -68,6 +77,12 @@ export class Secrets extends pulumi.CustomResource {
  * The set of arguments for constructing a Secrets resource.
  */
 export interface SecretsArgs {
+    /**
+     * The Fly.io application to set secrets for.
+     */
     app: pulumi.Input<string>;
+    /**
+     * The secret values to set, as key-value pairs.
+     */
     values: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
 }

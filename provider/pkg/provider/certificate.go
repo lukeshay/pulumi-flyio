@@ -9,8 +9,13 @@ import (
 	"github.com/superfly/fly-go"
 )
 
-// TODO: Add annotations
 type Certificate struct{}
+
+var _ infer.Annotated = (*Certificate)(nil)
+
+func (c *Certificate) Annotate(a infer.Annotator) {
+	a.Describe(&c, "A Fly.io SSL/TLS certificate for an app's domain.")
+}
 
 var (
 	_ infer.CustomResource[CertificateArgs, CertificateState] = (*Certificate)(nil)
@@ -22,35 +27,53 @@ type CertificateArgs struct {
 	Hostname string `json:"hostname" pulumi:"hostname"`
 }
 
-type CertificateStateChecks struct {
-	ARecords              []string `json:"aRecords" pulumi:"aRecords"`
-	AAAARecords           []string `json:"aaaaRecords" pulumi:"aaaaRecords"`
-	CNAMERecords          []string `json:"cnameRecords" pulumi:"cnameRecords"`
-	SOA                   string   `json:"soa" pulumi:"soa"`
-	DNSProvider           string   `json:"dnsProvider" pulumi:"dnsProvider"`
-	DNSVerificationRecord string   `json:"dnsVerificationRecord" pulumi:"dnsVerificationRecord"`
-	ResolvedAddresses     []string `json:"resolvedAddresses" pulumi:"resolvedAddresses"`
+var _ infer.Annotated = (*CertificateArgs)(nil)
+
+func (a *CertificateArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.App, "The name of the Fly app to add the certificate to.")
+	anno.Describe(&a.Hostname, "The hostname for the certificate (e.g., example.com).")
 }
 
 type CertificateState struct {
-	Input                     CertificateArgs        `pulumi:"input"`
-	App                       string                 `json:"app" pulumi:"app"`
-	Hostname                  string                 `json:"hostname" pulumi:"hostname"`
-	CreatedAt                 time.Time              `json:"createdAt" pulumi:"createdAt"`
-	ID                        string                 `json:"flyId" pulumi:"flyId"`
-	AcmeDNSConfigured         bool                   `json:"acmeDnsConfigured" pulumi:"acmeDnsConfigured"`
-	AcmeALPNConfigured        bool                   `json:"acmeAlpnConfigured" pulumi:"acmeAlpnConfigured"`
-	Configured                bool                   `json:"configured" pulumi:"configured"`
-	CertificateAuthority      string                 `json:"certificateAuthority" pulumi:"certificateAuthority"`
-	DNSProvider               string                 `json:"dnsProvider" pulumi:"dnsProvider"`
-	DNSValidationInstructions string                 `json:"dnsValidationInstructions" pulumi:"dnsValidationInstructions"`
-	DNSValidationHostname     string                 `json:"dnsValidationHostname" pulumi:"dnsValidationHostname"`
-	DNSValidationTarget       string                 `json:"dnsValidationTarget" pulumi:"dnsValidationTarget"`
-	Source                    string                 `json:"source" pulumi:"source"`
-	ClientStatus              string                 `json:"clientStatus" pulumi:"clientStatus"`
-	IsApex                    bool                   `json:"isApex" pulumi:"isApex"`
-	IsWildcard                bool                   `json:"isWildcard" pulumi:"isWildcard"`
-	Checks                    CertificateStateChecks `json:"checks" pulumi:"checks"`
+	Input                     CertificateArgs `pulumi:"input"`
+	App                       string          `json:"app" pulumi:"app"`
+	Hostname                  string          `json:"hostname" pulumi:"hostname"`
+	CreatedAt                 time.Time       `json:"createdAt" pulumi:"createdAt"`
+	ID                        string          `json:"flyId" pulumi:"flyId"`
+	AcmeDNSConfigured         bool            `json:"acmeDnsConfigured" pulumi:"acmeDnsConfigured"`
+	AcmeALPNConfigured        bool            `json:"acmeAlpnConfigured" pulumi:"acmeAlpnConfigured"`
+	Configured                bool            `json:"configured" pulumi:"configured"`
+	CertificateAuthority      string          `json:"certificateAuthority" pulumi:"certificateAuthority"`
+	DNSProvider               string          `json:"dnsProvider" pulumi:"dnsProvider"`
+	DNSValidationInstructions string          `json:"dnsValidationInstructions" pulumi:"dnsValidationInstructions"`
+	DNSValidationHostname     string          `json:"dnsValidationHostname" pulumi:"dnsValidationHostname"`
+	DNSValidationTarget       string          `json:"dnsValidationTarget" pulumi:"dnsValidationTarget"`
+	Source                    string          `json:"source" pulumi:"source"`
+	ClientStatus              string          `json:"clientStatus" pulumi:"clientStatus"`
+	IsApex                    bool            `json:"isApex" pulumi:"isApex"`
+	IsWildcard                bool            `json:"isWildcard" pulumi:"isWildcard"`
+}
+
+var _ infer.Annotated = (*CertificateState)(nil)
+
+func (s *CertificateState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Input, "The input arguments used to create the certificate.")
+	anno.Describe(&s.App, "The name of the Fly app.")
+	anno.Describe(&s.Hostname, "The hostname for the certificate.")
+	anno.Describe(&s.CreatedAt, "When the certificate was created.")
+	anno.Describe(&s.ID, "The Fly.io certificate ID.")
+	anno.Describe(&s.AcmeDNSConfigured, "Whether ACME DNS verification is configured.")
+	anno.Describe(&s.AcmeALPNConfigured, "Whether ACME ALPN verification is configured.")
+	anno.Describe(&s.Configured, "Whether the certificate is fully configured.")
+	anno.Describe(&s.CertificateAuthority, "The certificate authority used.")
+	anno.Describe(&s.DNSProvider, "The DNS provider for the hostname.")
+	anno.Describe(&s.DNSValidationInstructions, "Instructions for DNS validation.")
+	anno.Describe(&s.DNSValidationHostname, "Hostname for DNS validation.")
+	anno.Describe(&s.DNSValidationTarget, "Target for DNS validation.")
+	anno.Describe(&s.Source, "The source of the certificate.")
+	anno.Describe(&s.ClientStatus, "The status of the certificate.")
+	anno.Describe(&s.IsApex, "Whether the hostname is an apex domain.")
+	anno.Describe(&s.IsWildcard, "Whether the certificate is a wildcard certificate.")
 }
 
 func (Certificate) Create(ctx context.Context, name string, input CertificateArgs, preview bool) (string, CertificateState, error) {
@@ -67,12 +90,13 @@ func (Certificate) Create(ctx context.Context, name string, input CertificateArg
 
 	cfg := infer.GetConfig[Config](ctx)
 
-	certificate, checks, err := cfg.flyClient.AddCertificate(ctx, input.App, input.Hostname)
+	certificate, _, err := cfg.flyClient.AddCertificate(ctx, input.App, input.Hostname)
 	if err != nil {
 		return name, CertificateState{}, err
 	}
-	state := buildCerticateState(input, certificate, checks)
 
+	p.GetLogger(ctx).Infof("certificate created for %s", input.Hostname)
+	state := buildCerticateState(input, certificate)
 	return name, state, nil
 }
 
@@ -81,12 +105,12 @@ func (Certificate) Read(ctx context.Context, id string, input CertificateArgs, s
 ) {
 	cfg := infer.GetConfig[Config](ctx)
 
-	certificate, checks, err := cfg.flyClient.CheckAppCertificate(ctx, state.Input.App, state.Input.Hostname)
+	certificate, _, err := cfg.flyClient.CheckAppCertificate(ctx, state.App, state.Hostname)
 	if err != nil {
 		return id, input, state, err
 	}
 
-	state = buildCerticateState(input, certificate, checks)
+	state = buildCerticateState(input, certificate)
 
 	return id, input, state, nil
 }
@@ -96,7 +120,7 @@ func (Certificate) Delete(ctx context.Context, reqID string, state CertificateSt
 
 	p.GetLogger(ctx).Infof("Deleting Certificate %s from %s", state.Hostname, state.App)
 
-	_, err := cfg.flyClient.DeleteCertificate(ctx, state.Input.App, state.Input.Hostname)
+	_, err := cfg.flyClient.DeleteCertificate(ctx, state.App, state.Hostname)
 
 	return err
 }
@@ -110,8 +134,8 @@ func (Certificate) Diff(ctx context.Context, id string, state CertificateState, 
 	return generateDiffResponse(state.Input, input, certificateDiffOpts)
 }
 
-func buildCerticateState(input CertificateArgs, certificate *fly.AppCertificate, checks *fly.HostnameCheck) CertificateState {
-	return CertificateState{
+func buildCerticateState(input CertificateArgs, certificate *fly.AppCertificate) CertificateState {
+	state := CertificateState{
 		Input:                     input,
 		App:                       input.App,
 		Hostname:                  input.Hostname,
@@ -129,14 +153,7 @@ func buildCerticateState(input CertificateArgs, certificate *fly.AppCertificate,
 		ClientStatus:              certificate.ClientStatus,
 		IsApex:                    certificate.IsApex,
 		IsWildcard:                certificate.IsWildcard,
-		Checks: CertificateStateChecks{
-			ARecords:              checks.ARecords,
-			AAAARecords:           checks.AAAARecords,
-			CNAMERecords:          checks.CNAMERecords,
-			SOA:                   checks.SOA,
-			DNSProvider:           checks.DNSProvider,
-			DNSVerificationRecord: checks.DNSVerificationRecord,
-			ResolvedAddresses:     checks.ResolvedAddresses,
-		},
 	}
+
+	return state
 }

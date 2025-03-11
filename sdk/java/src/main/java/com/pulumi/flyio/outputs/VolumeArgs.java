@@ -15,7 +15,15 @@ import javax.annotation.Nullable;
 
 @CustomType
 public final class VolumeArgs {
+    /**
+     * @return The Fly.io application to attach the volume to.
+     * 
+     */
     private String app;
+    /**
+     * @return Whether to enable automatic backups for the volume.
+     * 
+     */
     private @Nullable Boolean autoBackupEnabled;
     private @Nullable FlyMachineGuest compute;
     private @Nullable String computeImage;
@@ -31,9 +39,17 @@ public final class VolumeArgs {
     private @Nullable Boolean uniqueZoneAppWide;
 
     private VolumeArgs() {}
+    /**
+     * @return The Fly.io application to attach the volume to.
+     * 
+     */
     public String app() {
         return this.app;
     }
+    /**
+     * @return Whether to enable automatic backups for the volume.
+     * 
+     */
     public Optional<Boolean> autoBackupEnabled() {
         return Optional.ofNullable(this.autoBackupEnabled);
     }

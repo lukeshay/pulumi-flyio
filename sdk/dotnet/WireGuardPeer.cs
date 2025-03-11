@@ -10,33 +10,63 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io WireGuard peer for private network connectivity.
+    /// </summary>
     [FlyioResourceType("flyio:index:WireGuardPeer")]
     public partial class WireGuardPeer : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The endpoint IP address for the WireGuard peer.
+        /// </summary>
         [Output("endpointIp")]
         public Output<string> EndpointIp { get; private set; } = null!;
 
+        /// <summary>
+        /// The name of the WireGuard peer.
+        /// </summary>
         [Output("name")]
         public Output<string> Name { get; private set; } = null!;
 
+        /// <summary>
+        /// The network the WireGuard peer belongs to.
+        /// </summary>
         [Output("network")]
         public Output<string?> Network { get; private set; } = null!;
 
+        /// <summary>
+        /// The organization the WireGuard peer belongs to.
+        /// </summary>
         [Output("org")]
         public Output<string> Org { get; private set; } = null!;
 
+        /// <summary>
+        /// The IP address assigned to the WireGuard peer.
+        /// </summary>
         [Output("peerIp")]
         public Output<string> PeerIp { get; private set; } = null!;
 
+        /// <summary>
+        /// The private key of the WireGuard peer.
+        /// </summary>
         [Output("privateKey")]
         public Output<string> PrivateKey { get; private set; } = null!;
 
+        /// <summary>
+        /// The public key of the WireGuard peer.
+        /// </summary>
         [Output("publicKey")]
         public Output<string> PublicKey { get; private set; } = null!;
 
+        /// <summary>
+        /// The region the WireGuard peer is in.
+        /// </summary>
         [Output("region")]
         public Output<string> Region { get; private set; } = null!;
 
+        /// <summary>
+        /// The WireGuard configuration for the peer.
+        /// </summary>
         [Output("wireguardConfig")]
         public Output<string> WireguardConfig { get; private set; } = null!;
 
@@ -92,15 +122,27 @@ namespace PulumiFlyio.Flyio
 
     public sealed class WireGuardPeerArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The name of the WireGuard peer.
+        /// </summary>
         [Input("name")]
         public Input<string>? Name { get; set; }
 
+        /// <summary>
+        /// The network to create the WireGuard peer in.
+        /// </summary>
         [Input("network")]
         public Input<string>? Network { get; set; }
 
+        /// <summary>
+        /// The organization to create the WireGuard peer in.
+        /// </summary>
         [Input("org", required: true)]
         public Input<string> Org { get; set; } = null!;
 
+        /// <summary>
+        /// The region to create the WireGuard peer in.
+        /// </summary>
         [Input("region")]
         public Input<string>? Region { get; set; }
 

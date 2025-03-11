@@ -6,6 +6,9 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io machine represents a VM instance that runs your application.
+ */
 export class Machine extends pulumi.CustomResource {
     /**
      * Get an existing Machine resource's state with the given name, ID, and optional extra
@@ -33,16 +36,25 @@ export class Machine extends pulumi.CustomResource {
         return obj['__pulumiType'] === Machine.__pulumiType;
     }
 
+    /**
+     * The Fly.io application the machine belongs to.
+     */
     public readonly app!: pulumi.Output<string>;
     public /*out*/ readonly checks!: pulumi.Output<outputs.flyio.CheckStatus[] | undefined>;
     public readonly config!: pulumi.Output<outputs.flyio.FlyMachineConfig>;
     public /*out*/ readonly createdAt!: pulumi.Output<string | undefined>;
+    /**
+     * The deployment strategy used for the machine.
+     */
     public readonly deploymentStrategy!: pulumi.Output<string | undefined>;
     public /*out*/ readonly events!: pulumi.Output<outputs.flyio.MachineEvent[] | undefined>;
     public /*out*/ readonly flyId!: pulumi.Output<string>;
     public /*out*/ readonly hostStatus!: pulumi.Output<string | undefined>;
     public /*out*/ readonly imageRef!: pulumi.Output<outputs.flyio.ImageRef | undefined>;
     public /*out*/ readonly incompleteConfig!: pulumi.Output<outputs.flyio.FlyMachineConfig | undefined>;
+    /**
+     * The input arguments used to create the machine.
+     */
     public /*out*/ readonly input!: pulumi.Output<outputs.MachineArgs>;
     public /*out*/ readonly instanceId!: pulumi.Output<string | undefined>;
     public readonly name!: pulumi.Output<string>;
@@ -120,8 +132,14 @@ export class Machine extends pulumi.CustomResource {
  * The set of arguments for constructing a Machine resource.
  */
 export interface MachineArgs {
+    /**
+     * The Fly.io application to deploy the machine to.
+     */
     app: pulumi.Input<string>;
     config: pulumi.Input<inputs.flyio.FlyMachineConfigArgs>;
+    /**
+     * The deployment strategy for the machine.
+     */
     deploymentStrategy?: pulumi.Input<string>;
     leaseTtl?: pulumi.Input<number>;
     lsvd?: pulumi.Input<boolean>;

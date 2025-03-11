@@ -10,9 +10,15 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io machine represents a VM instance that runs your application.
+    /// </summary>
     [FlyioResourceType("flyio:index:Machine")]
     public partial class Machine : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The Fly.io application the machine belongs to.
+        /// </summary>
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
@@ -25,6 +31,9 @@ namespace PulumiFlyio.Flyio
         [Output("createdAt")]
         public Output<string?> CreatedAt { get; private set; } = null!;
 
+        /// <summary>
+        /// The deployment strategy used for the machine.
+        /// </summary>
         [Output("deploymentStrategy")]
         public Output<string?> DeploymentStrategy { get; private set; } = null!;
 
@@ -43,6 +52,9 @@ namespace PulumiFlyio.Flyio
         [Output("incompleteConfig")]
         public Output<PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineConfig?> IncompleteConfig { get; private set; } = null!;
 
+        /// <summary>
+        /// The input arguments used to create the machine.
+        /// </summary>
         [Output("input")]
         public Output<Outputs.MachineArgs> Input { get; private set; } = null!;
 
@@ -113,12 +125,18 @@ namespace PulumiFlyio.Flyio
 
     public sealed class MachineArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The Fly.io application to deploy the machine to.
+        /// </summary>
         [Input("app", required: true)]
         public Input<string> App { get; set; } = null!;
 
         [Input("config", required: true)]
         public Input<PulumiFlyio.Flyio.Flyio.Inputs.FlyMachineConfigArgs> Config { get; set; } = null!;
 
+        /// <summary>
+        /// The deployment strategy for the machine.
+        /// </summary>
         [Input("deploymentStrategy")]
         public Input<string>? DeploymentStrategy { get; set; }
 

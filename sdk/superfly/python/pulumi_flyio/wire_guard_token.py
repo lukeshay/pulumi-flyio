@@ -23,6 +23,8 @@ class WireGuardTokenArgs:
                  name: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a WireGuardToken resource.
+        :param pulumi.Input[str] org: The organization to create the WireGuard token in.
+        :param pulumi.Input[str] name: The name of the WireGuard token.
         """
         pulumi.set(__self__, "org", org)
         if name is not None:
@@ -31,6 +33,9 @@ class WireGuardTokenArgs:
     @property
     @pulumi.getter
     def org(self) -> pulumi.Input[str]:
+        """
+        The organization to create the WireGuard token in.
+        """
         return pulumi.get(self, "org")
 
     @org.setter
@@ -40,6 +45,9 @@ class WireGuardTokenArgs:
     @property
     @pulumi.getter
     def name(self) -> Optional[pulumi.Input[str]]:
+        """
+        The name of the WireGuard token.
+        """
         return pulumi.get(self, "name")
 
     @name.setter
@@ -56,9 +64,12 @@ class WireGuardToken(pulumi.CustomResource):
                  org: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a WireGuardToken resource with the given unique name, props, and options.
+        A Fly.io WireGuard token for authenticating WireGuard peers.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] name: The name of the WireGuard token.
+        :param pulumi.Input[str] org: The organization to create the WireGuard token in.
         """
         ...
     @overload
@@ -67,7 +78,8 @@ class WireGuardToken(pulumi.CustomResource):
                  args: WireGuardTokenArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a WireGuardToken resource with the given unique name, props, and options.
+        A Fly.io WireGuard token for authenticating WireGuard peers.
+
         :param str resource_name: The name of the resource.
         :param WireGuardTokenArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -131,15 +143,24 @@ class WireGuardToken(pulumi.CustomResource):
     @property
     @pulumi.getter
     def name(self) -> pulumi.Output[Optional[str]]:
+        """
+        The name of the WireGuard token.
+        """
         return pulumi.get(self, "name")
 
     @property
     @pulumi.getter
     def org(self) -> pulumi.Output[str]:
+        """
+        The organization the WireGuard token belongs to.
+        """
         return pulumi.get(self, "org")
 
     @property
     @pulumi.getter
     def token(self) -> pulumi.Output[str]:
+        """
+        The WireGuard token value.
+        """
         return pulumi.get(self, "token")
 

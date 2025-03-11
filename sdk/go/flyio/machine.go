@@ -13,27 +13,31 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io machine represents a VM instance that runs your application.
 type Machine struct {
 	pulumi.CustomResourceState
 
-	App                pulumi.StringOutput             `pulumi:"app"`
-	Checks             flyio.CheckStatusArrayOutput    `pulumi:"checks"`
-	Config             flyio.FlyMachineConfigOutput    `pulumi:"config"`
-	CreatedAt          pulumi.StringPtrOutput          `pulumi:"createdAt"`
+	// The Fly.io application the machine belongs to.
+	App       pulumi.StringOutput          `pulumi:"app"`
+	Checks    flyio.CheckStatusArrayOutput `pulumi:"checks"`
+	Config    flyio.FlyMachineConfigOutput `pulumi:"config"`
+	CreatedAt pulumi.StringPtrOutput       `pulumi:"createdAt"`
+	// The deployment strategy used for the machine.
 	DeploymentStrategy pulumi.StringPtrOutput          `pulumi:"deploymentStrategy"`
 	Events             flyio.MachineEventArrayOutput   `pulumi:"events"`
 	FlyId              pulumi.StringOutput             `pulumi:"flyId"`
 	HostStatus         pulumi.StringPtrOutput          `pulumi:"hostStatus"`
 	ImageRef           flyio.ImageRefPtrOutput         `pulumi:"imageRef"`
 	IncompleteConfig   flyio.FlyMachineConfigPtrOutput `pulumi:"incompleteConfig"`
-	Input              MachineArgsTypeOutput           `pulumi:"input"`
-	InstanceId         pulumi.StringPtrOutput          `pulumi:"instanceId"`
-	Name               pulumi.StringOutput             `pulumi:"name"`
-	Nonce              pulumi.StringPtrOutput          `pulumi:"nonce"`
-	PrivateIp          pulumi.StringPtrOutput          `pulumi:"privateIp"`
-	Region             pulumi.StringPtrOutput          `pulumi:"region"`
-	State              pulumi.StringOutput             `pulumi:"state"`
-	UpdatedAt          pulumi.StringPtrOutput          `pulumi:"updatedAt"`
+	// The input arguments used to create the machine.
+	Input      MachineArgsTypeOutput  `pulumi:"input"`
+	InstanceId pulumi.StringPtrOutput `pulumi:"instanceId"`
+	Name       pulumi.StringOutput    `pulumi:"name"`
+	Nonce      pulumi.StringPtrOutput `pulumi:"nonce"`
+	PrivateIp  pulumi.StringPtrOutput `pulumi:"privateIp"`
+	Region     pulumi.StringPtrOutput `pulumi:"region"`
+	State      pulumi.StringOutput    `pulumi:"state"`
+	UpdatedAt  pulumi.StringPtrOutput `pulumi:"updatedAt"`
 }
 
 // NewMachine registers a new resource with the given unique name, arguments, and options.
@@ -82,21 +86,25 @@ func (MachineState) ElementType() reflect.Type {
 }
 
 type machineArgs struct {
-	App                     string                 `pulumi:"app"`
-	Config                  flyio.FlyMachineConfig `pulumi:"config"`
-	DeploymentStrategy      *string                `pulumi:"deploymentStrategy"`
-	LeaseTtl                *int                   `pulumi:"leaseTtl"`
-	Lsvd                    *bool                  `pulumi:"lsvd"`
-	Name                    *string                `pulumi:"name"`
-	Region                  *string                `pulumi:"region"`
-	SkipLaunch              *bool                  `pulumi:"skipLaunch"`
-	SkipServiceRegistration *bool                  `pulumi:"skipServiceRegistration"`
+	// The Fly.io application to deploy the machine to.
+	App    string                 `pulumi:"app"`
+	Config flyio.FlyMachineConfig `pulumi:"config"`
+	// The deployment strategy for the machine.
+	DeploymentStrategy      *string `pulumi:"deploymentStrategy"`
+	LeaseTtl                *int    `pulumi:"leaseTtl"`
+	Lsvd                    *bool   `pulumi:"lsvd"`
+	Name                    *string `pulumi:"name"`
+	Region                  *string `pulumi:"region"`
+	SkipLaunch              *bool   `pulumi:"skipLaunch"`
+	SkipServiceRegistration *bool   `pulumi:"skipServiceRegistration"`
 }
 
 // The set of arguments for constructing a Machine resource.
 type MachineArgs struct {
-	App                     pulumi.StringInput
-	Config                  flyio.FlyMachineConfigInput
+	// The Fly.io application to deploy the machine to.
+	App    pulumi.StringInput
+	Config flyio.FlyMachineConfigInput
+	// The deployment strategy for the machine.
 	DeploymentStrategy      pulumi.StringPtrInput
 	LeaseTtl                pulumi.IntPtrInput
 	Lsvd                    pulumi.BoolPtrInput
@@ -193,6 +201,7 @@ func (o MachineOutput) ToMachineOutputWithContext(ctx context.Context) MachineOu
 	return o
 }
 
+// The Fly.io application the machine belongs to.
 func (o MachineOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
@@ -209,6 +218,7 @@ func (o MachineOutput) CreatedAt() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringPtrOutput { return v.CreatedAt }).(pulumi.StringPtrOutput)
 }
 
+// The deployment strategy used for the machine.
 func (o MachineOutput) DeploymentStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Machine) pulumi.StringPtrOutput { return v.DeploymentStrategy }).(pulumi.StringPtrOutput)
 }
@@ -233,6 +243,7 @@ func (o MachineOutput) IncompleteConfig() flyio.FlyMachineConfigPtrOutput {
 	return o.ApplyT(func(v *Machine) flyio.FlyMachineConfigPtrOutput { return v.IncompleteConfig }).(flyio.FlyMachineConfigPtrOutput)
 }
 
+// The input arguments used to create the machine.
 func (o MachineOutput) Input() MachineArgsTypeOutput {
 	return o.ApplyT(func(v *Machine) MachineArgsTypeOutput { return v.Input }).(MachineArgsTypeOutput)
 }

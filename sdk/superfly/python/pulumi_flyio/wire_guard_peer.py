@@ -25,6 +25,10 @@ class WireGuardPeerArgs:
                  region: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a WireGuardPeer resource.
+        :param pulumi.Input[str] org: The organization to create the WireGuard peer in.
+        :param pulumi.Input[str] name: The name of the WireGuard peer.
+        :param pulumi.Input[str] network: The network to create the WireGuard peer in.
+        :param pulumi.Input[str] region: The region to create the WireGuard peer in.
         """
         pulumi.set(__self__, "org", org)
         if name is not None:
@@ -37,6 +41,9 @@ class WireGuardPeerArgs:
     @property
     @pulumi.getter
     def org(self) -> pulumi.Input[str]:
+        """
+        The organization to create the WireGuard peer in.
+        """
         return pulumi.get(self, "org")
 
     @org.setter
@@ -46,6 +53,9 @@ class WireGuardPeerArgs:
     @property
     @pulumi.getter
     def name(self) -> Optional[pulumi.Input[str]]:
+        """
+        The name of the WireGuard peer.
+        """
         return pulumi.get(self, "name")
 
     @name.setter
@@ -55,6 +65,9 @@ class WireGuardPeerArgs:
     @property
     @pulumi.getter
     def network(self) -> Optional[pulumi.Input[str]]:
+        """
+        The network to create the WireGuard peer in.
+        """
         return pulumi.get(self, "network")
 
     @network.setter
@@ -64,6 +77,9 @@ class WireGuardPeerArgs:
     @property
     @pulumi.getter
     def region(self) -> Optional[pulumi.Input[str]]:
+        """
+        The region to create the WireGuard peer in.
+        """
         return pulumi.get(self, "region")
 
     @region.setter
@@ -82,9 +98,14 @@ class WireGuardPeer(pulumi.CustomResource):
                  region: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a WireGuardPeer resource with the given unique name, props, and options.
+        A Fly.io WireGuard peer for private network connectivity.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] name: The name of the WireGuard peer.
+        :param pulumi.Input[str] network: The network to create the WireGuard peer in.
+        :param pulumi.Input[str] org: The organization to create the WireGuard peer in.
+        :param pulumi.Input[str] region: The region to create the WireGuard peer in.
         """
         ...
     @overload
@@ -93,7 +114,8 @@ class WireGuardPeer(pulumi.CustomResource):
                  args: WireGuardPeerArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a WireGuardPeer resource with the given unique name, props, and options.
+        A Fly.io WireGuard peer for private network connectivity.
+
         :param str resource_name: The name of the resource.
         :param WireGuardPeerArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -171,45 +193,72 @@ class WireGuardPeer(pulumi.CustomResource):
     @property
     @pulumi.getter(name="endpointIp")
     def endpoint_ip(self) -> pulumi.Output[str]:
+        """
+        The endpoint IP address for the WireGuard peer.
+        """
         return pulumi.get(self, "endpoint_ip")
 
     @property
     @pulumi.getter
     def name(self) -> pulumi.Output[str]:
+        """
+        The name of the WireGuard peer.
+        """
         return pulumi.get(self, "name")
 
     @property
     @pulumi.getter
     def network(self) -> pulumi.Output[Optional[str]]:
+        """
+        The network the WireGuard peer belongs to.
+        """
         return pulumi.get(self, "network")
 
     @property
     @pulumi.getter
     def org(self) -> pulumi.Output[str]:
+        """
+        The organization the WireGuard peer belongs to.
+        """
         return pulumi.get(self, "org")
 
     @property
     @pulumi.getter(name="peerIp")
     def peer_ip(self) -> pulumi.Output[str]:
+        """
+        The IP address assigned to the WireGuard peer.
+        """
         return pulumi.get(self, "peer_ip")
 
     @property
     @pulumi.getter(name="privateKey")
     def private_key(self) -> pulumi.Output[str]:
+        """
+        The private key of the WireGuard peer.
+        """
         return pulumi.get(self, "private_key")
 
     @property
     @pulumi.getter(name="publicKey")
     def public_key(self) -> pulumi.Output[str]:
+        """
+        The public key of the WireGuard peer.
+        """
         return pulumi.get(self, "public_key")
 
     @property
     @pulumi.getter
     def region(self) -> pulumi.Output[str]:
+        """
+        The region the WireGuard peer is in.
+        """
         return pulumi.get(self, "region")
 
     @property
     @pulumi.getter(name="wireguardConfig")
     def wireguard_config(self) -> pulumi.Output[str]:
+        """
+        The WireGuard configuration for the peer.
+        """
         return pulumi.get(self, "wireguard_config")
 

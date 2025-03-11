@@ -13,8 +13,13 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type Volume struct{}
+
+var _ infer.Annotated = (*Volume)(nil)
+
+func (v *Volume) Annotate(anno infer.Annotator) {
+	anno.Describe(&v, "A Fly.io volume provides persistent storage for your applications.")
+}
 
 var (
 	_ infer.CustomResource[VolumeArgs, VolumeState] = (*Volume)(nil)
@@ -29,10 +34,24 @@ type VolumeArgs struct {
 	App               string `pulumi:"app"`
 }
 
+var _ infer.Annotated = (*VolumeArgs)(nil)
+
+func (a *VolumeArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.App, "The Fly.io application to attach the volume to.")
+	anno.Describe(&a.AutoBackupEnabled, "Whether to enable automatic backups for the volume.")
+}
+
 type VolumeState struct {
 	flyio.Volume
 	Input VolumeArgs `pulumi:"input"`
 	App   string     `pulumi:"app"`
+}
+
+var _ infer.Annotated = (*VolumeState)(nil)
+
+func (s *VolumeState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Input, "The input arguments used to create the volume.")
+	anno.Describe(&s.App, "The Fly.io application the volume is attached to.")
 }
 
 func (v Volume) Create(ctx context.Context, name string, input VolumeArgs, preview bool) (string, VolumeState, error) {

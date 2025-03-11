@@ -9,8 +9,13 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type App struct{}
+
+var _ infer.Annotated = (*App)(nil)
+
+func (a *App) Annotate(anno infer.Annotator) {
+	anno.Describe(&a, "A Fly.io application.")
+}
 
 var (
 	_ infer.CustomResource[AppArgs, AppState] = (*App)(nil)
@@ -25,6 +30,15 @@ type AppArgs struct {
 	Network          *string `json:"network,omitempty" pulumi:"network,optional"`
 }
 
+var _ infer.Annotated = (*AppArgs)(nil)
+
+func (a *AppArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.Name, "The name of the Fly.io application.")
+	anno.Describe(&a.Org, "The organization the application belongs to.")
+	anno.Describe(&a.EnableSubdomains, "Whether to enable subdomains for the application.")
+	anno.Describe(&a.Network, "The network the application belongs to.")
+}
+
 type AppState struct {
 	Name             string  `json:"name" pulumi:"name"`
 	Org              string  `json:"org" pulumi:"org"`
@@ -32,6 +46,17 @@ type AppState struct {
 	EnableSubdomains *bool   `json:"enableSubdomains,omitempty" pulumi:"enableSubdomains,optional"`
 	Network          *string `json:"network,omitempty" pulumi:"network,optional"`
 	Input            AppArgs `pulumi:"input"`
+}
+
+var _ infer.Annotated = (*AppState)(nil)
+
+func (s *AppState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Input, "The input arguments used to create the application.")
+	anno.Describe(&s.Name, "The name of the Fly.io application.")
+	anno.Describe(&s.Org, "The organization the application belongs to.")
+	anno.Describe(&s.Status, "The current status of the application.")
+	anno.Describe(&s.EnableSubdomains, "Whether subdomains are enabled for the application.")
+	anno.Describe(&s.Network, "The network the application belongs to.")
 }
 
 func (c App) Create(ctx context.Context, name string, input AppArgs, preview bool) (string, AppState, error) {

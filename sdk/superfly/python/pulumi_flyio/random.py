@@ -22,12 +22,16 @@ class RandomArgs:
                  length: pulumi.Input[int]):
         """
         The set of arguments for constructing a Random resource.
+        :param pulumi.Input[int] length: The length of the random string to generate.
         """
         pulumi.set(__self__, "length", length)
 
     @property
     @pulumi.getter
     def length(self) -> pulumi.Input[int]:
+        """
+        The length of the random string to generate.
+        """
         return pulumi.get(self, "length")
 
     @length.setter
@@ -43,9 +47,11 @@ class Random(pulumi.CustomResource):
                  length: Optional[pulumi.Input[int]] = None,
                  __props__=None):
         """
-        Create a Random resource with the given unique name, props, and options.
+        Generates a random string of the specified length.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[int] length: The length of the random string to generate.
         """
         ...
     @overload
@@ -54,7 +60,8 @@ class Random(pulumi.CustomResource):
                  args: RandomArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Random resource with the given unique name, props, and options.
+        Generates a random string of the specified length.
+
         :param str resource_name: The name of the resource.
         :param RandomArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -113,10 +120,16 @@ class Random(pulumi.CustomResource):
     @property
     @pulumi.getter
     def length(self) -> pulumi.Output[int]:
+        """
+        The length of the random string to generate.
+        """
         return pulumi.get(self, "length")
 
     @property
     @pulumi.getter
     def result(self) -> pulumi.Output[str]:
+        """
+        The generated random string.
+        """
         return pulumi.get(self, "result")
 

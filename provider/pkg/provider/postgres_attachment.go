@@ -7,8 +7,13 @@ import (
 	"github.com/superfly/fly-go"
 )
 
-// TODO: Add annotations
 type PostgresAttachment struct{}
+
+var _ infer.Annotated = (*PostgresAttachment)(nil)
+
+func (p *PostgresAttachment) Annotate(anno infer.Annotator) {
+	anno.Describe(&p, "A Fly.io Postgres attachment connects a Postgres database to an application.")
+}
 
 var (
 	_ infer.CustomResource[PostgresAttachmentArgs, PostgresAttachmentState] = (*PostgresAttachment)(nil)
@@ -24,11 +29,31 @@ type PostgresAttachmentArgs struct {
 	ManualEntry  bool    `pulumi:"manualEntry,optional"`
 }
 
+var _ infer.Annotated = (*PostgresAttachmentArgs)(nil)
+
+func (a *PostgresAttachmentArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.App, "The application to attach the Postgres database to.")
+	anno.Describe(&a.Postgres, "The Postgres cluster to attach.")
+	anno.Describe(&a.DatabaseName, "The name of the database to use.")
+	anno.Describe(&a.DatabaseUser, "The database user to connect as.")
+	anno.Describe(&a.VariableName, "The environment variable name to store the connection string.")
+	anno.Describe(&a.ManualEntry, "Whether to manually enter the connection details.")
+}
+
 type PostgresAttachmentState struct {
 	PostgresAttachmentArgs
 	ConnectionString string `pulumi:"connectionString" provider:"secret"`
 	VariableName     string `pulumi:"variableName"`
 	AttachmentID     string `pulumi:"attachmentId"`
+}
+
+var _ infer.Annotated = (*PostgresAttachmentState)(nil)
+
+func (s *PostgresAttachmentState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.PostgresAttachmentArgs, "The input arguments used to create the Postgres attachment.")
+	anno.Describe(&s.ConnectionString, "The PostgreSQL connection string.")
+	anno.Describe(&s.VariableName, "The environment variable name that contains the connection string.")
+	anno.Describe(&s.AttachmentID, "The unique ID of the Postgres attachment.")
 }
 
 func (PostgresAttachment) Create(ctx context.Context, name string, input PostgresAttachmentArgs, preview bool) (string, PostgresAttachmentState, error) {

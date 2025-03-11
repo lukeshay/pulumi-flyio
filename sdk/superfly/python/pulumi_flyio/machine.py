@@ -32,6 +32,8 @@ class MachineArgs:
                  skip_service_registration: Optional[pulumi.Input[bool]] = None):
         """
         The set of arguments for constructing a Machine resource.
+        :param pulumi.Input[str] app: The Fly.io application to deploy the machine to.
+        :param pulumi.Input[str] deployment_strategy: The deployment strategy for the machine.
         """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "config", config)
@@ -53,6 +55,9 @@ class MachineArgs:
     @property
     @pulumi.getter
     def app(self) -> pulumi.Input[str]:
+        """
+        The Fly.io application to deploy the machine to.
+        """
         return pulumi.get(self, "app")
 
     @app.setter
@@ -71,6 +76,9 @@ class MachineArgs:
     @property
     @pulumi.getter(name="deploymentStrategy")
     def deployment_strategy(self) -> Optional[pulumi.Input[str]]:
+        """
+        The deployment strategy for the machine.
+        """
         return pulumi.get(self, "deployment_strategy")
 
     @deployment_strategy.setter
@@ -148,9 +156,12 @@ class Machine(pulumi.CustomResource):
                  skip_service_registration: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
         """
-        Create a Machine resource with the given unique name, props, and options.
+        A Fly.io machine represents a VM instance that runs your application.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] app: The Fly.io application to deploy the machine to.
+        :param pulumi.Input[str] deployment_strategy: The deployment strategy for the machine.
         """
         ...
     @overload
@@ -159,7 +170,8 @@ class Machine(pulumi.CustomResource):
                  args: MachineArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Machine resource with the given unique name, props, and options.
+        A Fly.io machine represents a VM instance that runs your application.
+
         :param str resource_name: The name of the resource.
         :param MachineArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -264,6 +276,9 @@ class Machine(pulumi.CustomResource):
     @property
     @pulumi.getter
     def app(self) -> pulumi.Output[str]:
+        """
+        The Fly.io application the machine belongs to.
+        """
         return pulumi.get(self, "app")
 
     @property
@@ -284,6 +299,9 @@ class Machine(pulumi.CustomResource):
     @property
     @pulumi.getter(name="deploymentStrategy")
     def deployment_strategy(self) -> pulumi.Output[Optional[str]]:
+        """
+        The deployment strategy used for the machine.
+        """
         return pulumi.get(self, "deployment_strategy")
 
     @property
@@ -314,6 +332,9 @@ class Machine(pulumi.CustomResource):
     @property
     @pulumi.getter
     def input(self) -> pulumi.Output['outputs.MachineArgs']:
+        """
+        The input arguments used to create the machine.
+        """
         return pulumi.get(self, "input")
 
     @property

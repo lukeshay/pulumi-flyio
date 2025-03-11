@@ -15,10 +15,14 @@ import (
 var _ = internal.GetEnvOrDefault
 
 type AppArgsType struct {
-	EnableSubdomains *bool   `pulumi:"enableSubdomains"`
-	Name             string  `pulumi:"name"`
-	Network          *string `pulumi:"network"`
-	Org              string  `pulumi:"org"`
+	// Whether to enable subdomains for the application.
+	EnableSubdomains *bool `pulumi:"enableSubdomains"`
+	// The name of the Fly.io application.
+	Name string `pulumi:"name"`
+	// The network the application belongs to.
+	Network *string `pulumi:"network"`
+	// The organization the application belongs to.
+	Org string `pulumi:"org"`
 }
 
 type AppArgsTypeOutput struct{ *pulumi.OutputState }
@@ -35,24 +39,30 @@ func (o AppArgsTypeOutput) ToAppArgsTypeOutputWithContext(ctx context.Context) A
 	return o
 }
 
+// Whether to enable subdomains for the application.
 func (o AppArgsTypeOutput) EnableSubdomains() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v AppArgsType) *bool { return v.EnableSubdomains }).(pulumi.BoolPtrOutput)
 }
 
+// The name of the Fly.io application.
 func (o AppArgsTypeOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v AppArgsType) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// The network the application belongs to.
 func (o AppArgsTypeOutput) Network() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AppArgsType) *string { return v.Network }).(pulumi.StringPtrOutput)
 }
 
+// The organization the application belongs to.
 func (o AppArgsTypeOutput) Org() pulumi.StringOutput {
 	return o.ApplyT(func(v AppArgsType) string { return v.Org }).(pulumi.StringOutput)
 }
 
 type CertificateArgsType struct {
-	App      string `pulumi:"app"`
+	// The name of the Fly app to add the certificate to.
+	App string `pulumi:"app"`
+	// The hostname for the certificate (e.g., example.com).
 	Hostname string `pulumi:"hostname"`
 }
 
@@ -70,71 +80,63 @@ func (o CertificateArgsTypeOutput) ToCertificateArgsTypeOutputWithContext(ctx co
 	return o
 }
 
+// The name of the Fly app to add the certificate to.
 func (o CertificateArgsTypeOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v CertificateArgsType) string { return v.App }).(pulumi.StringOutput)
 }
 
+// The hostname for the certificate (e.g., example.com).
 func (o CertificateArgsTypeOutput) Hostname() pulumi.StringOutput {
 	return o.ApplyT(func(v CertificateArgsType) string { return v.Hostname }).(pulumi.StringOutput)
 }
 
-type CertificateStateChecks struct {
-	ARecords              []string `pulumi:"aRecords"`
-	AaaaRecords           []string `pulumi:"aaaaRecords"`
-	CnameRecords          []string `pulumi:"cnameRecords"`
-	DnsProvider           string   `pulumi:"dnsProvider"`
-	DnsVerificationRecord string   `pulumi:"dnsVerificationRecord"`
-	ResolvedAddresses     []string `pulumi:"resolvedAddresses"`
-	Soa                   string   `pulumi:"soa"`
+type CertificateIssuanceWaiterArgsType struct {
+	// The name of the Fly app that the certificate is associated with.
+	App string `pulumi:"app"`
+	// The hostname for the certificate (e.g., example.com).
+	Hostname string `pulumi:"hostname"`
+	// The maximum time to wait for the certificate to be fully issued (in seconds).
+	Timeout int `pulumi:"timeout"`
 }
 
-type CertificateStateChecksOutput struct{ *pulumi.OutputState }
+type CertificateIssuanceWaiterArgsTypeOutput struct{ *pulumi.OutputState }
 
-func (CertificateStateChecksOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*CertificateStateChecks)(nil)).Elem()
+func (CertificateIssuanceWaiterArgsTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*CertificateIssuanceWaiterArgsType)(nil)).Elem()
 }
 
-func (o CertificateStateChecksOutput) ToCertificateStateChecksOutput() CertificateStateChecksOutput {
+func (o CertificateIssuanceWaiterArgsTypeOutput) ToCertificateIssuanceWaiterArgsTypeOutput() CertificateIssuanceWaiterArgsTypeOutput {
 	return o
 }
 
-func (o CertificateStateChecksOutput) ToCertificateStateChecksOutputWithContext(ctx context.Context) CertificateStateChecksOutput {
+func (o CertificateIssuanceWaiterArgsTypeOutput) ToCertificateIssuanceWaiterArgsTypeOutputWithContext(ctx context.Context) CertificateIssuanceWaiterArgsTypeOutput {
 	return o
 }
 
-func (o CertificateStateChecksOutput) ARecords() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v CertificateStateChecks) []string { return v.ARecords }).(pulumi.StringArrayOutput)
+// The name of the Fly app that the certificate is associated with.
+func (o CertificateIssuanceWaiterArgsTypeOutput) App() pulumi.StringOutput {
+	return o.ApplyT(func(v CertificateIssuanceWaiterArgsType) string { return v.App }).(pulumi.StringOutput)
 }
 
-func (o CertificateStateChecksOutput) AaaaRecords() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v CertificateStateChecks) []string { return v.AaaaRecords }).(pulumi.StringArrayOutput)
+// The hostname for the certificate (e.g., example.com).
+func (o CertificateIssuanceWaiterArgsTypeOutput) Hostname() pulumi.StringOutput {
+	return o.ApplyT(func(v CertificateIssuanceWaiterArgsType) string { return v.Hostname }).(pulumi.StringOutput)
 }
 
-func (o CertificateStateChecksOutput) CnameRecords() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v CertificateStateChecks) []string { return v.CnameRecords }).(pulumi.StringArrayOutput)
-}
-
-func (o CertificateStateChecksOutput) DnsProvider() pulumi.StringOutput {
-	return o.ApplyT(func(v CertificateStateChecks) string { return v.DnsProvider }).(pulumi.StringOutput)
-}
-
-func (o CertificateStateChecksOutput) DnsVerificationRecord() pulumi.StringOutput {
-	return o.ApplyT(func(v CertificateStateChecks) string { return v.DnsVerificationRecord }).(pulumi.StringOutput)
-}
-
-func (o CertificateStateChecksOutput) ResolvedAddresses() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v CertificateStateChecks) []string { return v.ResolvedAddresses }).(pulumi.StringArrayOutput)
-}
-
-func (o CertificateStateChecksOutput) Soa() pulumi.StringOutput {
-	return o.ApplyT(func(v CertificateStateChecks) string { return v.Soa }).(pulumi.StringOutput)
+// The maximum time to wait for the certificate to be fully issued (in seconds).
+func (o CertificateIssuanceWaiterArgsTypeOutput) Timeout() pulumi.IntOutput {
+	return o.ApplyT(func(v CertificateIssuanceWaiterArgsType) int { return v.Timeout }).(pulumi.IntOutput)
 }
 
 type IPArgsType struct {
-	AddrType string  `pulumi:"addrType"`
-	App      string  `pulumi:"app"`
-	Network  *string `pulumi:"network"`
-	Region   string  `pulumi:"region"`
+	// The type of IP address (v4 or v6).
+	AddrType string `pulumi:"addrType"`
+	// The name of the Fly.io application to allocate the IP address for.
+	App string `pulumi:"app"`
+	// The network to allocate the IP address in.
+	Network *string `pulumi:"network"`
+	// The region to allocate the IP address in.
+	Region string `pulumi:"region"`
 }
 
 type IPArgsTypeOutput struct{ *pulumi.OutputState }
@@ -151,32 +153,38 @@ func (o IPArgsTypeOutput) ToIPArgsTypeOutputWithContext(ctx context.Context) IPA
 	return o
 }
 
+// The type of IP address (v4 or v6).
 func (o IPArgsTypeOutput) AddrType() pulumi.StringOutput {
 	return o.ApplyT(func(v IPArgsType) string { return v.AddrType }).(pulumi.StringOutput)
 }
 
+// The name of the Fly.io application to allocate the IP address for.
 func (o IPArgsTypeOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v IPArgsType) string { return v.App }).(pulumi.StringOutput)
 }
 
+// The network to allocate the IP address in.
 func (o IPArgsTypeOutput) Network() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IPArgsType) *string { return v.Network }).(pulumi.StringPtrOutput)
 }
 
+// The region to allocate the IP address in.
 func (o IPArgsTypeOutput) Region() pulumi.StringOutput {
 	return o.ApplyT(func(v IPArgsType) string { return v.Region }).(pulumi.StringOutput)
 }
 
 type MachineArgsType struct {
-	App                     string                 `pulumi:"app"`
-	Config                  flyio.FlyMachineConfig `pulumi:"config"`
-	DeploymentStrategy      *string                `pulumi:"deploymentStrategy"`
-	LeaseTtl                *int                   `pulumi:"leaseTtl"`
-	Lsvd                    *bool                  `pulumi:"lsvd"`
-	Name                    *string                `pulumi:"name"`
-	Region                  *string                `pulumi:"region"`
-	SkipLaunch              *bool                  `pulumi:"skipLaunch"`
-	SkipServiceRegistration *bool                  `pulumi:"skipServiceRegistration"`
+	// The Fly.io application to deploy the machine to.
+	App    string                 `pulumi:"app"`
+	Config flyio.FlyMachineConfig `pulumi:"config"`
+	// The deployment strategy for the machine.
+	DeploymentStrategy      *string `pulumi:"deploymentStrategy"`
+	LeaseTtl                *int    `pulumi:"leaseTtl"`
+	Lsvd                    *bool   `pulumi:"lsvd"`
+	Name                    *string `pulumi:"name"`
+	Region                  *string `pulumi:"region"`
+	SkipLaunch              *bool   `pulumi:"skipLaunch"`
+	SkipServiceRegistration *bool   `pulumi:"skipServiceRegistration"`
 }
 
 type MachineArgsTypeOutput struct{ *pulumi.OutputState }
@@ -193,6 +201,7 @@ func (o MachineArgsTypeOutput) ToMachineArgsTypeOutputWithContext(ctx context.Co
 	return o
 }
 
+// The Fly.io application to deploy the machine to.
 func (o MachineArgsTypeOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v MachineArgsType) string { return v.App }).(pulumi.StringOutput)
 }
@@ -201,6 +210,7 @@ func (o MachineArgsTypeOutput) Config() flyio.FlyMachineConfigOutput {
 	return o.ApplyT(func(v MachineArgsType) flyio.FlyMachineConfig { return v.Config }).(flyio.FlyMachineConfigOutput)
 }
 
+// The deployment strategy for the machine.
 func (o MachineArgsTypeOutput) DeploymentStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v MachineArgsType) *string { return v.DeploymentStrategy }).(pulumi.StringPtrOutput)
 }
@@ -230,7 +240,9 @@ func (o MachineArgsTypeOutput) SkipServiceRegistration() pulumi.BoolPtrOutput {
 }
 
 type VolumeArgsType struct {
-	App               string                 `pulumi:"app"`
+	// The Fly.io application to attach the volume to.
+	App string `pulumi:"app"`
+	// Whether to enable automatic backups for the volume.
 	AutoBackupEnabled *bool                  `pulumi:"autoBackupEnabled"`
 	Compute           *flyio.FlyMachineGuest `pulumi:"compute"`
 	ComputeImage      *string                `pulumi:"computeImage"`
@@ -260,10 +272,12 @@ func (o VolumeArgsTypeOutput) ToVolumeArgsTypeOutputWithContext(ctx context.Cont
 	return o
 }
 
+// The Fly.io application to attach the volume to.
 func (o VolumeArgsTypeOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v VolumeArgsType) string { return v.App }).(pulumi.StringOutput)
 }
 
+// Whether to enable automatic backups for the volume.
 func (o VolumeArgsTypeOutput) AutoBackupEnabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v VolumeArgsType) *bool { return v.AutoBackupEnabled }).(pulumi.BoolPtrOutput)
 }
@@ -319,7 +333,7 @@ func (o VolumeArgsTypeOutput) UniqueZoneAppWide() pulumi.BoolPtrOutput {
 func init() {
 	pulumi.RegisterOutputType(AppArgsTypeOutput{})
 	pulumi.RegisterOutputType(CertificateArgsTypeOutput{})
-	pulumi.RegisterOutputType(CertificateStateChecksOutput{})
+	pulumi.RegisterOutputType(CertificateIssuanceWaiterArgsTypeOutput{})
 	pulumi.RegisterOutputType(IPArgsTypeOutput{})
 	pulumi.RegisterOutputType(MachineArgsTypeOutput{})
 	pulumi.RegisterOutputType(VolumeArgsTypeOutput{})

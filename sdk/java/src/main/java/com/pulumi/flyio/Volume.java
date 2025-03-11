@@ -15,11 +15,23 @@ import java.lang.String;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io volume provides persistent storage for your applications.
+ * 
+ */
 @ResourceType(type="flyio:index:Volume")
 public class Volume extends com.pulumi.resources.CustomResource {
+    /**
+     * The Fly.io application the volume is attached to.
+     * 
+     */
     @Export(name="app", refs={String.class}, tree="[0]")
     private Output<String> app;
 
+    /**
+     * @return The Fly.io application the volume is attached to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
@@ -95,9 +107,17 @@ public class Volume extends com.pulumi.resources.CustomResource {
     public Output<Optional<String>> hostStatus() {
         return Codegen.optional(this.hostStatus);
     }
+    /**
+     * The input arguments used to create the volume.
+     * 
+     */
     @Export(name="input", refs={VolumeArgs.class}, tree="[0]")
     private Output<VolumeArgs> input;
 
+    /**
+     * @return The input arguments used to create the volume.
+     * 
+     */
     public Output<VolumeArgs> input() {
         return this.input;
     }

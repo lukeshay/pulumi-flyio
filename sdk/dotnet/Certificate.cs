@@ -10,60 +10,111 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io SSL/TLS certificate for an app's domain.
+    /// </summary>
     [FlyioResourceType("flyio:index:Certificate")]
     public partial class Certificate : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// Whether ACME ALPN verification is configured.
+        /// </summary>
         [Output("acmeAlpnConfigured")]
         public Output<bool> AcmeAlpnConfigured { get; private set; } = null!;
 
+        /// <summary>
+        /// Whether ACME DNS verification is configured.
+        /// </summary>
         [Output("acmeDnsConfigured")]
         public Output<bool> AcmeDnsConfigured { get; private set; } = null!;
 
+        /// <summary>
+        /// The name of the Fly app.
+        /// </summary>
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
+        /// <summary>
+        /// The certificate authority used.
+        /// </summary>
         [Output("certificateAuthority")]
         public Output<string> CertificateAuthority { get; private set; } = null!;
 
-        [Output("checks")]
-        public Output<Outputs.CertificateStateChecks> Checks { get; private set; } = null!;
-
+        /// <summary>
+        /// The status of the certificate.
+        /// </summary>
         [Output("clientStatus")]
         public Output<string> ClientStatus { get; private set; } = null!;
 
+        /// <summary>
+        /// Whether the certificate is fully configured.
+        /// </summary>
         [Output("configured")]
         public Output<bool> Configured { get; private set; } = null!;
 
+        /// <summary>
+        /// When the certificate was created.
+        /// </summary>
         [Output("createdAt")]
         public Output<PulumiFlyio.Flyio.Time.Outputs.Time> CreatedAt { get; private set; } = null!;
 
+        /// <summary>
+        /// The DNS provider for the hostname.
+        /// </summary>
         [Output("dnsProvider")]
         public Output<string> DnsProvider { get; private set; } = null!;
 
+        /// <summary>
+        /// Hostname for DNS validation.
+        /// </summary>
         [Output("dnsValidationHostname")]
         public Output<string> DnsValidationHostname { get; private set; } = null!;
 
+        /// <summary>
+        /// Instructions for DNS validation.
+        /// </summary>
         [Output("dnsValidationInstructions")]
         public Output<string> DnsValidationInstructions { get; private set; } = null!;
 
+        /// <summary>
+        /// Target for DNS validation.
+        /// </summary>
         [Output("dnsValidationTarget")]
         public Output<string> DnsValidationTarget { get; private set; } = null!;
 
+        /// <summary>
+        /// The Fly.io certificate ID.
+        /// </summary>
         [Output("flyId")]
         public Output<string> FlyId { get; private set; } = null!;
 
+        /// <summary>
+        /// The hostname for the certificate.
+        /// </summary>
         [Output("hostname")]
         public Output<string> Hostname { get; private set; } = null!;
 
+        /// <summary>
+        /// The input arguments used to create the certificate.
+        /// </summary>
         [Output("input")]
         public Output<Outputs.CertificateArgs> Input { get; private set; } = null!;
 
+        /// <summary>
+        /// Whether the hostname is an apex domain.
+        /// </summary>
         [Output("isApex")]
         public Output<bool> IsApex { get; private set; } = null!;
 
+        /// <summary>
+        /// Whether the certificate is a wildcard certificate.
+        /// </summary>
         [Output("isWildcard")]
         public Output<bool> IsWildcard { get; private set; } = null!;
 
+        /// <summary>
+        /// The source of the certificate.
+        /// </summary>
         [Output("source")]
         public Output<string> Source { get; private set; } = null!;
 
@@ -113,9 +164,15 @@ namespace PulumiFlyio.Flyio
 
     public sealed class CertificateArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The name of the Fly app to add the certificate to.
+        /// </summary>
         [Input("app", required: true)]
         public Input<string> App { get; set; } = null!;
 
+        /// <summary>
+        /// The hostname for the certificate (e.g., example.com).
+        /// </summary>
         [Input("hostname", required: true)]
         public Input<string> Hostname { get; set; } = null!;
 

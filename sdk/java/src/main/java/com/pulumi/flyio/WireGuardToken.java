@@ -14,23 +14,51 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io WireGuard token for authenticating WireGuard peers.
+ * 
+ */
 @ResourceType(type="flyio:index:WireGuardToken")
 public class WireGuardToken extends com.pulumi.resources.CustomResource {
+    /**
+     * The name of the WireGuard token.
+     * 
+     */
     @Export(name="name", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> name;
 
+    /**
+     * @return The name of the WireGuard token.
+     * 
+     */
     public Output<Optional<String>> name() {
         return Codegen.optional(this.name);
     }
+    /**
+     * The organization the WireGuard token belongs to.
+     * 
+     */
     @Export(name="org", refs={String.class}, tree="[0]")
     private Output<String> org;
 
+    /**
+     * @return The organization the WireGuard token belongs to.
+     * 
+     */
     public Output<String> org() {
         return this.org;
     }
+    /**
+     * The WireGuard token value.
+     * 
+     */
     @Export(name="token", refs={String.class}, tree="[0]")
     private Output<String> token;
 
+    /**
+     * @return The WireGuard token value.
+     * 
+     */
     public Output<String> token() {
         return this.token;
     }

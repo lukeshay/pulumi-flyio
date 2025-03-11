@@ -6,6 +6,9 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io IP address allocation for an application.
+ */
 export class IP extends pulumi.CustomResource {
     /**
      * Get an existing IP resource's state with the given name, ID, and optional extra
@@ -33,13 +36,37 @@ export class IP extends pulumi.CustomResource {
         return obj['__pulumiType'] === IP.__pulumiType;
     }
 
+    /**
+     * The allocated IP address.
+     */
     public /*out*/ readonly address!: pulumi.Output<string>;
+    /**
+     * The application the IP address is allocated for.
+     */
     public readonly app!: pulumi.Output<string>;
+    /**
+     * When the IP address was allocated.
+     */
     public /*out*/ readonly createdAt!: pulumi.Output<outputs.time.Time>;
+    /**
+     * The Fly.io IP address ID.
+     */
     public /*out*/ readonly flyId!: pulumi.Output<string>;
+    /**
+     * The input arguments used to allocate the IP address.
+     */
     public /*out*/ readonly input!: pulumi.Output<outputs.IPArgs>;
+    /**
+     * The network the IP address belongs to.
+     */
     public readonly network!: pulumi.Output<string | undefined>;
+    /**
+     * The region the IP address is allocated in.
+     */
     public readonly region!: pulumi.Output<string>;
+    /**
+     * The type of IP address (v4 or v6).
+     */
     public /*out*/ readonly type!: pulumi.Output<string>;
 
     /**
@@ -90,8 +117,20 @@ export class IP extends pulumi.CustomResource {
  * The set of arguments for constructing a IP resource.
  */
 export interface IPArgs {
+    /**
+     * The type of IP address (v4 or v6).
+     */
     addrType: pulumi.Input<string>;
+    /**
+     * The name of the Fly.io application to allocate the IP address for.
+     */
     app: pulumi.Input<string>;
+    /**
+     * The network to allocate the IP address in.
+     */
     network?: pulumi.Input<string>;
+    /**
+     * The region to allocate the IP address in.
+     */
     region: pulumi.Input<string>;
 }

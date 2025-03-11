@@ -15,53 +15,121 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io Postgres attachment connects a Postgres database to an application.
+ * 
+ */
 @ResourceType(type="flyio:index:PostgresAttachment")
 public class PostgresAttachment extends com.pulumi.resources.CustomResource {
+    /**
+     * The application to attach the Postgres database to.
+     * 
+     */
     @Export(name="app", refs={String.class}, tree="[0]")
     private Output<String> app;
 
+    /**
+     * @return The application to attach the Postgres database to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
+    /**
+     * The unique ID of the Postgres attachment.
+     * 
+     */
     @Export(name="attachmentId", refs={String.class}, tree="[0]")
     private Output<String> attachmentId;
 
+    /**
+     * @return The unique ID of the Postgres attachment.
+     * 
+     */
     public Output<String> attachmentId() {
         return this.attachmentId;
     }
+    /**
+     * The PostgreSQL connection string.
+     * 
+     */
     @Export(name="connectionString", refs={String.class}, tree="[0]")
     private Output<String> connectionString;
 
+    /**
+     * @return The PostgreSQL connection string.
+     * 
+     */
     public Output<String> connectionString() {
         return this.connectionString;
     }
+    /**
+     * The name of the database to use.
+     * 
+     */
     @Export(name="databaseName", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> databaseName;
 
+    /**
+     * @return The name of the database to use.
+     * 
+     */
     public Output<Optional<String>> databaseName() {
         return Codegen.optional(this.databaseName);
     }
+    /**
+     * The database user to connect as.
+     * 
+     */
     @Export(name="databaseUser", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> databaseUser;
 
+    /**
+     * @return The database user to connect as.
+     * 
+     */
     public Output<Optional<String>> databaseUser() {
         return Codegen.optional(this.databaseUser);
     }
+    /**
+     * Whether to manually enter the connection details.
+     * 
+     */
     @Export(name="manualEntry", refs={Boolean.class}, tree="[0]")
     private Output</* @Nullable */ Boolean> manualEntry;
 
+    /**
+     * @return Whether to manually enter the connection details.
+     * 
+     */
     public Output<Optional<Boolean>> manualEntry() {
         return Codegen.optional(this.manualEntry);
     }
+    /**
+     * The Postgres cluster to attach.
+     * 
+     */
     @Export(name="postgres", refs={String.class}, tree="[0]")
     private Output<String> postgres;
 
+    /**
+     * @return The Postgres cluster to attach.
+     * 
+     */
     public Output<String> postgres() {
         return this.postgres;
     }
+    /**
+     * The environment variable name that contains the connection string.
+     * 
+     */
     @Export(name="variableName", refs={String.class}, tree="[0]")
     private Output<String> variableName;
 
+    /**
+     * @return The environment variable name that contains the connection string.
+     * 
+     */
     public Output<String> variableName() {
         return this.variableName;
     }

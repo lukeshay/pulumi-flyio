@@ -12,18 +12,28 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io WireGuard peer for private network connectivity.
 type WireGuardPeer struct {
 	pulumi.CustomResourceState
 
-	EndpointIp      pulumi.StringOutput    `pulumi:"endpointIp"`
-	Name            pulumi.StringOutput    `pulumi:"name"`
-	Network         pulumi.StringPtrOutput `pulumi:"network"`
-	Org             pulumi.StringOutput    `pulumi:"org"`
-	PeerIp          pulumi.StringOutput    `pulumi:"peerIp"`
-	PrivateKey      pulumi.StringOutput    `pulumi:"privateKey"`
-	PublicKey       pulumi.StringOutput    `pulumi:"publicKey"`
-	Region          pulumi.StringOutput    `pulumi:"region"`
-	WireguardConfig pulumi.StringOutput    `pulumi:"wireguardConfig"`
+	// The endpoint IP address for the WireGuard peer.
+	EndpointIp pulumi.StringOutput `pulumi:"endpointIp"`
+	// The name of the WireGuard peer.
+	Name pulumi.StringOutput `pulumi:"name"`
+	// The network the WireGuard peer belongs to.
+	Network pulumi.StringPtrOutput `pulumi:"network"`
+	// The organization the WireGuard peer belongs to.
+	Org pulumi.StringOutput `pulumi:"org"`
+	// The IP address assigned to the WireGuard peer.
+	PeerIp pulumi.StringOutput `pulumi:"peerIp"`
+	// The private key of the WireGuard peer.
+	PrivateKey pulumi.StringOutput `pulumi:"privateKey"`
+	// The public key of the WireGuard peer.
+	PublicKey pulumi.StringOutput `pulumi:"publicKey"`
+	// The region the WireGuard peer is in.
+	Region pulumi.StringOutput `pulumi:"region"`
+	// The WireGuard configuration for the peer.
+	WireguardConfig pulumi.StringOutput `pulumi:"wireguardConfig"`
 }
 
 // NewWireGuardPeer registers a new resource with the given unique name, arguments, and options.
@@ -75,18 +85,26 @@ func (WireGuardPeerState) ElementType() reflect.Type {
 }
 
 type wireGuardPeerArgs struct {
-	Name    *string `pulumi:"name"`
+	// The name of the WireGuard peer.
+	Name *string `pulumi:"name"`
+	// The network to create the WireGuard peer in.
 	Network *string `pulumi:"network"`
-	Org     string  `pulumi:"org"`
-	Region  *string `pulumi:"region"`
+	// The organization to create the WireGuard peer in.
+	Org string `pulumi:"org"`
+	// The region to create the WireGuard peer in.
+	Region *string `pulumi:"region"`
 }
 
 // The set of arguments for constructing a WireGuardPeer resource.
 type WireGuardPeerArgs struct {
-	Name    pulumi.StringPtrInput
+	// The name of the WireGuard peer.
+	Name pulumi.StringPtrInput
+	// The network to create the WireGuard peer in.
 	Network pulumi.StringPtrInput
-	Org     pulumi.StringInput
-	Region  pulumi.StringPtrInput
+	// The organization to create the WireGuard peer in.
+	Org pulumi.StringInput
+	// The region to create the WireGuard peer in.
+	Region pulumi.StringPtrInput
 }
 
 func (WireGuardPeerArgs) ElementType() reflect.Type {
@@ -176,38 +194,47 @@ func (o WireGuardPeerOutput) ToWireGuardPeerOutputWithContext(ctx context.Contex
 	return o
 }
 
+// The endpoint IP address for the WireGuard peer.
 func (o WireGuardPeerOutput) EndpointIp() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.EndpointIp }).(pulumi.StringOutput)
 }
 
+// The name of the WireGuard peer.
 func (o WireGuardPeerOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
+// The network the WireGuard peer belongs to.
 func (o WireGuardPeerOutput) Network() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringPtrOutput { return v.Network }).(pulumi.StringPtrOutput)
 }
 
+// The organization the WireGuard peer belongs to.
 func (o WireGuardPeerOutput) Org() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.Org }).(pulumi.StringOutput)
 }
 
+// The IP address assigned to the WireGuard peer.
 func (o WireGuardPeerOutput) PeerIp() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.PeerIp }).(pulumi.StringOutput)
 }
 
+// The private key of the WireGuard peer.
 func (o WireGuardPeerOutput) PrivateKey() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.PrivateKey }).(pulumi.StringOutput)
 }
 
+// The public key of the WireGuard peer.
 func (o WireGuardPeerOutput) PublicKey() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.PublicKey }).(pulumi.StringOutput)
 }
 
+// The region the WireGuard peer is in.
 func (o WireGuardPeerOutput) Region() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.Region }).(pulumi.StringOutput)
 }
 
+// The WireGuard configuration for the peer.
 func (o WireGuardPeerOutput) WireguardConfig() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardPeer) pulumi.StringOutput { return v.WireguardConfig }).(pulumi.StringOutput)
 }

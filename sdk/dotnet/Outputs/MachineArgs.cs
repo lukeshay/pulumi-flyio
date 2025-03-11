@@ -14,8 +14,14 @@ namespace PulumiFlyio.Flyio.Outputs
     [OutputType]
     public sealed class MachineArgs
     {
+        /// <summary>
+        /// The Fly.io application to deploy the machine to.
+        /// </summary>
         public readonly string App;
         public readonly PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineConfig Config;
+        /// <summary>
+        /// The deployment strategy for the machine.
+        /// </summary>
         public readonly string? DeploymentStrategy;
         public readonly int? LeaseTtl;
         public readonly bool? Lsvd;

@@ -6,37 +6,78 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
 export interface AppArgs {
+    /**
+     * Whether to enable subdomains for the application.
+     */
     enableSubdomains?: boolean;
+    /**
+     * The name of the Fly.io application.
+     */
     name: string;
+    /**
+     * The network the application belongs to.
+     */
     network?: string;
+    /**
+     * The organization the application belongs to.
+     */
     org: string;
 }
 
 export interface CertificateArgs {
+    /**
+     * The name of the Fly app to add the certificate to.
+     */
     app: string;
+    /**
+     * The hostname for the certificate (e.g., example.com).
+     */
     hostname: string;
 }
 
-export interface CertificateStateChecks {
-    aRecords: string[];
-    aaaaRecords: string[];
-    cnameRecords: string[];
-    dnsProvider: string;
-    dnsVerificationRecord: string;
-    resolvedAddresses: string[];
-    soa: string;
+export interface CertificateIssuanceWaiterArgs {
+    /**
+     * The name of the Fly app that the certificate is associated with.
+     */
+    app: string;
+    /**
+     * The hostname for the certificate (e.g., example.com).
+     */
+    hostname: string;
+    /**
+     * The maximum time to wait for the certificate to be fully issued (in seconds).
+     */
+    timeout: number;
 }
 
 export interface IPArgs {
+    /**
+     * The type of IP address (v4 or v6).
+     */
     addrType: string;
+    /**
+     * The name of the Fly.io application to allocate the IP address for.
+     */
     app: string;
+    /**
+     * The network to allocate the IP address in.
+     */
     network?: string;
+    /**
+     * The region to allocate the IP address in.
+     */
     region: string;
 }
 
 export interface MachineArgs {
+    /**
+     * The Fly.io application to deploy the machine to.
+     */
     app: string;
     config: outputs.flyio.FlyMachineConfig;
+    /**
+     * The deployment strategy for the machine.
+     */
     deploymentStrategy?: string;
     leaseTtl?: number;
     lsvd?: boolean;
@@ -47,7 +88,13 @@ export interface MachineArgs {
 }
 
 export interface VolumeArgs {
+    /**
+     * The Fly.io application to attach the volume to.
+     */
     app: string;
+    /**
+     * Whether to enable automatic backups for the volume.
+     */
     autoBackupEnabled?: boolean;
     compute?: outputs.flyio.FlyMachineGuest;
     computeImage?: string;

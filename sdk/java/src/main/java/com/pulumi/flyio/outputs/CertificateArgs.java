@@ -10,13 +10,29 @@ import java.util.Objects;
 
 @CustomType
 public final class CertificateArgs {
+    /**
+     * @return The name of the Fly app to add the certificate to.
+     * 
+     */
     private String app;
+    /**
+     * @return The hostname for the certificate (e.g., example.com).
+     * 
+     */
     private String hostname;
 
     private CertificateArgs() {}
+    /**
+     * @return The name of the Fly app to add the certificate to.
+     * 
+     */
     public String app() {
         return this.app;
     }
+    /**
+     * @return The hostname for the certificate (e.g., example.com).
+     * 
+     */
     public String hostname() {
         return this.hostname;
     }

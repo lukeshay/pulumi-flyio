@@ -17,30 +17,62 @@ public final class AppArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final AppArgs Empty = new AppArgs();
 
+    /**
+     * Whether to enable subdomains for the application.
+     * 
+     */
     @Import(name="enableSubdomains")
     private @Nullable Output<Boolean> enableSubdomains;
 
+    /**
+     * @return Whether to enable subdomains for the application.
+     * 
+     */
     public Optional<Output<Boolean>> enableSubdomains() {
         return Optional.ofNullable(this.enableSubdomains);
     }
 
+    /**
+     * The name of the Fly.io application.
+     * 
+     */
     @Import(name="name", required=true)
     private Output<String> name;
 
+    /**
+     * @return The name of the Fly.io application.
+     * 
+     */
     public Output<String> name() {
         return this.name;
     }
 
+    /**
+     * The network the application belongs to.
+     * 
+     */
     @Import(name="network")
     private @Nullable Output<String> network;
 
+    /**
+     * @return The network the application belongs to.
+     * 
+     */
     public Optional<Output<String>> network() {
         return Optional.ofNullable(this.network);
     }
 
+    /**
+     * The organization the application belongs to.
+     * 
+     */
     @Import(name="org", required=true)
     private Output<String> org;
 
+    /**
+     * @return The organization the application belongs to.
+     * 
+     */
     public Output<String> org() {
         return this.org;
     }
@@ -72,38 +104,86 @@ public final class AppArgs extends com.pulumi.resources.ResourceArgs {
             $ = new AppArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param enableSubdomains Whether to enable subdomains for the application.
+         * 
+         * @return builder
+         * 
+         */
         public Builder enableSubdomains(@Nullable Output<Boolean> enableSubdomains) {
             $.enableSubdomains = enableSubdomains;
             return this;
         }
 
+        /**
+         * @param enableSubdomains Whether to enable subdomains for the application.
+         * 
+         * @return builder
+         * 
+         */
         public Builder enableSubdomains(Boolean enableSubdomains) {
             return enableSubdomains(Output.of(enableSubdomains));
         }
 
+        /**
+         * @param name The name of the Fly.io application.
+         * 
+         * @return builder
+         * 
+         */
         public Builder name(Output<String> name) {
             $.name = name;
             return this;
         }
 
+        /**
+         * @param name The name of the Fly.io application.
+         * 
+         * @return builder
+         * 
+         */
         public Builder name(String name) {
             return name(Output.of(name));
         }
 
+        /**
+         * @param network The network the application belongs to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder network(@Nullable Output<String> network) {
             $.network = network;
             return this;
         }
 
+        /**
+         * @param network The network the application belongs to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder network(String network) {
             return network(Output.of(network));
         }
 
+        /**
+         * @param org The organization the application belongs to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder org(Output<String> org) {
             $.org = org;
             return this;
         }
 
+        /**
+         * @param org The organization the application belongs to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder org(String org) {
             return org(Output.of(org));
         }

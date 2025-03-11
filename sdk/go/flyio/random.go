@@ -12,10 +12,13 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Generates a random string of the specified length.
 type Random struct {
 	pulumi.CustomResourceState
 
-	Length pulumi.IntOutput    `pulumi:"length"`
+	// The length of the random string to generate.
+	Length pulumi.IntOutput `pulumi:"length"`
+	// The generated random string.
 	Result pulumi.StringOutput `pulumi:"result"`
 }
 
@@ -62,11 +65,13 @@ func (RandomState) ElementType() reflect.Type {
 }
 
 type randomArgs struct {
+	// The length of the random string to generate.
 	Length int `pulumi:"length"`
 }
 
 // The set of arguments for constructing a Random resource.
 type RandomArgs struct {
+	// The length of the random string to generate.
 	Length pulumi.IntInput
 }
 
@@ -157,10 +162,12 @@ func (o RandomOutput) ToRandomOutputWithContext(ctx context.Context) RandomOutpu
 	return o
 }
 
+// The length of the random string to generate.
 func (o RandomOutput) Length() pulumi.IntOutput {
 	return o.ApplyT(func(v *Random) pulumi.IntOutput { return v.Length }).(pulumi.IntOutput)
 }
 
+// The generated random string.
 func (o RandomOutput) Result() pulumi.StringOutput {
 	return o.ApplyT(func(v *Random) pulumi.StringOutput { return v.Result }).(pulumi.StringOutput)
 }

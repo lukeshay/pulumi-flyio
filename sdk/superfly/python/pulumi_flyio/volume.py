@@ -37,6 +37,8 @@ class VolumeArgs:
                  unique_zone_app_wide: Optional[pulumi.Input[bool]] = None):
         """
         The set of arguments for constructing a Volume resource.
+        :param pulumi.Input[str] app: The Fly.io application to attach the volume to.
+        :param pulumi.Input[bool] auto_backup_enabled: Whether to enable automatic backups for the volume.
         """
         pulumi.set(__self__, "app", app)
         if auto_backup_enabled is not None:
@@ -69,6 +71,9 @@ class VolumeArgs:
     @property
     @pulumi.getter
     def app(self) -> pulumi.Input[str]:
+        """
+        The Fly.io application to attach the volume to.
+        """
         return pulumi.get(self, "app")
 
     @app.setter
@@ -78,6 +83,9 @@ class VolumeArgs:
     @property
     @pulumi.getter(name="autoBackupEnabled")
     def auto_backup_enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to enable automatic backups for the volume.
+        """
         return pulumi.get(self, "auto_backup_enabled")
 
     @auto_backup_enabled.setter
@@ -214,9 +222,12 @@ class Volume(pulumi.CustomResource):
                  unique_zone_app_wide: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
         """
-        Create a Volume resource with the given unique name, props, and options.
+        A Fly.io volume provides persistent storage for your applications.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] app: The Fly.io application to attach the volume to.
+        :param pulumi.Input[bool] auto_backup_enabled: Whether to enable automatic backups for the volume.
         """
         ...
     @overload
@@ -225,7 +236,8 @@ class Volume(pulumi.CustomResource):
                  args: VolumeArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Volume resource with the given unique name, props, and options.
+        A Fly.io volume provides persistent storage for your applications.
+
         :param str resource_name: The name of the resource.
         :param VolumeArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -339,6 +351,9 @@ class Volume(pulumi.CustomResource):
     @property
     @pulumi.getter
     def app(self) -> pulumi.Output[str]:
+        """
+        The Fly.io application the volume is attached to.
+        """
         return pulumi.get(self, "app")
 
     @property
@@ -404,6 +419,9 @@ class Volume(pulumi.CustomResource):
     @property
     @pulumi.getter
     def input(self) -> pulumi.Output['outputs.VolumeArgs']:
+        """
+        The input arguments used to create the volume.
+        """
         return pulumi.get(self, "input")
 
     @property

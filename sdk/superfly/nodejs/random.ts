@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * Generates a random string of the specified length.
+ */
 export class Random extends pulumi.CustomResource {
     /**
      * Get an existing Random resource's state with the given name, ID, and optional extra
@@ -31,7 +34,13 @@ export class Random extends pulumi.CustomResource {
         return obj['__pulumiType'] === Random.__pulumiType;
     }
 
+    /**
+     * The length of the random string to generate.
+     */
     public readonly length!: pulumi.Output<number>;
+    /**
+     * The generated random string.
+     */
     public /*out*/ readonly result!: pulumi.Output<string>;
 
     /**
@@ -63,5 +72,8 @@ export class Random extends pulumi.CustomResource {
  * The set of arguments for constructing a Random resource.
  */
 export interface RandomArgs {
+    /**
+     * The length of the random string to generate.
+     */
     length: pulumi.Input<number>;
 }

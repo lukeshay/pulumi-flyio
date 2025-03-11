@@ -12,10 +12,13 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Manages application secrets for a Fly.io application.
 type Secrets struct {
 	pulumi.CustomResourceState
 
-	App    pulumi.StringOutput    `pulumi:"app"`
+	// The Fly.io application the secrets are set for.
+	App pulumi.StringOutput `pulumi:"app"`
+	// The secret values, as key-value pairs.
 	Values pulumi.StringMapOutput `pulumi:"values"`
 }
 
@@ -72,13 +75,17 @@ func (SecretsState) ElementType() reflect.Type {
 }
 
 type secretsArgs struct {
-	App    string            `pulumi:"app"`
+	// The Fly.io application to set secrets for.
+	App string `pulumi:"app"`
+	// The secret values to set, as key-value pairs.
 	Values map[string]string `pulumi:"values"`
 }
 
 // The set of arguments for constructing a Secrets resource.
 type SecretsArgs struct {
-	App    pulumi.StringInput
+	// The Fly.io application to set secrets for.
+	App pulumi.StringInput
+	// The secret values to set, as key-value pairs.
 	Values pulumi.StringMapInput
 }
 
@@ -169,10 +176,12 @@ func (o SecretsOutput) ToSecretsOutputWithContext(ctx context.Context) SecretsOu
 	return o
 }
 
+// The Fly.io application the secrets are set for.
 func (o SecretsOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *Secrets) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
 
+// The secret values, as key-value pairs.
 func (o SecretsOutput) Values() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Secrets) pulumi.StringMapOutput { return v.Values }).(pulumi.StringMapOutput)
 }

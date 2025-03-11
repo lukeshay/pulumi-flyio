@@ -14,9 +14,17 @@ public final class RandomArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final RandomArgs Empty = new RandomArgs();
 
+    /**
+     * The length of the random string to generate.
+     * 
+     */
     @Import(name="length", required=true)
     private Output<Integer> length;
 
+    /**
+     * @return The length of the random string to generate.
+     * 
+     */
     public Output<Integer> length() {
         return this.length;
     }
@@ -45,11 +53,23 @@ public final class RandomArgs extends com.pulumi.resources.ResourceArgs {
             $ = new RandomArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param length The length of the random string to generate.
+         * 
+         * @return builder
+         * 
+         */
         public Builder length(Output<Integer> length) {
             $.length = length;
             return this;
         }
 
+        /**
+         * @param length The length of the random string to generate.
+         * 
+         * @return builder
+         * 
+         */
         public Builder length(Integer length) {
             return length(Output.of(length));
         }

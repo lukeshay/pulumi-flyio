@@ -10,15 +10,27 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io WireGuard token for authenticating WireGuard peers.
+    /// </summary>
     [FlyioResourceType("flyio:index:WireGuardToken")]
     public partial class WireGuardToken : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The name of the WireGuard token.
+        /// </summary>
         [Output("name")]
         public Output<string?> Name { get; private set; } = null!;
 
+        /// <summary>
+        /// The organization the WireGuard token belongs to.
+        /// </summary>
         [Output("org")]
         public Output<string> Org { get; private set; } = null!;
 
+        /// <summary>
+        /// The WireGuard token value.
+        /// </summary>
         [Output("token")]
         public Output<string> Token { get; private set; } = null!;
 
@@ -72,9 +84,15 @@ namespace PulumiFlyio.Flyio
 
     public sealed class WireGuardTokenArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The name of the WireGuard token.
+        /// </summary>
         [Input("name")]
         public Input<string>? Name { get; set; }
 
+        /// <summary>
+        /// The organization to create the WireGuard token in.
+        /// </summary>
         [Input("org", required: true)]
         public Input<string> Org { get; set; } = null!;
 

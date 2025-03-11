@@ -27,6 +27,12 @@ class PostgresAttachmentArgs:
                  variable_name: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a PostgresAttachment resource.
+        :param pulumi.Input[str] app: The application to attach the Postgres database to.
+        :param pulumi.Input[str] postgres: The Postgres cluster to attach.
+        :param pulumi.Input[str] database_name: The name of the database to use.
+        :param pulumi.Input[str] database_user: The database user to connect as.
+        :param pulumi.Input[bool] manual_entry: Whether to manually enter the connection details.
+        :param pulumi.Input[str] variable_name: The environment variable name to store the connection string.
         """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "postgres", postgres)
@@ -42,6 +48,9 @@ class PostgresAttachmentArgs:
     @property
     @pulumi.getter
     def app(self) -> pulumi.Input[str]:
+        """
+        The application to attach the Postgres database to.
+        """
         return pulumi.get(self, "app")
 
     @app.setter
@@ -51,6 +60,9 @@ class PostgresAttachmentArgs:
     @property
     @pulumi.getter
     def postgres(self) -> pulumi.Input[str]:
+        """
+        The Postgres cluster to attach.
+        """
         return pulumi.get(self, "postgres")
 
     @postgres.setter
@@ -60,6 +72,9 @@ class PostgresAttachmentArgs:
     @property
     @pulumi.getter(name="databaseName")
     def database_name(self) -> Optional[pulumi.Input[str]]:
+        """
+        The name of the database to use.
+        """
         return pulumi.get(self, "database_name")
 
     @database_name.setter
@@ -69,6 +84,9 @@ class PostgresAttachmentArgs:
     @property
     @pulumi.getter(name="databaseUser")
     def database_user(self) -> Optional[pulumi.Input[str]]:
+        """
+        The database user to connect as.
+        """
         return pulumi.get(self, "database_user")
 
     @database_user.setter
@@ -78,6 +96,9 @@ class PostgresAttachmentArgs:
     @property
     @pulumi.getter(name="manualEntry")
     def manual_entry(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to manually enter the connection details.
+        """
         return pulumi.get(self, "manual_entry")
 
     @manual_entry.setter
@@ -87,6 +108,9 @@ class PostgresAttachmentArgs:
     @property
     @pulumi.getter(name="variableName")
     def variable_name(self) -> Optional[pulumi.Input[str]]:
+        """
+        The environment variable name to store the connection string.
+        """
         return pulumi.get(self, "variable_name")
 
     @variable_name.setter
@@ -107,9 +131,16 @@ class PostgresAttachment(pulumi.CustomResource):
                  variable_name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a PostgresAttachment resource with the given unique name, props, and options.
+        A Fly.io Postgres attachment connects a Postgres database to an application.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] app: The application to attach the Postgres database to.
+        :param pulumi.Input[str] database_name: The name of the database to use.
+        :param pulumi.Input[str] database_user: The database user to connect as.
+        :param pulumi.Input[bool] manual_entry: Whether to manually enter the connection details.
+        :param pulumi.Input[str] postgres: The Postgres cluster to attach.
+        :param pulumi.Input[str] variable_name: The environment variable name to store the connection string.
         """
         ...
     @overload
@@ -118,7 +149,8 @@ class PostgresAttachment(pulumi.CustomResource):
                  args: PostgresAttachmentArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a PostgresAttachment resource with the given unique name, props, and options.
+        A Fly.io Postgres attachment connects a Postgres database to an application.
+
         :param str resource_name: The name of the resource.
         :param PostgresAttachmentArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -198,40 +230,64 @@ class PostgresAttachment(pulumi.CustomResource):
     @property
     @pulumi.getter
     def app(self) -> pulumi.Output[str]:
+        """
+        The application to attach the Postgres database to.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter(name="attachmentId")
     def attachment_id(self) -> pulumi.Output[str]:
+        """
+        The unique ID of the Postgres attachment.
+        """
         return pulumi.get(self, "attachment_id")
 
     @property
     @pulumi.getter(name="connectionString")
     def connection_string(self) -> pulumi.Output[str]:
+        """
+        The PostgreSQL connection string.
+        """
         return pulumi.get(self, "connection_string")
 
     @property
     @pulumi.getter(name="databaseName")
     def database_name(self) -> pulumi.Output[Optional[str]]:
+        """
+        The name of the database to use.
+        """
         return pulumi.get(self, "database_name")
 
     @property
     @pulumi.getter(name="databaseUser")
     def database_user(self) -> pulumi.Output[Optional[str]]:
+        """
+        The database user to connect as.
+        """
         return pulumi.get(self, "database_user")
 
     @property
     @pulumi.getter(name="manualEntry")
     def manual_entry(self) -> pulumi.Output[Optional[bool]]:
+        """
+        Whether to manually enter the connection details.
+        """
         return pulumi.get(self, "manual_entry")
 
     @property
     @pulumi.getter
     def postgres(self) -> pulumi.Output[str]:
+        """
+        The Postgres cluster to attach.
+        """
         return pulumi.get(self, "postgres")
 
     @property
     @pulumi.getter(name="variableName")
     def variable_name(self) -> pulumi.Output[str]:
+        """
+        The environment variable name that contains the connection string.
+        """
         return pulumi.get(self, "variable_name")
 

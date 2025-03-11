@@ -30,6 +30,31 @@ func (o TimeOutput) ToTimeOutputWithContext(ctx context.Context) TimeOutput {
 	return o
 }
 
+type TimePtrOutput struct{ *pulumi.OutputState }
+
+func (TimePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**Time)(nil)).Elem()
+}
+
+func (o TimePtrOutput) ToTimePtrOutput() TimePtrOutput {
+	return o
+}
+
+func (o TimePtrOutput) ToTimePtrOutputWithContext(ctx context.Context) TimePtrOutput {
+	return o
+}
+
+func (o TimePtrOutput) Elem() TimeOutput {
+	return o.ApplyT(func(v *Time) Time {
+		if v != nil {
+			return *v
+		}
+		var ret Time
+		return ret
+	}).(TimeOutput)
+}
+
 func init() {
 	pulumi.RegisterOutputType(TimeOutput{})
+	pulumi.RegisterOutputType(TimePtrOutput{})
 }

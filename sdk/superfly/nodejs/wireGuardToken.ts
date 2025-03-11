@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io WireGuard token for authenticating WireGuard peers.
+ */
 export class WireGuardToken extends pulumi.CustomResource {
     /**
      * Get an existing WireGuardToken resource's state with the given name, ID, and optional extra
@@ -31,8 +34,17 @@ export class WireGuardToken extends pulumi.CustomResource {
         return obj['__pulumiType'] === WireGuardToken.__pulumiType;
     }
 
+    /**
+     * The name of the WireGuard token.
+     */
     public readonly name!: pulumi.Output<string | undefined>;
+    /**
+     * The organization the WireGuard token belongs to.
+     */
     public readonly org!: pulumi.Output<string>;
+    /**
+     * The WireGuard token value.
+     */
     public /*out*/ readonly token!: pulumi.Output<string>;
 
     /**
@@ -68,6 +80,12 @@ export class WireGuardToken extends pulumi.CustomResource {
  * The set of arguments for constructing a WireGuardToken resource.
  */
 export interface WireGuardTokenArgs {
+    /**
+     * The name of the WireGuard token.
+     */
     name?: pulumi.Input<string>;
+    /**
+     * The organization to create the WireGuard token in.
+     */
     org: pulumi.Input<string>;
 }

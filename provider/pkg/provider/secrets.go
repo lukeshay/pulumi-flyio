@@ -7,8 +7,13 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type Secrets struct{}
+
+var _ infer.Annotated = (*Secrets)(nil)
+
+func (s *Secrets) Annotate(anno infer.Annotator) {
+	anno.Describe(&s, "Manages application secrets for a Fly.io application.")
+}
 
 var (
 	_ infer.CustomResource[SecretsArgs, SecretsState] = (*Secrets)(nil)
@@ -22,9 +27,23 @@ type SecretsArgs struct {
 	Values map[string]string `pulumi:"values" provider:"secret"`
 }
 
+var _ infer.Annotated = (*SecretsArgs)(nil)
+
+func (a *SecretsArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.App, "The Fly.io application to set secrets for.")
+	anno.Describe(&a.Values, "The secret values to set, as key-value pairs.")
+}
+
 type SecretsState struct {
 	App    string            `json:"app" pulumi:"app"`
 	Values map[string]string `pulumi:"values" provider:"secret"`
+}
+
+var _ infer.Annotated = (*SecretsState)(nil)
+
+func (s *SecretsState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.App, "The Fly.io application the secrets are set for.")
+	anno.Describe(&s.Values, "The secret values, as key-value pairs.")
 }
 
 func (Secrets) Create(ctx context.Context, name string, input SecretsArgs, preview bool) (string, SecretsState, error) {

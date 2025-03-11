@@ -9,119 +9,252 @@ import com.pulumi.core.annotations.ResourceType;
 import com.pulumi.core.internal.Codegen;
 import com.pulumi.flyio.Utilities;
 import com.pulumi.flyio.outputs.CertificateArgs;
-import com.pulumi.flyio.outputs.CertificateStateChecks;
 import com.pulumi.flyio.time.outputs.Time;
 import java.lang.Boolean;
 import java.lang.String;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io SSL/TLS certificate for an app&#39;s domain.
+ * 
+ */
 @ResourceType(type="flyio:index:Certificate")
 public class Certificate extends com.pulumi.resources.CustomResource {
+    /**
+     * Whether ACME ALPN verification is configured.
+     * 
+     */
     @Export(name="acmeAlpnConfigured", refs={Boolean.class}, tree="[0]")
     private Output<Boolean> acmeAlpnConfigured;
 
+    /**
+     * @return Whether ACME ALPN verification is configured.
+     * 
+     */
     public Output<Boolean> acmeAlpnConfigured() {
         return this.acmeAlpnConfigured;
     }
+    /**
+     * Whether ACME DNS verification is configured.
+     * 
+     */
     @Export(name="acmeDnsConfigured", refs={Boolean.class}, tree="[0]")
     private Output<Boolean> acmeDnsConfigured;
 
+    /**
+     * @return Whether ACME DNS verification is configured.
+     * 
+     */
     public Output<Boolean> acmeDnsConfigured() {
         return this.acmeDnsConfigured;
     }
+    /**
+     * The name of the Fly app.
+     * 
+     */
     @Export(name="app", refs={String.class}, tree="[0]")
     private Output<String> app;
 
+    /**
+     * @return The name of the Fly app.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
+    /**
+     * The certificate authority used.
+     * 
+     */
     @Export(name="certificateAuthority", refs={String.class}, tree="[0]")
     private Output<String> certificateAuthority;
 
+    /**
+     * @return The certificate authority used.
+     * 
+     */
     public Output<String> certificateAuthority() {
         return this.certificateAuthority;
     }
-    @Export(name="checks", refs={CertificateStateChecks.class}, tree="[0]")
-    private Output<CertificateStateChecks> checks;
-
-    public Output<CertificateStateChecks> checks() {
-        return this.checks;
-    }
+    /**
+     * The status of the certificate.
+     * 
+     */
     @Export(name="clientStatus", refs={String.class}, tree="[0]")
     private Output<String> clientStatus;
 
+    /**
+     * @return The status of the certificate.
+     * 
+     */
     public Output<String> clientStatus() {
         return this.clientStatus;
     }
+    /**
+     * Whether the certificate is fully configured.
+     * 
+     */
     @Export(name="configured", refs={Boolean.class}, tree="[0]")
     private Output<Boolean> configured;
 
+    /**
+     * @return Whether the certificate is fully configured.
+     * 
+     */
     public Output<Boolean> configured() {
         return this.configured;
     }
+    /**
+     * When the certificate was created.
+     * 
+     */
     @Export(name="createdAt", refs={Time.class}, tree="[0]")
     private Output<Time> createdAt;
 
+    /**
+     * @return When the certificate was created.
+     * 
+     */
     public Output<Time> createdAt() {
         return this.createdAt;
     }
+    /**
+     * The DNS provider for the hostname.
+     * 
+     */
     @Export(name="dnsProvider", refs={String.class}, tree="[0]")
     private Output<String> dnsProvider;
 
+    /**
+     * @return The DNS provider for the hostname.
+     * 
+     */
     public Output<String> dnsProvider() {
         return this.dnsProvider;
     }
+    /**
+     * Hostname for DNS validation.
+     * 
+     */
     @Export(name="dnsValidationHostname", refs={String.class}, tree="[0]")
     private Output<String> dnsValidationHostname;
 
+    /**
+     * @return Hostname for DNS validation.
+     * 
+     */
     public Output<String> dnsValidationHostname() {
         return this.dnsValidationHostname;
     }
+    /**
+     * Instructions for DNS validation.
+     * 
+     */
     @Export(name="dnsValidationInstructions", refs={String.class}, tree="[0]")
     private Output<String> dnsValidationInstructions;
 
+    /**
+     * @return Instructions for DNS validation.
+     * 
+     */
     public Output<String> dnsValidationInstructions() {
         return this.dnsValidationInstructions;
     }
+    /**
+     * Target for DNS validation.
+     * 
+     */
     @Export(name="dnsValidationTarget", refs={String.class}, tree="[0]")
     private Output<String> dnsValidationTarget;
 
+    /**
+     * @return Target for DNS validation.
+     * 
+     */
     public Output<String> dnsValidationTarget() {
         return this.dnsValidationTarget;
     }
+    /**
+     * The Fly.io certificate ID.
+     * 
+     */
     @Export(name="flyId", refs={String.class}, tree="[0]")
     private Output<String> flyId;
 
+    /**
+     * @return The Fly.io certificate ID.
+     * 
+     */
     public Output<String> flyId() {
         return this.flyId;
     }
+    /**
+     * The hostname for the certificate.
+     * 
+     */
     @Export(name="hostname", refs={String.class}, tree="[0]")
     private Output<String> hostname;
 
+    /**
+     * @return The hostname for the certificate.
+     * 
+     */
     public Output<String> hostname() {
         return this.hostname;
     }
+    /**
+     * The input arguments used to create the certificate.
+     * 
+     */
     @Export(name="input", refs={CertificateArgs.class}, tree="[0]")
     private Output<CertificateArgs> input;
 
+    /**
+     * @return The input arguments used to create the certificate.
+     * 
+     */
     public Output<CertificateArgs> input() {
         return this.input;
     }
+    /**
+     * Whether the hostname is an apex domain.
+     * 
+     */
     @Export(name="isApex", refs={Boolean.class}, tree="[0]")
     private Output<Boolean> isApex;
 
+    /**
+     * @return Whether the hostname is an apex domain.
+     * 
+     */
     public Output<Boolean> isApex() {
         return this.isApex;
     }
+    /**
+     * Whether the certificate is a wildcard certificate.
+     * 
+     */
     @Export(name="isWildcard", refs={Boolean.class}, tree="[0]")
     private Output<Boolean> isWildcard;
 
+    /**
+     * @return Whether the certificate is a wildcard certificate.
+     * 
+     */
     public Output<Boolean> isWildcard() {
         return this.isWildcard;
     }
+    /**
+     * The source of the certificate.
+     * 
+     */
     @Export(name="source", refs={String.class}, tree="[0]")
     private Output<String> source;
 
+    /**
+     * @return The source of the certificate.
+     * 
+     */
     public Output<String> source() {
         return this.source;
     }

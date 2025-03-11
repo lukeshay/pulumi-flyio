@@ -25,6 +25,8 @@ class CertificateArgs:
                  hostname: pulumi.Input[str]):
         """
         The set of arguments for constructing a Certificate resource.
+        :param pulumi.Input[str] app: The name of the Fly app to add the certificate to.
+        :param pulumi.Input[str] hostname: The hostname for the certificate (e.g., example.com).
         """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "hostname", hostname)
@@ -32,6 +34,9 @@ class CertificateArgs:
     @property
     @pulumi.getter
     def app(self) -> pulumi.Input[str]:
+        """
+        The name of the Fly app to add the certificate to.
+        """
         return pulumi.get(self, "app")
 
     @app.setter
@@ -41,6 +46,9 @@ class CertificateArgs:
     @property
     @pulumi.getter
     def hostname(self) -> pulumi.Input[str]:
+        """
+        The hostname for the certificate (e.g., example.com).
+        """
         return pulumi.get(self, "hostname")
 
     @hostname.setter
@@ -57,9 +65,12 @@ class Certificate(pulumi.CustomResource):
                  hostname: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a Certificate resource with the given unique name, props, and options.
+        A Fly.io SSL/TLS certificate for an app's domain.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] app: The name of the Fly app to add the certificate to.
+        :param pulumi.Input[str] hostname: The hostname for the certificate (e.g., example.com).
         """
         ...
     @overload
@@ -68,7 +79,8 @@ class Certificate(pulumi.CustomResource):
                  args: CertificateArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Certificate resource with the given unique name, props, and options.
+        A Fly.io SSL/TLS certificate for an app's domain.
+
         :param str resource_name: The name of the resource.
         :param CertificateArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -104,7 +116,6 @@ class Certificate(pulumi.CustomResource):
             __props__.__dict__["acme_alpn_configured"] = None
             __props__.__dict__["acme_dns_configured"] = None
             __props__.__dict__["certificate_authority"] = None
-            __props__.__dict__["checks"] = None
             __props__.__dict__["client_status"] = None
             __props__.__dict__["configured"] = None
             __props__.__dict__["created_at"] = None
@@ -143,7 +154,6 @@ class Certificate(pulumi.CustomResource):
         __props__.__dict__["acme_dns_configured"] = None
         __props__.__dict__["app"] = None
         __props__.__dict__["certificate_authority"] = None
-        __props__.__dict__["checks"] = None
         __props__.__dict__["client_status"] = None
         __props__.__dict__["configured"] = None
         __props__.__dict__["created_at"] = None
@@ -162,90 +172,136 @@ class Certificate(pulumi.CustomResource):
     @property
     @pulumi.getter(name="acmeAlpnConfigured")
     def acme_alpn_configured(self) -> pulumi.Output[bool]:
+        """
+        Whether ACME ALPN verification is configured.
+        """
         return pulumi.get(self, "acme_alpn_configured")
 
     @property
     @pulumi.getter(name="acmeDnsConfigured")
     def acme_dns_configured(self) -> pulumi.Output[bool]:
+        """
+        Whether ACME DNS verification is configured.
+        """
         return pulumi.get(self, "acme_dns_configured")
 
     @property
     @pulumi.getter
     def app(self) -> pulumi.Output[str]:
+        """
+        The name of the Fly app.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter(name="certificateAuthority")
     def certificate_authority(self) -> pulumi.Output[str]:
+        """
+        The certificate authority used.
+        """
         return pulumi.get(self, "certificate_authority")
-
-    @property
-    @pulumi.getter
-    def checks(self) -> pulumi.Output['outputs.CertificateStateChecks']:
-        return pulumi.get(self, "checks")
 
     @property
     @pulumi.getter(name="clientStatus")
     def client_status(self) -> pulumi.Output[str]:
+        """
+        The status of the certificate.
+        """
         return pulumi.get(self, "client_status")
 
     @property
     @pulumi.getter
     def configured(self) -> pulumi.Output[bool]:
+        """
+        Whether the certificate is fully configured.
+        """
         return pulumi.get(self, "configured")
 
     @property
     @pulumi.getter(name="createdAt")
     def created_at(self) -> pulumi.Output['_time.outputs.Time']:
+        """
+        When the certificate was created.
+        """
         return pulumi.get(self, "created_at")
 
     @property
     @pulumi.getter(name="dnsProvider")
     def dns_provider(self) -> pulumi.Output[str]:
+        """
+        The DNS provider for the hostname.
+        """
         return pulumi.get(self, "dns_provider")
 
     @property
     @pulumi.getter(name="dnsValidationHostname")
     def dns_validation_hostname(self) -> pulumi.Output[str]:
+        """
+        Hostname for DNS validation.
+        """
         return pulumi.get(self, "dns_validation_hostname")
 
     @property
     @pulumi.getter(name="dnsValidationInstructions")
     def dns_validation_instructions(self) -> pulumi.Output[str]:
+        """
+        Instructions for DNS validation.
+        """
         return pulumi.get(self, "dns_validation_instructions")
 
     @property
     @pulumi.getter(name="dnsValidationTarget")
     def dns_validation_target(self) -> pulumi.Output[str]:
+        """
+        Target for DNS validation.
+        """
         return pulumi.get(self, "dns_validation_target")
 
     @property
     @pulumi.getter(name="flyId")
     def fly_id(self) -> pulumi.Output[str]:
+        """
+        The Fly.io certificate ID.
+        """
         return pulumi.get(self, "fly_id")
 
     @property
     @pulumi.getter
     def hostname(self) -> pulumi.Output[str]:
+        """
+        The hostname for the certificate.
+        """
         return pulumi.get(self, "hostname")
 
     @property
     @pulumi.getter
     def input(self) -> pulumi.Output['outputs.CertificateArgs']:
+        """
+        The input arguments used to create the certificate.
+        """
         return pulumi.get(self, "input")
 
     @property
     @pulumi.getter(name="isApex")
     def is_apex(self) -> pulumi.Output[bool]:
+        """
+        Whether the hostname is an apex domain.
+        """
         return pulumi.get(self, "is_apex")
 
     @property
     @pulumi.getter(name="isWildcard")
     def is_wildcard(self) -> pulumi.Output[bool]:
+        """
+        Whether the certificate is a wildcard certificate.
+        """
         return pulumi.get(self, "is_wildcard")
 
     @property
     @pulumi.getter
     def source(self) -> pulumi.Output[str]:
+        """
+        The source of the certificate.
+        """
         return pulumi.get(self, "source")
 

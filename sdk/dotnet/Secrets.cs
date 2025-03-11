@@ -10,12 +10,21 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// Manages application secrets for a Fly.io application.
+    /// </summary>
     [FlyioResourceType("flyio:index:Secrets")]
     public partial class Secrets : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The Fly.io application the secrets are set for.
+        /// </summary>
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
+        /// <summary>
+        /// The secret values, as key-value pairs.
+        /// </summary>
         [Output("values")]
         public Output<ImmutableDictionary<string, string>> Values { get; private set; } = null!;
 
@@ -69,11 +78,18 @@ namespace PulumiFlyio.Flyio
 
     public sealed class SecretsArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The Fly.io application to set secrets for.
+        /// </summary>
         [Input("app", required: true)]
         public Input<string> App { get; set; } = null!;
 
         [Input("values", required: true)]
         private InputMap<string>? _values;
+
+        /// <summary>
+        /// The secret values to set, as key-value pairs.
+        /// </summary>
         public InputMap<string> Values
         {
             get => _values ?? (_values = new InputMap<string>());

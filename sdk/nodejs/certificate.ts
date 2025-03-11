@@ -6,6 +6,9 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io SSL/TLS certificate for an app's domain.
+ */
 export class Certificate extends pulumi.CustomResource {
     /**
      * Get an existing Certificate resource's state with the given name, ID, and optional extra
@@ -33,23 +36,73 @@ export class Certificate extends pulumi.CustomResource {
         return obj['__pulumiType'] === Certificate.__pulumiType;
     }
 
+    /**
+     * Whether ACME ALPN verification is configured.
+     */
     public /*out*/ readonly acmeAlpnConfigured!: pulumi.Output<boolean>;
+    /**
+     * Whether ACME DNS verification is configured.
+     */
     public /*out*/ readonly acmeDnsConfigured!: pulumi.Output<boolean>;
+    /**
+     * The name of the Fly app.
+     */
     public readonly app!: pulumi.Output<string>;
+    /**
+     * The certificate authority used.
+     */
     public /*out*/ readonly certificateAuthority!: pulumi.Output<string>;
-    public /*out*/ readonly checks!: pulumi.Output<outputs.CertificateStateChecks>;
+    /**
+     * The status of the certificate.
+     */
     public /*out*/ readonly clientStatus!: pulumi.Output<string>;
+    /**
+     * Whether the certificate is fully configured.
+     */
     public /*out*/ readonly configured!: pulumi.Output<boolean>;
+    /**
+     * When the certificate was created.
+     */
     public /*out*/ readonly createdAt!: pulumi.Output<outputs.time.Time>;
+    /**
+     * The DNS provider for the hostname.
+     */
     public /*out*/ readonly dnsProvider!: pulumi.Output<string>;
+    /**
+     * Hostname for DNS validation.
+     */
     public /*out*/ readonly dnsValidationHostname!: pulumi.Output<string>;
+    /**
+     * Instructions for DNS validation.
+     */
     public /*out*/ readonly dnsValidationInstructions!: pulumi.Output<string>;
+    /**
+     * Target for DNS validation.
+     */
     public /*out*/ readonly dnsValidationTarget!: pulumi.Output<string>;
+    /**
+     * The Fly.io certificate ID.
+     */
     public /*out*/ readonly flyId!: pulumi.Output<string>;
+    /**
+     * The hostname for the certificate.
+     */
     public readonly hostname!: pulumi.Output<string>;
+    /**
+     * The input arguments used to create the certificate.
+     */
     public /*out*/ readonly input!: pulumi.Output<outputs.CertificateArgs>;
+    /**
+     * Whether the hostname is an apex domain.
+     */
     public /*out*/ readonly isApex!: pulumi.Output<boolean>;
+    /**
+     * Whether the certificate is a wildcard certificate.
+     */
     public /*out*/ readonly isWildcard!: pulumi.Output<boolean>;
+    /**
+     * The source of the certificate.
+     */
     public /*out*/ readonly source!: pulumi.Output<string>;
 
     /**
@@ -74,7 +127,6 @@ export class Certificate extends pulumi.CustomResource {
             resourceInputs["acmeAlpnConfigured"] = undefined /*out*/;
             resourceInputs["acmeDnsConfigured"] = undefined /*out*/;
             resourceInputs["certificateAuthority"] = undefined /*out*/;
-            resourceInputs["checks"] = undefined /*out*/;
             resourceInputs["clientStatus"] = undefined /*out*/;
             resourceInputs["configured"] = undefined /*out*/;
             resourceInputs["createdAt"] = undefined /*out*/;
@@ -92,7 +144,6 @@ export class Certificate extends pulumi.CustomResource {
             resourceInputs["acmeDnsConfigured"] = undefined /*out*/;
             resourceInputs["app"] = undefined /*out*/;
             resourceInputs["certificateAuthority"] = undefined /*out*/;
-            resourceInputs["checks"] = undefined /*out*/;
             resourceInputs["clientStatus"] = undefined /*out*/;
             resourceInputs["configured"] = undefined /*out*/;
             resourceInputs["createdAt"] = undefined /*out*/;
@@ -116,6 +167,12 @@ export class Certificate extends pulumi.CustomResource {
  * The set of arguments for constructing a Certificate resource.
  */
 export interface CertificateArgs {
+    /**
+     * The name of the Fly app to add the certificate to.
+     */
     app: pulumi.Input<string>;
+    /**
+     * The hostname for the certificate (e.g., example.com).
+     */
     hostname: pulumi.Input<string>;
 }

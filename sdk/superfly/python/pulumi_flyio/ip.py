@@ -27,6 +27,10 @@ class IPArgs:
                  network: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a IP resource.
+        :param pulumi.Input[str] addr_type: The type of IP address (v4 or v6).
+        :param pulumi.Input[str] app: The name of the Fly.io application to allocate the IP address for.
+        :param pulumi.Input[str] region: The region to allocate the IP address in.
+        :param pulumi.Input[str] network: The network to allocate the IP address in.
         """
         pulumi.set(__self__, "addr_type", addr_type)
         pulumi.set(__self__, "app", app)
@@ -37,6 +41,9 @@ class IPArgs:
     @property
     @pulumi.getter(name="addrType")
     def addr_type(self) -> pulumi.Input[str]:
+        """
+        The type of IP address (v4 or v6).
+        """
         return pulumi.get(self, "addr_type")
 
     @addr_type.setter
@@ -46,6 +53,9 @@ class IPArgs:
     @property
     @pulumi.getter
     def app(self) -> pulumi.Input[str]:
+        """
+        The name of the Fly.io application to allocate the IP address for.
+        """
         return pulumi.get(self, "app")
 
     @app.setter
@@ -55,6 +65,9 @@ class IPArgs:
     @property
     @pulumi.getter
     def region(self) -> pulumi.Input[str]:
+        """
+        The region to allocate the IP address in.
+        """
         return pulumi.get(self, "region")
 
     @region.setter
@@ -64,6 +77,9 @@ class IPArgs:
     @property
     @pulumi.getter
     def network(self) -> Optional[pulumi.Input[str]]:
+        """
+        The network to allocate the IP address in.
+        """
         return pulumi.get(self, "network")
 
     @network.setter
@@ -82,9 +98,14 @@ class IP(pulumi.CustomResource):
                  region: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a IP resource with the given unique name, props, and options.
+        A Fly.io IP address allocation for an application.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] addr_type: The type of IP address (v4 or v6).
+        :param pulumi.Input[str] app: The name of the Fly.io application to allocate the IP address for.
+        :param pulumi.Input[str] network: The network to allocate the IP address in.
+        :param pulumi.Input[str] region: The region to allocate the IP address in.
         """
         ...
     @overload
@@ -93,7 +114,8 @@ class IP(pulumi.CustomResource):
                  args: IPArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a IP resource with the given unique name, props, and options.
+        A Fly.io IP address allocation for an application.
+
         :param str resource_name: The name of the resource.
         :param IPArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -172,40 +194,64 @@ class IP(pulumi.CustomResource):
     @property
     @pulumi.getter
     def address(self) -> pulumi.Output[str]:
+        """
+        The allocated IP address.
+        """
         return pulumi.get(self, "address")
 
     @property
     @pulumi.getter
     def app(self) -> pulumi.Output[str]:
+        """
+        The application the IP address is allocated for.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter(name="createdAt")
     def created_at(self) -> pulumi.Output['_time.outputs.Time']:
+        """
+        When the IP address was allocated.
+        """
         return pulumi.get(self, "created_at")
 
     @property
     @pulumi.getter(name="flyId")
     def fly_id(self) -> pulumi.Output[str]:
+        """
+        The Fly.io IP address ID.
+        """
         return pulumi.get(self, "fly_id")
 
     @property
     @pulumi.getter
     def input(self) -> pulumi.Output['outputs.IPArgs']:
+        """
+        The input arguments used to allocate the IP address.
+        """
         return pulumi.get(self, "input")
 
     @property
     @pulumi.getter
     def network(self) -> pulumi.Output[Optional[str]]:
+        """
+        The network the IP address belongs to.
+        """
         return pulumi.get(self, "network")
 
     @property
     @pulumi.getter
     def region(self) -> pulumi.Output[str]:
+        """
+        The region the IP address is allocated in.
+        """
         return pulumi.get(self, "region")
 
     @property
     @pulumi.getter
     def type(self) -> pulumi.Output[str]:
+        """
+        The type of IP address (v4 or v6).
+        """
         return pulumi.get(self, "type")
 

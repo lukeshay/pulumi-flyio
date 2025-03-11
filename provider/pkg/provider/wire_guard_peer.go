@@ -16,8 +16,13 @@ import (
 	"golang.org/x/crypto/curve25519"
 )
 
-// TODO: Add annotations
 type WireGuardPeer struct{}
+
+var _ infer.Annotated = (*WireGuardPeer)(nil)
+
+func (w *WireGuardPeer) Annotate(anno infer.Annotator) {
+	anno.Describe(&w, "A Fly.io WireGuard peer for private network connectivity.")
+}
 
 var (
 	_ infer.CustomResource[WireGuardPeerArgs, WireGuardPeerState] = (*WireGuardPeer)(nil)
@@ -32,6 +37,15 @@ type WireGuardPeerArgs struct {
 	Network string `pulumi:"network,optional"`
 }
 
+var _ infer.Annotated = (*WireGuardPeerArgs)(nil)
+
+func (a *WireGuardPeerArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.Org, "The organization to create the WireGuard peer in.")
+	anno.Describe(&a.Region, "The region to create the WireGuard peer in.")
+	anno.Describe(&a.Name, "The name of the WireGuard peer.")
+	anno.Describe(&a.Network, "The network to create the WireGuard peer in.")
+}
+
 type WireGuardPeerState struct {
 	PublicKey       string `pulumi:"publicKey" provider:"secret"`
 	PrivateKey      string `pulumi:"privateKey" provider:"secret"`
@@ -42,6 +56,20 @@ type WireGuardPeerState struct {
 	Org             string `pulumi:"org"`
 	Region          string `pulumi:"region"`
 	Network         string `pulumi:"network,optional"`
+}
+
+var _ infer.Annotated = (*WireGuardPeerState)(nil)
+
+func (s *WireGuardPeerState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.PublicKey, "The public key of the WireGuard peer.")
+	anno.Describe(&s.PrivateKey, "The private key of the WireGuard peer.")
+	anno.Describe(&s.WireGuardConfig, "The WireGuard configuration for the peer.")
+	anno.Describe(&s.PeerIP, "The IP address assigned to the WireGuard peer.")
+	anno.Describe(&s.EndpointIP, "The endpoint IP address for the WireGuard peer.")
+	anno.Describe(&s.Name, "The name of the WireGuard peer.")
+	anno.Describe(&s.Org, "The organization the WireGuard peer belongs to.")
+	anno.Describe(&s.Region, "The region the WireGuard peer is in.")
+	anno.Describe(&s.Network, "The network the WireGuard peer belongs to.")
 }
 
 func (WireGuardPeer) Create(ctx context.Context, name string, input WireGuardPeerArgs, preview bool) (string, WireGuardPeerState, error) {

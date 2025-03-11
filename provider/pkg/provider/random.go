@@ -4,18 +4,38 @@ import (
 	"context"
 	"math/rand"
 	"time"
+
+	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type Random struct{}
+
+var _ infer.Annotated = (*Random)(nil)
+
+func (r *Random) Annotate(anno infer.Annotator) {
+	anno.Describe(&r, "Generates a random string of the specified length.")
+}
 
 type RandomArgs struct {
 	Length int `pulumi:"length"`
 }
 
+var _ infer.Annotated = (*RandomArgs)(nil)
+
+func (a *RandomArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.Length, "The length of the random string to generate.")
+}
+
 type RandomState struct {
 	Result string `pulumi:"result"`
 	RandomArgs
+}
+
+var _ infer.Annotated = (*RandomState)(nil)
+
+func (s *RandomState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Result, "The generated random string.")
+	anno.Describe(&s.RandomArgs, "The input arguments used to generate the random string.")
 }
 
 func (Random) Create(ctx context.Context, name string, input RandomArgs, preview bool) (string, RandomState, error) {

@@ -6,6 +6,9 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io application.
+ */
 export class App extends pulumi.CustomResource {
     /**
      * Get an existing App resource's state with the given name, ID, and optional extra
@@ -33,11 +36,29 @@ export class App extends pulumi.CustomResource {
         return obj['__pulumiType'] === App.__pulumiType;
     }
 
+    /**
+     * Whether subdomains are enabled for the application.
+     */
     public readonly enableSubdomains!: pulumi.Output<boolean | undefined>;
+    /**
+     * The input arguments used to create the application.
+     */
     public /*out*/ readonly input!: pulumi.Output<outputs.AppArgs>;
+    /**
+     * The name of the Fly.io application.
+     */
     public readonly name!: pulumi.Output<string>;
+    /**
+     * The network the application belongs to.
+     */
     public readonly network!: pulumi.Output<string | undefined>;
+    /**
+     * The organization the application belongs to.
+     */
     public readonly org!: pulumi.Output<string>;
+    /**
+     * The current status of the application.
+     */
     public /*out*/ readonly status!: pulumi.Output<string | undefined>;
 
     /**
@@ -80,8 +101,20 @@ export class App extends pulumi.CustomResource {
  * The set of arguments for constructing a App resource.
  */
 export interface AppArgs {
+    /**
+     * Whether to enable subdomains for the application.
+     */
     enableSubdomains?: pulumi.Input<boolean>;
+    /**
+     * The name of the Fly.io application.
+     */
     name: pulumi.Input<string>;
+    /**
+     * The network the application belongs to.
+     */
     network?: pulumi.Input<string>;
+    /**
+     * The organization the application belongs to.
+     */
     org: pulumi.Input<string>;
 }

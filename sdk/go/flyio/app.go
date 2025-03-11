@@ -12,15 +12,22 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io application.
 type App struct {
 	pulumi.CustomResourceState
 
-	EnableSubdomains pulumi.BoolPtrOutput   `pulumi:"enableSubdomains"`
-	Input            AppArgsTypeOutput      `pulumi:"input"`
-	Name             pulumi.StringOutput    `pulumi:"name"`
-	Network          pulumi.StringPtrOutput `pulumi:"network"`
-	Org              pulumi.StringOutput    `pulumi:"org"`
-	Status           pulumi.StringPtrOutput `pulumi:"status"`
+	// Whether subdomains are enabled for the application.
+	EnableSubdomains pulumi.BoolPtrOutput `pulumi:"enableSubdomains"`
+	// The input arguments used to create the application.
+	Input AppArgsTypeOutput `pulumi:"input"`
+	// The name of the Fly.io application.
+	Name pulumi.StringOutput `pulumi:"name"`
+	// The network the application belongs to.
+	Network pulumi.StringPtrOutput `pulumi:"network"`
+	// The organization the application belongs to.
+	Org pulumi.StringOutput `pulumi:"org"`
+	// The current status of the application.
+	Status pulumi.StringPtrOutput `pulumi:"status"`
 }
 
 // NewApp registers a new resource with the given unique name, arguments, and options.
@@ -69,18 +76,26 @@ func (AppState) ElementType() reflect.Type {
 }
 
 type appArgs struct {
-	EnableSubdomains *bool   `pulumi:"enableSubdomains"`
-	Name             string  `pulumi:"name"`
-	Network          *string `pulumi:"network"`
-	Org              string  `pulumi:"org"`
+	// Whether to enable subdomains for the application.
+	EnableSubdomains *bool `pulumi:"enableSubdomains"`
+	// The name of the Fly.io application.
+	Name string `pulumi:"name"`
+	// The network the application belongs to.
+	Network *string `pulumi:"network"`
+	// The organization the application belongs to.
+	Org string `pulumi:"org"`
 }
 
 // The set of arguments for constructing a App resource.
 type AppArgs struct {
+	// Whether to enable subdomains for the application.
 	EnableSubdomains pulumi.BoolPtrInput
-	Name             pulumi.StringInput
-	Network          pulumi.StringPtrInput
-	Org              pulumi.StringInput
+	// The name of the Fly.io application.
+	Name pulumi.StringInput
+	// The network the application belongs to.
+	Network pulumi.StringPtrInput
+	// The organization the application belongs to.
+	Org pulumi.StringInput
 }
 
 func (AppArgs) ElementType() reflect.Type {
@@ -170,26 +185,32 @@ func (o AppOutput) ToAppOutputWithContext(ctx context.Context) AppOutput {
 	return o
 }
 
+// Whether subdomains are enabled for the application.
 func (o AppOutput) EnableSubdomains() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *App) pulumi.BoolPtrOutput { return v.EnableSubdomains }).(pulumi.BoolPtrOutput)
 }
 
+// The input arguments used to create the application.
 func (o AppOutput) Input() AppArgsTypeOutput {
 	return o.ApplyT(func(v *App) AppArgsTypeOutput { return v.Input }).(AppArgsTypeOutput)
 }
 
+// The name of the Fly.io application.
 func (o AppOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
+// The network the application belongs to.
 func (o AppOutput) Network() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *App) pulumi.StringPtrOutput { return v.Network }).(pulumi.StringPtrOutput)
 }
 
+// The organization the application belongs to.
 func (o AppOutput) Org() pulumi.StringOutput {
 	return o.ApplyT(func(v *App) pulumi.StringOutput { return v.Org }).(pulumi.StringOutput)
 }
 
+// The current status of the application.
 func (o AppOutput) Status() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *App) pulumi.StringPtrOutput { return v.Status }).(pulumi.StringPtrOutput)
 }

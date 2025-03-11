@@ -23,6 +23,8 @@ class SecretsArgs:
                  values: pulumi.Input[Mapping[str, pulumi.Input[str]]]):
         """
         The set of arguments for constructing a Secrets resource.
+        :param pulumi.Input[str] app: The Fly.io application to set secrets for.
+        :param pulumi.Input[Mapping[str, pulumi.Input[str]]] values: The secret values to set, as key-value pairs.
         """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "values", values)
@@ -30,6 +32,9 @@ class SecretsArgs:
     @property
     @pulumi.getter
     def app(self) -> pulumi.Input[str]:
+        """
+        The Fly.io application to set secrets for.
+        """
         return pulumi.get(self, "app")
 
     @app.setter
@@ -39,6 +44,9 @@ class SecretsArgs:
     @property
     @pulumi.getter
     def values(self) -> pulumi.Input[Mapping[str, pulumi.Input[str]]]:
+        """
+        The secret values to set, as key-value pairs.
+        """
         return pulumi.get(self, "values")
 
     @values.setter
@@ -55,9 +63,12 @@ class Secrets(pulumi.CustomResource):
                  values: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
                  __props__=None):
         """
-        Create a Secrets resource with the given unique name, props, and options.
+        Manages application secrets for a Fly.io application.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[str] app: The Fly.io application to set secrets for.
+        :param pulumi.Input[Mapping[str, pulumi.Input[str]]] values: The secret values to set, as key-value pairs.
         """
         ...
     @overload
@@ -66,7 +77,8 @@ class Secrets(pulumi.CustomResource):
                  args: SecretsArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Secrets resource with the given unique name, props, and options.
+        Manages application secrets for a Fly.io application.
+
         :param str resource_name: The name of the resource.
         :param SecretsArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -130,10 +142,16 @@ class Secrets(pulumi.CustomResource):
     @property
     @pulumi.getter
     def app(self) -> pulumi.Output[str]:
+        """
+        The Fly.io application the secrets are set for.
+        """
         return pulumi.get(self, "app")
 
     @property
     @pulumi.getter
     def values(self) -> pulumi.Output[Mapping[str, str]]:
+        """
+        The secret values, as key-value pairs.
+        """
         return pulumi.get(self, "values")
 

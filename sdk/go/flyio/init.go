@@ -25,6 +25,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &App{}
 	case "flyio:index:Certificate":
 		r = &Certificate{}
+	case "flyio:index:CertificateIssuanceWaiter":
+		r = &CertificateIssuanceWaiter{}
 	case "flyio:index:IP":
 		r = &IP{}
 	case "flyio:index:Machine":

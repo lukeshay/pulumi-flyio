@@ -15,6 +15,11 @@ export type Certificate = import("./certificate").Certificate;
 export const Certificate: typeof import("./certificate").Certificate = null as any;
 utilities.lazyLoad(exports, ["Certificate"], () => require("./certificate"));
 
+export { CertificateIssuanceWaiterArgs } from "./certificateIssuanceWaiter";
+export type CertificateIssuanceWaiter = import("./certificateIssuanceWaiter").CertificateIssuanceWaiter;
+export const CertificateIssuanceWaiter: typeof import("./certificateIssuanceWaiter").CertificateIssuanceWaiter = null as any;
+utilities.lazyLoad(exports, ["CertificateIssuanceWaiter"], () => require("./certificateIssuanceWaiter"));
+
 export { GetAppArgs, GetAppResult, GetAppOutputArgs } from "./getApp";
 export const getApp: typeof import("./getApp").getApp = null as any;
 export const getAppOutput: typeof import("./getApp").getAppOutput = null as any;
@@ -83,6 +88,8 @@ const _module = {
                 return new App(name, <any>undefined, { urn })
             case "flyio:index:Certificate":
                 return new Certificate(name, <any>undefined, { urn })
+            case "flyio:index:CertificateIssuanceWaiter":
+                return new CertificateIssuanceWaiter(name, <any>undefined, { urn })
             case "flyio:index:IP":
                 return new IP(name, <any>undefined, { urn })
             case "flyio:index:Machine":

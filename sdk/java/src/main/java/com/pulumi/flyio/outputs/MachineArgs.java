@@ -15,8 +15,16 @@ import javax.annotation.Nullable;
 
 @CustomType
 public final class MachineArgs {
+    /**
+     * @return The Fly.io application to deploy the machine to.
+     * 
+     */
     private String app;
     private FlyMachineConfig config;
+    /**
+     * @return The deployment strategy for the machine.
+     * 
+     */
     private @Nullable String deploymentStrategy;
     private @Nullable Integer leaseTtl;
     private @Nullable Boolean lsvd;
@@ -26,12 +34,20 @@ public final class MachineArgs {
     private @Nullable Boolean skipServiceRegistration;
 
     private MachineArgs() {}
+    /**
+     * @return The Fly.io application to deploy the machine to.
+     * 
+     */
     public String app() {
         return this.app;
     }
     public FlyMachineConfig config() {
         return this.config;
     }
+    /**
+     * @return The deployment strategy for the machine.
+     * 
+     */
     public Optional<String> deploymentStrategy() {
         return Optional.ofNullable(this.deploymentStrategy);
     }

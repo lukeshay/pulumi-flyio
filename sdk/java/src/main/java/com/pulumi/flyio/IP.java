@@ -14,53 +14,121 @@ import java.lang.String;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io IP address allocation for an application.
+ * 
+ */
 @ResourceType(type="flyio:index:IP")
 public class IP extends com.pulumi.resources.CustomResource {
+    /**
+     * The allocated IP address.
+     * 
+     */
     @Export(name="address", refs={String.class}, tree="[0]")
     private Output<String> address;
 
+    /**
+     * @return The allocated IP address.
+     * 
+     */
     public Output<String> address() {
         return this.address;
     }
+    /**
+     * The application the IP address is allocated for.
+     * 
+     */
     @Export(name="app", refs={String.class}, tree="[0]")
     private Output<String> app;
 
+    /**
+     * @return The application the IP address is allocated for.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
+    /**
+     * When the IP address was allocated.
+     * 
+     */
     @Export(name="createdAt", refs={Time.class}, tree="[0]")
     private Output<Time> createdAt;
 
+    /**
+     * @return When the IP address was allocated.
+     * 
+     */
     public Output<Time> createdAt() {
         return this.createdAt;
     }
+    /**
+     * The Fly.io IP address ID.
+     * 
+     */
     @Export(name="flyId", refs={String.class}, tree="[0]")
     private Output<String> flyId;
 
+    /**
+     * @return The Fly.io IP address ID.
+     * 
+     */
     public Output<String> flyId() {
         return this.flyId;
     }
+    /**
+     * The input arguments used to allocate the IP address.
+     * 
+     */
     @Export(name="input", refs={IPArgs.class}, tree="[0]")
     private Output<IPArgs> input;
 
+    /**
+     * @return The input arguments used to allocate the IP address.
+     * 
+     */
     public Output<IPArgs> input() {
         return this.input;
     }
+    /**
+     * The network the IP address belongs to.
+     * 
+     */
     @Export(name="network", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> network;
 
+    /**
+     * @return The network the IP address belongs to.
+     * 
+     */
     public Output<Optional<String>> network() {
         return Codegen.optional(this.network);
     }
+    /**
+     * The region the IP address is allocated in.
+     * 
+     */
     @Export(name="region", refs={String.class}, tree="[0]")
     private Output<String> region;
 
+    /**
+     * @return The region the IP address is allocated in.
+     * 
+     */
     public Output<String> region() {
         return this.region;
     }
+    /**
+     * The type of IP address (v4 or v6).
+     * 
+     */
     @Export(name="type", refs={String.class}, tree="[0]")
     private Output<String> type;
 
+    /**
+     * @return The type of IP address (v4 or v6).
+     * 
+     */
     public Output<String> type() {
         return this.type;
     }

@@ -12,12 +12,16 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io WireGuard token for authenticating WireGuard peers.
 type WireGuardToken struct {
 	pulumi.CustomResourceState
 
-	Name  pulumi.StringPtrOutput `pulumi:"name"`
-	Org   pulumi.StringOutput    `pulumi:"org"`
-	Token pulumi.StringOutput    `pulumi:"token"`
+	// The name of the WireGuard token.
+	Name pulumi.StringPtrOutput `pulumi:"name"`
+	// The organization the WireGuard token belongs to.
+	Org pulumi.StringOutput `pulumi:"org"`
+	// The WireGuard token value.
+	Token pulumi.StringOutput `pulumi:"token"`
 }
 
 // NewWireGuardToken registers a new resource with the given unique name, arguments, and options.
@@ -67,14 +71,18 @@ func (WireGuardTokenState) ElementType() reflect.Type {
 }
 
 type wireGuardTokenArgs struct {
+	// The name of the WireGuard token.
 	Name *string `pulumi:"name"`
-	Org  string  `pulumi:"org"`
+	// The organization to create the WireGuard token in.
+	Org string `pulumi:"org"`
 }
 
 // The set of arguments for constructing a WireGuardToken resource.
 type WireGuardTokenArgs struct {
+	// The name of the WireGuard token.
 	Name pulumi.StringPtrInput
-	Org  pulumi.StringInput
+	// The organization to create the WireGuard token in.
+	Org pulumi.StringInput
 }
 
 func (WireGuardTokenArgs) ElementType() reflect.Type {
@@ -164,14 +172,17 @@ func (o WireGuardTokenOutput) ToWireGuardTokenOutputWithContext(ctx context.Cont
 	return o
 }
 
+// The name of the WireGuard token.
 func (o WireGuardTokenOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *WireGuardToken) pulumi.StringPtrOutput { return v.Name }).(pulumi.StringPtrOutput)
 }
 
+// The organization the WireGuard token belongs to.
 func (o WireGuardTokenOutput) Org() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardToken) pulumi.StringOutput { return v.Org }).(pulumi.StringOutput)
 }
 
+// The WireGuard token value.
 func (o WireGuardTokenOutput) Token() pulumi.StringOutput {
 	return o.ApplyT(func(v *WireGuardToken) pulumi.StringOutput { return v.Token }).(pulumi.StringOutput)
 }

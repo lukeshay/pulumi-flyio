@@ -18,11 +18,23 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io machine represents a VM instance that runs your application.
+ * 
+ */
 @ResourceType(type="flyio:index:Machine")
 public class Machine extends com.pulumi.resources.CustomResource {
+    /**
+     * The Fly.io application the machine belongs to.
+     * 
+     */
     @Export(name="app", refs={String.class}, tree="[0]")
     private Output<String> app;
 
+    /**
+     * @return The Fly.io application the machine belongs to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
@@ -44,9 +56,17 @@ public class Machine extends com.pulumi.resources.CustomResource {
     public Output<Optional<String>> createdAt() {
         return Codegen.optional(this.createdAt);
     }
+    /**
+     * The deployment strategy used for the machine.
+     * 
+     */
     @Export(name="deploymentStrategy", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> deploymentStrategy;
 
+    /**
+     * @return The deployment strategy used for the machine.
+     * 
+     */
     public Output<Optional<String>> deploymentStrategy() {
         return Codegen.optional(this.deploymentStrategy);
     }
@@ -80,9 +100,17 @@ public class Machine extends com.pulumi.resources.CustomResource {
     public Output<Optional<FlyMachineConfig>> incompleteConfig() {
         return Codegen.optional(this.incompleteConfig);
     }
+    /**
+     * The input arguments used to create the machine.
+     * 
+     */
     @Export(name="input", refs={MachineArgs.class}, tree="[0]")
     private Output<MachineArgs> input;
 
+    /**
+     * @return The input arguments used to create the machine.
+     * 
+     */
     public Output<MachineArgs> input() {
         return this.input;
     }

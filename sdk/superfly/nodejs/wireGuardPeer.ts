@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io WireGuard peer for private network connectivity.
+ */
 export class WireGuardPeer extends pulumi.CustomResource {
     /**
      * Get an existing WireGuardPeer resource's state with the given name, ID, and optional extra
@@ -31,14 +34,41 @@ export class WireGuardPeer extends pulumi.CustomResource {
         return obj['__pulumiType'] === WireGuardPeer.__pulumiType;
     }
 
+    /**
+     * The endpoint IP address for the WireGuard peer.
+     */
     public /*out*/ readonly endpointIp!: pulumi.Output<string>;
+    /**
+     * The name of the WireGuard peer.
+     */
     public readonly name!: pulumi.Output<string>;
+    /**
+     * The network the WireGuard peer belongs to.
+     */
     public readonly network!: pulumi.Output<string | undefined>;
+    /**
+     * The organization the WireGuard peer belongs to.
+     */
     public readonly org!: pulumi.Output<string>;
+    /**
+     * The IP address assigned to the WireGuard peer.
+     */
     public /*out*/ readonly peerIp!: pulumi.Output<string>;
+    /**
+     * The private key of the WireGuard peer.
+     */
     public /*out*/ readonly privateKey!: pulumi.Output<string>;
+    /**
+     * The public key of the WireGuard peer.
+     */
     public /*out*/ readonly publicKey!: pulumi.Output<string>;
+    /**
+     * The region the WireGuard peer is in.
+     */
     public readonly region!: pulumi.Output<string>;
+    /**
+     * The WireGuard configuration for the peer.
+     */
     public /*out*/ readonly wireguardConfig!: pulumi.Output<string>;
 
     /**
@@ -86,8 +116,20 @@ export class WireGuardPeer extends pulumi.CustomResource {
  * The set of arguments for constructing a WireGuardPeer resource.
  */
 export interface WireGuardPeerArgs {
+    /**
+     * The name of the WireGuard peer.
+     */
     name?: pulumi.Input<string>;
+    /**
+     * The network to create the WireGuard peer in.
+     */
     network?: pulumi.Input<string>;
+    /**
+     * The organization to create the WireGuard peer in.
+     */
     org: pulumi.Input<string>;
+    /**
+     * The region to create the WireGuard peer in.
+     */
     region?: pulumi.Input<string>;
 }

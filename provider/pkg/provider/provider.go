@@ -75,6 +75,7 @@ func Provider() p.Provider {
 			infer.Resource[Volume](),
 			infer.Resource[IP](),
 			infer.Resource[Certificate](),
+			infer.Resource[CertificateIssuanceWaiter](),
 			infer.Resource[Secrets](),
 			infer.Resource[WireGuardPeer](),
 			infer.Resource[WireGuardToken](),

@@ -14,17 +14,37 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
 
+/**
+ * Manages application secrets for a Fly.io application.
+ * 
+ */
 @ResourceType(type="flyio:index:Secrets")
 public class Secrets extends com.pulumi.resources.CustomResource {
+    /**
+     * The Fly.io application the secrets are set for.
+     * 
+     */
     @Export(name="app", refs={String.class}, tree="[0]")
     private Output<String> app;
 
+    /**
+     * @return The Fly.io application the secrets are set for.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
+    /**
+     * The secret values, as key-value pairs.
+     * 
+     */
     @Export(name="values", refs={Map.class,String.class}, tree="[0,1,1]")
     private Output<Map<String,String>> values;
 
+    /**
+     * @return The secret values, as key-value pairs.
+     * 
+     */
     public Output<Map<String,String>> values() {
         return this.values;
     }

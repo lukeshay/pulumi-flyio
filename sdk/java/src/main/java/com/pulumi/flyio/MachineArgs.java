@@ -19,9 +19,17 @@ public final class MachineArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final MachineArgs Empty = new MachineArgs();
 
+    /**
+     * The Fly.io application to deploy the machine to.
+     * 
+     */
     @Import(name="app", required=true)
     private Output<String> app;
 
+    /**
+     * @return The Fly.io application to deploy the machine to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
@@ -33,9 +41,17 @@ public final class MachineArgs extends com.pulumi.resources.ResourceArgs {
         return this.config;
     }
 
+    /**
+     * The deployment strategy for the machine.
+     * 
+     */
     @Import(name="deploymentStrategy")
     private @Nullable Output<String> deploymentStrategy;
 
+    /**
+     * @return The deployment strategy for the machine.
+     * 
+     */
     public Optional<Output<String>> deploymentStrategy() {
         return Optional.ofNullable(this.deploymentStrategy);
     }
@@ -114,11 +130,23 @@ public final class MachineArgs extends com.pulumi.resources.ResourceArgs {
             $ = new MachineArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param app The Fly.io application to deploy the machine to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(Output<String> app) {
             $.app = app;
             return this;
         }
 
+        /**
+         * @param app The Fly.io application to deploy the machine to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(String app) {
             return app(Output.of(app));
         }
@@ -132,11 +160,23 @@ public final class MachineArgs extends com.pulumi.resources.ResourceArgs {
             return config(Output.of(config));
         }
 
+        /**
+         * @param deploymentStrategy The deployment strategy for the machine.
+         * 
+         * @return builder
+         * 
+         */
         public Builder deploymentStrategy(@Nullable Output<String> deploymentStrategy) {
             $.deploymentStrategy = deploymentStrategy;
             return this;
         }
 
+        /**
+         * @param deploymentStrategy The deployment strategy for the machine.
+         * 
+         * @return builder
+         * 
+         */
         public Builder deploymentStrategy(String deploymentStrategy) {
             return deploymentStrategy(Output.of(deploymentStrategy));
         }

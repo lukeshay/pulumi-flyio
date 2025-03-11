@@ -12,21 +12,53 @@ import javax.annotation.Nullable;
 
 @CustomType
 public final class IPArgs {
+    /**
+     * @return The type of IP address (v4 or v6).
+     * 
+     */
     private String addrType;
+    /**
+     * @return The name of the Fly.io application to allocate the IP address for.
+     * 
+     */
     private String app;
+    /**
+     * @return The network to allocate the IP address in.
+     * 
+     */
     private @Nullable String network;
+    /**
+     * @return The region to allocate the IP address in.
+     * 
+     */
     private String region;
 
     private IPArgs() {}
+    /**
+     * @return The type of IP address (v4 or v6).
+     * 
+     */
     public String addrType() {
         return this.addrType;
     }
+    /**
+     * @return The name of the Fly.io application to allocate the IP address for.
+     * 
+     */
     public String app() {
         return this.app;
     }
+    /**
+     * @return The network to allocate the IP address in.
+     * 
+     */
     public Optional<String> network() {
         return Optional.ofNullable(this.network);
     }
+    /**
+     * @return The region to allocate the IP address in.
+     * 
+     */
     public String region() {
         return this.region;
     }

@@ -10,12 +10,21 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// Generates a random string of the specified length.
+    /// </summary>
     [FlyioResourceType("flyio:index:Random")]
     public partial class Random : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The length of the random string to generate.
+        /// </summary>
         [Output("length")]
         public Output<int> Length { get; private set; } = null!;
 
+        /// <summary>
+        /// The generated random string.
+        /// </summary>
         [Output("result")]
         public Output<string> Result { get; private set; } = null!;
 
@@ -65,6 +74,9 @@ namespace PulumiFlyio.Flyio
 
     public sealed class RandomArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The length of the random string to generate.
+        /// </summary>
         [Input("length", required: true)]
         public Input<int> Length { get; set; } = null!;
 

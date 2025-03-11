@@ -14,7 +14,13 @@ namespace PulumiFlyio.Flyio.Outputs
     [OutputType]
     public sealed class CertificateArgs
     {
+        /// <summary>
+        /// The name of the Fly app to add the certificate to.
+        /// </summary>
         public readonly string App;
+        /// <summary>
+        /// The hostname for the certificate (e.g., example.com).
+        /// </summary>
         public readonly string Hostname;
 
         [OutputConstructor]

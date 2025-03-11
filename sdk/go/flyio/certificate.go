@@ -13,27 +13,44 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io SSL/TLS certificate for an app's domain.
 type Certificate struct {
 	pulumi.CustomResourceState
 
-	AcmeAlpnConfigured        pulumi.BoolOutput            `pulumi:"acmeAlpnConfigured"`
-	AcmeDnsConfigured         pulumi.BoolOutput            `pulumi:"acmeDnsConfigured"`
-	App                       pulumi.StringOutput          `pulumi:"app"`
-	CertificateAuthority      pulumi.StringOutput          `pulumi:"certificateAuthority"`
-	Checks                    CertificateStateChecksOutput `pulumi:"checks"`
-	ClientStatus              pulumi.StringOutput          `pulumi:"clientStatus"`
-	Configured                pulumi.BoolOutput            `pulumi:"configured"`
-	CreatedAt                 time.TimeOutput              `pulumi:"createdAt"`
-	DnsProvider               pulumi.StringOutput          `pulumi:"dnsProvider"`
-	DnsValidationHostname     pulumi.StringOutput          `pulumi:"dnsValidationHostname"`
-	DnsValidationInstructions pulumi.StringOutput          `pulumi:"dnsValidationInstructions"`
-	DnsValidationTarget       pulumi.StringOutput          `pulumi:"dnsValidationTarget"`
-	FlyId                     pulumi.StringOutput          `pulumi:"flyId"`
-	Hostname                  pulumi.StringOutput          `pulumi:"hostname"`
-	Input                     CertificateArgsTypeOutput    `pulumi:"input"`
-	IsApex                    pulumi.BoolOutput            `pulumi:"isApex"`
-	IsWildcard                pulumi.BoolOutput            `pulumi:"isWildcard"`
-	Source                    pulumi.StringOutput          `pulumi:"source"`
+	// Whether ACME ALPN verification is configured.
+	AcmeAlpnConfigured pulumi.BoolOutput `pulumi:"acmeAlpnConfigured"`
+	// Whether ACME DNS verification is configured.
+	AcmeDnsConfigured pulumi.BoolOutput `pulumi:"acmeDnsConfigured"`
+	// The name of the Fly app.
+	App pulumi.StringOutput `pulumi:"app"`
+	// The certificate authority used.
+	CertificateAuthority pulumi.StringOutput `pulumi:"certificateAuthority"`
+	// The status of the certificate.
+	ClientStatus pulumi.StringOutput `pulumi:"clientStatus"`
+	// Whether the certificate is fully configured.
+	Configured pulumi.BoolOutput `pulumi:"configured"`
+	// When the certificate was created.
+	CreatedAt time.TimeOutput `pulumi:"createdAt"`
+	// The DNS provider for the hostname.
+	DnsProvider pulumi.StringOutput `pulumi:"dnsProvider"`
+	// Hostname for DNS validation.
+	DnsValidationHostname pulumi.StringOutput `pulumi:"dnsValidationHostname"`
+	// Instructions for DNS validation.
+	DnsValidationInstructions pulumi.StringOutput `pulumi:"dnsValidationInstructions"`
+	// Target for DNS validation.
+	DnsValidationTarget pulumi.StringOutput `pulumi:"dnsValidationTarget"`
+	// The Fly.io certificate ID.
+	FlyId pulumi.StringOutput `pulumi:"flyId"`
+	// The hostname for the certificate.
+	Hostname pulumi.StringOutput `pulumi:"hostname"`
+	// The input arguments used to create the certificate.
+	Input CertificateArgsTypeOutput `pulumi:"input"`
+	// Whether the hostname is an apex domain.
+	IsApex pulumi.BoolOutput `pulumi:"isApex"`
+	// Whether the certificate is a wildcard certificate.
+	IsWildcard pulumi.BoolOutput `pulumi:"isWildcard"`
+	// The source of the certificate.
+	Source pulumi.StringOutput `pulumi:"source"`
 }
 
 // NewCertificate registers a new resource with the given unique name, arguments, and options.
@@ -82,13 +99,17 @@ func (CertificateState) ElementType() reflect.Type {
 }
 
 type certificateArgs struct {
-	App      string `pulumi:"app"`
+	// The name of the Fly app to add the certificate to.
+	App string `pulumi:"app"`
+	// The hostname for the certificate (e.g., example.com).
 	Hostname string `pulumi:"hostname"`
 }
 
 // The set of arguments for constructing a Certificate resource.
 type CertificateArgs struct {
-	App      pulumi.StringInput
+	// The name of the Fly app to add the certificate to.
+	App pulumi.StringInput
+	// The hostname for the certificate (e.g., example.com).
 	Hostname pulumi.StringInput
 }
 
@@ -179,74 +200,87 @@ func (o CertificateOutput) ToCertificateOutputWithContext(ctx context.Context) C
 	return o
 }
 
+// Whether ACME ALPN verification is configured.
 func (o CertificateOutput) AcmeAlpnConfigured() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.BoolOutput { return v.AcmeAlpnConfigured }).(pulumi.BoolOutput)
 }
 
+// Whether ACME DNS verification is configured.
 func (o CertificateOutput) AcmeDnsConfigured() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.BoolOutput { return v.AcmeDnsConfigured }).(pulumi.BoolOutput)
 }
 
+// The name of the Fly app.
 func (o CertificateOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
 
+// The certificate authority used.
 func (o CertificateOutput) CertificateAuthority() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.CertificateAuthority }).(pulumi.StringOutput)
 }
 
-func (o CertificateOutput) Checks() CertificateStateChecksOutput {
-	return o.ApplyT(func(v *Certificate) CertificateStateChecksOutput { return v.Checks }).(CertificateStateChecksOutput)
-}
-
+// The status of the certificate.
 func (o CertificateOutput) ClientStatus() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.ClientStatus }).(pulumi.StringOutput)
 }
 
+// Whether the certificate is fully configured.
 func (o CertificateOutput) Configured() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.BoolOutput { return v.Configured }).(pulumi.BoolOutput)
 }
 
+// When the certificate was created.
 func (o CertificateOutput) CreatedAt() time.TimeOutput {
 	return o.ApplyT(func(v *Certificate) time.TimeOutput { return v.CreatedAt }).(time.TimeOutput)
 }
 
+// The DNS provider for the hostname.
 func (o CertificateOutput) DnsProvider() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.DnsProvider }).(pulumi.StringOutput)
 }
 
+// Hostname for DNS validation.
 func (o CertificateOutput) DnsValidationHostname() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.DnsValidationHostname }).(pulumi.StringOutput)
 }
 
+// Instructions for DNS validation.
 func (o CertificateOutput) DnsValidationInstructions() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.DnsValidationInstructions }).(pulumi.StringOutput)
 }
 
+// Target for DNS validation.
 func (o CertificateOutput) DnsValidationTarget() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.DnsValidationTarget }).(pulumi.StringOutput)
 }
 
+// The Fly.io certificate ID.
 func (o CertificateOutput) FlyId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.FlyId }).(pulumi.StringOutput)
 }
 
+// The hostname for the certificate.
 func (o CertificateOutput) Hostname() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.Hostname }).(pulumi.StringOutput)
 }
 
+// The input arguments used to create the certificate.
 func (o CertificateOutput) Input() CertificateArgsTypeOutput {
 	return o.ApplyT(func(v *Certificate) CertificateArgsTypeOutput { return v.Input }).(CertificateArgsTypeOutput)
 }
 
+// Whether the hostname is an apex domain.
 func (o CertificateOutput) IsApex() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.BoolOutput { return v.IsApex }).(pulumi.BoolOutput)
 }
 
+// Whether the certificate is a wildcard certificate.
 func (o CertificateOutput) IsWildcard() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.BoolOutput { return v.IsWildcard }).(pulumi.BoolOutput)
 }
 
+// The source of the certificate.
 func (o CertificateOutput) Source() pulumi.StringOutput {
 	return o.ApplyT(func(v *Certificate) pulumi.StringOutput { return v.Source }).(pulumi.StringOutput)
 }

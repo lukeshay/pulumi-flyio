@@ -13,17 +13,26 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io IP address allocation for an application.
 type IP struct {
 	pulumi.CustomResourceState
 
-	Address   pulumi.StringOutput    `pulumi:"address"`
-	App       pulumi.StringOutput    `pulumi:"app"`
-	CreatedAt time.TimeOutput        `pulumi:"createdAt"`
-	FlyId     pulumi.StringOutput    `pulumi:"flyId"`
-	Input     IPArgsTypeOutput       `pulumi:"input"`
-	Network   pulumi.StringPtrOutput `pulumi:"network"`
-	Region    pulumi.StringOutput    `pulumi:"region"`
-	Type      pulumi.StringOutput    `pulumi:"type"`
+	// The allocated IP address.
+	Address pulumi.StringOutput `pulumi:"address"`
+	// The application the IP address is allocated for.
+	App pulumi.StringOutput `pulumi:"app"`
+	// When the IP address was allocated.
+	CreatedAt time.TimeOutput `pulumi:"createdAt"`
+	// The Fly.io IP address ID.
+	FlyId pulumi.StringOutput `pulumi:"flyId"`
+	// The input arguments used to allocate the IP address.
+	Input IPArgsTypeOutput `pulumi:"input"`
+	// The network the IP address belongs to.
+	Network pulumi.StringPtrOutput `pulumi:"network"`
+	// The region the IP address is allocated in.
+	Region pulumi.StringOutput `pulumi:"region"`
+	// The type of IP address (v4 or v6).
+	Type pulumi.StringOutput `pulumi:"type"`
 }
 
 // NewIP registers a new resource with the given unique name, arguments, and options.
@@ -75,18 +84,26 @@ func (IPState) ElementType() reflect.Type {
 }
 
 type ipArgs struct {
-	AddrType string  `pulumi:"addrType"`
-	App      string  `pulumi:"app"`
-	Network  *string `pulumi:"network"`
-	Region   string  `pulumi:"region"`
+	// The type of IP address (v4 or v6).
+	AddrType string `pulumi:"addrType"`
+	// The name of the Fly.io application to allocate the IP address for.
+	App string `pulumi:"app"`
+	// The network to allocate the IP address in.
+	Network *string `pulumi:"network"`
+	// The region to allocate the IP address in.
+	Region string `pulumi:"region"`
 }
 
 // The set of arguments for constructing a IP resource.
 type IPArgs struct {
+	// The type of IP address (v4 or v6).
 	AddrType pulumi.StringInput
-	App      pulumi.StringInput
-	Network  pulumi.StringPtrInput
-	Region   pulumi.StringInput
+	// The name of the Fly.io application to allocate the IP address for.
+	App pulumi.StringInput
+	// The network to allocate the IP address in.
+	Network pulumi.StringPtrInput
+	// The region to allocate the IP address in.
+	Region pulumi.StringInput
 }
 
 func (IPArgs) ElementType() reflect.Type {
@@ -176,34 +193,42 @@ func (o IPOutput) ToIPOutputWithContext(ctx context.Context) IPOutput {
 	return o
 }
 
+// The allocated IP address.
 func (o IPOutput) Address() pulumi.StringOutput {
 	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.Address }).(pulumi.StringOutput)
 }
 
+// The application the IP address is allocated for.
 func (o IPOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
 
+// When the IP address was allocated.
 func (o IPOutput) CreatedAt() time.TimeOutput {
 	return o.ApplyT(func(v *IP) time.TimeOutput { return v.CreatedAt }).(time.TimeOutput)
 }
 
+// The Fly.io IP address ID.
 func (o IPOutput) FlyId() pulumi.StringOutput {
 	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.FlyId }).(pulumi.StringOutput)
 }
 
+// The input arguments used to allocate the IP address.
 func (o IPOutput) Input() IPArgsTypeOutput {
 	return o.ApplyT(func(v *IP) IPArgsTypeOutput { return v.Input }).(IPArgsTypeOutput)
 }
 
+// The network the IP address belongs to.
 func (o IPOutput) Network() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IP) pulumi.StringPtrOutput { return v.Network }).(pulumi.StringPtrOutput)
 }
 
+// The region the IP address is allocated in.
 func (o IPOutput) Region() pulumi.StringOutput {
 	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.Region }).(pulumi.StringOutput)
 }
 
+// The type of IP address (v4 or v6).
 func (o IPOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

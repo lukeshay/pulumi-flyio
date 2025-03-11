@@ -13,17 +13,37 @@ import java.lang.Integer;
 import java.lang.String;
 import javax.annotation.Nullable;
 
+/**
+ * Generates a random string of the specified length.
+ * 
+ */
 @ResourceType(type="flyio:index:Random")
 public class Random extends com.pulumi.resources.CustomResource {
+    /**
+     * The length of the random string to generate.
+     * 
+     */
     @Export(name="length", refs={Integer.class}, tree="[0]")
     private Output<Integer> length;
 
+    /**
+     * @return The length of the random string to generate.
+     * 
+     */
     public Output<Integer> length() {
         return this.length;
     }
+    /**
+     * The generated random string.
+     * 
+     */
     @Export(name="result", refs={String.class}, tree="[0]")
     private Output<String> result;
 
+    /**
+     * @return The generated random string.
+     * 
+     */
     public Output<String> result() {
         return this.result;
     }

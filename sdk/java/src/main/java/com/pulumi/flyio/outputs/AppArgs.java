@@ -13,21 +13,53 @@ import javax.annotation.Nullable;
 
 @CustomType
 public final class AppArgs {
+    /**
+     * @return Whether to enable subdomains for the application.
+     * 
+     */
     private @Nullable Boolean enableSubdomains;
+    /**
+     * @return The name of the Fly.io application.
+     * 
+     */
     private String name;
+    /**
+     * @return The network the application belongs to.
+     * 
+     */
     private @Nullable String network;
+    /**
+     * @return The organization the application belongs to.
+     * 
+     */
     private String org;
 
     private AppArgs() {}
+    /**
+     * @return Whether to enable subdomains for the application.
+     * 
+     */
     public Optional<Boolean> enableSubdomains() {
         return Optional.ofNullable(this.enableSubdomains);
     }
+    /**
+     * @return The name of the Fly.io application.
+     * 
+     */
     public String name() {
         return this.name;
     }
+    /**
+     * @return The network the application belongs to.
+     * 
+     */
     public Optional<String> network() {
         return Optional.ofNullable(this.network);
     }
+    /**
+     * @return The organization the application belongs to.
+     * 
+     */
     public String org() {
         return this.org;
     }

@@ -14,41 +14,93 @@ import java.lang.String;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
+/**
+ * A Fly.io application.
+ * 
+ */
 @ResourceType(type="flyio:index:App")
 public class App extends com.pulumi.resources.CustomResource {
+    /**
+     * Whether subdomains are enabled for the application.
+     * 
+     */
     @Export(name="enableSubdomains", refs={Boolean.class}, tree="[0]")
     private Output</* @Nullable */ Boolean> enableSubdomains;
 
+    /**
+     * @return Whether subdomains are enabled for the application.
+     * 
+     */
     public Output<Optional<Boolean>> enableSubdomains() {
         return Codegen.optional(this.enableSubdomains);
     }
+    /**
+     * The input arguments used to create the application.
+     * 
+     */
     @Export(name="input", refs={AppArgs.class}, tree="[0]")
     private Output<AppArgs> input;
 
+    /**
+     * @return The input arguments used to create the application.
+     * 
+     */
     public Output<AppArgs> input() {
         return this.input;
     }
+    /**
+     * The name of the Fly.io application.
+     * 
+     */
     @Export(name="name", refs={String.class}, tree="[0]")
     private Output<String> name;
 
+    /**
+     * @return The name of the Fly.io application.
+     * 
+     */
     public Output<String> name() {
         return this.name;
     }
+    /**
+     * The network the application belongs to.
+     * 
+     */
     @Export(name="network", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> network;
 
+    /**
+     * @return The network the application belongs to.
+     * 
+     */
     public Output<Optional<String>> network() {
         return Codegen.optional(this.network);
     }
+    /**
+     * The organization the application belongs to.
+     * 
+     */
     @Export(name="org", refs={String.class}, tree="[0]")
     private Output<String> org;
 
+    /**
+     * @return The organization the application belongs to.
+     * 
+     */
     public Output<String> org() {
         return this.org;
     }
+    /**
+     * The current status of the application.
+     * 
+     */
     @Export(name="status", refs={String.class}, tree="[0]")
     private Output</* @Nullable */ String> status;
 
+    /**
+     * @return The current status of the application.
+     * 
+     */
     public Output<Optional<String>> status() {
         return Codegen.optional(this.status);
     }

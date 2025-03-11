@@ -12,17 +12,26 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io Postgres attachment connects a Postgres database to an application.
 type PostgresAttachment struct {
 	pulumi.CustomResourceState
 
-	App              pulumi.StringOutput    `pulumi:"app"`
-	AttachmentId     pulumi.StringOutput    `pulumi:"attachmentId"`
-	ConnectionString pulumi.StringOutput    `pulumi:"connectionString"`
-	DatabaseName     pulumi.StringPtrOutput `pulumi:"databaseName"`
-	DatabaseUser     pulumi.StringPtrOutput `pulumi:"databaseUser"`
-	ManualEntry      pulumi.BoolPtrOutput   `pulumi:"manualEntry"`
-	Postgres         pulumi.StringOutput    `pulumi:"postgres"`
-	VariableName     pulumi.StringOutput    `pulumi:"variableName"`
+	// The application to attach the Postgres database to.
+	App pulumi.StringOutput `pulumi:"app"`
+	// The unique ID of the Postgres attachment.
+	AttachmentId pulumi.StringOutput `pulumi:"attachmentId"`
+	// The PostgreSQL connection string.
+	ConnectionString pulumi.StringOutput `pulumi:"connectionString"`
+	// The name of the database to use.
+	DatabaseName pulumi.StringPtrOutput `pulumi:"databaseName"`
+	// The database user to connect as.
+	DatabaseUser pulumi.StringPtrOutput `pulumi:"databaseUser"`
+	// Whether to manually enter the connection details.
+	ManualEntry pulumi.BoolPtrOutput `pulumi:"manualEntry"`
+	// The Postgres cluster to attach.
+	Postgres pulumi.StringOutput `pulumi:"postgres"`
+	// The environment variable name that contains the connection string.
+	VariableName pulumi.StringOutput `pulumi:"variableName"`
 }
 
 // NewPostgresAttachment registers a new resource with the given unique name, arguments, and options.
@@ -75,21 +84,33 @@ func (PostgresAttachmentState) ElementType() reflect.Type {
 }
 
 type postgresAttachmentArgs struct {
-	App          string  `pulumi:"app"`
+	// The application to attach the Postgres database to.
+	App string `pulumi:"app"`
+	// The name of the database to use.
 	DatabaseName *string `pulumi:"databaseName"`
+	// The database user to connect as.
 	DatabaseUser *string `pulumi:"databaseUser"`
-	ManualEntry  *bool   `pulumi:"manualEntry"`
-	Postgres     string  `pulumi:"postgres"`
+	// Whether to manually enter the connection details.
+	ManualEntry *bool `pulumi:"manualEntry"`
+	// The Postgres cluster to attach.
+	Postgres string `pulumi:"postgres"`
+	// The environment variable name to store the connection string.
 	VariableName *string `pulumi:"variableName"`
 }
 
 // The set of arguments for constructing a PostgresAttachment resource.
 type PostgresAttachmentArgs struct {
-	App          pulumi.StringInput
+	// The application to attach the Postgres database to.
+	App pulumi.StringInput
+	// The name of the database to use.
 	DatabaseName pulumi.StringPtrInput
+	// The database user to connect as.
 	DatabaseUser pulumi.StringPtrInput
-	ManualEntry  pulumi.BoolPtrInput
-	Postgres     pulumi.StringInput
+	// Whether to manually enter the connection details.
+	ManualEntry pulumi.BoolPtrInput
+	// The Postgres cluster to attach.
+	Postgres pulumi.StringInput
+	// The environment variable name to store the connection string.
 	VariableName pulumi.StringPtrInput
 }
 
@@ -180,34 +201,42 @@ func (o PostgresAttachmentOutput) ToPostgresAttachmentOutputWithContext(ctx cont
 	return o
 }
 
+// The application to attach the Postgres database to.
 func (o PostgresAttachmentOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
 
+// The unique ID of the Postgres attachment.
 func (o PostgresAttachmentOutput) AttachmentId() pulumi.StringOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringOutput { return v.AttachmentId }).(pulumi.StringOutput)
 }
 
+// The PostgreSQL connection string.
 func (o PostgresAttachmentOutput) ConnectionString() pulumi.StringOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringOutput { return v.ConnectionString }).(pulumi.StringOutput)
 }
 
+// The name of the database to use.
 func (o PostgresAttachmentOutput) DatabaseName() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringPtrOutput { return v.DatabaseName }).(pulumi.StringPtrOutput)
 }
 
+// The database user to connect as.
 func (o PostgresAttachmentOutput) DatabaseUser() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringPtrOutput { return v.DatabaseUser }).(pulumi.StringPtrOutput)
 }
 
+// Whether to manually enter the connection details.
 func (o PostgresAttachmentOutput) ManualEntry() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.BoolPtrOutput { return v.ManualEntry }).(pulumi.BoolPtrOutput)
 }
 
+// The Postgres cluster to attach.
 func (o PostgresAttachmentOutput) Postgres() pulumi.StringOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringOutput { return v.Postgres }).(pulumi.StringOutput)
 }
 
+// The environment variable name that contains the connection string.
 func (o PostgresAttachmentOutput) VariableName() pulumi.StringOutput {
 	return o.ApplyT(func(v *PostgresAttachment) pulumi.StringOutput { return v.VariableName }).(pulumi.StringOutput)
 }

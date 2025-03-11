@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * A Fly.io Postgres attachment connects a Postgres database to an application.
+ */
 export class PostgresAttachment extends pulumi.CustomResource {
     /**
      * Get an existing PostgresAttachment resource's state with the given name, ID, and optional extra
@@ -31,13 +34,37 @@ export class PostgresAttachment extends pulumi.CustomResource {
         return obj['__pulumiType'] === PostgresAttachment.__pulumiType;
     }
 
+    /**
+     * The application to attach the Postgres database to.
+     */
     public readonly app!: pulumi.Output<string>;
+    /**
+     * The unique ID of the Postgres attachment.
+     */
     public /*out*/ readonly attachmentId!: pulumi.Output<string>;
+    /**
+     * The PostgreSQL connection string.
+     */
     public /*out*/ readonly connectionString!: pulumi.Output<string>;
+    /**
+     * The name of the database to use.
+     */
     public readonly databaseName!: pulumi.Output<string | undefined>;
+    /**
+     * The database user to connect as.
+     */
     public readonly databaseUser!: pulumi.Output<string | undefined>;
+    /**
+     * Whether to manually enter the connection details.
+     */
     public readonly manualEntry!: pulumi.Output<boolean | undefined>;
+    /**
+     * The Postgres cluster to attach.
+     */
     public readonly postgres!: pulumi.Output<string>;
+    /**
+     * The environment variable name that contains the connection string.
+     */
     public readonly variableName!: pulumi.Output<string>;
 
     /**
@@ -86,10 +113,28 @@ export class PostgresAttachment extends pulumi.CustomResource {
  * The set of arguments for constructing a PostgresAttachment resource.
  */
 export interface PostgresAttachmentArgs {
+    /**
+     * The application to attach the Postgres database to.
+     */
     app: pulumi.Input<string>;
+    /**
+     * The name of the database to use.
+     */
     databaseName?: pulumi.Input<string>;
+    /**
+     * The database user to connect as.
+     */
     databaseUser?: pulumi.Input<string>;
+    /**
+     * Whether to manually enter the connection details.
+     */
     manualEntry?: pulumi.Input<boolean>;
+    /**
+     * The Postgres cluster to attach.
+     */
     postgres: pulumi.Input<string>;
+    /**
+     * The environment variable name to store the connection string.
+     */
     variableName?: pulumi.Input<string>;
 }

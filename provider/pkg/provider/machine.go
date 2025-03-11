@@ -10,8 +10,13 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type Machine struct{}
+
+var _ infer.Annotated = (*Machine)(nil)
+
+func (m *Machine) Annotate(anno infer.Annotator) {
+	anno.Describe(&m, "A Fly.io machine represents a VM instance that runs your application.")
+}
 
 var (
 	_ infer.CustomResource[MachineArgs, MachineState] = (*Machine)(nil)
@@ -28,10 +33,23 @@ var (
 	BlueGreenMachineDeploymentStrategy MachineDeploymentStrategy = "bluegreen"
 )
 
+var _ infer.Annotated = (*MachineDeploymentStrategy)(nil)
+
+func (s *MachineDeploymentStrategy) Annotate(anno infer.Annotator) {
+	anno.Describe(s, "The deployment strategy for the machine (immediate or bluegreen).")
+}
+
 type MachineArgs struct {
 	flyio.CreateMachineRequest
 	App                string                     `pulumi:"app"`
 	DeploymentStrategy *MachineDeploymentStrategy `pulumi:"deploymentStrategy,optional"`
+}
+
+var _ infer.Annotated = (*MachineArgs)(nil)
+
+func (a *MachineArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.App, "The Fly.io application to deploy the machine to.")
+	anno.Describe(&a.DeploymentStrategy, "The deployment strategy for the machine.")
 }
 
 type MachineState struct {
@@ -39,6 +57,14 @@ type MachineState struct {
 	App                string                     `pulumi:"app"`
 	DeploymentStrategy *MachineDeploymentStrategy `pulumi:"deploymentStrategy,optional"`
 	Input              MachineArgs                `pulumi:"input"`
+}
+
+var _ infer.Annotated = (*MachineState)(nil)
+
+func (s *MachineState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Input, "The input arguments used to create the machine.")
+	anno.Describe(&s.App, "The Fly.io application the machine belongs to.")
+	anno.Describe(&s.DeploymentStrategy, "The deployment strategy used for the machine.")
 }
 
 func (m Machine) Create(ctx context.Context, name string, input MachineArgs, preview bool) (string, MachineState, error) {

@@ -19,16 +19,32 @@ public final class VolumeArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final VolumeArgs Empty = new VolumeArgs();
 
+    /**
+     * The Fly.io application to attach the volume to.
+     * 
+     */
     @Import(name="app", required=true)
     private Output<String> app;
 
+    /**
+     * @return The Fly.io application to attach the volume to.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
 
+    /**
+     * Whether to enable automatic backups for the volume.
+     * 
+     */
     @Import(name="autoBackupEnabled")
     private @Nullable Output<Boolean> autoBackupEnabled;
 
+    /**
+     * @return Whether to enable automatic backups for the volume.
+     * 
+     */
     public Optional<Output<Boolean>> autoBackupEnabled() {
         return Optional.ofNullable(this.autoBackupEnabled);
     }
@@ -154,20 +170,44 @@ public final class VolumeArgs extends com.pulumi.resources.ResourceArgs {
             $ = new VolumeArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param app The Fly.io application to attach the volume to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(Output<String> app) {
             $.app = app;
             return this;
         }
 
+        /**
+         * @param app The Fly.io application to attach the volume to.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(String app) {
             return app(Output.of(app));
         }
 
+        /**
+         * @param autoBackupEnabled Whether to enable automatic backups for the volume.
+         * 
+         * @return builder
+         * 
+         */
         public Builder autoBackupEnabled(@Nullable Output<Boolean> autoBackupEnabled) {
             $.autoBackupEnabled = autoBackupEnabled;
             return this;
         }
 
+        /**
+         * @param autoBackupEnabled Whether to enable automatic backups for the volume.
+         * 
+         * @return builder
+         * 
+         */
         public Builder autoBackupEnabled(Boolean autoBackupEnabled) {
             return autoBackupEnabled(Output.of(autoBackupEnabled));
         }

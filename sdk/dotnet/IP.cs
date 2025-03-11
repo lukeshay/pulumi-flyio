@@ -10,30 +10,57 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io IP address allocation for an application.
+    /// </summary>
     [FlyioResourceType("flyio:index:IP")]
     public partial class IP : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The allocated IP address.
+        /// </summary>
         [Output("address")]
         public Output<string> Address { get; private set; } = null!;
 
+        /// <summary>
+        /// The application the IP address is allocated for.
+        /// </summary>
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
+        /// <summary>
+        /// When the IP address was allocated.
+        /// </summary>
         [Output("createdAt")]
         public Output<PulumiFlyio.Flyio.Time.Outputs.Time> CreatedAt { get; private set; } = null!;
 
+        /// <summary>
+        /// The Fly.io IP address ID.
+        /// </summary>
         [Output("flyId")]
         public Output<string> FlyId { get; private set; } = null!;
 
+        /// <summary>
+        /// The input arguments used to allocate the IP address.
+        /// </summary>
         [Output("input")]
         public Output<Outputs.IPArgs> Input { get; private set; } = null!;
 
+        /// <summary>
+        /// The network the IP address belongs to.
+        /// </summary>
         [Output("network")]
         public Output<string?> Network { get; private set; } = null!;
 
+        /// <summary>
+        /// The region the IP address is allocated in.
+        /// </summary>
         [Output("region")]
         public Output<string> Region { get; private set; } = null!;
 
+        /// <summary>
+        /// The type of IP address (v4 or v6).
+        /// </summary>
         [Output("type")]
         public Output<string> Type { get; private set; } = null!;
 
@@ -83,15 +110,27 @@ namespace PulumiFlyio.Flyio
 
     public sealed class IPArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The type of IP address (v4 or v6).
+        /// </summary>
         [Input("addrType", required: true)]
         public Input<string> AddrType { get; set; } = null!;
 
+        /// <summary>
+        /// The name of the Fly.io application to allocate the IP address for.
+        /// </summary>
         [Input("app", required: true)]
         public Input<string> App { get; set; } = null!;
 
+        /// <summary>
+        /// The network to allocate the IP address in.
+        /// </summary>
         [Input("network")]
         public Input<string>? Network { get; set; }
 
+        /// <summary>
+        /// The region to allocate the IP address in.
+        /// </summary>
         [Input("region", required: true)]
         public Input<string> Region { get; set; } = null!;
 

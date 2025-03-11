@@ -10,30 +10,57 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io Postgres attachment connects a Postgres database to an application.
+    /// </summary>
     [FlyioResourceType("flyio:index:PostgresAttachment")]
     public partial class PostgresAttachment : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The application to attach the Postgres database to.
+        /// </summary>
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
+        /// <summary>
+        /// The unique ID of the Postgres attachment.
+        /// </summary>
         [Output("attachmentId")]
         public Output<string> AttachmentId { get; private set; } = null!;
 
+        /// <summary>
+        /// The PostgreSQL connection string.
+        /// </summary>
         [Output("connectionString")]
         public Output<string> ConnectionString { get; private set; } = null!;
 
+        /// <summary>
+        /// The name of the database to use.
+        /// </summary>
         [Output("databaseName")]
         public Output<string?> DatabaseName { get; private set; } = null!;
 
+        /// <summary>
+        /// The database user to connect as.
+        /// </summary>
         [Output("databaseUser")]
         public Output<string?> DatabaseUser { get; private set; } = null!;
 
+        /// <summary>
+        /// Whether to manually enter the connection details.
+        /// </summary>
         [Output("manualEntry")]
         public Output<bool?> ManualEntry { get; private set; } = null!;
 
+        /// <summary>
+        /// The Postgres cluster to attach.
+        /// </summary>
         [Output("postgres")]
         public Output<string> Postgres { get; private set; } = null!;
 
+        /// <summary>
+        /// The environment variable name that contains the connection string.
+        /// </summary>
         [Output("variableName")]
         public Output<string> VariableName { get; private set; } = null!;
 
@@ -87,21 +114,39 @@ namespace PulumiFlyio.Flyio
 
     public sealed class PostgresAttachmentArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The application to attach the Postgres database to.
+        /// </summary>
         [Input("app", required: true)]
         public Input<string> App { get; set; } = null!;
 
+        /// <summary>
+        /// The name of the database to use.
+        /// </summary>
         [Input("databaseName")]
         public Input<string>? DatabaseName { get; set; }
 
+        /// <summary>
+        /// The database user to connect as.
+        /// </summary>
         [Input("databaseUser")]
         public Input<string>? DatabaseUser { get; set; }
 
+        /// <summary>
+        /// Whether to manually enter the connection details.
+        /// </summary>
         [Input("manualEntry")]
         public Input<bool>? ManualEntry { get; set; }
 
+        /// <summary>
+        /// The Postgres cluster to attach.
+        /// </summary>
         [Input("postgres", required: true)]
         public Input<string> Postgres { get; set; } = null!;
 
+        /// <summary>
+        /// The environment variable name to store the connection string.
+        /// </summary>
         [Input("variableName")]
         public Input<string>? VariableName { get; set; }
 

@@ -26,6 +26,10 @@ class AppArgs:
                  network: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a App resource.
+        :param pulumi.Input[str] name: The name of the Fly.io application.
+        :param pulumi.Input[str] org: The organization the application belongs to.
+        :param pulumi.Input[bool] enable_subdomains: Whether to enable subdomains for the application.
+        :param pulumi.Input[str] network: The network the application belongs to.
         """
         pulumi.set(__self__, "name", name)
         pulumi.set(__self__, "org", org)
@@ -37,6 +41,9 @@ class AppArgs:
     @property
     @pulumi.getter
     def name(self) -> pulumi.Input[str]:
+        """
+        The name of the Fly.io application.
+        """
         return pulumi.get(self, "name")
 
     @name.setter
@@ -46,6 +53,9 @@ class AppArgs:
     @property
     @pulumi.getter
     def org(self) -> pulumi.Input[str]:
+        """
+        The organization the application belongs to.
+        """
         return pulumi.get(self, "org")
 
     @org.setter
@@ -55,6 +65,9 @@ class AppArgs:
     @property
     @pulumi.getter(name="enableSubdomains")
     def enable_subdomains(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Whether to enable subdomains for the application.
+        """
         return pulumi.get(self, "enable_subdomains")
 
     @enable_subdomains.setter
@@ -64,6 +77,9 @@ class AppArgs:
     @property
     @pulumi.getter
     def network(self) -> Optional[pulumi.Input[str]]:
+        """
+        The network the application belongs to.
+        """
         return pulumi.get(self, "network")
 
     @network.setter
@@ -82,9 +98,14 @@ class App(pulumi.CustomResource):
                  org: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a App resource with the given unique name, props, and options.
+        A Fly.io application.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[bool] enable_subdomains: Whether to enable subdomains for the application.
+        :param pulumi.Input[str] name: The name of the Fly.io application.
+        :param pulumi.Input[str] network: The network the application belongs to.
+        :param pulumi.Input[str] org: The organization the application belongs to.
         """
         ...
     @overload
@@ -93,7 +114,8 @@ class App(pulumi.CustomResource):
                  args: AppArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a App resource with the given unique name, props, and options.
+        A Fly.io application.
+
         :param str resource_name: The name of the resource.
         :param AppArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -165,30 +187,48 @@ class App(pulumi.CustomResource):
     @property
     @pulumi.getter(name="enableSubdomains")
     def enable_subdomains(self) -> pulumi.Output[Optional[bool]]:
+        """
+        Whether subdomains are enabled for the application.
+        """
         return pulumi.get(self, "enable_subdomains")
 
     @property
     @pulumi.getter
     def input(self) -> pulumi.Output['outputs.AppArgs']:
+        """
+        The input arguments used to create the application.
+        """
         return pulumi.get(self, "input")
 
     @property
     @pulumi.getter
     def name(self) -> pulumi.Output[str]:
+        """
+        The name of the Fly.io application.
+        """
         return pulumi.get(self, "name")
 
     @property
     @pulumi.getter
     def network(self) -> pulumi.Output[Optional[str]]:
+        """
+        The network the application belongs to.
+        """
         return pulumi.get(self, "network")
 
     @property
     @pulumi.getter
     def org(self) -> pulumi.Output[str]:
+        """
+        The organization the application belongs to.
+        """
         return pulumi.get(self, "org")
 
     @property
     @pulumi.getter
     def status(self) -> pulumi.Output[Optional[str]]:
+        """
+        The current status of the application.
+        """
         return pulumi.get(self, "status")
 

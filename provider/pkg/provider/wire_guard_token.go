@@ -6,8 +6,13 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
-// TODO: Add annotations
 type WireGuardToken struct{}
+
+var _ infer.Annotated = (*WireGuardToken)(nil)
+
+func (w *WireGuardToken) Annotate(anno infer.Annotator) {
+	anno.Describe(&w, "A Fly.io WireGuard token for authenticating WireGuard peers.")
+}
 
 var (
 	_ infer.CustomResource[WireGuardTokenArgs, WireGuardTokenState] = (*WireGuardToken)(nil)
@@ -19,10 +24,25 @@ type WireGuardTokenArgs struct {
 	Name string `pulumi:"name,optional"`
 }
 
+var _ infer.Annotated = (*WireGuardTokenArgs)(nil)
+
+func (a *WireGuardTokenArgs) Annotate(anno infer.Annotator) {
+	anno.Describe(&a.Org, "The organization to create the WireGuard token in.")
+	anno.Describe(&a.Name, "The name of the WireGuard token.")
+}
+
 type WireGuardTokenState struct {
 	Org   string `pulumi:"org"`
 	Name  string `pulumi:"name,optional"`
 	Token string `pulumi:"token" provider:"secret"`
+}
+
+var _ infer.Annotated = (*WireGuardTokenState)(nil)
+
+func (s *WireGuardTokenState) Annotate(anno infer.Annotator) {
+	anno.Describe(&s.Org, "The organization the WireGuard token belongs to.")
+	anno.Describe(&s.Name, "The name of the WireGuard token.")
+	anno.Describe(&s.Token, "The WireGuard token value.")
 }
 
 func (WireGuardToken) Create(ctx context.Context, name string, input WireGuardTokenArgs, preview bool) (string, WireGuardTokenState, error) {

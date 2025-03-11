@@ -16,30 +16,62 @@ public final class WireGuardPeerArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final WireGuardPeerArgs Empty = new WireGuardPeerArgs();
 
+    /**
+     * The name of the WireGuard peer.
+     * 
+     */
     @Import(name="name")
     private @Nullable Output<String> name;
 
+    /**
+     * @return The name of the WireGuard peer.
+     * 
+     */
     public Optional<Output<String>> name() {
         return Optional.ofNullable(this.name);
     }
 
+    /**
+     * The network to create the WireGuard peer in.
+     * 
+     */
     @Import(name="network")
     private @Nullable Output<String> network;
 
+    /**
+     * @return The network to create the WireGuard peer in.
+     * 
+     */
     public Optional<Output<String>> network() {
         return Optional.ofNullable(this.network);
     }
 
+    /**
+     * The organization to create the WireGuard peer in.
+     * 
+     */
     @Import(name="org", required=true)
     private Output<String> org;
 
+    /**
+     * @return The organization to create the WireGuard peer in.
+     * 
+     */
     public Output<String> org() {
         return this.org;
     }
 
+    /**
+     * The region to create the WireGuard peer in.
+     * 
+     */
     @Import(name="region")
     private @Nullable Output<String> region;
 
+    /**
+     * @return The region to create the WireGuard peer in.
+     * 
+     */
     public Optional<Output<String>> region() {
         return Optional.ofNullable(this.region);
     }
@@ -71,38 +103,86 @@ public final class WireGuardPeerArgs extends com.pulumi.resources.ResourceArgs {
             $ = new WireGuardPeerArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param name The name of the WireGuard peer.
+         * 
+         * @return builder
+         * 
+         */
         public Builder name(@Nullable Output<String> name) {
             $.name = name;
             return this;
         }
 
+        /**
+         * @param name The name of the WireGuard peer.
+         * 
+         * @return builder
+         * 
+         */
         public Builder name(String name) {
             return name(Output.of(name));
         }
 
+        /**
+         * @param network The network to create the WireGuard peer in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder network(@Nullable Output<String> network) {
             $.network = network;
             return this;
         }
 
+        /**
+         * @param network The network to create the WireGuard peer in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder network(String network) {
             return network(Output.of(network));
         }
 
+        /**
+         * @param org The organization to create the WireGuard peer in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder org(Output<String> org) {
             $.org = org;
             return this;
         }
 
+        /**
+         * @param org The organization to create the WireGuard peer in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder org(String org) {
             return org(Output.of(org));
         }
 
+        /**
+         * @param region The region to create the WireGuard peer in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder region(@Nullable Output<String> region) {
             $.region = region;
             return this;
         }
 
+        /**
+         * @param region The region to create the WireGuard peer in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder region(String region) {
             return region(Output.of(region));
         }

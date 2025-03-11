@@ -16,16 +16,32 @@ public final class WireGuardTokenArgs extends com.pulumi.resources.ResourceArgs 
 
     public static final WireGuardTokenArgs Empty = new WireGuardTokenArgs();
 
+    /**
+     * The name of the WireGuard token.
+     * 
+     */
     @Import(name="name")
     private @Nullable Output<String> name;
 
+    /**
+     * @return The name of the WireGuard token.
+     * 
+     */
     public Optional<Output<String>> name() {
         return Optional.ofNullable(this.name);
     }
 
+    /**
+     * The organization to create the WireGuard token in.
+     * 
+     */
     @Import(name="org", required=true)
     private Output<String> org;
 
+    /**
+     * @return The organization to create the WireGuard token in.
+     * 
+     */
     public Output<String> org() {
         return this.org;
     }
@@ -55,20 +71,44 @@ public final class WireGuardTokenArgs extends com.pulumi.resources.ResourceArgs 
             $ = new WireGuardTokenArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param name The name of the WireGuard token.
+         * 
+         * @return builder
+         * 
+         */
         public Builder name(@Nullable Output<String> name) {
             $.name = name;
             return this;
         }
 
+        /**
+         * @param name The name of the WireGuard token.
+         * 
+         * @return builder
+         * 
+         */
         public Builder name(String name) {
             return name(Output.of(name));
         }
 
+        /**
+         * @param org The organization to create the WireGuard token in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder org(Output<String> org) {
             $.org = org;
             return this;
         }
 
+        /**
+         * @param org The organization to create the WireGuard token in.
+         * 
+         * @return builder
+         * 
+         */
         public Builder org(String org) {
             return org(Output.of(org));
         }

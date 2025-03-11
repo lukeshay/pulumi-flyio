@@ -7,6 +7,7 @@ import typing
 # Export this package's modules as members:
 from .app import *
 from .certificate import *
+from .certificate_issuance_waiter import *
 from .get_app import *
 from .ip import *
 from .machine import *
@@ -42,6 +43,7 @@ _utilities.register(
   "classes": {
    "flyio:index:App": "App",
    "flyio:index:Certificate": "Certificate",
+   "flyio:index:CertificateIssuanceWaiter": "CertificateIssuanceWaiter",
    "flyio:index:IP": "IP",
    "flyio:index:Machine": "Machine",
    "flyio:index:PostgresAttachment": "PostgresAttachment",

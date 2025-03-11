@@ -14,9 +14,21 @@ namespace PulumiFlyio.Flyio.Outputs
     [OutputType]
     public sealed class AppArgs
     {
+        /// <summary>
+        /// Whether to enable subdomains for the application.
+        /// </summary>
         public readonly bool? EnableSubdomains;
+        /// <summary>
+        /// The name of the Fly.io application.
+        /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// The network the application belongs to.
+        /// </summary>
         public readonly string? Network;
+        /// <summary>
+        /// The organization the application belongs to.
+        /// </summary>
         public readonly string Org;
 
         [OutputConstructor]

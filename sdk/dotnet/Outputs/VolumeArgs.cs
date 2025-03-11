@@ -14,7 +14,13 @@ namespace PulumiFlyio.Flyio.Outputs
     [OutputType]
     public sealed class VolumeArgs
     {
+        /// <summary>
+        /// The Fly.io application to attach the volume to.
+        /// </summary>
         public readonly string App;
+        /// <summary>
+        /// Whether to enable automatic backups for the volume.
+        /// </summary>
         public readonly bool? AutoBackupEnabled;
         public readonly PulumiFlyio.Flyio.Flyio.Outputs.FlyMachineGuest? Compute;
         public readonly string? ComputeImage;

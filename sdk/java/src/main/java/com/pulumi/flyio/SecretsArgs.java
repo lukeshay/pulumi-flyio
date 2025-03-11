@@ -15,16 +15,32 @@ public final class SecretsArgs extends com.pulumi.resources.ResourceArgs {
 
     public static final SecretsArgs Empty = new SecretsArgs();
 
+    /**
+     * The Fly.io application to set secrets for.
+     * 
+     */
     @Import(name="app", required=true)
     private Output<String> app;
 
+    /**
+     * @return The Fly.io application to set secrets for.
+     * 
+     */
     public Output<String> app() {
         return this.app;
     }
 
+    /**
+     * The secret values to set, as key-value pairs.
+     * 
+     */
     @Import(name="values", required=true)
     private Output<Map<String,String>> values;
 
+    /**
+     * @return The secret values to set, as key-value pairs.
+     * 
+     */
     public Output<Map<String,String>> values() {
         return this.values;
     }
@@ -54,20 +70,44 @@ public final class SecretsArgs extends com.pulumi.resources.ResourceArgs {
             $ = new SecretsArgs(Objects.requireNonNull(defaults));
         }
 
+        /**
+         * @param app The Fly.io application to set secrets for.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(Output<String> app) {
             $.app = app;
             return this;
         }
 
+        /**
+         * @param app The Fly.io application to set secrets for.
+         * 
+         * @return builder
+         * 
+         */
         public Builder app(String app) {
             return app(Output.of(app));
         }
 
+        /**
+         * @param values The secret values to set, as key-value pairs.
+         * 
+         * @return builder
+         * 
+         */
         public Builder values(Output<Map<String,String>> values) {
             $.values = values;
             return this;
         }
 
+        /**
+         * @param values The secret values to set, as key-value pairs.
+         * 
+         * @return builder
+         * 
+         */
         public Builder values(Map<String,String> values) {
             return values(Output.of(values));
         }

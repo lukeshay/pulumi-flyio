@@ -13,9 +13,11 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// A Fly.io volume provides persistent storage for your applications.
 type Volume struct {
 	pulumi.CustomResourceState
 
+	// The Fly.io application the volume is attached to.
 	App               pulumi.StringOutput    `pulumi:"app"`
 	AttachedAllocId   pulumi.StringPtrOutput `pulumi:"attachedAllocId"`
 	AttachedMachineId pulumi.StringPtrOutput `pulumi:"attachedMachineId"`
@@ -29,6 +31,7 @@ type Volume struct {
 	FlyId             pulumi.StringOutput    `pulumi:"flyId"`
 	Fstype            pulumi.StringPtrOutput `pulumi:"fstype"`
 	HostStatus        pulumi.StringPtrOutput `pulumi:"hostStatus"`
+	// The input arguments used to create the volume.
 	Input             VolumeArgsTypeOutput   `pulumi:"input"`
 	Name              pulumi.StringPtrOutput `pulumi:"name"`
 	Region            pulumi.StringPtrOutput `pulumi:"region"`
@@ -81,7 +84,9 @@ func (VolumeState) ElementType() reflect.Type {
 }
 
 type volumeArgs struct {
-	App               string                 `pulumi:"app"`
+	// The Fly.io application to attach the volume to.
+	App string `pulumi:"app"`
+	// Whether to enable automatic backups for the volume.
 	AutoBackupEnabled *bool                  `pulumi:"autoBackupEnabled"`
 	Compute           *flyio.FlyMachineGuest `pulumi:"compute"`
 	ComputeImage      *string                `pulumi:"computeImage"`
@@ -99,7 +104,9 @@ type volumeArgs struct {
 
 // The set of arguments for constructing a Volume resource.
 type VolumeArgs struct {
-	App               pulumi.StringInput
+	// The Fly.io application to attach the volume to.
+	App pulumi.StringInput
+	// Whether to enable automatic backups for the volume.
 	AutoBackupEnabled pulumi.BoolPtrInput
 	Compute           flyio.FlyMachineGuestPtrInput
 	ComputeImage      pulumi.StringPtrInput
@@ -202,6 +209,7 @@ func (o VolumeOutput) ToVolumeOutputWithContext(ctx context.Context) VolumeOutpu
 	return o
 }
 
+// The Fly.io application the volume is attached to.
 func (o VolumeOutput) App() pulumi.StringOutput {
 	return o.ApplyT(func(v *Volume) pulumi.StringOutput { return v.App }).(pulumi.StringOutput)
 }
@@ -254,6 +262,7 @@ func (o VolumeOutput) HostStatus() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Volume) pulumi.StringPtrOutput { return v.HostStatus }).(pulumi.StringPtrOutput)
 }
 
+// The input arguments used to create the volume.
 func (o VolumeOutput) Input() VolumeArgsTypeOutput {
 	return o.ApplyT(func(v *Volume) VolumeArgsTypeOutput { return v.Input }).(VolumeArgsTypeOutput)
 }

@@ -14,9 +14,21 @@ namespace PulumiFlyio.Flyio.Outputs
     [OutputType]
     public sealed class IPArgs
     {
+        /// <summary>
+        /// The type of IP address (v4 or v6).
+        /// </summary>
         public readonly string AddrType;
+        /// <summary>
+        /// The name of the Fly.io application to allocate the IP address for.
+        /// </summary>
         public readonly string App;
+        /// <summary>
+        /// The network to allocate the IP address in.
+        /// </summary>
         public readonly string? Network;
+        /// <summary>
+        /// The region to allocate the IP address in.
+        /// </summary>
         public readonly string Region;
 
         [OutputConstructor]

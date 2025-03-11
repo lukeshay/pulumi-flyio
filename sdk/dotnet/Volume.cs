@@ -10,9 +10,15 @@ using Pulumi;
 
 namespace PulumiFlyio.Flyio
 {
+    /// <summary>
+    /// A Fly.io volume provides persistent storage for your applications.
+    /// </summary>
     [FlyioResourceType("flyio:index:Volume")]
     public partial class Volume : global::Pulumi.CustomResource
     {
+        /// <summary>
+        /// The Fly.io application the volume is attached to.
+        /// </summary>
         [Output("app")]
         public Output<string> App { get; private set; } = null!;
 
@@ -52,6 +58,9 @@ namespace PulumiFlyio.Flyio
         [Output("hostStatus")]
         public Output<string?> HostStatus { get; private set; } = null!;
 
+        /// <summary>
+        /// The input arguments used to create the volume.
+        /// </summary>
         [Output("input")]
         public Output<Outputs.VolumeArgs> Input { get; private set; } = null!;
 
@@ -119,9 +128,15 @@ namespace PulumiFlyio.Flyio
 
     public sealed class VolumeArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// The Fly.io application to attach the volume to.
+        /// </summary>
         [Input("app", required: true)]
         public Input<string> App { get; set; } = null!;
 
+        /// <summary>
+        /// Whether to enable automatic backups for the volume.
+        /// </summary>
         [Input("autoBackupEnabled")]
         public Input<bool>? AutoBackupEnabled { get; set; }
 
