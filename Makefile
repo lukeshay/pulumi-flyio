@@ -206,6 +206,8 @@ prepare::
 prepare:: build gen_examples
 prepare::
 	git tag --delete ${VERSION}
+	git add .
+	git commit -m "Release ${VERSION}"
 
 push::
 	git tag ${VERSION}

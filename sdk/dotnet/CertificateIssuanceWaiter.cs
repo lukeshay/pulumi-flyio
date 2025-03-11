@@ -141,7 +141,7 @@ namespace PulumiFlyio.Flyio
         public Input<string> Hostname { get; set; } = null!;
 
         /// <summary>
-        /// The maximum time to wait for the certificate to be fully issued (in seconds).
+        /// The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         /// </summary>
         [Input("timeout", required: true)]
         public Input<int> Timeout { get; set; } = null!;

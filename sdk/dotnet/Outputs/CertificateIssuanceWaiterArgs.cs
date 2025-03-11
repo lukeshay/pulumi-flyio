@@ -23,7 +23,7 @@ namespace PulumiFlyio.Flyio.Outputs
         /// </summary>
         public readonly string Hostname;
         /// <summary>
-        /// The maximum time to wait for the certificate to be fully issued (in seconds).
+        /// The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         /// </summary>
         public readonly int Timeout;
 

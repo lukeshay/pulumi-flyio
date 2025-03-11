@@ -94,7 +94,7 @@ type certificateIssuanceWaiterArgs struct {
 	App string `pulumi:"app"`
 	// The hostname for the certificate (e.g., example.com).
 	Hostname string `pulumi:"hostname"`
-	// The maximum time to wait for the certificate to be fully issued (in seconds).
+	// The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
 	Timeout int `pulumi:"timeout"`
 }
 
@@ -104,7 +104,7 @@ type CertificateIssuanceWaiterArgs struct {
 	App pulumi.StringInput
 	// The hostname for the certificate (e.g., example.com).
 	Hostname pulumi.StringInput
-	// The maximum time to wait for the certificate to be fully issued (in seconds).
+	// The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
 	Timeout pulumi.IntInput
 }
 

@@ -22,7 +22,7 @@ public final class CertificateIssuanceWaiterArgs {
      */
     private String hostname;
     /**
-     * @return The maximum time to wait for the certificate to be fully issued (in seconds).
+     * @return The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
      * 
      */
     private Integer timeout;
@@ -43,7 +43,7 @@ public final class CertificateIssuanceWaiterArgs {
         return this.hostname;
     }
     /**
-     * @return The maximum time to wait for the certificate to be fully issued (in seconds).
+     * @return The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
      * 
      */
     public Integer timeout() {

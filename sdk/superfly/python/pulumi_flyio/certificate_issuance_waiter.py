@@ -28,7 +28,7 @@ class CertificateIssuanceWaiterArgs:
         The set of arguments for constructing a CertificateIssuanceWaiter resource.
         :param pulumi.Input[str] app: The name of the Fly app that the certificate is associated with.
         :param pulumi.Input[str] hostname: The hostname for the certificate (e.g., example.com).
-        :param pulumi.Input[int] timeout: The maximum time to wait for the certificate to be fully issued (in seconds).
+        :param pulumi.Input[int] timeout: The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "hostname", hostname)
@@ -62,7 +62,7 @@ class CertificateIssuanceWaiterArgs:
     @pulumi.getter
     def timeout(self) -> pulumi.Input[int]:
         """
-        The maximum time to wait for the certificate to be fully issued (in seconds).
+        The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         """
         return pulumi.get(self, "timeout")
 
@@ -87,7 +87,7 @@ class CertificateIssuanceWaiter(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] app: The name of the Fly app that the certificate is associated with.
         :param pulumi.Input[str] hostname: The hostname for the certificate (e.g., example.com).
-        :param pulumi.Input[int] timeout: The maximum time to wait for the certificate to be fully issued (in seconds).
+        :param pulumi.Input[int] timeout: The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         """
         ...
     @overload

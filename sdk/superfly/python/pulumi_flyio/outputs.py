@@ -132,7 +132,7 @@ class CertificateIssuanceWaiterArgs(dict):
         """
         :param str app: The name of the Fly app that the certificate is associated with.
         :param str hostname: The hostname for the certificate (e.g., example.com).
-        :param int timeout: The maximum time to wait for the certificate to be fully issued (in seconds).
+        :param int timeout: The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         """
         pulumi.set(__self__, "app", app)
         pulumi.set(__self__, "hostname", hostname)
@@ -158,7 +158,7 @@ class CertificateIssuanceWaiterArgs(dict):
     @pulumi.getter
     def timeout(self) -> int:
         """
-        The maximum time to wait for the certificate to be fully issued (in seconds).
+        The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
         """
         return pulumi.get(self, "timeout")
 

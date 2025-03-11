@@ -46,14 +46,14 @@ public final class CertificateIssuanceWaiterArgs extends com.pulumi.resources.Re
     }
 
     /**
-     * The maximum time to wait for the certificate to be fully issued (in seconds).
+     * The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
      * 
      */
     @Import(name="timeout", required=true)
     private Output<Integer> timeout;
 
     /**
-     * @return The maximum time to wait for the certificate to be fully issued (in seconds).
+     * @return The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
      * 
      */
     public Output<Integer> timeout() {
@@ -129,7 +129,7 @@ public final class CertificateIssuanceWaiterArgs extends com.pulumi.resources.Re
         }
 
         /**
-         * @param timeout The maximum time to wait for the certificate to be fully issued (in seconds).
+         * @param timeout The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
          * 
          * @return builder
          * 
@@ -140,7 +140,7 @@ public final class CertificateIssuanceWaiterArgs extends com.pulumi.resources.Re
         }
 
         /**
-         * @param timeout The maximum time to wait for the certificate to be fully issued (in seconds).
+         * @param timeout The maximum time to wait for the certificate to be fully issued. Formatted like 5s, 5m, etc.
          * 
          * @return builder
          * 
