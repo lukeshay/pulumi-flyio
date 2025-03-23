@@ -66,7 +66,7 @@ export interface IPArgs {
     /**
      * The region to allocate the IP address in.
      */
-    region: string;
+    region?: string;
 }
 
 export interface MachineArgs {

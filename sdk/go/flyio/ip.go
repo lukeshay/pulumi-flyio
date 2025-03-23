@@ -24,13 +24,13 @@ type IP struct {
 	// When the IP address was allocated.
 	CreatedAt time.TimeOutput `pulumi:"createdAt"`
 	// The Fly.io IP address ID.
-	FlyId pulumi.StringOutput `pulumi:"flyId"`
+	FlyId pulumi.StringPtrOutput `pulumi:"flyId"`
 	// The input arguments used to allocate the IP address.
 	Input IPArgsTypeOutput `pulumi:"input"`
 	// The network the IP address belongs to.
 	Network pulumi.StringPtrOutput `pulumi:"network"`
 	// The region the IP address is allocated in.
-	Region pulumi.StringOutput `pulumi:"region"`
+	Region pulumi.StringPtrOutput `pulumi:"region"`
 	// The type of IP address (v4 or v6).
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -47,9 +47,6 @@ func NewIP(ctx *pulumi.Context,
 	}
 	if args.App == nil {
 		return nil, errors.New("invalid value for required argument 'App'")
-	}
-	if args.Region == nil {
-		return nil, errors.New("invalid value for required argument 'Region'")
 	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource IP
@@ -91,7 +88,7 @@ type ipArgs struct {
 	// The network to allocate the IP address in.
 	Network *string `pulumi:"network"`
 	// The region to allocate the IP address in.
-	Region string `pulumi:"region"`
+	Region *string `pulumi:"region"`
 }
 
 // The set of arguments for constructing a IP resource.
@@ -103,7 +100,7 @@ type IPArgs struct {
 	// The network to allocate the IP address in.
 	Network pulumi.StringPtrInput
 	// The region to allocate the IP address in.
-	Region pulumi.StringInput
+	Region pulumi.StringPtrInput
 }
 
 func (IPArgs) ElementType() reflect.Type {
@@ -209,8 +206,8 @@ func (o IPOutput) CreatedAt() time.TimeOutput {
 }
 
 // The Fly.io IP address ID.
-func (o IPOutput) FlyId() pulumi.StringOutput {
-	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.FlyId }).(pulumi.StringOutput)
+func (o IPOutput) FlyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IP) pulumi.StringPtrOutput { return v.FlyId }).(pulumi.StringPtrOutput)
 }
 
 // The input arguments used to allocate the IP address.
@@ -224,8 +221,8 @@ func (o IPOutput) Network() pulumi.StringPtrOutput {
 }
 
 // The region the IP address is allocated in.
-func (o IPOutput) Region() pulumi.StringOutput {
-	return o.ApplyT(func(v *IP) pulumi.StringOutput { return v.Region }).(pulumi.StringOutput)
+func (o IPOutput) Region() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IP) pulumi.StringPtrOutput { return v.Region }).(pulumi.StringPtrOutput)
 }
 
 // The type of IP address (v4 or v6).

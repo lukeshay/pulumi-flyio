@@ -1,6 +1,6 @@
 module github.com/pulumi/pulumi-xyz/tests
 
-go 1.21
+go 1.24.1
 
 replace github.com/pulumi/pulumi-xyz/provider => ../provider
 

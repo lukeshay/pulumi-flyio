@@ -23,20 +23,21 @@ class IPArgs:
     def __init__(__self__, *,
                  addr_type: pulumi.Input[str],
                  app: pulumi.Input[str],
-                 region: pulumi.Input[str],
-                 network: Optional[pulumi.Input[str]] = None):
+                 network: Optional[pulumi.Input[str]] = None,
+                 region: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a IP resource.
         :param pulumi.Input[str] addr_type: The type of IP address (v4 or v6).
         :param pulumi.Input[str] app: The name of the Fly.io application to allocate the IP address for.
-        :param pulumi.Input[str] region: The region to allocate the IP address in.
         :param pulumi.Input[str] network: The network to allocate the IP address in.
+        :param pulumi.Input[str] region: The region to allocate the IP address in.
         """
         pulumi.set(__self__, "addr_type", addr_type)
         pulumi.set(__self__, "app", app)
-        pulumi.set(__self__, "region", region)
         if network is not None:
             pulumi.set(__self__, "network", network)
+        if region is not None:
+            pulumi.set(__self__, "region", region)
 
     @property
     @pulumi.getter(name="addrType")
@@ -64,18 +65,6 @@ class IPArgs:
 
     @property
     @pulumi.getter
-    def region(self) -> pulumi.Input[str]:
-        """
-        The region to allocate the IP address in.
-        """
-        return pulumi.get(self, "region")
-
-    @region.setter
-    def region(self, value: pulumi.Input[str]):
-        pulumi.set(self, "region", value)
-
-    @property
-    @pulumi.getter
     def network(self) -> Optional[pulumi.Input[str]]:
         """
         The network to allocate the IP address in.
@@ -85,6 +74,18 @@ class IPArgs:
     @network.setter
     def network(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "network", value)
+
+    @property
+    @pulumi.getter
+    def region(self) -> Optional[pulumi.Input[str]]:
+        """
+        The region to allocate the IP address in.
+        """
+        return pulumi.get(self, "region")
+
+    @region.setter
+    def region(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "region", value)
 
 
 class IP(pulumi.CustomResource):
@@ -151,8 +152,6 @@ class IP(pulumi.CustomResource):
                 raise TypeError("Missing required property 'app'")
             __props__.__dict__["app"] = app
             __props__.__dict__["network"] = network
-            if region is None and not opts.urn:
-                raise TypeError("Missing required property 'region'")
             __props__.__dict__["region"] = region
             __props__.__dict__["address"] = None
             __props__.__dict__["created_at"] = None
@@ -217,7 +216,7 @@ class IP(pulumi.CustomResource):
 
     @property
     @pulumi.getter(name="flyId")
-    def fly_id(self) -> pulumi.Output[str]:
+    def fly_id(self) -> pulumi.Output[Optional[str]]:
         """
         The Fly.io IP address ID.
         """
@@ -241,7 +240,7 @@ class IP(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def region(self) -> pulumi.Output[str]:
+    def region(self) -> pulumi.Output[Optional[str]]:
         """
         The region the IP address is allocated in.
         """

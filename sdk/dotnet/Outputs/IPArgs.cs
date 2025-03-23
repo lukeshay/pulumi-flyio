@@ -29,7 +29,7 @@ namespace PulumiFlyio.Flyio.Outputs
         /// <summary>
         /// The region to allocate the IP address in.
         /// </summary>
-        public readonly string Region;
+        public readonly string? Region;
 
         [OutputConstructor]
         private IPArgs(
@@ -39,7 +39,7 @@ namespace PulumiFlyio.Flyio.Outputs
 
             string? network,
 
-            string region)
+            string? region)
         {
             AddrType = addrType;
             App = app;

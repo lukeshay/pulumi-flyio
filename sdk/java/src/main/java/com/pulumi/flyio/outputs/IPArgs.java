@@ -31,7 +31,7 @@ public final class IPArgs {
      * @return The region to allocate the IP address in.
      * 
      */
-    private String region;
+    private @Nullable String region;
 
     private IPArgs() {}
     /**
@@ -59,8 +59,8 @@ public final class IPArgs {
      * @return The region to allocate the IP address in.
      * 
      */
-    public String region() {
-        return this.region;
+    public Optional<String> region() {
+        return Optional.ofNullable(this.region);
     }
 
     public static Builder builder() {
@@ -75,7 +75,7 @@ public final class IPArgs {
         private String addrType;
         private String app;
         private @Nullable String network;
-        private String region;
+        private @Nullable String region;
         public Builder() {}
         public Builder(IPArgs defaults) {
     	      Objects.requireNonNull(defaults);
@@ -108,10 +108,8 @@ public final class IPArgs {
             return this;
         }
         @CustomType.Setter
-        public Builder region(String region) {
-            if (region == null) {
-              throw new MissingRequiredPropertyException("IPArgs", "region");
-            }
+        public Builder region(@Nullable String region) {
+
             this.region = region;
             return this;
         }

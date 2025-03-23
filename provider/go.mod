@@ -1,8 +1,6 @@
 module github.com/lukeshay/pulumi-flyio/provider
 
-go 1.23.1
-
-toolchain go1.23.2
+go 1.24.1
 
 require (
 	github.com/iancoleman/strcase v0.3.0

@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	p "github.com/pulumi/pulumi-go-provider"
@@ -24,7 +25,7 @@ var (
 type IPArgs struct {
 	App      string  `json:"app" pulumi:"app"`
 	AddrType string  `json:"addrType" pulumi:"addrType"`
-	Region   string  `json:"region" pulumi:"region"`
+	Region   *string `json:"region,omitempty" pulumi:"region,optional"`
 	Network  *string `json:"network,omitempty" pulumi:"network,optional"`
 }
 
@@ -32,8 +33,8 @@ var _ infer.Annotated = (*IPArgs)(nil)
 
 func (a *IPArgs) Annotate(anno infer.Annotator) {
 	anno.Describe(&a.App, "The name of the Fly.io application to allocate the IP address for.")
-	anno.Describe(&a.AddrType, "The type of IP address (v4 or v6).")
-	anno.Describe(&a.Region, "The region to allocate the IP address in.")
+	anno.Describe(&a.AddrType, "The type of IP address (v4, v6, shared_v4, or private_v6).")
+	anno.Describe(&a.Region, "The region to allocate the IP address in. This is required for non-shared IP addresses.")
 	anno.Describe(&a.Network, "The network to allocate the IP address in.")
 }
 
@@ -51,10 +52,10 @@ func (n *IPStateNetwork) Annotate(anno infer.Annotator) {
 
 type IPState struct {
 	Input     IPArgs    `pulumi:"input"`
-	FlyID     string    `json:"flyId" pulumi:"flyId"`
+	FlyID     *string   `json:"flyId,omitempty" pulumi:"flyId,optional"`
 	Address   string    `json:"address" pulumi:"address"`
 	Type      string    `json:"type" pulumi:"type"`
-	Region    string    `json:"region" pulumi:"region"`
+	Region    *string   `json:"region,omitempty" pulumi:"region,optional"`
 	CreatedAt time.Time `json:"createdAt" pulumi:"createdAt"`
 	App       string    `json:"app" pulumi:"app"`
 	Network   *string   `json:"network,omitempty" pulumi:"network,optional"`
@@ -77,7 +78,6 @@ func (IP) Create(ctx context.Context, name string, input IPArgs, preview bool) (
 	if preview {
 		state := IPState{
 			Input:     input,
-			FlyID:     "",
 			Address:   "",
 			Type:      input.AddrType,
 			Region:    input.Region,
@@ -105,17 +105,38 @@ func (IP) Create(ctx context.Context, name string, input IPArgs, preview bool) (
 		network = *input.Network
 	}
 
-	ipAddress, err := cfg.flyClient.AllocateIPAddress(ctx, input.App, input.AddrType, input.Region, org, network)
+	if input.AddrType == "shared_v4" {
+		sharedIP, err := cfg.flyClient.AllocateSharedIPAddress(ctx, input.App)
+		if err != nil {
+			return name, IPState{}, err
+		}
+
+		state := IPState{
+			Input:     input,
+			Address:   sharedIP.String(),
+			Type:      input.AddrType,
+			CreatedAt: time.Now(),
+			App:       input.App,
+		}
+
+		return name, state, nil
+	}
+
+	if input.Region == nil {
+		return name, IPState{}, fmt.Errorf("region is required for non-shared IP addresses")
+	}
+
+	ipAddress, err := cfg.flyClient.AllocateIPAddress(ctx, input.App, input.AddrType, *input.Region, org, network)
 	if err != nil {
 		return name, IPState{}, err
 	}
 
 	state := IPState{
 		Input:     input,
-		FlyID:     ipAddress.ID,
+		FlyID:     &ipAddress.ID,
 		Address:   ipAddress.Address,
 		Type:      ipAddress.Type,
-		Region:    ipAddress.Region,
+		Region:    &ipAddress.Region,
 		CreatedAt: ipAddress.CreatedAt,
 		App:       input.App,
 	}

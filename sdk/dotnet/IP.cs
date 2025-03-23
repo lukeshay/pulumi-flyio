@@ -38,7 +38,7 @@ namespace PulumiFlyio.Flyio
         /// The Fly.io IP address ID.
         /// </summary>
         [Output("flyId")]
-        public Output<string> FlyId { get; private set; } = null!;
+        public Output<string?> FlyId { get; private set; } = null!;
 
         /// <summary>
         /// The input arguments used to allocate the IP address.
@@ -56,7 +56,7 @@ namespace PulumiFlyio.Flyio
         /// The region the IP address is allocated in.
         /// </summary>
         [Output("region")]
-        public Output<string> Region { get; private set; } = null!;
+        public Output<string?> Region { get; private set; } = null!;
 
         /// <summary>
         /// The type of IP address (v4 or v6).
@@ -131,8 +131,8 @@ namespace PulumiFlyio.Flyio
         /// <summary>
         /// The region to allocate the IP address in.
         /// </summary>
-        [Input("region", required: true)]
-        public Input<string> Region { get; set; } = null!;
+        [Input("region")]
+        public Input<string>? Region { get; set; }
 
         public IPArgs()
         {

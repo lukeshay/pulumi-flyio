@@ -136,7 +136,7 @@ type IPArgsType struct {
 	// The network to allocate the IP address in.
 	Network *string `pulumi:"network"`
 	// The region to allocate the IP address in.
-	Region string `pulumi:"region"`
+	Region *string `pulumi:"region"`
 }
 
 type IPArgsTypeOutput struct{ *pulumi.OutputState }
@@ -169,8 +169,8 @@ func (o IPArgsTypeOutput) Network() pulumi.StringPtrOutput {
 }
 
 // The region to allocate the IP address in.
-func (o IPArgsTypeOutput) Region() pulumi.StringOutput {
-	return o.ApplyT(func(v IPArgsType) string { return v.Region }).(pulumi.StringOutput)
+func (o IPArgsTypeOutput) Region() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IPArgsType) *string { return v.Region }).(pulumi.StringPtrOutput)
 }
 
 type MachineArgsType struct {

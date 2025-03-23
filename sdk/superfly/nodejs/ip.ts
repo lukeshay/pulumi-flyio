@@ -51,7 +51,7 @@ export class IP extends pulumi.CustomResource {
     /**
      * The Fly.io IP address ID.
      */
-    public /*out*/ readonly flyId!: pulumi.Output<string>;
+    public /*out*/ readonly flyId!: pulumi.Output<string | undefined>;
     /**
      * The input arguments used to allocate the IP address.
      */
@@ -63,7 +63,7 @@ export class IP extends pulumi.CustomResource {
     /**
      * The region the IP address is allocated in.
      */
-    public readonly region!: pulumi.Output<string>;
+    public readonly region!: pulumi.Output<string | undefined>;
     /**
      * The type of IP address (v4 or v6).
      */
@@ -85,9 +85,6 @@ export class IP extends pulumi.CustomResource {
             }
             if ((!args || args.app === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'app'");
-            }
-            if ((!args || args.region === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'region'");
             }
             resourceInputs["addrType"] = args ? args.addrType : undefined;
             resourceInputs["app"] = args ? args.app : undefined;
@@ -132,5 +129,5 @@ export interface IPArgs {
     /**
      * The region to allocate the IP address in.
      */
-    region: pulumi.Input<string>;
+    region?: pulumi.Input<string>;
 }

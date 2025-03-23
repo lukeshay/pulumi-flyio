@@ -65,15 +65,15 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
      * The region to allocate the IP address in.
      * 
      */
-    @Import(name="region", required=true)
-    private Output<String> region;
+    @Import(name="region")
+    private @Nullable Output<String> region;
 
     /**
      * @return The region to allocate the IP address in.
      * 
      */
-    public Output<String> region() {
-        return this.region;
+    public Optional<Output<String>> region() {
+        return Optional.ofNullable(this.region);
     }
 
     private IPArgs() {}
@@ -172,7 +172,7 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
          * @return builder
          * 
          */
-        public Builder region(Output<String> region) {
+        public Builder region(@Nullable Output<String> region) {
             $.region = region;
             return this;
         }
@@ -193,9 +193,6 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
             }
             if ($.app == null) {
                 throw new MissingRequiredPropertyException("IPArgs", "app");
-            }
-            if ($.region == null) {
-                throw new MissingRequiredPropertyException("IPArgs", "region");
             }
             return $;
         }

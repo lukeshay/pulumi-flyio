@@ -67,14 +67,14 @@ public class IP extends com.pulumi.resources.CustomResource {
      * 
      */
     @Export(name="flyId", refs={String.class}, tree="[0]")
-    private Output<String> flyId;
+    private Output</* @Nullable */ String> flyId;
 
     /**
      * @return The Fly.io IP address ID.
      * 
      */
-    public Output<String> flyId() {
-        return this.flyId;
+    public Output<Optional<String>> flyId() {
+        return Codegen.optional(this.flyId);
     }
     /**
      * The input arguments used to allocate the IP address.
@@ -109,14 +109,14 @@ public class IP extends com.pulumi.resources.CustomResource {
      * 
      */
     @Export(name="region", refs={String.class}, tree="[0]")
-    private Output<String> region;
+    private Output</* @Nullable */ String> region;
 
     /**
      * @return The region the IP address is allocated in.
      * 
      */
-    public Output<String> region() {
-        return this.region;
+    public Output<Optional<String>> region() {
+        return Codegen.optional(this.region);
     }
     /**
      * The type of IP address (v4 or v6).

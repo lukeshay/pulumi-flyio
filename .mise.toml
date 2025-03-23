@@ -1,6 +1,6 @@
 [tools]
 node = "22.12.0"
-go = "1.23"
+go = "1.24.1"
 dotnet = "latest"
 python = "3.11.9"
 bun = "1"

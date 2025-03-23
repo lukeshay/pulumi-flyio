@@ -185,19 +185,20 @@ class IPArgs(dict):
     def __init__(__self__, *,
                  addr_type: str,
                  app: str,
-                 region: str,
-                 network: Optional[str] = None):
+                 network: Optional[str] = None,
+                 region: Optional[str] = None):
         """
         :param str addr_type: The type of IP address (v4 or v6).
         :param str app: The name of the Fly.io application to allocate the IP address for.
-        :param str region: The region to allocate the IP address in.
         :param str network: The network to allocate the IP address in.
+        :param str region: The region to allocate the IP address in.
         """
         pulumi.set(__self__, "addr_type", addr_type)
         pulumi.set(__self__, "app", app)
-        pulumi.set(__self__, "region", region)
         if network is not None:
             pulumi.set(__self__, "network", network)
+        if region is not None:
+            pulumi.set(__self__, "region", region)
 
     @property
     @pulumi.getter(name="addrType")
@@ -217,19 +218,19 @@ class IPArgs(dict):
 
     @property
     @pulumi.getter
-    def region(self) -> str:
-        """
-        The region to allocate the IP address in.
-        """
-        return pulumi.get(self, "region")
-
-    @property
-    @pulumi.getter
     def network(self) -> Optional[str]:
         """
         The network to allocate the IP address in.
         """
         return pulumi.get(self, "network")
+
+    @property
+    @pulumi.getter
+    def region(self) -> Optional[str]:
+        """
+        The region to allocate the IP address in.
+        """
+        return pulumi.get(self, "region")
 
 
 @pulumi.output_type

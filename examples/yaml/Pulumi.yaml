@@ -211,6 +211,11 @@ resources:
       app: ${app.name}
       addrType: private_v6
       network: pulumi-flyio
+  sharedipv4:
+    type: flyio:IP
+    properties:
+      app: ${app.name}
+      addrType: shared_v4
   certificate:
     type: flyio:Certificate
     properties:
