@@ -15,7 +15,7 @@ namespace PulumiFlyio.Flyio.Outputs
     public sealed class IPArgs
     {
         /// <summary>
-        /// The type of IP address (v4 or v6).
+        /// The type of IP address (v4, v6, shared_v4, or private_v6).
         /// </summary>
         public readonly string AddrType;
         /// <summary>
@@ -27,7 +27,7 @@ namespace PulumiFlyio.Flyio.Outputs
         /// </summary>
         public readonly string? Network;
         /// <summary>
-        /// The region to allocate the IP address in.
+        /// The region to allocate the IP address in. This is required for non-shared IP addresses.
         /// </summary>
         public readonly string? Region;
 

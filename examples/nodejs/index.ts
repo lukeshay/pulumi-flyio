@@ -229,6 +229,10 @@ const privateipv6 = new flyio.IP("privateipv6", {
     addrType: "private_v6",
     network: "pulumi-flyio",
 });
+const sharedipv4 = new flyio.IP("sharedipv4", {
+    app: app.name,
+    addrType: "shared_v4",
+});
 const certificate = new flyio.Certificate("certificate", {
     app: app.name,
     hostname: "pulumi-flyio.lshay.land",

@@ -111,7 +111,7 @@ namespace PulumiFlyio.Flyio
     public sealed class IPArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The type of IP address (v4 or v6).
+        /// The type of IP address (v4, v6, shared_v4, or private_v6).
         /// </summary>
         [Input("addrType", required: true)]
         public Input<string> AddrType { get; set; } = null!;
@@ -129,7 +129,7 @@ namespace PulumiFlyio.Flyio
         public Input<string>? Network { get; set; }
 
         /// <summary>
-        /// The region to allocate the IP address in.
+        /// The region to allocate the IP address in. This is required for non-shared IP addresses.
         /// </summary>
         [Input("region")]
         public Input<string>? Region { get; set; }

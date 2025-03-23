@@ -17,14 +17,14 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
     public static final IPArgs Empty = new IPArgs();
 
     /**
-     * The type of IP address (v4 or v6).
+     * The type of IP address (v4, v6, shared_v4, or private_v6).
      * 
      */
     @Import(name="addrType", required=true)
     private Output<String> addrType;
 
     /**
-     * @return The type of IP address (v4 or v6).
+     * @return The type of IP address (v4, v6, shared_v4, or private_v6).
      * 
      */
     public Output<String> addrType() {
@@ -62,14 +62,14 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
     }
 
     /**
-     * The region to allocate the IP address in.
+     * The region to allocate the IP address in. This is required for non-shared IP addresses.
      * 
      */
     @Import(name="region")
     private @Nullable Output<String> region;
 
     /**
-     * @return The region to allocate the IP address in.
+     * @return The region to allocate the IP address in. This is required for non-shared IP addresses.
      * 
      */
     public Optional<Output<String>> region() {
@@ -104,7 +104,7 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
         }
 
         /**
-         * @param addrType The type of IP address (v4 or v6).
+         * @param addrType The type of IP address (v4, v6, shared_v4, or private_v6).
          * 
          * @return builder
          * 
@@ -115,7 +115,7 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
         }
 
         /**
-         * @param addrType The type of IP address (v4 or v6).
+         * @param addrType The type of IP address (v4, v6, shared_v4, or private_v6).
          * 
          * @return builder
          * 
@@ -167,7 +167,7 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
         }
 
         /**
-         * @param region The region to allocate the IP address in.
+         * @param region The region to allocate the IP address in. This is required for non-shared IP addresses.
          * 
          * @return builder
          * 
@@ -178,7 +178,7 @@ public final class IPArgs extends com.pulumi.resources.ResourceArgs {
         }
 
         /**
-         * @param region The region to allocate the IP address in.
+         * @param region The region to allocate the IP address in. This is required for non-shared IP addresses.
          * 
          * @return builder
          * 

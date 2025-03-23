@@ -345,6 +345,12 @@ return await Deployment.RunAsync(() =>
         Network = "pulumi-flyio",
     });
 
+    var sharedipv4 = new Flyio.IP("sharedipv4", new()
+    {
+        App = app.Name,
+        AddrType = "shared_v4",
+    });
+
     var certificate = new Flyio.Certificate("certificate", new()
     {
         App = app.Name,

@@ -299,6 +299,13 @@ func main() {
 		if err != nil {
 			return err
 		}
+		_, err = flyio.NewIP(ctx, "sharedipv4", &flyio.IPArgs{
+			App:      app.Name,
+			AddrType: pulumi.String("shared_v4"),
+		})
+		if err != nil {
+			return err
+		}
 		_, err = flyio.NewCertificate(ctx, "certificate", &flyio.CertificateArgs{
 			App:      app.Name,
 			Hostname: pulumi.String("pulumi-flyio.lshay.land"),

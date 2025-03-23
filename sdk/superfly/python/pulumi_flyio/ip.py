@@ -27,10 +27,10 @@ class IPArgs:
                  region: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a IP resource.
-        :param pulumi.Input[str] addr_type: The type of IP address (v4 or v6).
+        :param pulumi.Input[str] addr_type: The type of IP address (v4, v6, shared_v4, or private_v6).
         :param pulumi.Input[str] app: The name of the Fly.io application to allocate the IP address for.
         :param pulumi.Input[str] network: The network to allocate the IP address in.
-        :param pulumi.Input[str] region: The region to allocate the IP address in.
+        :param pulumi.Input[str] region: The region to allocate the IP address in. This is required for non-shared IP addresses.
         """
         pulumi.set(__self__, "addr_type", addr_type)
         pulumi.set(__self__, "app", app)
@@ -43,7 +43,7 @@ class IPArgs:
     @pulumi.getter(name="addrType")
     def addr_type(self) -> pulumi.Input[str]:
         """
-        The type of IP address (v4 or v6).
+        The type of IP address (v4, v6, shared_v4, or private_v6).
         """
         return pulumi.get(self, "addr_type")
 
@@ -79,7 +79,7 @@ class IPArgs:
     @pulumi.getter
     def region(self) -> Optional[pulumi.Input[str]]:
         """
-        The region to allocate the IP address in.
+        The region to allocate the IP address in. This is required for non-shared IP addresses.
         """
         return pulumi.get(self, "region")
 
@@ -103,10 +103,10 @@ class IP(pulumi.CustomResource):
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] addr_type: The type of IP address (v4 or v6).
+        :param pulumi.Input[str] addr_type: The type of IP address (v4, v6, shared_v4, or private_v6).
         :param pulumi.Input[str] app: The name of the Fly.io application to allocate the IP address for.
         :param pulumi.Input[str] network: The network to allocate the IP address in.
-        :param pulumi.Input[str] region: The region to allocate the IP address in.
+        :param pulumi.Input[str] region: The region to allocate the IP address in. This is required for non-shared IP addresses.
         """
         ...
     @overload

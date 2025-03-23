@@ -115,7 +115,7 @@ export class IP extends pulumi.CustomResource {
  */
 export interface IPArgs {
     /**
-     * The type of IP address (v4 or v6).
+     * The type of IP address (v4, v6, shared_v4, or private_v6).
      */
     addrType: pulumi.Input<string>;
     /**
@@ -127,7 +127,7 @@ export interface IPArgs {
      */
     network?: pulumi.Input<string>;
     /**
-     * The region to allocate the IP address in.
+     * The region to allocate the IP address in. This is required for non-shared IP addresses.
      */
     region?: pulumi.Input<string>;
 }

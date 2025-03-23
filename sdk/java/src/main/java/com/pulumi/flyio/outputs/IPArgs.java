@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 @CustomType
 public final class IPArgs {
     /**
-     * @return The type of IP address (v4 or v6).
+     * @return The type of IP address (v4, v6, shared_v4, or private_v6).
      * 
      */
     private String addrType;
@@ -28,14 +28,14 @@ public final class IPArgs {
      */
     private @Nullable String network;
     /**
-     * @return The region to allocate the IP address in.
+     * @return The region to allocate the IP address in. This is required for non-shared IP addresses.
      * 
      */
     private @Nullable String region;
 
     private IPArgs() {}
     /**
-     * @return The type of IP address (v4 or v6).
+     * @return The type of IP address (v4, v6, shared_v4, or private_v6).
      * 
      */
     public String addrType() {
@@ -56,7 +56,7 @@ public final class IPArgs {
         return Optional.ofNullable(this.network);
     }
     /**
-     * @return The region to allocate the IP address in.
+     * @return The region to allocate the IP address in. This is required for non-shared IP addresses.
      * 
      */
     public Optional<String> region() {

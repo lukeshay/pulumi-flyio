@@ -81,25 +81,25 @@ func (IPState) ElementType() reflect.Type {
 }
 
 type ipArgs struct {
-	// The type of IP address (v4 or v6).
+	// The type of IP address (v4, v6, shared_v4, or private_v6).
 	AddrType string `pulumi:"addrType"`
 	// The name of the Fly.io application to allocate the IP address for.
 	App string `pulumi:"app"`
 	// The network to allocate the IP address in.
 	Network *string `pulumi:"network"`
-	// The region to allocate the IP address in.
+	// The region to allocate the IP address in. This is required for non-shared IP addresses.
 	Region *string `pulumi:"region"`
 }
 
 // The set of arguments for constructing a IP resource.
 type IPArgs struct {
-	// The type of IP address (v4 or v6).
+	// The type of IP address (v4, v6, shared_v4, or private_v6).
 	AddrType pulumi.StringInput
 	// The name of the Fly.io application to allocate the IP address for.
 	App pulumi.StringInput
 	// The network to allocate the IP address in.
 	Network pulumi.StringPtrInput
-	// The region to allocate the IP address in.
+	// The region to allocate the IP address in. This is required for non-shared IP addresses.
 	Region pulumi.StringPtrInput
 }
 

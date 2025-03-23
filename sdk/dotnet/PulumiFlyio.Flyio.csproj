@@ -9,7 +9,7 @@
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/lukeshay/pulumi-flyio</RepositoryUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>0.0.43+dirty</Version>
+    <Version>0.0.44</Version>
 
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>

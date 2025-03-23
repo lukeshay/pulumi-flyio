@@ -188,10 +188,10 @@ class IPArgs(dict):
                  network: Optional[str] = None,
                  region: Optional[str] = None):
         """
-        :param str addr_type: The type of IP address (v4 or v6).
+        :param str addr_type: The type of IP address (v4, v6, shared_v4, or private_v6).
         :param str app: The name of the Fly.io application to allocate the IP address for.
         :param str network: The network to allocate the IP address in.
-        :param str region: The region to allocate the IP address in.
+        :param str region: The region to allocate the IP address in. This is required for non-shared IP addresses.
         """
         pulumi.set(__self__, "addr_type", addr_type)
         pulumi.set(__self__, "app", app)
@@ -204,7 +204,7 @@ class IPArgs(dict):
     @pulumi.getter(name="addrType")
     def addr_type(self) -> str:
         """
-        The type of IP address (v4 or v6).
+        The type of IP address (v4, v6, shared_v4, or private_v6).
         """
         return pulumi.get(self, "addr_type")
 
@@ -228,7 +228,7 @@ class IPArgs(dict):
     @pulumi.getter
     def region(self) -> Optional[str]:
         """
-        The region to allocate the IP address in.
+        The region to allocate the IP address in. This is required for non-shared IP addresses.
         """
         return pulumi.get(self, "region")
 

@@ -268,6 +268,11 @@ public class App {
             .network("pulumi-flyio")
             .build());
 
+        var sharedipv4 = new IP("sharedipv4", IPArgs.builder()
+            .app(app.name())
+            .addrType("shared_v4")
+            .build());
+
         var certificate = new Certificate("certificate", CertificateArgs.builder()
             .app(app.name())
             .hostname("pulumi-flyio.lshay.land")
