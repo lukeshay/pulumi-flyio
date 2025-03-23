@@ -6,6 +6,6 @@
 	"dependencies": {
 		"typescript": "^4.0.0",
 		"@pulumi/pulumi": "^3.0.0",
-		"pulumi-flyio": "0.0.44"
+		"pulumi-flyio": "0.0.45"
 	}
 }
